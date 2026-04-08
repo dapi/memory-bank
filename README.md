@@ -46,8 +46,9 @@
 ## Что есть внутри шаблона
 
 - `memory-bank/dna/` — governance-ядро: SSoT, frontmatter, lifecycle, cross-references.
-- `memory-bank/flows/` — lifecycle flows и шаблоны для feature/ADR.
+- `memory-bank/flows/` — lifecycle flows и шаблоны для PRD/feature/ADR.
 - `memory-bank/domain/` — заготовки для product context, архитектуры и UI-слоя.
+- `memory-bank/prd/` — место для instantiated Product Requirements Documents.
 - `memory-bank/engineering/` — testing policy, coding style, autonomy boundaries, git workflow.
 - `memory-bank/ops/` — заготовки для development, stages, releases, config и runbooks.
 - `memory-bank/adr/` — место для instantiated ADR.
