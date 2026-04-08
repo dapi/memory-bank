@@ -23,6 +23,8 @@ canonical_for:
 
 PRD в этом шаблоне intentionally lean. Он фиксирует продуктовую проблему, пользователей, goals, scope и success metrics, но не берет на себя implementation sequencing, architecture decisions или verify/evidence contracts downstream feature package.
 
+PRD опирается на `domain/problem.md`, а не подменяет его. Не копируй в него весь project-wide контекст, если он уже стабильно описан upstream.
+
 Используй PRD как upstream-слой между общим контекстом проекта и несколькими feature packages. Если инициатива локальна и не требует отдельного product-layer документа, PRD можно не создавать.
 
 ## Instantiated Frontmatter
@@ -49,7 +51,7 @@ must_not_define:
 
 ## Problem
 
-Какую пользовательскую или бизнес-проблему решает инициатива. Описывай язык проблемы, а не решение.
+Какую пользовательскую или бизнес-проблему решает инициатива. Описывай язык проблемы, а не решение. Ссылайся на общий контекст из `../domain/problem.md` и фиксируй только delta этой инициативы.
 
 ## Users And Jobs
 

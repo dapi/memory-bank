@@ -16,6 +16,12 @@ audience: humans_and_agents
 
 PRD нужен, когда задача живет на уровне продуктовой инициативы или capability, а не одного vertical slice. Обычно PRD стоит между общим контекстом из [`../domain/problem.md`](../domain/problem.md) и downstream feature packages из [`../features/README.md`](../features/README.md).
 
+## Граница С `domain/problem.md`
+
+- [`../domain/problem.md`](../domain/problem.md) остается project-wide документом и не превращается в PRD.
+- PRD наследует этот контекст через `derived_from`, но фиксирует только initiative-specific проблему, users, goals и scope.
+- Если документ нужен только для того, чтобы повторить общий background проекта, оставайся на уровне `domain/problem.md`.
+
 ## Когда Заводить PRD
 
 - инициатива распадается на несколько feature packages;
