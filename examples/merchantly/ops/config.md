@@ -6,8 +6,8 @@
 
 | Тема | Документ |
 |------|----------|
-| Нагрузочное тестирование | [load-testing-spec.md](load-testing-spec.md) |
-| Скрипт нагрузочного тестирования | [scripts/load_test.rb](../scripts/load_test.rb) |
+| Нагрузочное тестирование | В исходном Merchantly repo есть отдельный `load-testing-spec.md`; в curated example он не копируется. |
+| Скрипт нагрузочного тестирования | В исходном Merchantly repo использовался `scripts/load_test.rb`; в curated example он не копируется. |
 
 ## Архитектура конфигурации
 
@@ -220,7 +220,7 @@ PaymentProviderTaxMapping.tax_id(:yoo_money, 'tax_ru_1')
 # => 1  (конвертируется в "1" в YooMoney модуле)
 ```
 
-Подробнее: [Документация маппинга ставок НДС](payment-providers-vat-mapping.md)
+Подробнее: в исходном Merchantly repo есть отдельная документация по маппингу ставок НДС; в curated example оставлен только summary.
 
 ### SMS провайдеры
 
@@ -334,7 +334,7 @@ end
 
 **Важно:**
 - Без этих переменных шифрование НЕ работает (warning в логах при старте)
-- Подробная инструкция: [docs/sre-smtp-password-encryption.md](sre-smtp-password-encryption.md)
+- Подробная инструкция в исходном infra/docs слое проекта; в curated example оставлена только краткая памятка по обязательным ключам.
 
 ### Puma & Server
 

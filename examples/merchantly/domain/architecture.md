@@ -4,7 +4,7 @@ doc_kind: domain
 doc_function: canonical
 purpose: Изоляция контекстов, блокировки, обработка ошибок в jobs. Читать при написании кода, затрагивающего Admin/Operator, биллинг, jobs.
 derived_from:
-  - ../dna/governance.md
+  - ../../../memory-bank/dna/governance.md
 status: active
 audience: humans_and_agents
 ---
@@ -79,4 +79,4 @@ end
 **При изменении конфигурации:**
 1. Добавь/измени параметр в `ApplicationConfig`
 2. Добавь/измени default в `config/application.yml`
-3. **Обнови** `docs/config.md`
+3. **Обнови** `ops/config.md`

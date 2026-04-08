@@ -4,7 +4,7 @@ doc_kind: engineering
 doc_function: canonical
 purpose: "Границы автономии агента: что можно делать без подтверждения, где нужна супервизия, когда эскалировать. Читать при принятии решений о самостоятельных действиях."
 derived_from:
-  - ../dna/governance.md
+  - ../../../memory-bank/dna/governance.md
 canonical_for:
   - agent_autonomy_rules
   - escalation_triggers

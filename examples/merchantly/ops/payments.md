@@ -4,7 +4,7 @@ doc_kind: engineering
 doc_function: canonical
 purpose: CloudPayments админка, credentials, Playwright-вход, коды отклонения. Читать при работе с платёжной системой.
 derived_from:
-  - ../dna/governance.md
+  - ../../../memory-bank/dna/governance.md
 status: active
 audience: humans_and_agents
 ---

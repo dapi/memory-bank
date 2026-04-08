@@ -4,7 +4,7 @@ doc_kind: engineering
 doc_function: canonical
 purpose: Релизный процесс, Docker tagging, feature branches, тестовый план. Читать при выполнении релиза или деплоя.
 derived_from:
-  - ../dna/governance.md
+  - ../../../memory-bank/dna/governance.md
 status: active
 audience: humans_and_agents
 ---

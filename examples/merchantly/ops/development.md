@@ -4,7 +4,7 @@ doc_kind: engineering
 doc_function: canonical
 purpose: Docker/dip setup, dev server, browser testing, database operations. Читать при локальной разработке, запуске тестов или настройке окружения.
 derived_from:
-  - ../dna/governance.md
+  - ../../../memory-bank/dna/governance.md
 status: active
 audience: humans_and_agents
 ---

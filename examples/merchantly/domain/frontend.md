@@ -4,7 +4,7 @@ doc_kind: domain
 doc_function: canonical
 purpose: Public frontend (React), operator frontend (Stimulus/jQuery), переводы. Читать при работе с UI.
 derived_from:
-  - ../dna/governance.md
+  - ../../../memory-bank/dna/governance.md
 status: active
 audience: humans_and_agents
 ---
@@ -44,7 +44,7 @@ audience: humans_and_agents
 
 ### Добавление интерактивности (ADR-0001)
 
-**Для новых фич используй Stimulus** — см. [ADR-0001](../../docs/adr/0001-frontend-interactivity-stimulus.md).
+**Для новых фич используй Stimulus** — см. [ADR-0001](../engineering/adr/0001-frontend-interactivity-stimulus.md).
 
 - **Stimulus** для JS-поведения (dropdowns, tabs, inline-edit, validation)
 - **jQuery** можно внутри Stimulus контроллеров
@@ -73,9 +73,9 @@ export default class extends Controller {
 ```
 
 **Документация:**
-- [ADR-0001](../../docs/adr/0001-frontend-interactivity-stimulus.md)
+- [ADR-0001](../engineering/adr/0001-frontend-interactivity-stimulus.md)
 - [Stimulus Handbook](https://stimulus.hotwired.dev/handbook/introduction)
-- [docs/adr/](../../docs/adr/)
+- [engineering/adr/](../engineering/adr/)
 
 ## Локали (переводы)
 

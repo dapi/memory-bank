@@ -1,11 +1,16 @@
 # Examples
 
-В этом каталоге лежат instantiated примеры использования шаблона.
+В этом каталоге лежат curated примеры использования шаблона.
 
-- `merchantly/` — исходный concrete memory-bank с Merchantly-спецификой, сохраненный как reference-example.
+- `merchantly/` — Merchantly-specific overlay поверх `memory-bank/`: instantiated адаптации шаблонных разделов и дополнительные проектные артефакты.
 
-Смысл каталога `examples/` — показывать, как generic шаблон превращается в project-specific documentation layer.
+Смысл каталога `examples/` — показывать, как generic шаблон превращается в project-specific documentation layer и какими дополнительными артефактами он обычно обрастает.
 
 ## Важно
 
-`examples/merchantly/` сохранен как docs-only snapshot исходного memory-bank. Поэтому часть ссылок внутри примера может вести на файлы, которые в оригинальном проекте жили вне этой папки. Это нормально для reference-example и не относится к шаблону в `memory-bank/`.
+Shared governance, lifecycle и document templates живут в `memory-bank/` и не дублируются в `examples/merchantly/`.
+
+В Merchantly example оставлены:
+
+- instantiated project docs в `domain/`, `engineering/` и `ops/`;
+- дополнительные Merchantly-specific артефакты вроде `design-guide/`, ADR, agent instructions, runbooks и feature packages.

@@ -1,8 +1,16 @@
-В этом каталоге собираются rubooks.
+---
+title: Runbooks Index
+doc_kind: engineering
+doc_function: index
+purpose: Merchantly-specific operational runbooks. Читать при повторяемых ops-задачах и инцидентах.
+derived_from:
+  - ../../../../memory-bank/ops/runbooks/README.md
+status: active
+audience: humans_and_agents
+---
 
-Runbook — это рабочая инструкция для типовой операционной задачи.
+# Runbooks Index
 
-Обычно это пошаговый документ: что проверить, какие команды выполнить, какой результат ожидать, как откатить изменения и кому эскалировать проблему. Чаще всего runbook
-используют в DevOps/SRE/IT-операциях для релизов, восстановления сервисов, ротации ключей, перезапуска систем и обработки инцидентов.
+В этом каталоге лежат Merchantly-specific runbooks, дополняющие шаблонный scaffold из [`../../../../memory-bank/ops/runbooks/README.md`](../../../../memory-bank/ops/runbooks/README.md).
 
-Коротко: runbook = инструкция “как именно это делать в проде”.
+- [k8s-custom-domains.md](k8s-custom-domains.md) — пошаговая инструкция по диагностике и обслуживанию кастомных доменов в Kubernetes.

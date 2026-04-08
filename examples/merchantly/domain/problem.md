@@ -4,7 +4,7 @@ doc_kind: domain
 doc_function: canonical
 purpose: Каноничное описание продукта Merchantly, проблемного пространства и top-level outcomes. Читать перед PRD и feature-спеками.
 derived_from:
-  - ../dna/governance.md
+  - ../../../memory-bank/dna/governance.md
 status: active
 audience: humans_and_agents
 canonical_for:
@@ -49,5 +49,6 @@ Merchantly развивается как многосоставная платф
 
 - [Architecture Patterns](architecture.md)
 - [Frontend](frontend.md)
+- [Glossary](glossary.md)
 - [CloudPayments](../ops/payments.md)
 - [Production & Stage Access](../ops/production.md)

@@ -4,7 +4,7 @@ doc_kind: engineering
 doc_function: canonical
 purpose: kubectl, psql, rails console, логи, credentials, тестовые магазины. Читать при работе с production/stage окружениями.
 derived_from:
-  - ../dna/governance.md
+  - ../../../memory-bank/dna/governance.md
 status: active
 audience: humans_and_agents
 ---

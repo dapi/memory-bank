@@ -4,12 +4,14 @@ doc_kind: engineering
 doc_function: index
 purpose: Навигация по операционной документации. Читать когда нужно работать с dev/stage/production окружением, релизами или платежами.
 derived_from:
-  - ../dna/governance.md
+  - ../../../memory-bank/dna/governance.md
 status: active
 audience: humans_and_agents
 ---
 
 # Operations Index
+
+Базовый scaffold для ops-документации живет в [`../../../memory-bank/ops/README.md`](../../../memory-bank/ops/README.md). Ниже собраны Merchantly-specific адаптации и дополнительные operational references.
 
 - [Development Environment](development.md) — dip, Docker, dev-сервер, browser testing, database schema. Читать при локальной разработке.
 - [Production & Stage Access](production.md) — kubectl, psql, rails console, логи, Grafana, credentials, тестовые магазины. Читать при работе с production/stage.
