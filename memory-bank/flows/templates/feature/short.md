@@ -52,6 +52,7 @@ derived_from:
   - ../../domain/problem.md
   # Optional:
   # - ../../prd/PRD-XXX-short-name.md
+  # - ../../use-cases/UC-XXX-short-name.md
 status: draft
 delivery_status: planned
 audience: humans_and_agents
@@ -71,6 +72,8 @@ must_not_define:
 Какую конкретную проблему или opportunity закрывает фича.
 
 Если существует upstream PRD, здесь не переписывай весь продуктовый контекст, а сфокусируйся на slice-specific постановке задачи.
+
+Если существует upstream use case, здесь зафиксируй только то, как текущая delivery-единица реализует или меняет этот сценарий.
 
 ### Scope
 

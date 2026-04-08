@@ -18,6 +18,7 @@ audience: humans_and_agents
 
 - Каждый package создается по правилам из [`../flows/feature-flow.md`](../flows/feature-flow.md).
 - Для bootstrap используй шаблоны из [`../flows/templates/feature/`](../flows/templates/feature/).
+- Если feature реализует или существенно меняет устойчивый сценарий проекта, она должна ссылаться на соответствующий `UC-*` из [`../use-cases/README.md`](../use-cases/README.md).
 - В шаблонном репозитории этот каталог может быть пустым. Это нормально.
 
 ## Naming

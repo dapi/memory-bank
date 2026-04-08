@@ -52,6 +52,7 @@ derived_from:
   - ../../domain/problem.md
   # Optional:
   # - ../../prd/PRD-XXX-short-name.md
+  # - ../../use-cases/UC-XXX-short-name.md
 status: draft
 delivery_status: planned
 audience: humans_and_agents
@@ -71,6 +72,8 @@ must_not_define:
 Какой симптом, ограничение или возможность делает фичу нужной. Если общий контекст уже зафиксирован upstream, здесь опиши только feature-specific вопрос delivery.
 
 Если существует upstream PRD, этот раздел фиксирует только feature-specific delta относительно PRD, а не переписывает весь продуктовый документ.
+
+Если существует upstream use case, здесь фиксируется feature-specific изменение или реализация этого сценария, а не весь проектный flow целиком.
 
 ### Outcome
 

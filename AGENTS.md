@@ -9,6 +9,7 @@
 - `memory-bank/dna/` — governance-ядро шаблона.
 - `memory-bank/flows/` — reusable lifecycle docs и governed templates.
 - `memory-bank/prd/` — instantiated Product Requirements Documents.
+- `memory-bank/use-cases/` — instantiated канонические сценарии проекта.
 - `memory-bank/domain/`, `memory-bank/engineering/`, `memory-bank/ops/` — project-adaptation layers шаблона.
 - `memory-bank/adr/` и `memory-bank/features/` — пустые или минимальные точки назначения для instantiated документов.
 

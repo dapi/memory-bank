@@ -21,6 +21,9 @@ audience: humans_and_agents
 - [`prd/README.md`](prd/README.md)
   Читать, когда нужно: описать продуктовую инициативу между общим problem statement и downstream feature packages.
 
+- [`use-cases/README.md`](use-cases/README.md)
+  Читать, когда нужно: зарегистрировать устойчивый пользовательский или операционный сценарий проекта.
+
 - [`ops/README.md`](ops/README.md)
   Читать, когда нужно: описать локальную разработку, окружения, релизы, конфигурацию и runbooks.
 
