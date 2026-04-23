@@ -16,6 +16,32 @@
 - `python3 scripts/check_memory_bank_index.py` — аудит достижимости markdown-документов, broken links и expected README-индексов внутри `memory-bank/`.
 - `git diff --check` — проверка лишних пробелов и conflict markers перед PR.
 
+### Проверка навигации `memory-bank`
+
+Запускайте из корня репозитория:
+
+```bash
+python3 scripts/check_memory_bank_index.py
+```
+
+Зачем это нужно:
+
+- поймать broken relative links внутри `memory-bank/` до PR;
+- убедиться, что markdown-документы в `memory-bank/` достижимы из [`memory-bank/README.md`](memory-bank/README.md) через цепочку внутренних ссылок и не стали orphan;
+- проверить, что ожидаемые `README.md`-индексы на месте и остаются index-документами с валидным `purpose`;
+- быстрее находить последствия структурных изменений в шаблоне, когда документ перенесли, переименовали или забыли добавить в навигацию.
+
+Что означает результат:
+
+- exit code `0` — broken links, unreachable docs и нарушения expected index contract не найдены;
+- non-zero exit code — скрипт нашёл проблему, которую нужно исправить до PR.
+
+Когда запускать:
+
+- после добавления, удаления или переименования `.md`-файлов в `memory-bank/`;
+- после правок `README.md`-индексов и относительных ссылок;
+- перед открытием PR с изменениями в template navigation или document structure.
+
 ## Настроечные промпты для агента
 
 Запукаются в новых сессиях
