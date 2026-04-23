@@ -18,12 +18,16 @@ template_target_path: ../../../features/FT-XXX/README.md
 
 ## Wrapper Notes
 
-Каталог `memory-bank/flows/templates/feature/` хранит wrapper-шаблоны feature package: этот README-шаблон, canonical feature templates для short и large фич и derived template для `implementation-plan.md`. При создании нового feature package embedded README должен оставаться bootstrap-safe: сначала он маршрутизирует только на instantiated `feature.md`, а optional `implementation-plan.md` и связанные ADR добавляются уже после появления соответствующих документов.
+Каталог `memory-bank/flows/templates/feature/` хранит wrapper-шаблоны feature package: этот README-шаблон, canonical feature templates для short и large фич, canonical `solution.md` template и derived template для `implementation-plan.md`. При создании нового feature package embedded README должен оставаться bootstrap-safe: сначала он маршрутизирует только на instantiated `feature.md`, а `solution.md`, `implementation-plan.md` и связанные ADR добавляются уже после появления соответствующих документов.
 
-Optional routes для living feature package добавляются после появления соответствующих документов. Типовой пример таких post-bootstrap routes:
+Downstream routes для living feature package добавляются по мере прохождения lifecycle stages. Типовой пример таких post-bootstrap routes:
+
+- [`solution.md`](solution.md)
+  Читать, когда нужно: после `Problem Ready` зафиксировать или проверить selected design, accepted local decisions, contracts и local rollout/backout semantics.
+  Отвечает на вопрос: как именно feature реализуется без смешения solution space с problem space.
 
 - [`implementation-plan.md`](implementation-plan.md)
-  Читать, когда нужно: после появления этого файла разложить реализацию по шагам, workstreams, checkpoints и traceability к canonical IDs.
+  Читать, когда нужно: после `Solution Ready` разложить реализацию по шагам, workstreams, checkpoints и traceability к canonical IDs.
   Отвечает на вопрос: как провести реализацию фичи от текущего состояния до приёмки.
 
 - `../../../adr/ADR-XXX.md`
@@ -36,7 +40,7 @@ Optional routes для living feature package добавляются после 
 title: "FT-XXX: Feature Package"
 doc_kind: feature
 doc_function: index
-purpose: "Bootstrap-safe навигация по документации фичи. Читать, чтобы сначала перейти к canonical `feature.md`, а optional derived docs добавлять только после их появления."
+purpose: "Bootstrap-safe навигация по документации фичи. Читать, чтобы сначала перейти к canonical `feature.md`, а downstream `solution.md` и `implementation-plan.md` добавлять только после их появления."
 derived_from:
   - ../../dna/governance.md
   - feature.md
@@ -51,11 +55,11 @@ audience: humans_and_agents
 
 ## О разделе
 
-Каталог feature package хранит canonical `feature.md`, а optional derived/external routes добавляются только после появления соответствующих документов. Сначала читай `feature.md`, затем расширяй routing по мере появления execution и decision artifacts.
+Каталог feature package хранит canonical `feature.md`, а downstream solution/execution routes добавляются только после появления соответствующих документов. Сначала читай `feature.md`, затем расширяй routing по мере появления `solution.md`, `implementation-plan.md` и связанных ADR.
 
 ## Аннотированный индекс
 
 - [`feature.md`](feature.md)
   Читать, когда нужно: открыть instantiated canonical feature-документ сразу после bootstrap нового feature package.
-  Отвечает на вопрос: где находятся scope, design, verify, blockers и canonical IDs для этой фичи.
+  Отвечает на вопрос: где находятся problem space, canonical verify contract и stable IDs для этой фичи.
 ```
