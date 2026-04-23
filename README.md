@@ -11,6 +11,11 @@
 2. Прочитайте и адаптируйте в нем как минимум `domain/`, `engineering/` и `ops/`.
 3. Если нужен ориентир, смотрите конкретный пример в `./examples/merchantly/`.
 
+## Локальные проверки
+
+- `python3 scripts/check_memory_bank_index.py` — аудит достижимости markdown-документов, broken links и expected README-индексов внутри `memory-bank/`.
+- `git diff --check` — проверка лишних пробелов и conflict markers перед PR.
+
 ## Настроечные промпты для агента
 
 Запукаются в новых сессиях
