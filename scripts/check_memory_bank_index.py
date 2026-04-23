@@ -7,6 +7,7 @@ assumptions from example repositories.
 
 from __future__ import annotations
 
+import argparse
 import os
 import posixpath
 import re
@@ -18,22 +19,7 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[1]
 IGNORED_DIRS = {".git", ".hg", ".svn", ".venv", "node_modules", "tmp", "log", "vendor"}
 
-SCOPE_PREFIX = "memory-bank/"
-START_FILES = ("memory-bank/README.md",)
-EXPECTED_INDEXES = (
-    "memory-bank/README.md",
-    "memory-bank/dna/README.md",
-    "memory-bank/domain/README.md",
-    "memory-bank/engineering/README.md",
-    "memory-bank/flows/README.md",
-    "memory-bank/flows/templates/README.md",
-    "memory-bank/ops/README.md",
-    "memory-bank/ops/runbooks/README.md",
-    "memory-bank/prd/README.md",
-    "memory-bank/use-cases/README.md",
-    "memory-bank/adr/README.md",
-    "memory-bank/features/README.md",
-)
+DEFAULT_SCOPE_ROOT = "memory-bank"
 
 FENCED_CODE_BLOCK_RE = re.compile(r"```.*?```", re.DOTALL)
 MARKDOWN_LINK_RE = re.compile(r"(?<!!)\[([^\]]+)\]\(([^)]+)\)")
@@ -56,6 +42,39 @@ def discover_markdown_files(repo_root: Path) -> dict[str, Path]:
 
 def read_text(path: Path) -> str:
     return path.read_text(encoding="utf-8", errors="ignore")
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="Audit markdown navigation integrity for a memory-bank-like documentation tree."
+    )
+    parser.add_argument(
+        "--scope-root",
+        default=DEFAULT_SCOPE_ROOT,
+        help="Repository-relative directory to audit. Default: %(default)s",
+    )
+    parser.add_argument(
+        "--entrypoint",
+        action="append",
+        default=[],
+        help=(
+            "Repository-relative markdown document to use as reachability entrypoint. "
+            "Repeat the option to pass several files."
+        ),
+    )
+    return parser.parse_args()
+
+
+def scope_prefix(scope_root: str) -> str:
+    return f"{scope_root.rstrip('/')}/"
+
+
+def is_scoped_markdown(path: str, scoped_prefix: str) -> bool:
+    return path.startswith(scoped_prefix) and path.endswith(".md")
+
+
+def is_scope_readme(path: str, scoped_prefix: str) -> bool:
+    return is_scoped_markdown(path, scoped_prefix) and posixpath.basename(path) == "README.md"
 
 
 def strip_fenced_code_blocks(text: str) -> str:
@@ -99,7 +118,9 @@ def extract_internal_markdown_links(source_path: str, text: str) -> list[tuple[s
     return links
 
 
-def build_link_graph(markdown_files: dict[str, Path]) -> tuple[dict[str, set[str]], dict[str, set[str]]]:
+def build_link_graph(
+    markdown_files: dict[str, Path], scoped_prefix: str
+) -> tuple[dict[str, set[str]], dict[str, set[str]]]:
     graph: dict[str, set[str]] = defaultdict(set)
     broken_links: dict[str, set[str]] = defaultdict(set)
     known_paths = set(markdown_files)
@@ -109,7 +130,7 @@ def build_link_graph(markdown_files: dict[str, Path]) -> tuple[dict[str, set[str
         for target, _label in extract_internal_markdown_links(source_path, text):
             if target in known_paths:
                 graph[source_path].add(target)
-            elif source_path.startswith(SCOPE_PREFIX):
+            elif source_path.startswith(scoped_prefix):
                 broken_links[source_path].add(target)
 
     return graph, broken_links
@@ -146,6 +167,29 @@ def parse_frontmatter(text: str) -> dict[str, str]:
         key, value = line.split(":", 1)
         frontmatter[key.strip()] = value.strip().strip("\"'")
     return frontmatter
+
+
+def derive_start_files(markdown_files: dict[str, Path], scope_root: str, configured_entrypoints: list[str]) -> tuple[str, ...]:
+    if configured_entrypoints:
+        return tuple(configured_entrypoints)
+
+    fallback_root_index = f"{scope_root.rstrip('/')}/README.md"
+    if fallback_root_index in markdown_files:
+        return (fallback_root_index,)
+
+    return ()
+
+
+def derive_index_paths(markdown_files: dict[str, Path], scoped_prefix: str) -> list[str]:
+    index_paths: list[str] = []
+    for path, full_path in markdown_files.items():
+        if not is_scope_readme(path, scoped_prefix):
+            continue
+        frontmatter = parse_frontmatter(read_text(full_path))
+        if frontmatter.get("doc_function") == "template":
+            continue
+        index_paths.append(path)
+    return sorted(index_paths)
 
 
 def annotation_text_for_child_links(index_path: str, text: str) -> list[tuple[str, str]]:
@@ -197,7 +241,7 @@ def annotation_text_for_child_links(index_path: str, text: str) -> list[tuple[st
     return annotations
 
 
-def validate_expected_index(index_path: str, markdown_files: dict[str, Path]) -> list[str]:
+def validate_index_document(index_path: str, markdown_files: dict[str, Path]) -> list[str]:
     issues: list[str] = []
     full_path = markdown_files.get(index_path)
     if full_path is None:
@@ -229,35 +273,41 @@ def validate_expected_index(index_path: str, markdown_files: dict[str, Path]) ->
 
 
 def main() -> int:
+    args = parse_args()
     markdown_files = discover_markdown_files(REPO_ROOT)
-    scoped_markdown_paths = sorted(
-        path for path in markdown_files if path.startswith(SCOPE_PREFIX) and path.endswith(".md")
-    )
+    scoped_prefix = scope_prefix(args.scope_root)
+    scoped_markdown_paths = sorted(path for path in markdown_files if is_scoped_markdown(path, scoped_prefix))
+    graph, broken_links = build_link_graph(markdown_files, scoped_prefix)
+    start_files = derive_start_files(markdown_files, args.scope_root, args.entrypoint)
+    index_paths = derive_index_paths(markdown_files, scoped_prefix)
 
-    missing_start_files = [start_file for start_file in START_FILES if start_file not in markdown_files]
+    if not start_files:
+        print("Navigation audit failed: no scoped entrypoints were discovered.")
+        return 1
+
+    missing_start_files = [start_file for start_file in start_files if start_file not in markdown_files]
     if missing_start_files:
-        print("Navigation audit failed: missing start files.")
+        print("Navigation audit failed: configured entrypoints are missing.")
         for start_file in missing_start_files:
             print(f"  - {start_file}")
         return 1
 
-    graph, broken_links = build_link_graph(markdown_files)
-    reachable = bfs_reachable(graph, START_FILES)
+    reachable = bfs_reachable(graph, start_files)
     unreachable = sorted(path for path in scoped_markdown_paths if path not in reachable)
 
     exit_code = 0
 
     print("Memory-bank navigation audit")
     print(f"Repo root: {REPO_ROOT}")
-    print(f"Scope: {SCOPE_PREFIX}")
-    print(f"Start files: {', '.join(START_FILES)}")
+    print(f"Scope: {scoped_prefix}")
+    print(f"Start files: {', '.join(start_files)}")
     print(f"Markdown files in scope: {len(scoped_markdown_paths)}")
     print()
 
     scoped_broken_links = {
         source_path: sorted(targets)
         for source_path, targets in broken_links.items()
-        if source_path.startswith(SCOPE_PREFIX)
+        if source_path.startswith(scoped_prefix)
     }
     if scoped_broken_links:
         exit_code = 1
@@ -281,8 +331,8 @@ def main() -> int:
         print()
 
     print("Index compliance:")
-    for index_path in EXPECTED_INDEXES:
-        issues = validate_expected_index(index_path, markdown_files)
+    for index_path in index_paths:
+        issues = validate_index_document(index_path, markdown_files)
         if issues:
             exit_code = 1
             print(f"  - {index_path}")

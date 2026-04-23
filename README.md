@@ -36,6 +36,14 @@ python3 scripts/check_memory_bank_index.py
 - exit code `0` — broken links, unreachable docs и нарушения expected index contract не найдены;
 - non-zero exit code — скрипт нашёл проблему, которую нужно исправить до PR.
 
+Если в downstream-репозитории нужно считать entrypoint не от `memory-bank/README.md`, а от других документов, передайте их явно:
+
+```bash
+python3 scripts/check_memory_bank_index.py \
+  --entrypoint README.md \
+  --entrypoint AGENTS.md
+```
+
 Когда запускать:
 
 - после добавления, удаления или переименования `.md`-файлов в `memory-bank/`;
