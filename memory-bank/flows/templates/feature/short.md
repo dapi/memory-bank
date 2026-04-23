@@ -2,7 +2,7 @@
 title: "FT-XXX: Feature Template - Short"
 doc_kind: feature
 doc_function: template
-purpose: Governed wrapper-шаблон для короткого canonical `feature.md` в AI-driven development. Читать, чтобы инстанцировать минимальный feature contract без смешения wrapper и целевого frontmatter.
+purpose: Governed wrapper-шаблон для короткого canonical `feature.md`, который фиксирует только problem space и canonical verify contract.
 derived_from:
   - ../../feature-flow.md
   - ../../../dna/frontmatter.md
@@ -21,9 +21,11 @@ canonical_for:
 
 ## Wrapper Notes
 
-Используй этот шаблон, только если фича укладывается в один локальный slice и её можно описать через `REQ-*`, `NS-*`, один `SC-*`, максимум один `CON-*`, один `EC-*`, один `CHK-*` и один `EVID-*`.
+Используй этот шаблон, только если problem space фичи остается компактным и её можно описать через `REQ-*`, `NS-*`, один `SC-*`, максимум один `CON-*`, один `EC-*`, один `CHK-*` и один `EVID-*`.
 
-Если тебе нужны `ASM-*`, `DEC-*`, `CTR-*`, `FM-*`, feature-specific negative cases, больше одного acceptance scenario, больше одного `CHK-*` / `EVID-*` или явная ADR-dependent design logic, сделай upgrade до `large.md` до продолжения работы. Значение prefixes зафиксировано в [../../feature-flow.md](../../feature-flow.md#stable-identifiers).
+Если тебе нужны `ASM-*`, `DEC-*`, feature-specific `NEG-*`, больше одного acceptance scenario, больше одного `CHK-*` / `EVID-*` или richer problem-space narrative, сделай upgrade до `large.md` до продолжения работы.
+
+Solution-space complexity больше не делает short feature недопустимым сама по себе: даже для short feature downstream `solution.md` остаётся обязательным canonical owner selected design. Значение prefixes зафиксировано в [../../feature-flow.md](../../feature-flow.md#stable-identifiers).
 
 ### Frontmatter Quick Ref
 
@@ -47,7 +49,7 @@ canonical_for:
 title: "FT-XXX: Feature Name"
 doc_kind: feature
 doc_function: canonical
-purpose: "Короткий canonical feature-документ для небольшой и локальной delivery-единицы."
+purpose: "Короткий canonical feature-документ для небольшой delivery-единицы. Фиксирует только problem space и canonical verify contract."
 derived_from:
   - ../../product/context.md
   # Optional:
@@ -58,6 +60,7 @@ status: draft
 delivery_status: planned
 audience: humans_and_agents
 must_not_define:
+  - selected_design
   - implementation_sequence
 ```
 
@@ -78,6 +81,10 @@ must_not_define:
 
 Если feature меняет domain rule, state или event, добавь соответствующий документ из `../../domain/` в `derived_from`.
 
+### Outcome
+
+Коротко опиши ожидаемый результат delivery-единицы.
+
 ### Scope
 
 - `REQ-01` Что обязательно входит.
@@ -89,25 +96,7 @@ must_not_define:
 
 ### Constraints
 
-- `CON-01` Какое ограничение задает границы решения.
-
-## How
-
-### Solution
-
-Один короткий абзац: основной подход и ключевой trade-off.
-
-### Change Surface
-
-| Surface | Why |
-| --- | --- |
-| `path/or/component` | Почему меняется |
-
-### Flow
-
-1. Вход.
-2. Обработка.
-3. Выход.
+- `CON-01` Какое ограничение problem space задает границы решения.
 
 ## Verify
 
@@ -121,10 +110,10 @@ must_not_define:
 
 ### Traceability matrix
 
-| Requirement ID | Design refs | Acceptance refs | Checks | Evidence IDs |
-| --- | --- | --- | --- | --- |
-| `REQ-01` | `CON-01` | `EC-01`, `SC-01` | `CHK-01` | `EVID-01` |
-| `REQ-02` | `CON-01` | `EC-01`, `SC-01` | `CHK-01` | `EVID-01` |
+| Requirement ID | Acceptance refs | Checks | Evidence IDs |
+| --- | --- | --- | --- |
+| `REQ-01` | `EC-01`, `SC-01` | `CHK-01` | `EVID-01` |
+| `REQ-02` | `EC-01`, `SC-01` | `CHK-01` | `EVID-01` |
 
 ### Checks
 

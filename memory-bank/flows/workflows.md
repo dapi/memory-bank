@@ -62,7 +62,7 @@ Flow:
 
 Flow:
 
-`issue/task -> spec -> feature package -> implementation plan -> execution -> review -> handoff`
+`issue/task -> spec -> feature package -> solution -> implementation plan -> execution -> review -> handoff`
 
 ### 3. Баг-фикс
 
