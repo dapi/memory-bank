@@ -20,6 +20,7 @@
 У репозитория нет собственного build/runtime-приложения. Перед PR достаточно лёгких проверок:
 
 - `rg --files memory-bank examples` для проверки структуры и имён файлов;
+- `python3 scripts/check_memory_bank_index.py` для аудита ссылок, reachability и expected README-индексов внутри `memory-bank/`;
 - `git diff --check` для поиска лишних пробелов и conflict markers;
 - `sed -n '1,120p' path/to/doc.md` для быстрой проверки frontmatter и заголовков;
 - `rg -n "Merchantly|CloudPayments|kiiiosk|Bugsnag" memory-bank` чтобы убедиться, что project-specific детали не протекли обратно в шаблон.
