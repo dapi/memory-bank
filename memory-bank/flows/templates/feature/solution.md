@@ -79,6 +79,7 @@ must_not_define:
 
 - `SOL-01` Какой design block выбран и какую часть problem space он закрывает.
 - `SOL-02` Какой ещё solution element нужен, если одного недостаточно.
+- `SOL-03` Какой результат производит выбранный design, если это нужно зафиксировать отдельно.
 
 ## Requirement Mapping
 
@@ -87,7 +88,7 @@ must_not_define:
 | Requirement ID | Solution refs | Notes |
 | --- | --- | --- |
 | `REQ-01` | `SOL-01`, `SD-01` | Чем именно решение закрывает требование |
-| `REQ-02` | `SOL-02` | Какая часть design отвечает за coverage |
+| `REQ-02` | `SOL-02`, `SOL-03` | Какая часть design отвечает за coverage |
 
 ## Accepted Local Decisions
 
