@@ -35,8 +35,8 @@ audience: humans_and_agents
 4. `solution.md` — canonical owner solution space: selected design, accepted feature-local decisions, solution structure, internal flow, concrete contracts, solution-level failure modes, local rollout/backout semantics и ссылки на принятые ADR.
 5. `README.md` создается вместе с `feature.md` и остается routing-слоем на всем lifecycle.
 6. Lifecycle owner для `delivery_status` — только canonical `feature.md`. `solution.md`, feature-level `README.md` и `implementation-plan.md` не дублируют это поле.
-7. `solution.md` появляется только после `Problem Ready`. `implementation-plan.md` появляется только после `Solution Ready`.
-8. `implementation-plan.md` — derived execution-документ. Он не должен существовать, пока sibling `solution.md` не стал `status: active`.
+7. `solution.md` появляется только после `Problem Ready`. Для новых и уже migrated feature packages `implementation-plan.md` появляется только после `Solution Ready`.
+8. `implementation-plan.md` — derived execution-документ. В новых feature packages он не должен существовать, пока sibling `solution.md` не стал `status: active`; legacy packages с уже существующим планом мигрируют по правилам из секции «Migration Strategy».
 9. Для canonical `feature.md`, canonical `solution.md`, feature-level `README.md` и `implementation-plan.md` используй wrapper-шаблоны из `memory-bank/flows/templates/feature/`: сам template-файл имеет `doc_function: template`, а frontmatter/body инстанцируемого документа живут внутри embedded template contract.
 10. Смысл стабильных идентификаторов (`REQ-*`, `SOL-*`, `SD-*`, `STEP-*` и т.д.) задается в секции «Stable Identifiers» ниже.
 11. Acceptance scenarios (`SC-*`) покрывают vertical slice end-to-end: от входного события до наблюдаемого результата через все затронутые слои. Тестирование отдельного слоя в изоляции допустимо как implementation detail плана, но не заменяет end-to-end acceptance.
@@ -120,7 +120,7 @@ flowchart LR
 - [ ] selected design стабилизирован настолько, что downstream execution sequencing больше не конкурирует с ним за ownership
 - [ ] accepted feature-local decisions перенесены в `SD-*`, а architectural / reusable / cross-feature decisions оформлены в accepted ADR
 - [ ] если solution зависит от ADR, соответствующий ADR имеет `decision_status: accepted`
-- [ ] `implementation-plan.md` отсутствует
+- [ ] для нового feature package `implementation-plan.md` отсутствует; для legacy package с уже существующим планом разрешено создать `solution.md`, после чего план должен быть обновлён так, чтобы ссылаться на canonical solution refs до следующего существенного execution update
 
 ### Solution Ready → Plan Ready
 
