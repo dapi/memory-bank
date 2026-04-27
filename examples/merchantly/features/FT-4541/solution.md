@@ -2,7 +2,7 @@
 title: "FT-4541: Solution"
 doc_kind: feature
 doc_function: canonical
-purpose: "Canonical solution-документ для FT-4541. Фиксирует выбранный design для перехода с OrangeData на CloudKassir без переопределения problem space."
+purpose: "Canonical solution-документ для FT-4541. Фиксирует выбранный design и to-be C4 architecture model для перехода с OrangeData на CloudKassir без переопределения problem space."
 derived_from:
   - feature.md
 status: active
@@ -25,14 +25,56 @@ must_not_define:
 
 ## Requirement Mapping
 
-| Requirement ID | Solution refs | Notes |
+| Requirement ID | Solution / architecture refs | Notes |
 | --- | --- | --- |
-| `REQ-01` | `SOL-01`, `SOL-02`, `SD-05`, `CTR-01` | Recurrent charge обогащается receipt payload без изменения существующей recovery/error logic |
-| `REQ-02` | `SOL-01`, `SOL-02`, `SD-01`, `CTR-01` | Direct card payment получает receipt в исходном charge, а не в `post3ds` |
-| `REQ-03` | `SOL-02`, `SD-02`, `FM-02` | Contact fallback и Bugsnag alert являются частью builder-поведения |
-| `REQ-04` | `SOL-03`, `CTR-02`, `CTR-03` | Новая config surface даёт canonical source для enablement и receipt params |
-| `REQ-05` | `SOL-03`, `CTR-02`, `RB-01`, `RB-02` | Feature flag управляет rollout/backout выбранного решения |
-| `REQ-06` | `SOL-04`, `RB-01`, `FM-03` | Correction path отделён от online charge path, но опирается на ту же кассовую инфраструктуру |
+| `REQ-01` | `SOL-01`, `SOL-02`, `C4-L2-01`, `C4-L3-01`, `SD-05`, `CTR-01` | Recurrent charge обогащается receipt payload без изменения существующей recovery/error logic |
+| `REQ-02` | `SOL-01`, `SOL-02`, `C4-L2-01`, `C4-L3-01`, `SD-01`, `CTR-01` | Direct card payment получает receipt в исходном charge, а не в `post3ds` |
+| `REQ-03` | `SOL-02`, `C4-L3-02`, `SD-02`, `FM-02` | Contact fallback и Bugsnag alert являются частью builder-поведения |
+| `REQ-04` | `SOL-03`, `C4-L2-02`, `C4-L3-02`, `CTR-02`, `CTR-03` | Новая config surface даёт canonical source для enablement и receipt params |
+| `REQ-05` | `SOL-03`, `C4-L2-02`, `CTR-02`, `RB-01`, `RB-02` | Feature flag управляет rollout/backout выбранного решения |
+| `REQ-06` | `SOL-04`, `C4-L3-03`, `RB-01`, `FM-03` | Correction path отделён от online charge path, но опирается на ту же кассовую инфраструктуру |
+
+## To-Be C4 Model
+
+| Level | Include? | Model refs | Selection rationale |
+| --- | --- | --- | --- |
+| System Context (L1) | no | `none` | Граница Merchantly, покупатели и внешние fiscal/payment systems уже заданы problem space; фича меняет способ интеграции, а не actor/system boundary |
+| Container (L2) | yes | `C4-L2-01`, `C4-L2-02` | Меняется runtime relationship между Rails app, CloudPayments и fiscal chain CloudKassir/OFD/FNS |
+| Component (L3) | yes | `C4-L3-01`, `C4-L3-02`, `C4-L3-03` | Меняются компоненты внутри Rails app: charge flows, receipt builder и config source |
+
+| C4 ref | Level | Element / relationship | To-be architecture statement | Related refs |
+| --- | --- | --- | --- | --- |
+| `C4-L2-01` | Container | Merchantly Rails app -> CloudPayments API -> CloudKassir/OFD/FNS | Rails app отправляет receipt inline в исходном CloudPayments charge request; downstream fiscal delivery становится частью payment provider path | `SOL-01`, `CTR-01`, `REQ-01`, `REQ-02` |
+| `C4-L2-02` | Container | Merchantly Rails app -> application config | Feature flag и fiscal params читаются из canonical config surface, отделяя deploy от business enablement | `SOL-03`, `CTR-02`, `CTR-03`, `REQ-04`, `REQ-05` |
+| `C4-L3-01` | Component | `CloudPaymentsRecurrentCharge` и `System::PaymentsController#pay` -> `SystemReceiptBuilder` | Existing charge flows делегируют построение receipt payload общему builder и добавляют результат в charge request | `SOL-01`, `SOL-02`, `SD-01`, `SD-05` |
+| `C4-L3-02` | Component | `SystemReceiptBuilder` -> config/contact sources | Builder собирает `CustomerReceipt` из config params и fallback contact chain; отсутствие контакта переводит flow в no-receipt alert path | `SOL-02`, `SOL-03`, `SD-02`, `FM-02` |
+| `C4-L3-03` | Component | `fiscal_correction` rake task -> `SystemReceiptBuilder` | Correction path использует ту же receipt-building логику, но запускается отдельно от online charge flow | `SOL-04`, `REQ-06`, `FM-03` |
+
+## Target Architecture
+
+### Architecture Invariants
+
+- Existing payment charge flows remain the owner of charge execution; receipt payload generation is delegated, but charge orchestration is not moved.
+- Online receipt sending and downtime correction remain separate runtime paths, even though they reuse receipt-building semantics.
+- Backout is flag-based for online receipts; OrangeData code is not removed until production validation completes.
+
+### Target Shape
+
+| Layer / responsibility | To-be role | Boundary / non-owner | Related refs |
+| --- | --- | --- | --- |
+| Charge flow integration | Adds receipt payload to the original CloudPayments charge request when system receipts are enabled | Does not rewrite advisory lock, recovery or existing payment error handling | `SOL-01`, `C4-L2-01`, `C4-L3-01`, `SD-05` |
+| Receipt builder | Produces CloudPayments `CustomerReceipt` from config params and available vendor contact data | Does not decide whether a charge should be created | `SOL-02`, `C4-L3-02`, `CTR-01`, `CTR-03` |
+| Config surface | Owns enablement flag and fixed fiscal params | Does not act as a deployment rollback mechanism by itself | `SOL-03`, `C4-L2-02`, `CTR-02`, `CTR-03` |
+| Correction task | Handles downtime correction receipts outside online charge flow | Does not participate in live payment request handling | `SOL-04`, `C4-L3-03` |
+
+### Decision / Resolution Table
+
+| Condition / state | Decision | User-visible or system-visible result | Observability / evidence | Related refs |
+| --- | --- | --- | --- | --- |
+| `send_system_receipts: false` | Do not attach receipt payload | Payment flow remains current baseline | Config/state evidence and regression specs | `SOL-03`, `CTR-02`, `RB-02` |
+| `send_system_receipts: true` and contact available | Attach `CustomerReceipt` to original charge request | Payment provider receives receipt payload inline with charge | Request payload specs / manual receipt evidence | `SOL-01`, `SOL-02`, `CTR-01` |
+| Contact unavailable | Skip receipt payload and alert | Payment can proceed without receipt payload | Bugsnag alert / follow-up correction evidence | `SD-02`, `FM-02` |
+| Downtime correction period | Use separate correction task | Correction receipt is generated outside online flow | Rake task evidence | `SOL-04`, `FM-03` |
 
 ## Accepted Local Decisions
 

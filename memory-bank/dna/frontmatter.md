@@ -28,6 +28,8 @@ Governed-документы могут содержать дополнитель
 
 Для `doc_kind: feature` lifecycle owner-ом остается canonical `feature.md` problem-space документа. Feature-level `README.md`, `solution.md` и `implementation-plan.md` используют тот же `doc_kind`, но не обязаны иметь `delivery_status`, если сами не владеют delivery lifecycle.
 
+Для `doc_kind: feature-support` документ является reference / companion внутри feature package и не владеет `delivery_status`, canonical requirements, selected solution или execution sequencing.
+
 ## Примеры
 
 ```yaml

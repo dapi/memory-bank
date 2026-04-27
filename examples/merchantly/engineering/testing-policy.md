@@ -43,7 +43,7 @@ audience: humans_and_agents
 ## Ownership Split
 
 - Canonical test cases delivery-единицы задаются в `feature.md` через `SC-*`, feature-specific `NEG-*`, `CHK-*` и `EVID-*`.
-- `solution.md` владеет selected design, `CTR-*`, `FM-*` и локальными `RB-*`, но не подменяет canonical verify contract.
+- `solution.md` владеет selected design, to-be C4 architecture model, `CTR-*`, `FM-*` и локальными `RB-*`, но не подменяет canonical verify contract.
 - `implementation-plan.md` владеет только стратегией исполнения: какие spec-файлы будут добавлены или обновлены, какие gaps временно остаются manual-only и почему.
 
 ## Feature Flow Expectations
@@ -51,7 +51,7 @@ audience: humans_and_agents
 Canonical lifecycle gates живут в [../../../memory-bank/flows/feature-flow.md](../../../memory-bank/flows/feature-flow.md):
 
 - к `Problem Ready` `feature.md` уже фиксирует test case inventory (минимум один `SC-*`);
-- к `Solution Ready` `solution.md` фиксирует selected design, contracts и solution-level failure modes;
+- к `Solution Ready` `solution.md` фиксирует selected design, to-be C4 architecture model, contracts и solution-level failure modes;
 - к `Plan Ready` `implementation-plan.md` содержит `Test Strategy` с planned spec coverage и manual-only gaps;
 - к `Done` required specs добавлены, `make spec` зелёный локально и в CI.
 

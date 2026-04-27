@@ -25,7 +25,7 @@ canonical_for:
 
 Если тебе нужны `ASM-*`, `DEC-*`, feature-specific `NEG-*`, больше одного acceptance scenario, больше одного `CHK-*` / `EVID-*` или richer problem-space narrative, сделай upgrade до `large.md` до продолжения работы.
 
-Solution-space complexity больше не делает short feature недопустимым сама по себе: даже для short feature downstream `solution.md` остаётся обязательным canonical owner selected design. Значение prefixes зафиксировано в [../../feature-flow.md](../../feature-flow.md#stable-identifiers).
+Solution-space complexity больше не делает short feature недопустимым сама по себе: даже для short feature downstream `solution.md` остаётся обязательным canonical owner selected design и to-be C4 architecture model. Значение prefixes зафиксировано в [../../feature-flow.md](../../feature-flow.md#stable-identifiers).
 
 ### Frontmatter Quick Ref
 

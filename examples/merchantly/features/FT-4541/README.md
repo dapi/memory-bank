@@ -14,7 +14,7 @@ audience: humans_and_agents
 
 ## О разделе
 
-Каталог feature package хранит canonical `feature.md`, canonical `solution.md` и derived `implementation-plan.md`. Читать их нужно по порядку ownership: сначала problem space, затем selected design, затем execution sequencing.
+Каталог feature package хранит canonical `feature.md`, canonical `solution.md` и derived `implementation-plan.md`. Читать их нужно по порядку ownership: сначала problem space, затем selected design и to-be C4 architecture model, затем execution sequencing.
 
 ## Аннотированный индекс
 
@@ -23,7 +23,7 @@ audience: humans_and_agents
   Отвечает на вопрос: где находятся problem space, canonical verify contract и stable IDs для этой фичи.
 
 - [`solution.md`](solution.md)
-  Читать, когда нужно: понять выбранный design, accepted local decisions, contracts, failure modes и rollout/backout semantics.
+  Читать, когда нужно: понять выбранный design, to-be C4 architecture model, accepted local decisions, contracts, failure modes и rollout/backout semantics.
   Отвечает на вопрос: как именно реализуется feature без смешения solution space с `feature.md`.
 
 - [`implementation-plan.md`](implementation-plan.md)

@@ -19,7 +19,7 @@ template_target_path: ../../../features/FT-XXX/implementation-plan.md
 
 ## Wrapper Notes
 
-Требования, blocker-state и критерии приемки задаются в sibling `feature.md`. Selected design, accepted local decisions и solution-level contracts задаются в sibling `solution.md` или ADR. Этот документ определяет только sequencing работ и checkpoints выполнения.
+Требования, blocker-state и критерии приемки задаются в sibling `feature.md`. Selected design, accepted local decisions и solution-level contracts задаются в sibling `solution.md` или ADR. Optional support docs (`runtime-surfaces.md`, `ui-reference/README.md`, `use-cases/README.md`) можно использовать как grounding/reference, но они не становятся execution owner. Этот документ определяет только sequencing работ и checkpoints выполнения.
 В создаваемом feature package sibling `feature.md` и `solution.md` должны быть инстанцированы из canonical templates в `memory-bank/flows/templates/feature/`.
 
 Создавай этот документ только после того, как sibling `solution.md` переведен в `status: active`. Пока план только формируется, сам `implementation-plan.md` может оставаться в `status: draft`; до перехода feature в `delivery_status: in_progress` план должен стать `status: active`.
@@ -32,7 +32,7 @@ template_target_path: ../../../features/FT-XXX/implementation-plan.md
 
 Для ссылок внутри плана используй стабильные идентификаторы по taxonomy из [../../feature-flow.md#stable-identifiers](../../feature-flow.md#stable-identifiers).
 
-Если неизвестность меняет scope, acceptance criteria или evidence contract, она сначала поднимается upstream в sibling `feature.md`. Если неизвестность меняет selected design, accepted local decisions, contracts или rollout/backout semantics, она сначала поднимается в sibling `solution.md` или ADR и только после этого фигурирует в плане.
+Если неизвестность меняет scope, acceptance criteria или evidence contract, она сначала поднимается upstream в sibling `feature.md`. Если неизвестность меняет selected design, to-be C4 architecture model, accepted local decisions, contracts или rollout/backout semantics, она сначала поднимается в sibling `solution.md` или ADR и только после этого фигурирует в плане.
 
 ## Instantiated Frontmatter
 
@@ -44,6 +44,10 @@ purpose: "Execution-план реализации FT-XXX. Фиксирует dis
 derived_from:
   - feature.md
   - solution.md
+  # Optional support refs:
+  # - runtime-surfaces.md
+  # - ui-reference/README.md
+  # - use-cases/README.md
 status: draft
 audience: humans_and_agents
 must_not_define:
@@ -61,6 +65,18 @@ must_not_define:
 ## Цель текущего плана
 
 Какой delivery outcome должен дать этот план с учетом already accepted solution.
+
+## Grounding / Support References
+
+Какие upstream canonical и support docs используются как execution baseline. Support docs не переопределяют canonical facts: при конфликте обнови owner-документ до продолжения.
+
+| Document | Role in this plan | Facts reused | Conflict action |
+| --- | --- | --- | --- |
+| `feature.md` | canonical problem / verify owner | `REQ-*`, `SC-*`, `CHK-*`, `EVID-*` | Update `feature.md` first |
+| `solution.md` | canonical solution owner | `SOL-*`, `C4-*`, `SD-*`, `CTR-*`, `FM-*`, `RB-*` | Update `solution.md` or ADR first |
+| `runtime-surfaces.md` / `none` | optional grounding | `SURF-*`, `MAP-*`, context matrix | Promote changed design facts to `solution.md` |
+| `ui-reference/README.md` / `none` | optional interface reference | `UI-*`, mockups, states | Promote changed requirements to `feature.md` or design facts to `solution.md` |
+| `use-cases/README.md` / `none` | optional scenario companion | `FUC-*`, `TC-*` candidates | Keep canonical acceptance in `feature.md` |
 
 ## Current State / Reference Points
 
@@ -159,7 +175,22 @@ must_not_define:
 | --- | --- | --- | --- | --- |
 | `STOP-01` | `DEC-01`, `SD-01`, `RJ-01` | По какому симптому останавливаемся | Что делаем сразу | До какого состояния откатываемся или замораживаем работу |
 
+## Plan-local Evidence
+
+Какие evidence artifacts принадлежат самому execution plan и не являются canonical evidence contract из `feature.md`.
+
+| Evidence ID | Artifact | Producer | Path contract | Reused by checkpoints |
+| --- | --- | --- | --- | --- |
+| `EVID-09` | Например simplify-review verdict, discovery note или manual approval note | implementer / reviewer / human approver | Где лежит или чем фиксируется | `CP-01` |
+
 ## Готово для приемки
 
 Какие условия должны выполниться, чтобы считать план исчерпанным и перейти к финальной приемке по секции `Verify` в sibling `feature.md`.
+
+- Все workstreams завершены или явно остановлены через `STOP-*`.
+- Все checkpoints имеют evidence.
+- Required local suites зелёные, а CI не противоречит local verify.
+- Manual-only gaps закрыты через approved `AG-*` или остаются blockers для `delivery_status: done`.
+- Support docs, если они есть, не расходятся с canonical `feature.md`, `solution.md`, ADR и этим планом.
+- Финальная приемка идёт по `feature.md` `Verify`, а не по этому checklist.
 ```

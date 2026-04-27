@@ -10,6 +10,9 @@ derived_from:
   - feature/README.md
   - feature/solution.md
   - feature/implementation-plan.md
+  - feature/support/runtime-surfaces.md
+  - feature/support/ui-reference.md
+  - feature/support/use-cases.md
   - feature/short.md
   - feature/large.md
   - adr/ADR-XXX.md
@@ -28,8 +31,11 @@ audience: humans_and_agents
 - [FT-XXX Feature README Template](feature/README.md) — шаблон README для feature-каталога. Отвечает на вопрос: как оформить feature-level index.
 - [FT-XXX: Feature Template - Short](feature/short.md) — минимальный canonical feature для problem space небольшой фичи. Отвечает на вопрос: как выглядит short `feature.md`.
 - [FT-XXX: Feature Template - Large](feature/large.md) — canonical feature с richer problem-space контекстом и verify-слоем. Отвечает на вопрос: как выглядит large `feature.md`.
-- [FT-XXX: Solution Template](feature/solution.md) — canonical solution-документ внутри feature package. Отвечает на вопрос: как фиксировать selected design, accepted local decisions и contracts.
+- [FT-XXX: Solution Template](feature/solution.md) — canonical solution-документ внутри feature package. Отвечает на вопрос: как фиксировать selected design, to-be C4 architecture model, accepted local decisions и contracts.
 - [FT-XXX: Implementation Plan](feature/implementation-plan.md) — шаблон derived execution-плана. Отвечает на вопрос: как оформить sequencing и checkpoints после `Solution Ready`.
+- [FT-XXX: Runtime Surfaces Template](feature/support/runtime-surfaces.md) — optional support template для current runtime inventory, semantic mapping, context matrix и resolution tables.
+- [FT-XXX: UI Reference Template](feature/support/ui-reference.md) — optional support template для interface changes, screen map, interaction states и mockups.
+- [FT-XXX: Feature Use Cases Template](feature/support/use-cases.md) — optional support template для derived use cases, test case candidates и `FUC -> REQ -> CHK` review mapping.
 - [ADR-XXX: Short Decision Name](adr/ADR-XXX.md) — шаблон ADR. Отвечает на вопрос: как зафиксировать архитектурное решение.
 - [PROMPT-XXX: Reusable Prompt Name](prompt/PROMPT-XXX.md) — шаблон reusable prompt-документа. Отвечает на вопрос: как сохранить исходную формулировку в frontmatter и улучшенный prompt в copyable body-блоке.
 - [PROC-XXX: Process Documentation Index](process/README.md) — шаблон индекса процесс-документов. Отвечает на вопрос: как собрать routing-layer для reusable process cards, session handoff и lifecycle protocol.

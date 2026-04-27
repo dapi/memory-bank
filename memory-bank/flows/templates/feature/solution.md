@@ -2,7 +2,7 @@
 title: "FT-XXX: Solution Template"
 doc_kind: feature
 doc_function: template
-purpose: Governed wrapper-шаблон для canonical `solution.md`, который фиксирует selected design и accepted feature-local solution decisions внутри feature package.
+purpose: Governed wrapper-шаблон для canonical `solution.md`, который фиксирует selected design, to-be C4 architecture model и accepted feature-local solution decisions внутри feature package.
 derived_from:
   - ../../feature-flow.md
   - ../../../dna/frontmatter.md
@@ -20,18 +20,20 @@ canonical_for:
 
 ## Wrapper Notes
 
-Создавай `solution.md` только после того, как sibling `feature.md` достиг `Problem Ready`. Этот документ становится canonical owner selected design внутри feature package.
+Создавай `solution.md` только после того, как sibling `feature.md` достиг `Problem Ready`. Этот документ становится canonical owner selected design и to-be C4 architecture model внутри feature package.
 
 `solution.md` обязан:
 
 - ссылаться на canonical `REQ-*` из sibling `feature.md`;
 - фиксировать selected design через `SOL-*`;
+- фиксировать to-be C4 architecture model на тех уровнях C4 Model, которые нужны для конкретной фичи;
+- фиксировать target architecture, invariants, concrete contracts и fallback/error semantics выбранного решения;
 - переносить сюда принятые feature-local решения через `SD-*`;
 - ссылаться на accepted ADR, если решение выходит за границы локальной фичи.
 
 `solution.md` не должен определять business requirements, scope, acceptance criteria, canonical checks, evidence contract или execution sequencing.
 
-Для small feature допустима короткая форма: один `SOL-*`, компактный `Change Surface` и минимальная requirement mapping. Дополнительные секции включай только когда они реально нужны.
+Для small feature допустима короткая форма: один `SOL-*`, компактный `Change Surface`, минимальная requirement mapping и explicit C4 level selection с `Include? = no` для лишних уровней. Дополнительные секции включай только когда они реально нужны.
 
 ### Frontmatter Quick Ref
 
@@ -56,10 +58,12 @@ canonical_for:
 title: "FT-XXX: Solution"
 doc_kind: feature
 doc_function: canonical
-purpose: "Canonical solution-документ для FT-XXX. Фиксирует selected design, accepted local decisions и solution-level contracts без переопределения problem space."
+purpose: "Canonical solution-документ для FT-XXX. Фиксирует selected design, to-be C4 architecture model, accepted local decisions и solution-level contracts без переопределения problem space."
 derived_from:
   - feature.md
   # Optional:
+  # - runtime-surfaces.md
+  # - ui-reference/README.md
   # - ../../adr/ADR-XXX-short-name.md
 status: draft
 audience: humans_and_agents
@@ -67,6 +71,7 @@ must_not_define:
   - ft_xxx_scope
   - ft_xxx_acceptance_criteria
   - ft_xxx_delivery_status
+  - detailed_current_system_inventory
   - implementation_sequence
 ```
 
@@ -85,10 +90,50 @@ must_not_define:
 
 Как selected design покрывает canonical `REQ-*` из sibling `feature.md`.
 
-| Requirement ID | Solution refs | Notes |
+| Requirement ID | Solution / architecture refs | Notes |
 | --- | --- | --- |
-| `REQ-01` | `SOL-01`, `SD-01` | Чем именно решение закрывает требование |
-| `REQ-02` | `SOL-02`, `SOL-03` | Какая часть design отвечает за coverage |
+| `REQ-01` | `SOL-01`, `C4-L2-01`, `SD-01` | Чем именно решение закрывает требование |
+| `REQ-02` | `SOL-02`, `SOL-03`, `C4-L3-01` | Какая часть design отвечает за coverage |
+
+## To-Be C4 Model
+
+Выбери только те уровни C4 Model, которые нужны, чтобы объяснить внедряемую to-be architecture этой фичи. Используй только L1 System Context, L2 Container и L3 Component. Нижний уровень добавляй только если он раскрывает новые или измененные boundaries, runtime relationships, containers, components или contract ownership. Если уровень не нужен, оставь `Include? = no` и коротко объясни почему.
+
+| Level | Include? | Model refs | Selection rationale |
+| --- | --- | --- | --- |
+| System Context (L1) | yes / no | `C4-L1-01` / `none` | Включай, если меняются external actors, external systems или system boundary |
+| Container (L2) | yes / no | `C4-L2-01` / `none` | Включай, если меняются runtime/deployment boundaries, containers, data stores или external integration paths |
+| Component (L3) | yes / no | `C4-L3-01` / `none` | Включай, если меняются components/modules/services внутри container |
+
+Для выбранных уровней добавь diagram или table. Таблица допустима, если C4 diagram не добавляет ясности.
+
+| C4 ref | Level | Element / relationship | To-be architecture statement | Related refs |
+| --- | --- | --- | --- | --- |
+| `C4-L2-01` | Container | Какой container, datastore или external system меняется | Какая to-be связь или responsibility появляется | `SOL-01`, `CTR-01` |
+| `C4-L3-01` | Component | Какой component/module/service меняется | Как он участвует в выбранном решении | `SOL-02`, `SD-01` |
+
+## Target Architecture
+
+Опиши to-be architecture как набор устойчивых responsibilities, boundaries, invariants и decision tables. Не дублируй current-state inventory: если нужна подробная runtime разведка, вынеси её в optional `runtime-surfaces.md` и ссылайся отсюда.
+
+### Architecture Invariants
+
+- Какой invariant выбранное решение обязано сохранять.
+- Какой boundary нельзя пересекать при реализации.
+
+### Target Shape
+
+| Layer / responsibility | To-be role | Boundary / non-owner | Related refs |
+| --- | --- | --- | --- |
+| `responsibility-name` | Какая ответственность появляется или меняется | Что этот слой не делает | `SOL-01`, `C4-L2-01`, `CTR-01` |
+
+### Decision / Resolution Table
+
+Добавь таблицу, если поведение зависит от state, mode, fallback или error class.
+
+| Condition / state | Decision | User-visible or system-visible result | Observability / evidence | Related refs |
+| --- | --- | --- | --- | --- |
+| Какой входной state или mode | Какое решение принимает система | Что видит пользователь или downstream consumer | Как это диагностируется | `SOL-01`, `FM-01`, `RB-01` |
 
 ## Accepted Local Decisions
 
