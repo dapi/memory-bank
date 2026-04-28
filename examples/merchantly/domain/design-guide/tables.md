@@ -1,3 +1,14 @@
+---
+title: Таблицы и пагинация (Tables)
+doc_kind: domain
+doc_function: reference
+purpose: Компоненты для отображения списков и табличных данных. Читать при создании UI.
+derived_from:
+  - ../../../../memory-bank/dna/governance.md
+status: active
+audience: humans_and_agents
+---
+
 # Таблицы и пагинация (Tables)
 
 Компоненты для отображения списков и табличных данных.

@@ -4,8 +4,8 @@ doc_kind: feature
 doc_function: canonical
 purpose: "Canonical feature scope для Liquid-кастомизации клиентских страниц заказа и результатов оплаты (`failed`, `paid`, `show`, `created`, `canceled`) и operator-facing authoring surface для их настройки. Архитектурные решения о resolution unit, fallback policy и предварительном refactor выносятся в отдельный ADR."
 derived_from:
-  - ../../../AGENTS.md
-  - ../../flows/feature-flow.md
+  - ../../../../AGENTS.md
+  - ../../../../memory-bank/flows/feature-flow.md
   - ../../engineering/testing-policy.md
   - ../../engineering/adr/0003-per-action-engine-override.md
   - ../../engineering/adr/0005-ft-4564-order-page-resolution-and-fallback-policy.md

@@ -1,3 +1,14 @@
+---
+title: Формы (Forms)
+doc_kind: domain
+doc_function: reference
+purpose: Хелперы и паттерны для создания форм в операторской панели. Читать при создании UI.
+derived_from:
+  - ../../../../memory-bank/dna/governance.md
+status: active
+audience: humans_and_agents
+---
+
 # Формы (Forms)
 
 Хелперы и паттерны для создания форм в операторской панели.

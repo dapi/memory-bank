@@ -33,6 +33,33 @@ STAGE=production make minor-release
 
 CHANGELOG.md обновляется автоматически через `scripts/update_changelog.sh`.
 
+## Rollback Strategy
+
+**Способ отката:** При обнаружении критических проблем в production — redeploy предыдущего Docker-образа приложения.
+
+```bash
+# Откат на предыдущую версию (пример для production)
+kubectl set image deployment/web-deployment web=cr.selcloud.ru/brandymint/merchantly:v3.54.0 -n production
+```
+
+**Принципы:**
+- Мы **не используем feature flags** для partial rollback отдельных функций
+- Каждый релиз — полный образ приложения; откат = полный revert на предыдущий образ
+- Это упрощает mental model и гарантирует consistency состояния приложения
+- При необходимости emergency fix — hotfix ветка → релиз → deploy
+
+**Когда применять:**
+- Критическая регрессия, влияющая на основной функционал (checkout, оплата, отображение товаров)
+- Ошибки, приводящие к data corruption
+- Проблемы безопасности
+- Performance degradation > 50% от baseline
+
+**Порядок действий:**
+1. Определить предыдущий стабильный tag через `git tag --sort=-v:refname | head -5`
+2. Выполнить rollback через `kubectl set image` или redeploy через CI/CD
+3. Уведомить команду в общем чате
+4. Создать P0-issue для анализа root cause
+
 ## Тестовый план релиза
 
 При каждом релизе **обязательно** создавай тестовый план в `.protocols/`.

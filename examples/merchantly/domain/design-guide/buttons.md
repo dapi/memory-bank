@@ -1,3 +1,14 @@
+---
+title: Кнопки (Buttons)
+doc_kind: domain
+doc_function: reference
+purpose: Хелперы для создания кнопок в операторской панели. Читать при создании UI.
+derived_from:
+  - ../../../../memory-bank/dna/governance.md
+status: active
+audience: humans_and_agents
+---
+
 # Кнопки (Buttons)
 
 Хелперы для создания кнопок в операторской панели.

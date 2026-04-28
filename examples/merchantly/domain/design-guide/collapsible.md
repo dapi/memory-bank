@@ -1,3 +1,14 @@
+---
+title: Сворачиваемые секции (Collapsible)
+doc_kind: domain
+doc_function: reference
+purpose: Паттерн для создания сворачиваемых секций контента. Читать при создании UI.
+derived_from:
+  - ../../../../memory-bank/dna/governance.md
+status: active
+audience: humans_and_agents
+---
+
 # Сворачиваемые секции (Collapsible)
 
 Паттерн для создания сворачиваемых секций контента с использованием нативного HTML5 `<details>/<summary>`.

@@ -1,3 +1,14 @@
+---
+title: Контейнеры (Containers)
+doc_kind: domain
+doc_function: reference
+purpose: Базовые контейнерные компоненты для организации контента. Читать при создании UI.
+derived_from:
+  - ../../../../memory-bank/dna/governance.md
+status: active
+audience: humans_and_agents
+---
+
 # Контейнеры (Containers)
 
 Базовые контейнерные компоненты для организации контента в операторской панели.

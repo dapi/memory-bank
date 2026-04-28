@@ -1,3 +1,14 @@
+---
+title: Configuration Guide
+doc_kind: ops
+doc_function: canonical
+purpose: Полная документация по конфигурации проекта Merchantly. Читать при работе с настройками приложения.
+derived_from:
+  - ../../../memory-bank/dna/governance.md
+status: active
+audience: humans_and_agents
+---
+
 # Configuration Guide
 
 Полная документация по конфигурации проекта Merchantly.
@@ -6,8 +17,8 @@
 
 | Тема | Документ |
 |------|----------|
-| Нагрузочное тестирование | В исходном Merchantly repo есть отдельный `load-testing-spec.md`; в curated example он не копируется. |
-| Скрипт нагрузочного тестирования | В исходном Merchantly repo использовался `scripts/load_test.rb`; в curated example он не копируется. |
+| Нагрузочное тестирование | [load-testing-spec.md](load-testing-spec.md) |
+| Скрипт нагрузочного тестирования | [scripts/load_test.rb](../scripts/load_test.rb) |
 
 ## Архитектура конфигурации
 
@@ -220,7 +231,7 @@ PaymentProviderTaxMapping.tax_id(:yoo_money, 'tax_ru_1')
 # => 1  (конвертируется в "1" в YooMoney модуле)
 ```
 
-Подробнее: в исходном Merchantly repo есть отдельная документация по маппингу ставок НДС; в curated example оставлен только summary.
+Подробнее: [Документация маппинга ставок НДС](../domain/payments/vat-mapping.md)
 
 ### SMS провайдеры
 
@@ -334,7 +345,7 @@ end
 
 **Важно:**
 - Без этих переменных шифрование НЕ работает (warning в логах при старте)
-- Подробная инструкция в исходном infra/docs слое проекта; в curated example оставлена только краткая памятка по обязательным ключам.
+- Подробная инструкция: [runbooks/smtp-encryption.md](../ops/runbooks/smtp-encryption.md)
 
 ### Puma & Server
 

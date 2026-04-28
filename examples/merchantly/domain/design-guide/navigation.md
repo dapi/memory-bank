@@ -1,3 +1,14 @@
+---
+title: Навигация и поиск (Navigation)
+doc_kind: domain
+doc_function: reference
+purpose: Компоненты для навигации, поиска и фильтрации. Читать при создании UI.
+derived_from:
+  - ../../../../memory-bank/dna/governance.md
+status: active
+audience: humans_and_agents
+---
+
 # Навигация и поиск (Navigation)
 
 Компоненты для навигации, поиска и фильтрации в операторской панели.

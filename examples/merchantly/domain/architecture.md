@@ -79,4 +79,4 @@ end
 **При изменении конфигурации:**
 1. Добавь/измени параметр в `ApplicationConfig`
 2. Добавь/измени default в `config/application.yml`
-3. **Обнови** `ops/config.md`
+3. **Обнови** `memory-bank/ops/config.md`

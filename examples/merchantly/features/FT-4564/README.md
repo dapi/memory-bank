@@ -4,15 +4,15 @@ doc_kind: feature
 doc_function: index
 purpose: "Index-файл для feature package FT-4564. Навигация по документам фичи."
 derived_from:
-  - ../../dna/governance.md
-  - ../../flows/feature-flow.md
+  - ../../../../memory-bank/dna/governance.md
+  - ../../../../memory-bank/flows/feature-flow.md
 status: active
 audience: humans_and_agents
 ---
 
 # FT-4564: Per-page Liquid override и кастомные шаблоны для страниц заказа
 
-[Feature Flow](../../flows/feature-flow.md) — читай, когда работаешь с фичей, чтобы понимать ее lifecycle и требования к документации.
+[Feature Flow](../../../../memory-bank/flows/feature-flow.md) — читай, когда работаешь с фичей, чтобы понимать ее lifecycle и требования к документации.
 
 Этот пакет является текущим golden reference для feature flow: здесь уже присутствуют `README.md`, `feature.md`, `spec.md`, `runtime-surfaces.md`, `implementation-plan.md`, optional `use-cases/README.md` и accepted ADR-зависимости.
 

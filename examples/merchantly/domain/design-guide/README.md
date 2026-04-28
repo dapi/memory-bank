@@ -1,3 +1,14 @@
+---
+title: Design Guide операторской панели
+doc_kind: domain
+doc_function: index
+purpose: Справочник UI компонентов операторской панели для AI-агентов. Читать при создании/изменении operator views.
+derived_from:
+  - ../../../../memory-bank/dna/governance.md
+status: active
+audience: humans_and_agents
+---
+
 # Design Guide операторской панели
 
 Справочник UI компонентов операторской панели Merchantly/КИОСК для AI-агентов.

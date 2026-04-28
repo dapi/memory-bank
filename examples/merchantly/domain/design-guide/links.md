@@ -1,3 +1,14 @@
+---
+title: Ссылки (Links)
+doc_kind: domain
+doc_function: reference
+purpose: Хелперы для создания ссылок на ресурсы. Читать при создании UI.
+derived_from:
+  - ../../../../memory-bank/dna/governance.md
+status: active
+audience: humans_and_agents
+---
+
 # Ссылки (Links)
 
 Хелперы для создания ссылок на ресурсы.

@@ -1,10 +1,11 @@
 ---
 title: Development Environment
-doc_kind: engineering
+doc_kind: ops
 doc_function: canonical
 purpose: Docker/dip setup, dev server, browser testing, database operations. Читать при локальной разработке, запуске тестов или настройке окружения.
 derived_from:
   - ../../../memory-bank/dna/governance.md
+  - docs/development.md
 status: active
 audience: humans_and_agents
 ---
@@ -54,6 +55,24 @@ make rubocop                    # или через make
 
 Конфигурация dip — `dip.yml`, Docker Compose — `docker-compose.yml`.
 
+## System Dependencies (без Docker)
+
+Если не используете dip:
+
+- **Ruby 3.4.8** — см. `mise.toml`
+- **PostgreSQL 16+**
+- **Redis 7+**
+- **Node.js 20+**
+- **Yarn**
+
+### macOS (Homebrew)
+
+```bash
+brew install postgresql@16 redis node yarn
+brew services start postgresql@16
+brew services start redis
+```
+
 ## Build & Test Commands
 
 - `bin/setup` — gems, JS packages, database
@@ -79,3 +98,80 @@ make rubocop                    # или через make
 - Пересоздание тестовой БД: `RAILS_ENV=test bundle exec rails db:drop db:create db:migrate`
 - **НЕ** используй `db:schema:load` — не работает с structure.sql
 - После миграций structure.sql обновляется автоматически
+
+## Git Workflow
+
+### Branch Strategy
+
+```
+master
+├── feature/new-payment-gateway
+├── bugfix/order-validation
+└── hotfix/security-patch
+```
+
+### Pre-commit Hooks
+
+```bash
+gem install lefthook
+lefthook install
+```
+
+### Commit Message Format
+
+```
+type(scope): description
+
+Examples:
+feat(api): add product search endpoint
+fix(order): validate inventory before checkout
+docs(readme): update installation instructions
+```
+
+## Debugging
+
+### Rails Console
+
+```bash
+direnv exec . dip console
+# или
+bundle exec rails console
+```
+
+### Byebug
+
+```ruby
+def calculate_total
+  byebug  # Execution stops here
+  items.sum(&:price)
+end
+```
+
+### Performance Monitoring
+
+```bash
+# В development
+http://localhost:3000/rails_mini_profiler
+http://localhost:3000/rails/performance
+```
+
+## Testing
+
+### RSpec
+
+```bash
+# Все тесты
+direnv exec . dip spec
+
+# Конкретный файл
+bundle exec rspec spec/models/product_spec.rb
+
+# С покрытием
+bundle exec rspec --format documentation
+```
+
+### Fixtures
+
+Проект использует **только fixtures** (не factory_bot):
+- Фикстуры в `spec/fixtures/`
+- Не создавай factories

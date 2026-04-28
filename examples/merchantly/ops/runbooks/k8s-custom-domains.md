@@ -1,4 +1,16 @@
-# K8s Custom Domains — SRE Runbooks
+---
+title: K8s Custom Domains — SRE Runbook
+doc_kind: ops
+doc_function: runbook
+purpose: Операционные процедуры для управления кастомными доменами в Kubernetes. Читать при инцидентах с доменами.
+derived_from:
+  - ../../../../memory-bank/dna/governance.md
+  - ../production.md
+status: active
+audience: humans_and_agents
+---
+
+# K8s Custom Domains — SRE Runbook
 
 ## Quick Links
 - **Dashboard:** [Grafana K8s Custom Domains](https://grafana.example.com/d/k8s-custom-domains)
