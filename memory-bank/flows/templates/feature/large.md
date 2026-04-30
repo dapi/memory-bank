@@ -2,7 +2,7 @@
 title: "FT-XXX: Feature Template - Large"
 doc_kind: feature
 doc_function: template
-purpose: Governed wrapper-шаблон для расширенного canonical `feature.md` в AI-driven development. Фиксирует, как инстанцировать intent, дизайн и machine-checkable verify без смешения wrapper и целевого feature frontmatter.
+purpose: Governed wrapper-шаблон для расширенного canonical `feature.md`, который фиксирует richer problem space и canonical verify без ownership solution space.
 derived_from:
   - ../../feature-flow.md
   - ../../../dna/frontmatter.md
@@ -21,7 +21,9 @@ canonical_for:
 
 ## Wrapper Notes
 
-Используй этот шаблон, когда хотя бы одно правило `short.md` перестает выполняться: фича затрагивает несколько поверхностей, меняет контракт, требует явных assumptions / blockers или нуждается в нетривиальном verify-слое.
+Используй этот шаблон, когда хотя бы одно правило `short.md` перестает выполняться: problem space затрагивает несколько пользовательских или системных аспектов, требует явных assumptions / blockers, нескольких acceptance scenarios или richer verify-слоя.
+
+Выбранный дизайн, accepted local decisions, contracts, failure modes и rollout/backout semantics теперь живут не здесь, а в downstream `solution.md`.
 
 Используй стабильные идентификаторы по taxonomy из [../../feature-flow.md#stable-identifiers](../../feature-flow.md#stable-identifiers).
 
@@ -47,7 +49,7 @@ canonical_for:
 title: "FT-XXX: Feature Name"
 doc_kind: feature
 doc_function: canonical
-purpose: "Расширенный canonical feature-документ для сложной или многослойной delivery-единицы."
+purpose: "Расширенный canonical feature-документ для сложной или многослойной delivery-единицы. Фиксирует problem space и canonical verify."
 derived_from:
   - ../../domain/problem.md
   # Optional:
@@ -57,6 +59,7 @@ status: draft
 delivery_status: planned
 audience: humans_and_agents
 must_not_define:
+  - selected_design
   - implementation_sequence
 ```
 
@@ -98,49 +101,14 @@ must_not_define:
 ### Constraints / Assumptions
 
 - `ASM-01` На что сейчас опираемся.
-- `CON-01` Что прямо ограничивает дизайн, rollout или verify.
+- `CON-01` Что прямо ограничивает problem space, verify или допустимый класс решений.
+- `INV-01` Какой инвариант нельзя нарушать.
+
+### Blocking Decisions
+
 - `DEC-01` Какое решение еще не принято и что именно оно блокирует.
 
-## How
-
-### Solution
-
-Один короткий абзац: основной технический подход и главный trade-off.
-
-### Change Surface
-
-Зафиксируй, где именно ожидаются изменения.
-
-| Surface | Type | Why it changes |
-| --- | --- | --- |
-| `path/or/component` | code / config / doc / data | Почему это входит в change set |
-
-### Flow
-
-1. Что приходит на вход.
-2. Что система делает.
-3. Что получается на выходе.
-
-### Contracts
-
-Опиши входы, выходы, события, payload или schema changes, если они значимы для фичи.
-
-| Contract ID | Input / Output | Producer / Consumer | Notes |
-| --- | --- | --- | --- |
-| `CTR-01` | Что меняется | Кто пишет / кто читает | Что важно соблюдать |
-
-### Failure Modes
-
-- `FM-01` Что может пойти не так.
-- `FM-02` Как система должна на это реагировать.
-
-### ADR Dependencies
-
-Если feature зависит от ADR, зафиксируй это явно.
-
-| ADR | Current `decision_status` | Used for | Execution rule |
-| --- | --- | --- | --- |
-| [../../adr/ADR-XXX.md](../../adr/ADR-XXX.md) | `proposed` / `accepted` | Для какого design-choice или baseline это нужно | `proposed` используется только как hypothesis / benchmark candidate и не считается finalized design; `accepted` можно использовать как canonical input |
+Accepted local decisions не фиксируй здесь: после принятия они переезжают в downstream `solution.md` как `SD-*` или в ADR.
 
 ## Verify
 
@@ -153,15 +121,19 @@ must_not_define:
 
 ### Traceability matrix
 
-| Requirement ID | Design refs | Acceptance refs | Checks | Evidence IDs |
+| Requirement ID | Problem refs | Acceptance refs | Checks | Evidence IDs |
 | --- | --- | --- | --- | --- |
-| `REQ-01` | `ASM-01`, `CON-01`, `DEC-01`, `CTR-01`, `FM-01` | `EC-01`, `SC-01` | `CHK-01` | `EVID-01` |
-| `REQ-02` | `ASM-01`, `CON-01`, `CTR-01`, `FM-02` | `EC-02`, `SC-02` | `CHK-01` | `EVID-01` |
+| `REQ-01` | `ASM-01`, `CON-01`, `DEC-01`, `INV-01` | `EC-01`, `SC-01` | `CHK-01` | `EVID-01` |
+| `REQ-02` | `ASM-01`, `CON-01`, `INV-01` | `EC-02`, `SC-02` | `CHK-01` | `EVID-01` |
 
 ### Acceptance Scenarios
 
 - `SC-01` Основной happy path.
 - `SC-02` Обязательный real-world или edge scenario.
+
+### Negative / Edge Cases
+
+- `NEG-01` Какая negative или edge ситуация меняет verdict.
 
 ### Checks
 

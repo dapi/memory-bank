@@ -23,5 +23,5 @@ status: active
 Перед фиксацией изменений в governed-документации:
 
 - [ ] frontmatter валиден, для `active` non-root задан `derived_from`
-- [ ] для canonical `feature` задан `delivery_status`, для `adr` — `decision_status`
+- [ ] для lifecycle-owning canonical `feature.md` задан `delivery_status`, для `adr` — `decision_status`
 - [ ] parent `README.md` обновлён при изменении состава или reading order

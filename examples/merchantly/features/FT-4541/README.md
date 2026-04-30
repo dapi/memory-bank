@@ -2,7 +2,7 @@
 title: "FT-4541: Feature Package"
 doc_kind: feature
 doc_function: index
-purpose: "Bootstrap-safe навигация по документации фичи. Читать, чтобы сначала перейти к canonical `feature.md`, а optional derived docs добавлять только после их появления."
+purpose: "Навигация по документации FT-4541. Читать, чтобы пройти по problem space (`feature.md`), затем по solution space (`solution.md`) и только потом по execution-документу."
 derived_from:
   - ../../../../memory-bank/dna/governance.md
   - feature.md
@@ -14,14 +14,18 @@ audience: humans_and_agents
 
 ## О разделе
 
-Каталог feature package хранит canonical `feature.md`, а optional derived/external routes добавляются только после появления соответствующих документов. Сначала читай `feature.md`, затем расширяй routing по мере появления execution и decision artifacts.
+Каталог feature package хранит canonical `feature.md`, canonical `solution.md` и derived `implementation-plan.md`. Читать их нужно по порядку ownership: сначала problem space, затем selected design и to-be C4 architecture model, затем execution sequencing.
 
 ## Аннотированный индекс
 
 - [`feature.md`](feature.md)
   Читать, когда нужно: открыть instantiated canonical feature-документ сразу после bootstrap нового feature package.
-  Отвечает на вопрос: где находятся scope, design, verify, blockers и canonical IDs для этой фичи.
+  Отвечает на вопрос: где находятся problem space, canonical verify contract и stable IDs для этой фичи.
+
+- [`solution.md`](solution.md)
+  Читать, когда нужно: понять выбранный design, to-be C4 architecture model, accepted local decisions, contracts, failure modes и rollout/backout semantics.
+  Отвечает на вопрос: как именно реализуется feature без смешения solution space с `feature.md`.
 
 - [`implementation-plan.md`](implementation-plan.md)
   Читать, когда нужно: начать или продолжить реализацию фичи, проверить текущий step, checkpoint или approval gate.
-  Отвечает на вопрос: discovery context, порядок работ, test strategy, риски и stop conditions.
+  Отвечает на вопрос: discovery context, порядок работ, test strategy, риски и stop conditions после `Solution Ready`.
