@@ -33,6 +33,8 @@ canonical_for:
 
 `solution.md` не должен определять business requirements, scope, acceptance criteria, canonical checks, evidence contract или execution sequencing.
 
+Optional support docs (`runtime-surfaces.md`, `ui-reference/README.md`, `use-cases/README.md`) являются downstream/reference относительно `solution.md`. Не добавляй их в `derived_from` solution-документа; если нужно, ссылайся на них из body как related context.
+
 Для small feature допустима короткая форма: один `SOL-*`, компактный `Change Surface`, минимальная requirement mapping и explicit C4 level selection с `Include? = no` для лишних уровней. Дополнительные секции включай только когда они реально нужны.
 
 ### Frontmatter Quick Ref
@@ -62,8 +64,6 @@ purpose: "Canonical solution-документ для FT-XXX. Фиксирует 
 derived_from:
   - feature.md
   # Optional:
-  # - runtime-surfaces.md
-  # - ui-reference/README.md
   # - ../../adr/ADR-XXX-short-name.md
 status: draft
 audience: humans_and_agents

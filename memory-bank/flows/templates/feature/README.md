@@ -30,15 +30,15 @@ Downstream routes для living feature package добавляются по ме
   Читать, когда нужно: после `Solution Ready` разложить реализацию по шагам, workstreams, checkpoints и traceability к canonical IDs.
   Отвечает на вопрос: как провести реализацию фичи от текущего состояния до приёмки.
 
-- [`runtime-surfaces.md`](runtime-surfaces.md)
+- `runtime-surfaces.md` (target package route; template: [`support/runtime-surfaces.md`](support/runtime-surfaces.md))
   Читать, когда нужно: для сложной runtime-фичи зафиксировать current surfaces, semantic mapping, context matrix, adjacent out-of-scope surfaces и resolution behavior.
   Отвечает на вопрос: какие runtime surfaces реально существуют и как они мапятся на selected solution. Support doc, не canonical owner.
 
-- [`ui-reference/README.md`](ui-reference/README.md)
+- `ui-reference/README.md` (target package route; template: [`support/ui-reference.md`](support/ui-reference.md))
   Читать, когда нужно: feature меняет interface, screen states, navigation, editor/preview UX или user-facing controls. Mockups должны быть linked, default — Markdown в `ui-reference/mockups/`.
   Отвечает на вопрос: как должен выглядеть и вести себя interface без project-specific UI assumptions в generic template. Support doc, не canonical owner.
 
-- [`use-cases/README.md`](use-cases/README.md)
+- `use-cases/README.md` (target package route; template: [`support/use-cases.md`](support/use-cases.md))
   Читать, когда нужно: сложные сценарии нужно разложить в review-friendly форму и связать с canonical `REQ-*`, `SC-*`, `CHK-*`.
   Отвечает на вопрос: какие derived user journeys и test case candidates помогают проверить фичу. Support doc, не canonical owner.
 
