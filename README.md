@@ -11,6 +11,87 @@
 2. Прочитайте и адаптируйте в нем как минимум `domain/`, `engineering/` и `ops/`.
 3. Если нужен ориентир, смотрите конкретный пример в `./examples/merchantly/`.
 
+## Локальные проверки
+
+- `python3 scripts/check_memory_bank_index.py` — аудит достижимости markdown-документов, broken links и expected README-индексов внутри `memory-bank/`.
+- `git diff --check` — проверка лишних пробелов и conflict markers перед PR.
+
+### Аудит ссылок и индексации `memory-bank`
+
+Скрипт [`scripts/check_memory_bank_index.py`](scripts/check_memory_bank_index.py) аудирует `memory-bank/` и проверяет:
+
+- broken relative markdown links внутри audit scope;
+- orphan-документы, на которые никто не ссылается внутри scope;
+- достижимость каждого документа от entrypoint'ов по индексной навигации;
+- документы, которые достижимы только глубже порога навигации;
+- contract ожидаемых `README.md`-индексов.
+
+Обычный локальный запуск из корня репозитория:
+
+```bash
+python3 scripts/check_memory_bank_index.py
+```
+
+Что означает результат:
+
+- exit code `0` — errors не найдены; warnings по глубине возможны, но аудит считается пройденным;
+- non-zero exit code — найдены проблемы, которые нужно исправить до PR;
+- `--json` — структурированный отчёт, пригодный для последующей автоматической доиндексации другим агентом или инструментом.
+
+Параметры запуска:
+
+- `--max-depth N` — порог глубины индексной навигации в прыжках; по умолчанию `3`; документы глубже порога попадают в warning, а не в error;
+- `--entrypoint PATH` — явный entrypoint для аудита; параметр repeatable; принимает repo-relative или scope-relative пути; если передан, используется вместо дефолтного `memory-bank/README.md`;
+- `--scope-root DIR` — меняет audit scope; по умолчанию `memory-bank`;
+- `--repo-root DIR` — явно задаёт корень репозитория; полезно для сетевого запуска или локально установленной копии скрипта;
+- `--json` — печатает только JSON-отчёт.
+
+Примеры:
+
+```bash
+python3 scripts/check_memory_bank_index.py --max-depth 4
+```
+
+```bash
+python3 scripts/check_memory_bank_index.py \
+  --entrypoint README.md \
+  --entrypoint AGENTS.md \
+  --max-depth 4
+```
+
+Быстрый запуск по сети без предварительной установки:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/dapi/memory-bank/main/scripts/check_memory_bank_index.py \
+  | python3 - --repo-root .
+```
+
+Локальная установка или копирование с GitHub:
+
+1. Скопируйте файл со страницы `scripts/check_memory_bank_index.py` на GitHub или скачайте raw-версию:
+
+```bash
+mkdir -p ./tools
+curl -fsSL \
+  -o ./tools/check_memory_bank_index.py \
+  https://raw.githubusercontent.com/dapi/memory-bank/main/scripts/check_memory_bank_index.py
+chmod +x ./tools/check_memory_bank_index.py
+```
+
+2. Запускайте его из корня downstream-репозитория:
+
+```bash
+python3 ./tools/check_memory_bank_index.py --repo-root .
+```
+
+`macOS` и `Linux`: команды запуска одинаковые. Отличие только в том, куда класть локальную копию, если хочется вызывать скрипт без относительного пути: на Linux чаще используют `~/.local/bin`, на macOS — `~/bin` или любой каталог, добавленный в `PATH`. Если не хотите менять `PATH`, запускайте скрипт через `python3` по полному или относительному пути.
+
+Когда запускать:
+
+- после добавления, удаления или переименования `.md`-файлов в `memory-bank/`;
+- после правок `README.md`-индексов и относительных ссылок;
+- перед открытием PR с изменениями в template navigation или document structure.
+
 ## Настроечные промпты для агента
 
 Запукаются в новых сессиях
