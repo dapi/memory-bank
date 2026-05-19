@@ -28,6 +28,13 @@ Prompt-документ нужен, когда prompt прошел путь от
 - это проектное правило, которое должно попасть в `engineering/`, `ops/`, `domain/` или `AGENTS.md`;
 - это feature requirement, use case или ADR, а не исполняемая инструкция для модели.
 
+## Порядок выполнения prompt-ов
+
+Промпты указаны в порядке SDLC-процесса. Но, в основном используется: 002-feature-pack-review-improve на старте когда создаем brief + specs , после чего, как правило, делаем human gate, и 003-implement-and-tests когда приступаем к имплементации.
+
+Промпт 001-issue-requrements-review используем для того чтобы убедиться что feature-pack соответствует требованиям изложенных в issue в случае если эта issue большая.
+
+Промпт 004-pr-review-finish используем в случае если у нас были правки после имплементации или мы считаем что  PR сложный и ходим добить качество кода об умную-долгую модель в режиме PR-review-fix.
 ## Реестр
 
 | Prompt ID | Title | Status | Prompt status | Kind | Used for | Last updated |
