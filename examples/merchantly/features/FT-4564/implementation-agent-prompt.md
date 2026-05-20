@@ -48,8 +48,8 @@ audience: humans_and_agents
    - `memory-bank/engineering/adr/0005-ft-4564-order-page-resolution-and-fallback-policy.md`
    - `memory-bank/engineering/adr/0006-missing-custom-liquid-template-falls-back-to-existing-baseline-page.md`
    - `memory-bank/engineering/testing-policy.md`
-   - `memory-bank/domain/frontend.md` если меняешь operator UI
-   - `memory-bank/domain/design-guide/*` если меняешь operator UI
+   - `memory-bank/engineering/frontend.md` если меняешь operator UI
+   - `memory-bank/engineering/design-guide/*` если меняешь operator UI
 
 Рабочий режим:
 1. Сначала создай отдельную ветку и отдельный `git worktree` для FT-4564, затем работай только внутри него.

@@ -31,7 +31,7 @@ Governed-документы могут содержать дополнитель
 ```yaml
 ---
 derived_from:
-  - ../../domain/problem.md
+  - ../../product/context.md
 status: active
 delivery_status: planned
 ---

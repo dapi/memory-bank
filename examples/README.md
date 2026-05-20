@@ -12,5 +12,5 @@ Shared governance, lifecycle и document templates живут в `memory-bank/` 
 
 В Merchantly example оставлены:
 
-- instantiated project docs в `domain/`, `engineering/` и `ops/`;
-- дополнительные Merchantly-specific артефакты вроде `design-guide/`, ADR, agent instructions, runbooks и feature packages.
+- instantiated project docs в `product/`, `domain/`, `engineering/` и `ops/`;
+- дополнительные Merchantly-specific артефакты вроде `engineering/design-guide/`, ADR, agent instructions, runbooks и feature packages.

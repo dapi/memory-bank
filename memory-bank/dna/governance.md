@@ -28,7 +28,7 @@ Governance-документы (DNA, flows) используют дополнит
 
 | Поле | Значения | Назначение |
 |-|-|-|
-| `doc_kind` | `governance`, `project` | Тип документа. Governance — meta-правила, project — domain/ops |
+| `doc_kind` | `governance`, `project`, `product`, `domain`, `prd`, `use_case`, `feature`, `engineering`, `ops`, `adr` | Тип документа или артефакта |
 | `doc_function` | `canonical`, `index`, `template` | Роль: canonical owner факта, навигационный индекс или шаблон |
 
-Эти поля обязательны для governance-документов и не требуются в domain/ops/engineering документах.
+Эти поля обязательны для governance-документов и рекомендуются для product/domain/ops/engineering/project документов, чтобы агенты могли различать слой знания и роль файла.

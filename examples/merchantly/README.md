@@ -14,13 +14,16 @@ audience: humans_and_agents
 ## Аннотированный индекс
 
 - [`domain/README.md`](domain/README.md)
-  Читать, когда нужно: понять Merchantly product context, архитектурные паттерны, glossary и operator UI design guide.
+  Читать, когда нужно: понять Merchantly domain concepts, glossary, rules и context boundaries.
+
+- [`product/README.md`](product/README.md)
+  Читать, когда нужно: понять Merchantly product context, customers, metrics и roadmap.
 
 - [`ops/README.md`](ops/README.md)
   Читать, когда нужно: запустить dev-окружение, подключиться к production/stage, сделать релиз, проверить конфигурацию или работать с CloudPayments.
 
 - [`engineering/README.md`](engineering/README.md)
-  Читать, когда нужно: понять Merchantly-specific engineering rules, ADR и инструкции для агентов.
+  Читать, когда нужно: понять Merchantly-specific architecture/frontend engineering rules, ADR и инструкции для агентов.
 
 - [`features/README.md`](features/README.md)
   Читать, когда нужно: посмотреть живой feature package и сверить, как шаблонный feature flow заполняется на реальной задаче.

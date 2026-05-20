@@ -49,10 +49,11 @@ doc_kind: feature
 doc_function: canonical
 purpose: "Короткий canonical feature-документ для небольшой и локальной delivery-единицы."
 derived_from:
-  - ../../domain/problem.md
+  - ../../product/context.md
   # Optional:
   # - ../../prd/PRD-XXX-short-name.md
   # - ../../use-cases/UC-XXX-short-name.md
+  # - ../../domain/rules.md
 status: draft
 delivery_status: planned
 audience: humans_and_agents
@@ -71,9 +72,11 @@ must_not_define:
 
 Какую конкретную проблему или opportunity закрывает фича.
 
-Если существует upstream PRD, здесь не переписывай весь продуктовый контекст, а сфокусируйся на slice-specific постановке задачи.
+Если существует upstream product context или PRD, здесь не переписывай весь продуктовый контекст, а сфокусируйся на slice-specific постановке задачи.
 
 Если существует upstream use case, здесь зафиксируй только то, как текущая delivery-единица реализует или меняет этот сценарий.
+
+Если feature меняет domain rule, state или event, добавь соответствующий документ из `../../domain/` в `derived_from`.
 
 ### Scope
 

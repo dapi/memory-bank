@@ -14,13 +14,19 @@ audience: humans_and_agents
 
 Каталог `memory-bank/prd/` хранит instantiated PRD проекта.
 
-PRD нужен, когда задача живет на уровне продуктовой инициативы или capability, а не одного vertical slice. Обычно PRD стоит между общим контекстом из [`../domain/problem.md`](../domain/problem.md) и downstream feature packages из [`../features/README.md`](../features/README.md).
+PRD нужен, когда задача живет на уровне продуктовой инициативы или capability, а не одного vertical slice. Обычно PRD стоит между общим контекстом из [`../product/context.md`](../product/context.md) и downstream feature packages из [`../features/README.md`](../features/README.md).
 
-## Граница С `domain/problem.md`
+## Граница С `product/context.md`
 
-- [`../domain/problem.md`](../domain/problem.md) остается project-wide документом и не превращается в PRD.
+- [`../product/context.md`](../product/context.md) остается project-wide документом и не превращается в PRD.
 - PRD наследует этот контекст через `derived_from`, но фиксирует только initiative-specific проблему, users, goals и scope.
-- Если документ нужен только для того, чтобы повторить общий background проекта, оставайся на уровне `domain/problem.md`.
+- Если документ нужен только для того, чтобы повторить общий background проекта, оставайся на уровне `product/context.md`.
+
+## Граница С `domain/`
+
+- [`../domain/README.md`](../domain/README.md) владеет предметной моделью, терминами, инвариантами, состояниями, событиями и bounded contexts.
+- PRD может ссылаться на `domain/`, если инициатива меняет или использует конкретные domain rules.
+- PRD не должен изобретать новые domain concepts без обновления соответствующего domain-документа.
 
 ## Когда Заводить PRD
 
@@ -31,7 +37,7 @@ PRD нужен, когда задача живет на уровне проду�
 ## Когда PRD Не Нужен
 
 - задача локальна и полностью помещается в один `feature.md`;
-- общий продуктовый контекст уже покрыт [`../domain/problem.md`](../domain/problem.md), а feature не требует отдельного product-layer документа.
+- общий продуктовый контекст уже покрыт [`../product/context.md`](../product/context.md), а feature не требует отдельного product-layer документа.
 
 ## Naming
 

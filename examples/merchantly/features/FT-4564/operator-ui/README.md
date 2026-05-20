@@ -6,11 +6,11 @@ purpose: "Подробный operator UX reference для FT-4564: entrypoint, f
 derived_from:
   - ../feature.md
   - ../spec.md
-  - ../../../domain/frontend.md
-  - ../../../domain/design-guide/README.md
-  - ../../../domain/design-guide/forms.md
-  - ../../../domain/design-guide/buttons.md
-  - ../../../domain/design-guide/navigation.md
+  - ../../../engineering/frontend.md
+  - ../../../engineering/design-guide/README.md
+  - ../../../engineering/design-guide/forms.md
+  - ../../../engineering/design-guide/buttons.md
+  - ../../../engineering/design-guide/navigation.md
 status: active
 audience: humans_and_agents
 ---
