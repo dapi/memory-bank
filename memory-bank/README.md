@@ -9,17 +9,20 @@ audience: humans_and_agents
 
 # Documentation Index
 
-Каталог `memory-bank/` содержит переносимый шаблон проектной документации для разработки ПО. После копирования в downstream-репозиторий адаптируй `domain/`, `engineering/` и `ops/` под реальный стек, процессы и ограничения проекта.
+Каталог `memory-bank/` содержит переносимый шаблон проектной документации для разработки ПО. После копирования в downstream-репозиторий адаптируй `product/`, `domain/`, `engineering/` и `ops/` под реальный продукт, предметную область, стек, процессы и ограничения проекта.
 
 Конкретные instantiated примеры вынесены в корневой каталог `examples/`.
 
 ## Аннотированный индекс
 
+- [`product/README.md`](product/README.md)
+  Читать, когда нужно: зафиксировать product context, vision, customers, metrics, marketing и roadmap.
+
 - [`domain/README.md`](domain/README.md)
-  Читать, когда нужно: зафиксировать product context, архитектурные границы и UI-соглашения проекта.
+  Читать, когда нужно: зафиксировать glossary, domain model, rules, states, events и bounded contexts.
 
 - [`prd/README.md`](prd/README.md)
-  Читать, когда нужно: описать продуктовую инициативу между общим problem statement и downstream feature packages.
+  Читать, когда нужно: описать продуктовую инициативу между общим product context и downstream feature packages.
 
 - [`use-cases/README.md`](use-cases/README.md)
   Читать, когда нужно: зарегистрировать устойчивый пользовательский или операционный сценарий проекта.
@@ -31,7 +34,7 @@ audience: humans_and_agents
   Читать, когда нужно: описать локальную разработку, окружения, релизы, конфигурацию и runbooks.
 
 - [`engineering/README.md`](engineering/README.md)
-  Читать, когда нужно: задать testing policy, coding style, git workflow и границы автономии агента.
+  Читать, когда нужно: задать architecture patterns, frontend rules, testing policy, coding style, git workflow и границы автономии агента.
 
 - [`dna/README.md`](dna/README.md)
   Читать, когда нужно: проверить SSoT rules, frontmatter contract и governance-правила документации.

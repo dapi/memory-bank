@@ -1,25 +1,26 @@
 ---
-title: Architecture Patterns
-doc_kind: domain
+title: Engineering Architecture Patterns
+doc_kind: engineering
 doc_function: canonical
-purpose: Каноничное место для архитектурных границ проекта. Читать при изменениях, затрагивающих модули, фоновые процессы, интеграции или конфигурацию.
+purpose: Каноничное место для архитектурных правил реализации: code/module boundaries, runtime patterns, concurrency, error handling и configuration ownership.
 derived_from:
   - ../dna/governance.md
+  - ../domain/context-map.md
 status: active
 audience: humans_and_agents
 ---
 
-# Architecture Patterns
+# Engineering Architecture Patterns
 
-Этот документ задает не конкретную реализацию, а ожидаемые архитектурные правила проекта. Подставь сюда реальные bounded contexts, integration boundaries и технические ограничения downstream-системы.
+Этот документ задает ожидаемые архитектурные правила реализации. Предметные bounded contexts описаны в [`../domain/context-map.md`](../domain/context-map.md); здесь фиксируй, как они отражаются в code modules, services, queues, adapters и configuration ownership.
 
 ## Module Boundaries
 
-Зафиксируй здесь главные изолированные области системы.
+Зафиксируй главные изолированные области реализации.
 
 Пример:
 
-| Context | Owns | Must not depend on directly |
+| Module / Layer | Owns | Must not depend on directly |
 | --- | --- | --- |
 | `customer-facing` | пользовательский путь, публичные API | внутренние админские детали |
 | `operations` | backoffice, ручные действия, moderation | приватные внутренности billing/storage |

@@ -8,7 +8,7 @@
 ## Как использовать
 
 1. Скопируйте каталог `./memory-bank` в корень своего проекта.
-2. Прочитайте и адаптируйте в нем как минимум `domain/`, `engineering/` и `ops/`.
+2. Прочитайте и адаптируйте в нем как минимум `product/`, `domain/`, `engineering/` и `ops/`.
 3. Если нужен ориентир, смотрите конкретный пример в `./examples/merchantly/`.
 
 ## Локальные проверки
@@ -101,6 +101,10 @@ python3 ./tools/check_memory_bank_index.py --repo-root .
 ```
 
 ```text
+Прочитай ./memory-bank и помоги адаптировать секцию `product`
+```
+
+```text
 Прочитай ./memory-bank и помоги адаптировать секцию `domain`
 ```
 
@@ -140,10 +144,11 @@ AGENTS.md. Если страница не упомянются напрямую,
 
 - `memory-bank/dna/` — governance-ядро: SSoT, frontmatter, lifecycle, cross-references.
 - `memory-bank/flows/` — lifecycle flows и шаблоны для PRD/feature/ADR.
-- `memory-bank/domain/` — заготовки для product context, архитектуры и UI-слоя.
+- `memory-bank/product/` — заготовки для product context, vision, customers, metrics, marketing и roadmap.
+- `memory-bank/domain/` — заготовки для glossary, domain model, rules, states, events и context map.
 - `memory-bank/prd/` — место для instantiated Product Requirements Documents.
 - `memory-bank/use-cases/` — место для instantiated project-level use cases.
-- `memory-bank/engineering/` — testing policy, coding style, autonomy boundaries, git workflow.
+- `memory-bank/engineering/` — architecture patterns, frontend engineering, testing policy, coding style, autonomy boundaries, git workflow.
 - `memory-bank/ops/` — заготовки для development, stages, releases, config и runbooks.
 - `memory-bank/adr/` — место для instantiated ADR.
 - `memory-bank/features/` — место для instantiated feature packages.

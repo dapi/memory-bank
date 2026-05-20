@@ -1,17 +1,20 @@
 ---
-title: Frontend
-doc_kind: domain
+title: Frontend Engineering
+doc_kind: engineering
 doc_function: canonical
-purpose: Шаблон описания UI-поверхностей, design system и i18n-слоя. Читать при работе с web, mobile или internal UI.
+purpose: Шаблон описания UI-поверхностей, frontend stack, component boundaries, design system integration и i18n-слоя.
 derived_from:
   - ../dna/governance.md
+  - ../product/context.md
 status: active
 audience: humans_and_agents
 ---
 
-# Frontend
+# Frontend Engineering
 
 Этот документ должен описывать реальные UI-поверхности downstream-проекта. Если в системе нет отдельного frontend-слоя, сократи документ до минимально полезного набора правил.
+
+Product-level experience principles живут в [`../product/vision.md`](../product/vision.md). Domain language и rules живут в [`../domain/`](../domain/README.md). Здесь фиксируй engineering contract для UI.
 
 ## UI Surfaces
 
@@ -28,7 +31,7 @@ audience: humans_and_agents
 Для каждой поверхности полезно зафиксировать:
 
 - где лежит код;
-- какой стек используется;
+- какой stack используется;
 - где проходит boundary с backend;
 - что считается canonical owner для design decisions.
 
@@ -49,7 +52,7 @@ audience: humans_and_agents
 
 ## Interaction Patterns
 
-Опиши здесь canonical pattern для интерактивности: server-rendered UI, SPA, islands, HTMX/Turbo-like подход, native mobile и т.д.
+Опиши canonical pattern для интерактивности: server-rendered UI, SPA, islands, HTMX/Turbo-like подход, native mobile и т.д.
 
 Вместо project-specific выбора можно использовать шаблонную формулировку:
 

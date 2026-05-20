@@ -6,7 +6,7 @@ purpose: Governed wrapper-шаблон PRD. Читать, чтобы инста�
 derived_from:
   - ../../../dna/governance.md
   - ../../../dna/frontmatter.md
-  - ../../../domain/problem.md
+  - ../../../product/context.md
 status: active
 audience: humans_and_agents
 template_for: prd
@@ -23,7 +23,9 @@ canonical_for:
 
 PRD в этом шаблоне intentionally lean. Он фиксирует продуктовую проблему, пользователей, goals, scope и success metrics, но не берет на себя implementation sequencing, architecture decisions или verify/evidence contracts downstream feature package.
 
-PRD опирается на `domain/problem.md`, а не подменяет его. Не копируй в него весь project-wide контекст, если он уже стабильно описан upstream.
+PRD опирается на `product/context.md`, а не подменяет его. Не копируй в него весь project-wide контекст, если он уже стабильно описан upstream.
+
+Если инициатива меняет предметные понятия, правила, состояния или события, обнови соответствующий документ из `domain/` и добавь его в `derived_from`.
 
 Используй PRD как upstream-слой между общим контекстом проекта и несколькими feature packages. Если инициатива локальна и не требует отдельного product-layer документа, PRD можно не создавать.
 
@@ -35,7 +37,10 @@ doc_kind: prd
 doc_function: canonical
 purpose: "Фиксирует продуктовую проблему, целевых пользователей, goals, scope и success metrics инициативы."
 derived_from:
-  - ../domain/problem.md
+  - ../product/context.md
+  # Optional:
+  # - ../domain/rules.md
+  # - ../domain/model.md
 status: draft
 audience: humans_and_agents
 must_not_define:
@@ -51,7 +56,7 @@ must_not_define:
 
 ## Problem
 
-Какую пользовательскую или бизнес-проблему решает инициатива. Описывай язык проблемы, а не решение. Ссылайся на общий контекст из `../domain/problem.md` и фиксируй только delta этой инициативы.
+Какую пользовательскую или бизнес-проблему решает инициатива. Описывай язык проблемы, а не решение. Ссылайся на общий контекст из `../product/context.md` и фиксируй только delta этой инициативы.
 
 ## Users And Jobs
 

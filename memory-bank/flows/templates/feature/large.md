@@ -49,10 +49,12 @@ doc_kind: feature
 doc_function: canonical
 purpose: "Расширенный canonical feature-документ для сложной или многослойной delivery-единицы."
 derived_from:
-  - ../../domain/problem.md
+  - ../../product/context.md
   # Optional:
   # - ../../prd/PRD-XXX-short-name.md
   # - ../../use-cases/UC-XXX-short-name.md
+  # - ../../domain/model.md
+  # - ../../domain/rules.md
 status: draft
 delivery_status: planned
 audience: humans_and_agents
@@ -74,6 +76,8 @@ must_not_define:
 Если существует upstream PRD, этот раздел фиксирует только feature-specific delta относительно PRD, а не переписывает весь продуктовый документ.
 
 Если существует upstream use case, здесь фиксируется feature-specific изменение или реализация этого сценария, а не весь проектный flow целиком.
+
+Если feature меняет domain model, rule, state или event, добавь соответствующий документ из `../../domain/` в `derived_from` и опиши только feature-specific delta.
 
 ### Outcome
 
@@ -140,7 +144,7 @@ must_not_define:
 
 | ADR | Current `decision_status` | Used for | Execution rule |
 | --- | --- | --- | --- |
-| [../../adr/ADR-XXX.md](../../adr/ADR-XXX.md) | `proposed` / `accepted` | Для какого design-choice или baseline это нужно | `proposed` используется только как hypothesis / benchmark candidate и не считается finalized design; `accepted` можно использовать как canonical input |
+| `../../../adr/ADR-XXX.md` | `proposed` / `accepted` | Для какого design-choice или baseline это нужно | `proposed` используется только как hypothesis / benchmark candidate и не считается finalized design; `accepted` можно использовать как canonical input |
 
 ## Verify
 

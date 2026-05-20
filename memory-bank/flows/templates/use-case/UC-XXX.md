@@ -6,7 +6,7 @@ purpose: Governed wrapper-шаблон use case. Читать, чтобы инс
 derived_from:
   - ../../../dna/governance.md
   - ../../../dna/frontmatter.md
-  - ../../../domain/problem.md
+  - ../../../product/context.md
 status: active
 audience: humans_and_agents
 template_for: use_case
@@ -25,6 +25,8 @@ Use case фиксирует устойчивый проектный сценар
 
 Если сценарий слишком локален и живет только внутри одной delivery-единицы, не поднимай его в `UC-*`: оставь его в `SC-*` у соответствующей feature.
 
+Если сценарий зависит от domain invariant, state transition или domain event, добавь соответствующий документ из `../domain/` в `derived_from`.
+
 ## Instantiated Frontmatter
 
 ```yaml
@@ -33,9 +35,11 @@ doc_kind: use_case
 doc_function: canonical
 purpose: "Фиксирует устойчивый пользовательский или операционный сценарий проекта."
 derived_from:
-  - ../domain/problem.md
+  - ../product/context.md
   # Optional:
   # - ../prd/PRD-XXX-short-name.md
+  # - ../domain/rules.md
+  # - ../domain/states.md
 status: draft
 audience: humans_and_agents
 must_not_define:

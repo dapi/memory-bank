@@ -30,13 +30,25 @@ memory-bank/dna/principles.md
 └── memory-bank/dna/governance.md
     ├── memory-bank/dna/frontmatter.md
     ├── memory-bank/dna/lifecycle.md
+    ├── memory-bank/product/README.md
+    ├── memory-bank/product/context.md
+    ├── memory-bank/product/customers.md
+    ├── memory-bank/product/marketing.md
+    ├── memory-bank/product/metrics.md
+    ├── memory-bank/product/roadmap.md
+    ├── memory-bank/product/vision.md
     ├── memory-bank/domain/README.md
-    ├── memory-bank/domain/architecture.md
-    ├── memory-bank/domain/frontend.md
-    ├── memory-bank/domain/problem.md
+    ├── memory-bank/domain/context-map.md
+    ├── memory-bank/domain/events.md
+    ├── memory-bank/domain/glossary.md
+    ├── memory-bank/domain/model.md
+    ├── memory-bank/domain/rules.md
+    ├── memory-bank/domain/states.md
     ├── memory-bank/engineering/README.md
+    ├── memory-bank/engineering/architecture.md
     ├── memory-bank/engineering/autonomy-boundaries.md
     ├── memory-bank/engineering/coding-style.md
+    ├── memory-bank/engineering/frontend.md
     ├── memory-bank/engineering/git-workflow.md
     ├── memory-bank/engineering/testing-policy.md
     ├── memory-bank/features/README.md
@@ -77,10 +89,14 @@ memory-bank/dna/principles.md
 - [`memory-bank/flows/templates/feature/implementation-plan.md`](memory-bank/flows/templates/feature/implementation-plan.md) зависит от [`memory-bank/flows/feature-flow.md`](memory-bank/flows/feature-flow.md), [`memory-bank/dna/frontmatter.md`](memory-bank/dna/frontmatter.md) и [`memory-bank/engineering/testing-policy.md`](memory-bank/engineering/testing-policy.md).
 - [`memory-bank/flows/templates/feature/short.md`](memory-bank/flows/templates/feature/short.md) и [`memory-bank/flows/templates/feature/large.md`](memory-bank/flows/templates/feature/large.md) зависят от [`memory-bank/flows/feature-flow.md`](memory-bank/flows/feature-flow.md), [`memory-bank/dna/frontmatter.md`](memory-bank/dna/frontmatter.md) и [`memory-bank/engineering/testing-policy.md`](memory-bank/engineering/testing-policy.md).
 
-### Product-layer Docs
+### Product And Domain Docs
 
-- [`memory-bank/flows/templates/prd/PRD-XXX.md`](memory-bank/flows/templates/prd/PRD-XXX.md) зависит от [`memory-bank/dna/governance.md`](memory-bank/dna/governance.md), [`memory-bank/dna/frontmatter.md`](memory-bank/dna/frontmatter.md) и [`memory-bank/domain/problem.md`](memory-bank/domain/problem.md).
-- [`memory-bank/flows/templates/use-case/UC-XXX.md`](memory-bank/flows/templates/use-case/UC-XXX.md) зависит от [`memory-bank/dna/governance.md`](memory-bank/dna/governance.md), [`memory-bank/dna/frontmatter.md`](memory-bank/dna/frontmatter.md) и [`memory-bank/domain/problem.md`](memory-bank/domain/problem.md).
+- [`memory-bank/product/context.md`](memory-bank/product/context.md), [`memory-bank/product/vision.md`](memory-bank/product/vision.md), [`memory-bank/product/customers.md`](memory-bank/product/customers.md), [`memory-bank/product/metrics.md`](memory-bank/product/metrics.md), [`memory-bank/product/marketing.md`](memory-bank/product/marketing.md) и [`memory-bank/product/roadmap.md`](memory-bank/product/roadmap.md) зависят от [`memory-bank/dna/governance.md`](memory-bank/dna/governance.md) и product upstream-документов, указанных в их `derived_from`.
+- [`memory-bank/domain/glossary.md`](memory-bank/domain/glossary.md), [`memory-bank/domain/model.md`](memory-bank/domain/model.md), [`memory-bank/domain/rules.md`](memory-bank/domain/rules.md), [`memory-bank/domain/states.md`](memory-bank/domain/states.md), [`memory-bank/domain/events.md`](memory-bank/domain/events.md) и [`memory-bank/domain/context-map.md`](memory-bank/domain/context-map.md) зависят от [`memory-bank/dna/governance.md`](memory-bank/dna/governance.md) и domain upstream-документов, указанных в их `derived_from`.
+- [`memory-bank/engineering/architecture.md`](memory-bank/engineering/architecture.md) зависит от [`memory-bank/dna/governance.md`](memory-bank/dna/governance.md) и [`memory-bank/domain/context-map.md`](memory-bank/domain/context-map.md).
+- [`memory-bank/engineering/frontend.md`](memory-bank/engineering/frontend.md) зависит от [`memory-bank/dna/governance.md`](memory-bank/dna/governance.md) и [`memory-bank/product/context.md`](memory-bank/product/context.md).
+- [`memory-bank/flows/templates/prd/PRD-XXX.md`](memory-bank/flows/templates/prd/PRD-XXX.md) зависит от [`memory-bank/dna/governance.md`](memory-bank/dna/governance.md), [`memory-bank/dna/frontmatter.md`](memory-bank/dna/frontmatter.md) и [`memory-bank/product/context.md`](memory-bank/product/context.md).
+- [`memory-bank/flows/templates/use-case/UC-XXX.md`](memory-bank/flows/templates/use-case/UC-XXX.md) зависит от [`memory-bank/dna/governance.md`](memory-bank/dna/governance.md), [`memory-bank/dna/frontmatter.md`](memory-bank/dna/frontmatter.md) и [`memory-bank/product/context.md`](memory-bank/product/context.md).
 - [`memory-bank/prd/README.md`](memory-bank/prd/README.md) зависит от [`memory-bank/dna/governance.md`](memory-bank/dna/governance.md) и [`memory-bank/flows/templates/prd/PRD-XXX.md`](memory-bank/flows/templates/prd/PRD-XXX.md).
 - [`memory-bank/use-cases/README.md`](memory-bank/use-cases/README.md) зависит от [`memory-bank/dna/governance.md`](memory-bank/dna/governance.md) и [`memory-bank/flows/templates/use-case/UC-XXX.md`](memory-bank/flows/templates/use-case/UC-XXX.md).
 
@@ -97,7 +113,8 @@ memory-bank/dna/principles.md
 1. [`memory-bank/dna/principles.md`](memory-bank/dna/principles.md)
 2. [`memory-bank/dna/governance.md`](memory-bank/dna/governance.md)
 3. [`memory-bank/dna/frontmatter.md`](memory-bank/dna/frontmatter.md)
-4. Product context: [`memory-bank/domain/README.md`](memory-bank/domain/README.md)
-5. Delivery flow: [`memory-bank/flows/README.md`](memory-bank/flows/README.md)
-6. Engineering rules: [`memory-bank/engineering/README.md`](memory-bank/engineering/README.md)
-7. Ops context: [`memory-bank/ops/README.md`](memory-bank/ops/README.md)
+4. Product layer: [`memory-bank/product/README.md`](memory-bank/product/README.md)
+5. Domain layer: [`memory-bank/domain/README.md`](memory-bank/domain/README.md)
+6. Delivery flow: [`memory-bank/flows/README.md`](memory-bank/flows/README.md)
+7. Engineering rules: [`memory-bank/engineering/README.md`](memory-bank/engineering/README.md)
+8. Ops context: [`memory-bank/ops/README.md`](memory-bank/ops/README.md)
