@@ -2,7 +2,7 @@
 title: Templates Index
 doc_kind: governance
 doc_function: index
-purpose: Навигация по эталонным шаблонам документации проекта. Читать, чтобы завести новую фичу, ADR или execution-документ без изобретения новой структуры.
+purpose: Навигация по эталонным шаблонам документации проекта. Читать, чтобы завести PRD, use case, фичу, ADR, prompt или execution-документ без изобретения новой структуры.
 derived_from:
   - ../../dna/governance.md
   - prd/PRD-XXX.md
@@ -12,6 +12,7 @@ derived_from:
   - feature/short.md
   - feature/large.md
   - adr/ADR-XXX.md
+  - prompt/PROMPT-XXX.md
 status: active
 audience: humans_and_agents
 ---
@@ -27,3 +28,4 @@ audience: humans_and_agents
 - [FT-XXX: Feature Template - Large](feature/large.md) — canonical feature с assumptions, blockers, contracts, verify-слоем. Отвечает на вопрос: как выглядит large feature-документ.
 - [FT-XXX: Implementation Plan](feature/implementation-plan.md) — шаблон derived execution-плана. Отвечает на вопрос: как оформить sequencing и checkpoints.
 - [ADR-XXX: Short Decision Name](adr/ADR-XXX.md) — шаблон ADR. Отвечает на вопрос: как зафиксировать архитектурное решение.
+- [PROMPT-XXX: Reusable Prompt Name](prompt/PROMPT-XXX.md) — шаблон reusable prompt-документа. Отвечает на вопрос: как сохранить исходную формулировку в frontmatter и улучшенный prompt в copyable body-блоке.

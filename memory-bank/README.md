@@ -24,6 +24,9 @@ audience: humans_and_agents
 - [`use-cases/README.md`](use-cases/README.md)
   Читать, когда нужно: зарегистрировать устойчивый пользовательский или операционный сценарий проекта.
 
+- [`prompts/README.md`](prompts/README.md)
+  Читать, когда нужно: найти или завести reusable prompt-документ с исходной формулировкой и copyable улучшенной версией.
+
 - [`ops/README.md`](ops/README.md)
   Читать, когда нужно: описать локальную разработку, окружения, релизы, конфигурацию и runbooks.
 
