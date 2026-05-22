@@ -23,7 +23,7 @@ canonical_for:
 
 Используй этот шаблон для problem-space документа новых feature packages. `brief.md` фиксирует problem, outcome, scope/non-scope и verify contract delivery-единицы.
 
-Если фича меняет API, event, schema, file format, CLI, env contract, security boundary, financial calculation, integration contract, rollout/backout или требует alternatives/trade-off reasoning, создай sibling `design.md` по шаблону `design.md`. Для compact legacy packages solution-space мог жить в `feature.md` или `brief.md`, но новые пакеты должны держать substantial design в `design.md` / design-pack.
+Если фича меняет API, event, schema, file format, CLI, env contract, security boundary, financial calculation, integration contract, rollout/backout или требует alternatives/trade-off reasoning, создай sibling `design.md` по шаблону `design.md`. Новые пакеты держат substantial design только в `design.md` / design-pack.
 
 Используй стабильные идентификаторы по taxonomy из [../../feature-flow.md#stable-identifiers](../../feature-flow.md#stable-identifiers).
 

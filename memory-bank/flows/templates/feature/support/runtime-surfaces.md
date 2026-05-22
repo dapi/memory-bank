@@ -22,7 +22,7 @@ canonical_for:
 
 Создавай `runtime-surfaces.md`, если без отдельного grounding сложно понять current entrypoints, concrete surfaces, semantic mappings, context availability или fallback/error behavior.
 
-`runtime-surfaces.md` не владеет requirements, selected design, acceptance criteria, checks, evidence contract или implementation sequence. Если во время runtime mapping меняется scope или selected design, обнови sibling `feature.md`, `solution.md` или ADR.
+`runtime-surfaces.md` не владеет requirements, selected design, acceptance criteria, checks, evidence contract или implementation sequence. Если во время runtime mapping меняется scope или selected design, обнови sibling `brief.md`, `design.md` или ADR.
 
 ## Instantiated Frontmatter
 
@@ -32,8 +32,8 @@ doc_kind: feature-support
 doc_function: reference
 purpose: "Grounding reference для FT-XXX. Фиксирует current runtime surfaces, semantic mapping, adjacent boundaries и context notes без переопределения canonical problem или solution facts."
 derived_from:
-  - feature.md
-  - solution.md
+  - brief.md
+  - design.md
 status: draft
 audience: humans_and_agents
 must_not_define:
@@ -52,8 +52,8 @@ must_not_define:
 
 Этот документ фиксирует grounding. Canonical owners:
 
-- `feature.md` владеет problem space и verify inventory.
-- `solution.md` владеет selected design, target architecture и contracts.
+- `brief.md` владеет problem space и verify inventory.
+- `design.md` владеет selected design, target architecture и contracts.
 - `implementation-plan.md` владеет execution sequencing.
 
 ## Current Surface Inventory

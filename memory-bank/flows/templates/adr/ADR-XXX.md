@@ -28,7 +28,7 @@ doc_kind: adr
 doc_function: canonical
 purpose: "Фиксирует архитектурное или инженерное решение, его текущий `decision_status` и последствия."
 derived_from:
-  - ../features/FT-XXX/feature.md
+  - ../features/FT-XXX/brief.md
 status: draft
 decision_status: proposed
 date: YYYY-MM-DD

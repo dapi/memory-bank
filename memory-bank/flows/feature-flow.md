@@ -38,7 +38,7 @@ audience: humans_and_agents
 5. `README.md` создается вместе с `brief.md` и остается routing-слоем на всем lifecycle.
 6. Lifecycle owner для `delivery_status` — только canonical `brief.md`. `design.md`, feature-level `README.md` и `implementation-plan.md` не дублируют это поле.
 7. `design.md` появляется только после `Problem Ready`. Для новых и уже migrated feature packages `implementation-plan.md` появляется только после `Solution Ready`.
-8. `implementation-plan.md` — derived execution-документ. В новых feature packages он не должен существовать, пока sibling `design.md` не стал `status: active`; legacy packages с уже существующим планом мигрируют по правилам из секции «Migration Strategy».
+8. `implementation-plan.md` — derived execution-документ. В новых feature packages он не должен существовать, пока sibling `design.md` не стал `status: active`; packages, созданные до split-а, мигрируют по правилам из секции «Migration Strategy».
 9. Для canonical `brief.md`, canonical `design.md`, feature-level `README.md` и `implementation-plan.md` используй wrapper-шаблоны из `memory-bank/flows/templates/feature/`: сам template-файл имеет `doc_function: template`, а frontmatter/body инстанцируемого документа живут внутри embedded template contract.
 10. Смысл стабильных идентификаторов (`REQ-*`, `SOL-*`, `SD-*`, `STEP-*` и т.д.) задается в секции «Stable Identifiers» ниже.
 11. Acceptance scenarios (`SC-*`) покрывают vertical slice end-to-end: от входного события до наблюдаемого результата через все затронутые слои. Тестирование отдельного слоя в изоляции допустимо как implementation detail плана, но не заменяет end-to-end acceptance.
@@ -47,18 +47,17 @@ audience: humans_and_agents
 14. Если фича создает новый устойчивый сценарий проекта или materially changes существующий, соответствующий `UC-*` в `memory-bank/use-cases/` должен быть создан или обновлен до closure.
 15. Optional feature-support docs (`runtime-surfaces.md`, `ui-reference/README.md`, `use-cases/README.md`) допустимы для сложных фич как grounding / review / traceability aids. Они не становятся canonical owner problem space, solution space, acceptance inventory или execution sequencing.
 
-## Выбор шаблона `brief.md`
+## Шаблон `brief.md`
 
-`short.md` допустим только если одновременно выполняются все условия:
+Новые feature packages используют один problem-space template: `memory-bank/flows/templates/feature/brief.md`. Отдельных `short.md` / `large.md` templates больше нет.
 
-1. problem space можно описать через `REQ-*`, `NS-*`, максимум один `CON-*`, один `EC-*`, один `CHK-*` и один `EVID-*`;
-2. в `brief.md` не нужны `ASM-*`, `DEC-*`, feature-specific `NEG-*`, больше одного acceptance scenario или outcome-таблица с несколькими метриками;
-3. verify укладывается в один основной check без quality slices и без нескольких acceptance scenarios;
-4. scope и verify понятны без длинного problem narrative и без нескольких upstream dependencies.
+`brief.md` масштабируется содержанием:
 
-Если хотя бы одно условие нарушается, агент обязан выбрать или сделать upgrade до `large.md` до продолжения работы.
+- компактная фича заполняет минимальный набор `REQ-*`, `NS-*`, `SC-*`, `CHK-*`, `EVID-*`;
+- сложная problem-space часть добавляет `MET-*`, `ASM-*`, `CON-*`, `DEC-*`, `NEG-*`, несколько acceptance scenarios, richer traceability и evidence contract;
+- solution-space complexity не расширяет `brief.md`; для выбранного подхода, contracts, C4, failure modes и rollout/backout используется sibling `design.md`.
 
-**Важно:** solution-space complexity сама по себе больше не требует upgrade `brief.md` до `large.md`. Если problem space остаётся компактным, short feature допустим даже при более подробном `design.md`.
+Если агенту кажется, что нужен "large brief", это означает не выбор другого template, а более полное заполнение того же `brief.md`.
 
 ## Small Feature Path
 
@@ -88,8 +87,10 @@ Support docs должны ссылаться на canonical owners и явно �
 ## Migration Strategy
 
 - Новые feature packages обязаны сразу следовать структуре `brief.md -> design.md -> implementation-plan.md`.
-- Существующие feature packages без `design.md` могут оставаться в legacy-виде, пока их не редактируют.
-- Если legacy package редактируется так, что меняется или дописывается solution-space content, accepted design должен быть вынесен в `design.md` до следующего существенного обновления `implementation-plan.md`.
+- Существующие feature packages без `brief.md` / `design.md` могут оставаться в прежнем виде, пока их не редактируют.
+- Если такой package редактируется так, что меняется или дописывается problem-space content, canonical owner должен быть создан или перенесен в `brief.md`.
+- Если такой package редактируется так, что меняется или дописывается solution-space content, accepted design должен быть создан или перенесен в `design.md` до следующего существенного обновления `implementation-plan.md`.
+- Новые migrated packages не должны сохранять duplicate alias-файлы `feature.md` / `solution.md`; compatibility относится только к уже существующим packages.
 - Миграция может происходить постепенно, package-by-package; migrated example должен оставаться доступным в `examples/`.
 
 ## Lifecycle
@@ -114,7 +115,7 @@ flowchart LR
 ### Bootstrap Feature Package
 
 - [ ] `README.md` создан по шаблону `templates/feature/README.md`
-- [ ] `brief.md` создан по шаблону `brief.md` или legacy `feature.md`
+- [ ] `brief.md` создан по шаблону `templates/feature/brief.md`
 - [ ] `design.md` отсутствует
 - [ ] `implementation-plan.md` отсутствует
 
@@ -138,7 +139,7 @@ flowchart LR
 - [ ] selected design стабилизирован настолько, что downstream execution sequencing больше не конкурирует с ним за ownership
 - [ ] accepted feature-local decisions перенесены в `SD-*`, а architectural / reusable / cross-feature decisions оформлены в accepted ADR
 - [ ] если solution зависит от ADR, соответствующий ADR имеет `decision_status: accepted`
-- [ ] для нового feature package `implementation-plan.md` отсутствует; для legacy package с уже существующим планом разрешено создать `design.md`, после чего план должен быть обновлён так, чтобы ссылаться на canonical solution refs до следующего существенного execution update
+- [ ] для нового feature package `implementation-plan.md` отсутствует; для migrated package с уже существующим планом разрешено создать `design.md`, после чего план должен быть обновлён так, чтобы ссылаться на canonical solution refs до следующего существенного execution update
 
 ### Solution Ready → Plan Ready
 
@@ -205,7 +206,7 @@ Canonical testing policy живёт в [../engineering/testing-policy.md](../eng
 5. **Manual-only допустим** только как явное исключение (live infra, hardware, недетерминированная среда). Для каждого gap — причина, ручная процедура или `EVID-*`, owner follow-up и approval ref через `AG-*`.
 6. **К Problem Ready** `brief.md` уже фиксирует test case inventory: минимум один `SC-*`, traceability к `REQ-*`. **К Solution Ready** `design.md` фиксирует delivered design, to-be C4 architecture model, contracts и local decisions. **К Done** — automated tests добавлены, обязательные suites зелёные локально и в CI.
 7. **Simplify review** — отдельный проход после функциональных тестов, до closure. Цель: убедиться, что код минимально сложен. Три похожие строки лучше premature abstraction. Complexity оправдана только со ссылкой на `CON-*`, `FM-*`, `SD-*` или accepted ADR.
-8. **Verification context separation** — функциональная верификация, simplify review и acceptance test — три логически отдельных прохода. Между проходами агент формулирует выводы до начала следующего. Для short features допустимо в одной сессии, но simplify review не пропускается.
+8. **Verification context separation** — функциональная верификация, simplify review и acceptance test — три логически отдельных прохода. Между проходами агент формулирует выводы до начала следующего. Для small features допустимо в одной сессии, но simplify review не пропускается.
 
 ## Stable Identifiers
 
@@ -266,7 +267,7 @@ Canonical testing policy живёт в [../engineering/testing-policy.md](../eng
 
 1. Любой canonical `brief.md` использует как минимум `REQ-*`, `NS-*`, `SC-*`, `CHK-*`, `EVID-*`.
 2. Любой `brief.md` со `status: active` задает хотя бы один explicit test case через `SC-*`.
-3. Short feature может использовать только минимальный problem-space набор из `short.md`; large feature использует расширенный набор feature IDs по необходимости.
+3. `brief.md` может использовать только минимальный problem-space набор для small feature или расширенный набор feature IDs по необходимости; отдельные `short.md` / `large.md` templates не используются.
 4. Любой `design.md` использует как минимум один `SOL-*` и связывает его минимум с одним `REQ-*` из sibling `brief.md`.
 5. Любой `design.md` фиксирует selection rationale для C4 model levels; выбранные C4 views используют `C4-*` и связываются с `SOL-*`, `SD-*`, `CTR-*` или ADR refs.
 6. Любой `design.md`, где есть принятые feature-local решения, использует `SD-*`; `CTR-*`, `FM-*` и `RB-*` применяются только когда соответствующая solution-semantics действительно нужна.

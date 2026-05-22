@@ -2,7 +2,7 @@
 title: "FT-XXX: Feature Use Cases Template"
 doc_kind: feature-support
 doc_function: template
-purpose: Governed wrapper-шаблон optional feature-local `use-cases/README.md`. Читать, когда feature needs review-friendly scenarios and derived test case candidates without moving canonical acceptance out of `feature.md`.
+purpose: Governed wrapper-шаблон optional feature-local `use-cases/README.md`. Читать, когда feature needs review-friendly scenarios and derived test case candidates without moving canonical acceptance out of `brief.md`.
 derived_from:
   - ../../../feature-flow.md
   - ../../../../dna/frontmatter.md
@@ -22,7 +22,7 @@ canonical_for:
 
 Создавай feature-local `use-cases/README.md`, если scenario set становится сложным для review: много happy/edge/error cases, несколько user roles или нужен удобный `FUC -> REQ -> CHK` mapping.
 
-Этот документ не подменяет canonical `SC-*`, `NEG-*`, `CHK-*` и `EVID-*` из `feature.md`.
+Этот документ не подменяет canonical `SC-*`, `NEG-*`, `CHK-*` и `EVID-*` из `brief.md`.
 
 ## Instantiated Frontmatter
 
@@ -32,8 +32,8 @@ doc_kind: feature-support
 doc_function: reference
 purpose: "Derived use-case companion для FT-XXX. Упаковывает сценарии и test case candidates для review без переопределения canonical acceptance inventory."
 derived_from:
-  - ../feature.md
-  - ../solution.md
+  - ../brief.md
+  - ../design.md
 status: draft
 audience: humans_and_agents
 must_not_define:
@@ -50,9 +50,9 @@ must_not_define:
 
 ## Role
 
-Этот документ дает review-friendly projection canonical facts из `feature.md` и `solution.md`.
+Этот документ дает review-friendly projection canonical facts из `brief.md` и `design.md`.
 
-Canonical acceptance / test inventory остается в `feature.md` через `SC-*`, `NEG-*`, `CHK-*` и `EVID-*`.
+Canonical acceptance / test inventory остается в `brief.md` через `SC-*`, `NEG-*`, `CHK-*` и `EVID-*`.
 
 ## Happy Path
 

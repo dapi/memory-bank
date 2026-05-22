@@ -18,7 +18,7 @@ template_target_path: ../../../features/FT-XXX/README.md
 
 ## Wrapper Notes
 
-Каталог `memory-bank/flows/templates/feature/` хранит wrapper-шаблоны feature package: этот README-шаблон, canonical `brief.md` template, canonical `design.md` template и derived template для `implementation-plan.md`. Legacy aliases `feature.md` и `solution.md` остаются для старых пакетов, но новые packages должны использовать `brief.md` / `design.md`.
+Каталог `memory-bank/flows/templates/feature/` хранит wrapper-шаблоны feature package: этот README-шаблон, canonical `brief.md` template, canonical `design.md` template и derived template для `implementation-plan.md`. Новые packages используют только `brief.md` / `design.md`; старые package-local имена читаются только как compatibility context уже созданных документов.
 
 При создании нового feature package embedded README должен оставаться bootstrap-safe: сначала он маршрутизирует только на instantiated `brief.md`, а `design.md`, `implementation-plan.md` и связанные ADR добавляются уже после появления соответствующих документов.
 

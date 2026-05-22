@@ -72,11 +72,11 @@ must_not_define:
 
 | Document | Role in this plan | Facts reused | Conflict action |
 | --- | --- | --- | --- |
-| `feature.md` | canonical problem / verify owner | `REQ-*`, `SC-*`, `CHK-*`, `EVID-*` | Update `feature.md` first |
-| `solution.md` | canonical solution owner | `SOL-*`, `C4-*`, `SD-*`, `CTR-*`, `FM-*`, `RB-*` | Update `solution.md` or ADR first |
-| `runtime-surfaces.md` / `none` | optional grounding | `SURF-*`, `MAP-*`, context matrix | Promote changed design facts to `solution.md` |
-| `ui-reference/README.md` / `none` | optional interface reference | `UI-*`, mockups, states | Promote changed requirements to `feature.md` or design facts to `solution.md` |
-| `use-cases/README.md` / `none` | optional scenario companion | `FUC-*`, `TC-*` candidates | Keep canonical acceptance in `feature.md` |
+| `brief.md` | canonical problem / verify owner | `REQ-*`, `SC-*`, `CHK-*`, `EVID-*` | Update `brief.md` first |
+| `design.md` | canonical solution owner | `SOL-*`, `C4-*`, `SD-*`, `CTR-*`, `FM-*`, `RB-*` | Update `design.md` or ADR first |
+| `runtime-surfaces.md` / `none` | optional grounding | `SURF-*`, `MAP-*`, context matrix | Promote changed design facts to `design.md` |
+| `ui-reference/README.md` / `none` | optional interface reference | `UI-*`, mockups, states | Promote changed requirements to `brief.md` or design facts to `design.md` |
+| `use-cases/README.md` / `none` | optional scenario companion | `FUC-*`, `TC-*` candidates | Keep canonical acceptance in `brief.md` |
 
 ## Current State / Reference Points
 
@@ -88,7 +88,7 @@ must_not_define:
 
 ## Test Strategy
 
-Какие test surfaces должны быть обновлены по мере реализации. Этот раздел фиксирует expected automated coverage, required local/CI gates и manual-only exceptions для change surface, не переопределяя canonical test cases из `feature.md`.
+Какие test surfaces должны быть обновлены по мере реализации. Этот раздел фиксирует expected automated coverage, required local/CI gates и manual-only exceptions для change surface, не переопределяя canonical test cases из `brief.md`.
 
 | Test surface | Canonical refs | Existing coverage | Planned automated coverage | Required local suites / commands | Required CI suites / jobs | Manual-only gap / justification | Manual-only approval ref |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -177,7 +177,7 @@ must_not_define:
 
 ## Plan-local Evidence
 
-Какие evidence artifacts принадлежат самому execution plan и не являются canonical evidence contract из `feature.md`.
+Какие evidence artifacts принадлежат самому execution plan и не являются canonical evidence contract из `brief.md`.
 
 | Evidence ID | Artifact | Producer | Path contract | Reused by checkpoints |
 | --- | --- | --- | --- | --- |
@@ -185,12 +185,12 @@ must_not_define:
 
 ## Готово для приемки
 
-Какие условия должны выполниться, чтобы считать план исчерпанным и перейти к финальной приемке по секции `Verify` в sibling `feature.md`.
+Какие условия должны выполниться, чтобы считать план исчерпанным и перейти к финальной приемке по секции `Verify` в sibling `brief.md`.
 
 - Все workstreams завершены или явно остановлены через `STOP-*`.
 - Все checkpoints имеют evidence.
 - Required local suites зелёные, а CI не противоречит local verify.
 - Manual-only gaps закрыты через approved `AG-*` или остаются blockers для `delivery_status: done`.
-- Support docs, если они есть, не расходятся с canonical `feature.md`, `solution.md`, ADR и этим планом.
-- Финальная приемка идёт по `feature.md` `Verify`, а не по этому checklist.
+- Support docs, если они есть, не расходятся с canonical `brief.md`, `design.md`, ADR и этим планом.
+- Финальная приемка идёт по `brief.md` `Verify`, а не по этому checklist.
 ```

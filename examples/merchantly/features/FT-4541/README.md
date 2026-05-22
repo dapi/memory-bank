@@ -26,12 +26,6 @@ audience: humans_and_agents
   Читать, когда нужно: понять выбранный design, to-be C4 architecture model, accepted local decisions, contracts, failure modes и rollout/backout semantics.
   Отвечает на вопрос: как именно реализуется feature без смешения solution space с `brief.md`.
 
-- [`feature.md`](feature.md)
-  Legacy alias для `brief.md`.
-
-- [`solution.md`](solution.md)
-  Legacy alias для `design.md`.
-
 - [`implementation-plan.md`](implementation-plan.md)
   Читать, когда нужно: начать или продолжить реализацию фичи, проверить текущий step, checkpoint или approval gate.
   Отвечает на вопрос: discovery context, порядок работ, test strategy, риски и stop conditions после `Solution Ready`.

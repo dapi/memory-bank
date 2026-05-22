@@ -32,10 +32,10 @@ canonical_for:
 title: "FT-XXX: UI Reference"
 doc_kind: feature-support
 doc_function: reference
-purpose: "Interface reference для FT-XXX. Фиксирует screen map, interaction states, mockups и UI traceability без переопределения canonical feature или solution facts."
+purpose: "Interface reference для FT-XXX. Фиксирует screen map, interaction states, mockups и UI traceability без переопределения canonical problem или solution facts."
 derived_from:
-  - ../feature.md
-  - ../solution.md
+  - ../brief.md
+  - ../design.md
 status: draft
 audience: humans_and_agents
 must_not_define:
@@ -54,8 +54,8 @@ must_not_define:
 
 Этот документ раскрывает interface expectations для implementation и review. Canonical owners:
 
-- `feature.md` владеет requirements и acceptance.
-- `solution.md` владеет selected design и contracts.
+- `brief.md` владеет requirements и acceptance.
+- `design.md` владеет selected design и contracts.
 - `implementation-plan.md` владеет execution sequencing.
 
 ## Interface Scope
