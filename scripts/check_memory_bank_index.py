@@ -43,7 +43,8 @@ def parse_args() -> argparse.Namespace:
         default=[],
         help=(
             "Markdown document to use as a navigation entrypoint. Accepts repo-relative paths "
-            "and scope-relative paths. Repeat the option to pass several files."
+            "and scope-relative paths; ambiguous unqualified paths are resolved inside the scope first. "
+            "Use ./PATH or /PATH for explicit repo-root paths. Repeat the option to pass several files."
         ),
     )
     parser.add_argument(
@@ -108,6 +109,19 @@ def strip_fenced_code_blocks(text: str) -> str:
     return FENCED_CODE_BLOCK_RE.sub("", text)
 
 
+def extract_markdown_link_destination(raw_url: str) -> str:
+    url = raw_url.strip()
+    if not url:
+        return ""
+
+    if url.startswith("<"):
+        closing_index = url.find(">")
+        if closing_index != -1:
+            return url[1:closing_index].strip()
+
+    return url.split(None, 1)[0].strip("<>")
+
+
 def strip_frontmatter_value(value: str) -> str:
     return value.strip().strip("\"'")
 
@@ -160,7 +174,7 @@ def parse_frontmatter(text: str) -> dict[str, object]:
 
 
 def normalize_internal_markdown_target(source_path: str, raw_url: str) -> str | None:
-    url = raw_url.strip().strip("<>")
+    url = extract_markdown_link_destination(raw_url)
     if not url or url.startswith(("http://", "https://", "mailto:", "#")):
         return None
 
@@ -289,11 +303,21 @@ def is_scoped_readme(path: str, scope_root: str) -> bool:
 
 def resolve_entrypoint_path(entrypoint: str, scope_root: str, known_paths: set[str]) -> tuple[str | None, str]:
     primary_candidate = normalize_cli_document_path(entrypoint)
-    if primary_candidate and primary_candidate in known_paths:
-        return primary_candidate, entrypoint
 
     scoped_input = posixpath.join(scope_root, entrypoint.lstrip("/"))
     scoped_candidate = normalize_cli_document_path(scoped_input)
+    normalized_input = entrypoint.strip().strip("<>")
+    explicit_repo_root = normalized_input.startswith(("/", "./"))
+    already_scoped = primary_candidate is not None and (
+        primary_candidate == scope_root or primary_candidate.startswith(f"{scope_root}/")
+    )
+
+    if not explicit_repo_root and not already_scoped and scoped_candidate and scoped_candidate in known_paths:
+        return scoped_candidate, entrypoint
+
+    if primary_candidate and primary_candidate in known_paths:
+        return primary_candidate, entrypoint
+
     if scoped_candidate and scoped_candidate in known_paths:
         return scoped_candidate, entrypoint
 
