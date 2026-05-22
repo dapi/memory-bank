@@ -155,7 +155,7 @@ def parse_frontmatter(text: str) -> dict[str, object]:
         if stripped_value:
             frontmatter[current_key] = strip_frontmatter_value(stripped_value)
         else:
-            frontmatter[current_key] = []
+            frontmatter[current_key] = ""
     return frontmatter
 
 
@@ -375,6 +375,8 @@ def derive_expected_readme_indices(documents: dict[str, dict[str, object]], scop
         assert isinstance(frontmatter, dict)
         if frontmatter.get("doc_function") == "template":
             continue
+        if frontmatter.get("doc_kind") == "feature-support" and frontmatter.get("doc_function") == "reference":
+            continue
         readmes.append(path)
     return sorted(readmes)
 
@@ -437,7 +439,8 @@ def validate_index_document(index_path: str, documents: dict[str, dict[str, obje
     issues: list[str] = []
     if not frontmatter:
         issues.append("missing YAML frontmatter")
-    if frontmatter.get("purpose", "") == "":
+    purpose = frontmatter.get("purpose", "")
+    if not isinstance(purpose, str) or not purpose.strip():
         issues.append("missing 'purpose' in frontmatter")
     if frontmatter.get("doc_function") != "index":
         issues.append("expected `doc_function: index`")
