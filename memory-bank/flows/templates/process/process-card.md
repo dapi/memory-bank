@@ -4,8 +4,8 @@ doc_kind: process
 doc_function: template
 purpose: Governed wrapper-шаблон для компактной process-card. Читать, чтобы зафиксировать короткий reusable workflow без тяжёлого lifecycle-каркаса.
 derived_from:
-  - ../../dna/governance.md
-  - ../../dna/frontmatter.md
+  - ../../../dna/governance.md
+  - ../../../dna/frontmatter.md
   - ../../workflows.md
 status: active
 audience: humans_and_agents
@@ -40,7 +40,7 @@ doc_kind: process
 doc_function: canonical
 purpose: "Фиксирует короткий reusable workflow с одним trigger, owner, шагами и exit criteria."
 derived_from:
-  - ../README.md
+  - README.md
 status: draft
 audience: humans_and_agents
 must_not_define:

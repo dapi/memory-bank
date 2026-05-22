@@ -20,8 +20,6 @@ doc_function: roadmap
 purpose: "<How the epic should be executed through delivery waves>"
 derived_from:
   - charter.md
-  - subissues.md
-  - risks.md
 status: draft
 audience: humans_and_agents
 must_not_define:

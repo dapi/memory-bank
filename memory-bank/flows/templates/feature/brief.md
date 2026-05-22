@@ -1,8 +1,8 @@
 ---
-title: "FT-XXX: Feature Template - Large"
+title: "FT-XXX: Brief Template"
 doc_kind: feature
 doc_function: template
-purpose: Governed wrapper-шаблон для расширенного canonical `feature.md` в AI-driven development. Фиксирует, как инстанцировать intent, дизайн и machine-checkable verify без смешения wrapper и целевого feature frontmatter.
+purpose: Governed wrapper-шаблон для canonical `brief.md` в AI-driven development. Фиксирует, как инстанцировать problem-space intent, scope и machine-checkable verify без смешения wrapper и целевого frontmatter.
 derived_from:
   - ../../feature-flow.md
   - ../../../dna/frontmatter.md
@@ -10,18 +10,20 @@ derived_from:
 status: active
 audience: humans_and_agents
 template_for: feature
-template_target_path: ../../../features/FT-XXX/feature.md
+template_target_path: ../../../features/FT-XXX/brief.md
 canonical_for:
-  - feature_template_large
+  - feature_brief_template
 ---
 
 # FT-XXX: Feature Name
 
-Этот файл описывает wrapper-template. Инстанцируемый `feature.md` живет ниже как embedded contract и копируется без wrapper frontmatter и history.
+Этот файл описывает wrapper-template. Инстанцируемый `brief.md` живет ниже как embedded contract и копируется без wrapper frontmatter и history.
 
 ## Wrapper Notes
 
-Используй этот шаблон, когда хотя бы одно правило `short.md` перестает выполняться: фича затрагивает несколько поверхностей, меняет контракт, требует явных assumptions / blockers или нуждается в нетривиальном verify-слое.
+Используй этот шаблон для problem-space документа новых feature packages. `brief.md` фиксирует problem, outcome, scope/non-scope и verify contract delivery-единицы.
+
+Если фича меняет API, event, schema, file format, CLI, env contract, security boundary, financial calculation, integration contract, rollout/backout или требует alternatives/trade-off reasoning, зафиксируй `Design required: yes` и создай sibling `design.md` по шаблону `design.md`. Новые пакеты держат substantial design только в `design.md` / design-pack.
 
 Используй стабильные идентификаторы по taxonomy из [../../feature-flow.md#stable-identifiers](../../feature-flow.md#stable-identifiers).
 
@@ -37,7 +39,7 @@ canonical_for:
 | `purpose` | required | 1-2 предложения |
 | `status` | required | `draft` → `active` → `archived` |
 | `derived_from` | required для active | upstream-документы |
-| `delivery_status` | required для feature | `planned` → `in_progress` → `done` / `cancelled` |
+| `delivery_status` | required для lifecycle-owning `brief.md` | `planned` → `in_progress` → `done` / `cancelled` |
 | `audience` | recommended | `humans_and_agents` |
 | `must_not_define` | recommended | что документ НЕ определяет |
 
@@ -47,19 +49,20 @@ canonical_for:
 title: "FT-XXX: Feature Name"
 doc_kind: feature
 doc_function: canonical
-purpose: "Расширенный canonical feature-документ для сложной или многослойной delivery-единицы."
+purpose: "Canonical brief для delivery-единицы. Фиксирует problem space, scope и verify без смешения с solution space или execution plan."
 derived_from:
-  - ../../product/context.md
+  - ../../flows/feature-flow.md
   # Optional:
+  # - ../../product/context.md
+  # - ../../domain/rules.md
   # - ../../prd/PRD-XXX-short-name.md
   # - ../../use-cases/UC-XXX-short-name.md
-  # - ../../domain/model.md
-  # - ../../domain/rules.md
 status: draft
 delivery_status: planned
 audience: humans_and_agents
 must_not_define:
   - implementation_sequence
+  - solution_space
 ```
 
 ## Instantiated Body
@@ -76,8 +79,6 @@ must_not_define:
 Если существует upstream PRD, этот раздел фиксирует только feature-specific delta относительно PRD, а не переписывает весь продуктовый документ.
 
 Если существует upstream use case, здесь фиксируется feature-specific изменение или реализация этого сценария, а не весь проектный flow целиком.
-
-Если feature меняет domain model, rule, state или event, добавь соответствующий документ из `../../domain/` в `derived_from` и опиши только feature-specific delta.
 
 ### Outcome
 
@@ -102,49 +103,16 @@ must_not_define:
 ### Constraints / Assumptions
 
 - `ASM-01` На что сейчас опираемся.
-- `CON-01` Что прямо ограничивает дизайн, rollout или verify.
+- `CON-01` Что прямо ограничивает problem space, verify или допустимый класс решений.
 - `DEC-01` Какое решение еще не принято и что именно оно блокирует.
 
-## How
+## Design Requirement Decision
 
-### Solution
+Зафиксируй, нужен ли отдельный solution-space owner. Это gate decision, а не выбранное решение: не пересказывай selected solution, contracts, failure modes или rollout/backout в `brief.md`.
 
-Один короткий абзац: основной технический подход и главный trade-off.
-
-### Change Surface
-
-Зафиксируй, где именно ожидаются изменения.
-
-| Surface | Type | Why it changes |
+| Decision | Reason | Downstream owner |
 | --- | --- | --- |
-| `path/or/component` | code / config / doc / data | Почему это входит в change set |
-
-### Flow
-
-1. Что приходит на вход.
-2. Что система делает.
-3. Что получается на выходе.
-
-### Contracts
-
-Опиши входы, выходы, события, payload или schema changes, если они значимы для фичи.
-
-| Contract ID | Input / Output | Producer / Consumer | Notes |
-| --- | --- | --- | --- |
-| `CTR-01` | Что меняется | Кто пишет / кто читает | Что важно соблюдать |
-
-### Failure Modes
-
-- `FM-01` Что может пойти не так.
-- `FM-02` Как система должна на это реагировать.
-
-### ADR Dependencies
-
-Если feature зависит от ADR, зафиксируй это явно.
-
-| ADR | Current `decision_status` | Used for | Execution rule |
-| --- | --- | --- | --- |
-| `../../../adr/ADR-XXX.md` | `proposed` / `accepted` | Для какого design-choice или baseline это нужно | `proposed` используется только как hypothesis / benchmark candidate и не считается finalized design; `accepted` можно использовать как canonical input |
+| `Design required: yes/no` | Почему solution-space document нужен или не нужен | `design.md` / `none` |
 
 ## Verify
 
@@ -157,10 +125,10 @@ must_not_define:
 
 ### Traceability matrix
 
-| Requirement ID | Design refs | Acceptance refs | Checks | Evidence IDs |
+| Requirement ID | Problem refs | Acceptance refs | Checks | Evidence IDs |
 | --- | --- | --- | --- | --- |
-| `REQ-01` | `ASM-01`, `CON-01`, `DEC-01`, `CTR-01`, `FM-01` | `EC-01`, `SC-01` | `CHK-01` | `EVID-01` |
-| `REQ-02` | `ASM-01`, `CON-01`, `CTR-01`, `FM-02` | `EC-02`, `SC-02` | `CHK-01` | `EVID-01` |
+| `REQ-01` | `ASM-01`, `CON-01`, `DEC-01` | `EC-01`, `SC-01` | `CHK-01` | `EVID-01` |
+| `REQ-02` | `ASM-01`, `CON-01` | `EC-02`, `SC-02` | `CHK-01` | `EVID-01` |
 
 ### Acceptance Scenarios
 

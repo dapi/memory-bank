@@ -19,5 +19,5 @@ audience: humans_and_agents
 
 - [Task Workflows](workflows.md) — маршрутизация задач по типам, базовый цикл разработки и градиент автономии.
 - [Epic Flow](epic-flow.md) — lifecycle крупных инициатив, roadmap, decision log, risks и handoff в feature packages.
-- [Feature Flow](feature-flow.md) — lifecycle от draft до closure, gates и стабильные ID (`REQ-*`, `CHK-*`, `STEP-*`).
+- [Feature Flow](feature-flow.md) — lifecycle `brief.md -> optional design.md -> implementation-plan.md`, gates и стабильные ID (`REQ-*`, `SOL-*`, `STEP-*`).
 - [Templates Index](templates/README.md) — эталонные шаблоны governed-документов, включая PRD, use case, epic, feature и ADR.

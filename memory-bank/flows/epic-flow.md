@@ -40,7 +40,7 @@ FPF-основание:
 5. `decision-log.md` - local decision ledger for decisions that affect the epic but do not require global ADR.
 6. `subissues.md` - registry of candidate and accepted delivery subissues, each mapped to roadmap waves and source `SLICE-*`/`UC-*`.
 7. `risks.md` - epic-level risk register for financial, operational, scope and delivery risks.
-8. `design.md`, `specs/**`, `diagrams/**`, `source-docs/**` are allowed when the epic needs normalized knowledge artifacts.
+8. `design.md`, `specs/**`, `diagrams/**`, `source-docs/**` — опциональные knowledge-артефакты. Они допустимы только когда индексируются из epic package и подчиняются правилам knowledge-артефактов ниже.
 9. `implementation-plan.md` не создаётся внутри epic. Code-level execution belongs to a separate `memory-bank/features/FT-<issue>/` package.
 10. Для canonical epic docs используй templates from `memory-bank/flows/templates/epic/`.
 
@@ -53,6 +53,16 @@ FPF-основание:
 | Governance | `decision-log.md`, `risks.md` | local decisions, risk controls, stop rules | global architecture policy unless promoted to ADR |
 | Knowledge | `design.md`, `specs/**`, `diagrams/**`, linked `UC-*` | bounded contexts, source-backed specs, contracts, scenario coverage | delivery issue ownership or code execution |
 | Execution | future `features/FT-<issue>/` | one approved delivery change with tests and rollout | reopening epic scope without updating epic owners |
+
+## Правила Knowledge-Артефактов
+
+Knowledge-артефакты существуют только для нормализации evidence в инициативе из нескольких фич. Они не заменяют `charter.md`, `roadmap.md`, `decision-log.md`, `subissues.md` или `risks.md`.
+
+1. Любой markdown knowledge artifact внутри `memory-bank/epics/EP-XXX/` должен быть связан из package `README.md` или из linked epic owner document, чтобы reachability оставалась явной.
+2. Markdown knowledge artifacts используют YAML frontmatter с `doc_kind: epic`, `doc_function: reference`, `status` и `derived_from`.
+3. `derived_from` указывает на epic owner, чей факт нормализуется (`charter.md`, `roadmap.md`, `decision-log.md`, `subissues.md`, `risks.md`), и на external/source references, когда они релевантны.
+4. Knowledge artifacts могут определять local reference IDs для source excerpts, context maps, diagrams или normalized specs, но не должны определять roadmap waves, subissue status, risk controls, accepted global architecture decisions или code execution steps.
+5. `source-docs/**` используется для source-backed references или ссылок. Если source material копируется в repo как Markdown, он следует этим frontmatter и reachability rules.
 
 ## Lifecycle
 
@@ -97,8 +107,8 @@ flowchart LR
 - [ ] выбран один approved subissue or delivery slice
 - [ ] created/selected GitHub issue is linked to epic package
 - [ ] new `memory-bank/features/FT-<issue>/` package exists
-- [ ] new feature package imports only relevant epic refs, not the full epic scope
-- [ ] feature `feature.md`, and then `implementation-plan.md` follow `feature-flow.md`
+- [ ] новый feature package импортирует только релевантные epic refs (`charter.md`, `roadmap.md`, `subissues.md`, `risks.md` и `decision-log.md`, если используется), а не весь epic scope
+- [ ] feature `brief.md`, optional `design.md`, затем `implementation-plan.md` следуют `feature-flow.md`
 
 ## Quality Bundle
 
@@ -132,5 +142,5 @@ Epic quality is a Q-Bundle, not one scalar.
 1. Epic may define roadmap waves, but not file-level execution steps.
 2. Epic may define subissue candidates, but does not make them implementation-ready until a delivery issue and feature package exist.
 3. Epic may close local decisions with FPF and evidence. If a decision changes global project architecture, create ADR.
-4. Feature packages derived from an epic must link to relevant `EP-*` docs and preserve stable IDs instead of copying everything.
+4. Feature package, созданный из epic, должен ссылаться на релевантные `EP-*` docs и сохранять stable IDs вместо копирования всего scope. `brief.md` импортирует problem/scope refs; `design.md` или ADR импортирует epic-local decisions, когда они влияют на solution space.
 5. If a feature discovers a new epic-level fact, update the epic owner document first, then update the feature.

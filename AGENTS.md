@@ -2,10 +2,9 @@
 
 ## Структура проекта и организация модулей
 
-Корневой `README.md` объясняет устройство репозитория и различие между шаблоном и примером.
+Корневой `README.md` объясняет устройство репозитория и правила использования шаблона.
 
 - `memory-bank/` — переносимый шаблон, который должен оставаться generic.
-- `examples/merchantly/` — concrete example, где сохранена Merchantly-специфика.
 - `memory-bank/dna/` — governance-ядро шаблона.
 - `memory-bank/flows/` — reusable lifecycle docs и governed templates.
 - `memory-bank/prd/` — instantiated Product Requirements Documents.
@@ -13,17 +12,17 @@
 - `memory-bank/domain/`, `memory-bank/engineering/`, `memory-bank/ops/` — project-adaptation layers шаблона.
 - `memory-bank/adr/` и `memory-bank/features/` — пустые или минимальные точки назначения для instantiated документов.
 
-Новые generic-правила размещайте в `memory-bank/`. Конкретные проектные примеры и specialization не возвращайте обратно в шаблон, складывайте их в `examples/`.
+Новые generic-правила размещайте в `memory-bank/`. Конкретную project-specific specialization не возвращайте обратно в шаблон.
 
 ## Команды разработки и проверки
 
 У репозитория нет собственного build/runtime-приложения. Перед PR достаточно лёгких проверок:
 
-- `rg --files memory-bank examples` для проверки структуры и имён файлов;
+- `rg --files memory-bank` для проверки структуры и имён файлов;
 - `python3 scripts/check_memory_bank_index.py` для аудита ссылок, reachability и expected README-индексов внутри `memory-bank/`;
 - `git diff --check` для поиска лишних пробелов и conflict markers;
 - `sed -n '1,120p' path/to/doc.md` для быстрой проверки frontmatter и заголовков;
-- `rg -n "Merchantly|CloudPayments|kiiiosk|Bugsnag" memory-bank` чтобы убедиться, что project-specific детали не протекли обратно в шаблон.
+- `rg -n "PROJECT_SPECIFIC_TERM" memory-bank` с реальными терминами downstream-проекта, чтобы убедиться, что project-specific детали не протекли обратно в шаблон.
 
 ## Стиль оформления и соглашения по именованию
 
@@ -36,7 +35,7 @@
 Автоматизированного тестового набора у репозитория нет. Проверяйте изменения вручную:
 
 - убедитесь, что индексы и ссылки соответствуют новой структуре;
-- держите шаблон и пример согласованными на уровне смыслов, но не дублируйте Merchantly-специфику обратно в `memory-bank/`;
+- не дублируйте project-specific детали обратно в `memory-bank/`;
 - при изменении template docs проверяйте соседние governed-файлы на противоречия.
 
 ## Коммиты и pull request
@@ -46,5 +45,4 @@
 В pull request опишите:
 
 - что изменено в шаблоне;
-- что изменено в examples;
 - какие ссылки или naming rules были затронуты.

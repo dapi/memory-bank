@@ -14,9 +14,12 @@ derived_from:
   - epic/subissues.md
   - epic/risks.md
   - feature/README.md
+  - feature/brief.md
+  - feature/design.md
   - feature/implementation-plan.md
-  - feature/short.md
-  - feature/large.md
+  - feature/support/runtime-surfaces.md
+  - feature/support/ui-reference.md
+  - feature/support/use-cases.md
   - adr/ADR-XXX.md
   - prompt/PROMPT-XXX.md
   - process/README.md
@@ -40,12 +43,15 @@ audience: humans_and_agents
 - [EP-XXX: Subissues Template](epic/subissues.md) — candidate/accepted delivery subissue registry.
 - [EP-XXX: Risks Template](epic/risks.md) — epic-level risk register.
 - [FT-XXX Feature README Template](feature/README.md) — шаблон README для feature-каталога. Отвечает на вопрос: как оформить feature-level index.
-- [FT-XXX: Feature Template - Short](feature/short.md) — минимальный canonical feature для небольшой фичи. Отвечает на вопрос: как выглядит short feature-документ.
-- [FT-XXX: Feature Template - Large](feature/large.md) — canonical feature с assumptions, blockers, contracts, verify-слоем. Отвечает на вопрос: как выглядит large feature-документ.
-- [FT-XXX: Implementation Plan](feature/implementation-plan.md) — шаблон derived execution-плана. Отвечает на вопрос: как оформить sequencing и checkpoints.
+- [FT-XXX: Brief Template](feature/brief.md) — canonical problem-space template для новых feature packages. Отвечает на вопрос: как зафиксировать intent, scope и verify contract без solution/execution деталей.
+- [FT-XXX: Design Template](feature/design.md) — canonical solution-space template для feature package. Отвечает на вопрос: как зафиксировать selected design, rationale, contracts, failure modes и design-pack routing.
+- [FT-XXX: Implementation Plan](feature/implementation-plan.md) — шаблон derived execution-плана. Отвечает на вопрос: как оформить sequencing и checkpoints после готовности upstream owners.
+- [FT-XXX: Runtime Surfaces Template](feature/support/runtime-surfaces.md) — optional support template для current runtime inventory, semantic mapping, context matrix и resolution tables.
+- [FT-XXX: UI Reference Template](feature/support/ui-reference.md) — optional support template для interface changes, screen map, interaction states и mockups.
+- [FT-XXX: Feature Use Cases Template](feature/support/use-cases.md) — optional support template для derived use cases, test case candidates и `FUC -> REQ -> CHK` review mapping.
 - [ADR-XXX: Short Decision Name](adr/ADR-XXX.md) — шаблон ADR. Отвечает на вопрос: как зафиксировать архитектурное решение.
 - [PROMPT-XXX: Reusable Prompt Name](prompt/PROMPT-XXX.md) — шаблон reusable prompt-документа. Отвечает на вопрос: как сохранить исходную формулировку в frontmatter и улучшенный prompt в copyable body-блоке.
 - [PROC-XXX: Process Documentation Index](process/README.md) — шаблон индекса процесс-документов. Отвечает на вопрос: как собрать routing-layer для reusable process cards, session handoff и lifecycle protocol.
-- [PROC-XXX: Process Card](process/process-card.md) — компактный шаблон повторяемого процесса.
-- [PROC-XXX: Session Handoff](process/session-handoff.md) — шаблон передачи состояния между сессиями.
-- [PROC-XXX: Lifecycle Protocol](process/lifecycle-protocol.md) — шаблон длинного процесса с фазами, gates и verification.
+- [PROC-XXX: Compact Process Card](process/process-card.md) — шаблон короткого reusable workflow. Отвечает на вопрос: как зафиксировать процесс с одним trigger, шагами и exit criteria.
+- [PROC-XXX: Session Handoff](process/session-handoff.md) — шаблон передачи состояния между сессиями. Отвечает на вопрос: как продолжить процесс без потери assumptions, risks и next checks.
+- [PROC-XXX: Lifecycle Protocol](process/lifecycle-protocol.md) — шаблон полного lifecycle protocol. Отвечает на вопрос: как вести multi-phase process с gates, verification и rollback.

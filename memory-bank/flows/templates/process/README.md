@@ -4,8 +4,8 @@ doc_kind: process
 doc_function: template
 purpose: Governed wrapper-шаблон для `processes/README.md`. Читать, чтобы собрать каталог процесс-документов проекта без смешения wrapper-метаданных и frontmatter будущего index-документа.
 derived_from:
-  - ../../dna/governance.md
-  - ../../dna/frontmatter.md
+  - ../../../dna/governance.md
+  - ../../../dna/frontmatter.md
   - ../../workflows.md
 status: active
 audience: humans_and_agents

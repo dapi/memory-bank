@@ -27,7 +27,7 @@ audience: humans_and_agents
                   → Принят
 ```
 
-Артефакт — то, что создаётся на каждом этапе: спецификация, дизайн-док, план, код, PR, runbook.
+Артефакт — то, что создаётся на каждом этапе: brief, design-док, план, код, PR, runbook.
 
 ## Градиент участия человека
 
@@ -35,7 +35,7 @@ audience: humans_and_agents
 
 ```text
 Бизнес-требования  ← человек  |  агент →  Код
-  PRD, Use Cases      Спека, План           PR, Тесты
+  PRD, Use Cases      Brief, Design, Plan   PR, Тесты
 ```
 
 ## Типы Workflow
@@ -62,7 +62,7 @@ Flow:
 
 Flow:
 
-`issue/task -> spec -> feature package -> implementation plan -> execution -> review -> handoff`
+`issue/task -> feature package -> brief -> optional design -> implementation plan -> execution -> review -> handoff`
 
 ### 3. Баг-фикс
 

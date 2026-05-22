@@ -38,6 +38,8 @@ audience: humans_and_agents
 | Knowledge | `design.md`, `specs/**`, `diagrams/**`, linked `UC-*` | Нормализованные требования, bounded contexts, сценарии, контракты и audit trail |
 | Execution Handoff | future `memory-bank/features/FT-<issue>/` | Конкретные code changes, тесты, rollout/backout для одного approved delivery issue |
 
+Knowledge-файлы опциональны. Если они создаются как Markdown внутри epic package, они должны быть индексированы из package `README.md` или owner-документа и следовать правилам frontmatter из [`../flows/epic-flow.md`](../flows/epic-flow.md).
+
 ## Instantiated Epics
 
 В шаблонном репозитории этот каталог может быть пустым. Это нормально.

@@ -1,6 +1,6 @@
 ---
 title: Development Environment
-doc_kind: engineering
+doc_kind: ops
 doc_function: canonical
 purpose: Шаблон документа для локальной разработки. Читать при адаптации setup, dev-команд и browser/database workflow под проект.
 derived_from:

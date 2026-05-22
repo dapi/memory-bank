@@ -4,10 +4,10 @@ doc_kind: process
 doc_function: template
 purpose: Governed wrapper-шаблон для полного lifecycle protocol. Читать, когда процесс проходит через фазы, gates, verification и rollback.
 derived_from:
-  - ../../dna/governance.md
-  - ../../dna/frontmatter.md
-  - ../../flows/workflows.md
-  - ../../flows/feature-flow.md
+  - ../../../dna/governance.md
+  - ../../../dna/frontmatter.md
+  - ../../workflows.md
+  - ../../feature-flow.md
 status: active
 audience: humans_and_agents
 template_for: process
@@ -32,7 +32,7 @@ canonical_for:
 - требуется rollback или stop conditions;
 - процесс должен переживать не одну сессию.
 
-Этот шаблон ближе всего к `brief → spec → plan → implement → verify → ship`, а не к короткой рутине.
+Этот шаблон ближе всего к `brief -> optional design -> plan -> implement -> verify -> ship`, а не к короткой рутине.
 
 ## Instantiated Frontmatter
 
@@ -42,8 +42,8 @@ doc_kind: process
 doc_function: canonical
 purpose: "Описывает полный процесс изменения с фазами, gates, verification и rollback."
 derived_from:
-  - ../README.md
-  - ../../feature-flow.md
+  - README.md
+  - ../flows/feature-flow.md
 status: draft
 audience: humans_and_agents
 must_not_define:

@@ -73,7 +73,7 @@ FINAL_REPORT_PATH: {{FINAL_REPORT_PATH}}
    - полноту обязательных разделов и ссылок;
    - корректность frontmatter и `derived_from`;
    - открытые вопросы, assumptions, blockers и gaps;
-   - расхождения между feature spec, implementation plan, decision log, verify/evidence и related docs;
+   - расхождения между `brief.md`, conditional `design.md`, `implementation-plan.md`, ADR, verify/evidence и related docs;
    - соответствие `memory-bank/dna` и `memory-bank/flows/feature-flow.md`.
 
 2. Сохрани отчет текущего ревью в `REVIEW_REPORT_PATH`.
@@ -92,7 +92,7 @@ FINAL_REPORT_PATH: {{FINAL_REPORT_PATH}}
 5. Для каждого open question, который блокирует устранение `critical` или `important` замечаний:
    - сначала попытайся закрыть вопрос только на фактах из текущих документов;
    - используй явно описанный first-principles reasoning или проектный decision framework, если он определен;
-   - зафиксируй решение в decision log внутри `FEATURE_PATH`.
+   - зафиксируй решение в appropriate owner: `brief.md` для problem-space facts, `design.md` для feature-local solution decisions или ADR для architectural / reusable / cross-feature decisions.
 
 6. Если данных недостаточно, решение неоднозначно или риск неправильного выбора materially влияет на feature:
    - немедленно остановись;
@@ -118,7 +118,7 @@ FINAL_REPORT_PATH: {{FINAL_REPORT_PATH}}
 1. Номер цикла.
 2. Краткий итог ревью.
 3. Список `critical` и `important` замечаний.
-4. Какие open questions были закрыты reasoning/decision log.
+4. Какие open questions были закрыты reasoning и в каких owner-документах это зафиксировано.
 5. Какие изменения внесены.
 6. Возник ли human gate.
 
@@ -128,7 +128,7 @@ FINAL_REPORT_PATH: {{FINAL_REPORT_PATH}}
 3. Какие `critical` и `important` замечания закрыты.
 4. Какие замечания остались.
 5. Путь к финальному review report.
-6. Путь к decision log, если он обновлялся.
+6. Пути к owner-документам, если они обновлялись.
 </output_format>
 ```
 
