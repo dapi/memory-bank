@@ -32,7 +32,7 @@ canonical_for:
 - требуется rollback или stop conditions;
 - процесс должен переживать не одну сессию.
 
-Этот шаблон ближе всего к `brief → spec → plan → implement → verify → ship`, а не к короткой рутине.
+Этот шаблон ближе всего к `brief -> optional design -> plan -> implement -> verify -> ship`, а не к короткой рутине.
 
 ## Instantiated Frontmatter
 

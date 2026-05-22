@@ -1,6 +1,6 @@
 ---
 title: Configuration Guide
-doc_kind: engineering
+doc_kind: ops
 doc_function: canonical
 purpose: Шаблон документа ownership-модели конфигурации. Читать при описании env contract, naming conventions и config sources проекта.
 derived_from:

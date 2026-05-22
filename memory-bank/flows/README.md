@@ -17,5 +17,5 @@ audience: humans_and_agents
 Каталог `memory-bank/flows/` содержит reusable process-layer для шаблона: lifecycle rules, taxonomy стабильных идентификаторов и governed templates.
 
 - [Task Workflows](workflows.md) — маршрутизация задач по типам, базовый цикл разработки и градиент автономии.
-- [Feature Flow](feature-flow.md) — lifecycle `brief.md -> design.md -> implementation-plan.md`, gates и стабильные ID (`REQ-*`, `SOL-*`, `STEP-*`).
+- [Feature Flow](feature-flow.md) — lifecycle `brief.md -> optional design.md -> implementation-plan.md`, gates и стабильные ID (`REQ-*`, `SOL-*`, `STEP-*`).
 - [Templates Index](templates/README.md) — эталонные шаблоны governed-документов, включая PRD, use case, feature и ADR.

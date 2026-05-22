@@ -18,7 +18,7 @@ template_target_path: ../../../features/FT-XXX/README.md
 
 ## Wrapper Notes
 
-Каталог `memory-bank/flows/templates/feature/` хранит wrapper-шаблоны feature package: этот README-шаблон, canonical `brief.md` template, canonical `design.md` template и derived template для `implementation-plan.md`. Новые packages используют только `brief.md` / `design.md`; старые package-local имена читаются только как compatibility context уже созданных документов.
+Каталог `memory-bank/flows/templates/feature/` хранит wrapper-шаблоны feature package: этот README-шаблон, canonical `brief.md` template, conditional `design.md` template и derived template для `implementation-plan.md`. Новые packages всегда используют `brief.md`, а `design.md` добавляют только когда `brief.md` фиксирует `Design required: yes`.
 
 При создании нового feature package embedded README должен оставаться bootstrap-safe: сначала он маршрутизирует только на instantiated `brief.md`, а `design.md`, `implementation-plan.md` и связанные ADR добавляются уже после появления соответствующих документов.
 
@@ -29,7 +29,7 @@ Downstream routes для living feature package добавляются по ме
   Отвечает на вопрос: как именно feature реализуется без смешения solution space с problem space.
 
 - [`implementation-plan.md`](implementation-plan.md)
-  Читать, когда нужно: после `Solution Ready` разложить реализацию по шагам, workstreams, checkpoints и traceability к canonical IDs.
+  Читать, когда нужно: после готовности upstream owners разложить реализацию по шагам, workstreams, checkpoints и traceability к canonical IDs.
   Отвечает на вопрос: как провести реализацию фичи от текущего состояния до приёмки.
 
 - `../../../adr/ADR-XXX.md`
@@ -42,7 +42,7 @@ Downstream routes для living feature package добавляются по ме
 title: "FT-XXX: Feature Package"
 doc_kind: feature
 doc_function: index
-purpose: "Bootstrap-safe навигация по документации фичи. Читать, чтобы сначала перейти к canonical `brief.md`, а downstream `design.md` и `implementation-plan.md` добавлять только после их появления."
+purpose: "Bootstrap-safe навигация по документации фичи. Читать, чтобы сначала перейти к canonical `brief.md`; downstream routes добавляются только после появления соответствующих документов."
 derived_from:
   - ../../dna/governance.md
   - brief.md
@@ -57,7 +57,7 @@ audience: humans_and_agents
 
 ## О разделе
 
-Каталог feature package хранит canonical `brief.md`, а downstream solution/execution routes добавляются только после появления соответствующих документов. Сначала читай `brief.md`, затем расширяй routing по мере появления `design.md`, `implementation-plan.md` и связанных ADR.
+Каталог feature package начинается с canonical `brief.md`. Downstream solution/execution routes добавляются только после появления соответствующих документов. Сначала читай `brief.md`, затем расширяй routing по мере появления design, implementation plan и связанных ADR.
 
 ## Аннотированный индекс
 
@@ -65,7 +65,5 @@ audience: humans_and_agents
   Читать, когда нужно: открыть instantiated canonical feature-документ сразу после bootstrap нового feature package.
   Отвечает на вопрос: где находятся problem space, canonical verify contract и stable IDs для этой фичи.
 
-- [`design.md`](design.md)
-  Читать, когда нужно: открыть solution-space слой или design-pack фичи после его появления.
-  Отвечает на вопрос: какое решение выбрано, какие contracts/failure modes/rollout действуют и какие ADR/диаграммы входят в design-pack.
+После появления downstream-документов добавь сюда routes для `design.md`, `implementation-plan.md` и связанных ADR.
 ```

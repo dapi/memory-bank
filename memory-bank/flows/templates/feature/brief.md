@@ -23,7 +23,7 @@ canonical_for:
 
 Используй этот шаблон для problem-space документа новых feature packages. `brief.md` фиксирует problem, outcome, scope/non-scope и verify contract delivery-единицы.
 
-Если фича меняет API, event, schema, file format, CLI, env contract, security boundary, financial calculation, integration contract, rollout/backout или требует alternatives/trade-off reasoning, создай sibling `design.md` по шаблону `design.md`. Новые пакеты держат substantial design только в `design.md` / design-pack.
+Если фича меняет API, event, schema, file format, CLI, env contract, security boundary, financial calculation, integration contract, rollout/backout или требует alternatives/trade-off reasoning, зафиксируй `Design required: yes` и создай sibling `design.md` по шаблону `design.md`. Новые пакеты держат substantial design только в `design.md` / design-pack.
 
 Используй стабильные идентификаторы по taxonomy из [../../feature-flow.md#stable-identifiers](../../feature-flow.md#stable-identifiers).
 
@@ -39,7 +39,7 @@ canonical_for:
 | `purpose` | required | 1-2 предложения |
 | `status` | required | `draft` → `active` → `archived` |
 | `derived_from` | required для active | upstream-документы |
-| `delivery_status` | required для feature | `planned` → `in_progress` → `done` / `cancelled` |
+| `delivery_status` | required для lifecycle-owning `brief.md` | `planned` → `in_progress` → `done` / `cancelled` |
 | `audience` | recommended | `humans_and_agents` |
 | `must_not_define` | recommended | что документ НЕ определяет |
 
@@ -49,10 +49,12 @@ canonical_for:
 title: "FT-XXX: Feature Name"
 doc_kind: feature
 doc_function: canonical
-purpose: "Расширенный canonical brief для сложной или многослойной delivery-единицы."
+purpose: "Canonical brief для delivery-единицы. Фиксирует problem space, scope и verify без смешения с solution space или execution plan."
 derived_from:
-  - ../../domain/problem.md
+  - ../../flows/feature-flow.md
   # Optional:
+  # - ../../product/context.md
+  # - ../../domain/rules.md
   # - ../../prd/PRD-XXX-short-name.md
   # - ../../use-cases/UC-XXX-short-name.md
 status: draft
@@ -104,14 +106,13 @@ must_not_define:
 - `CON-01` Что прямо ограничивает problem space, verify или допустимый класс решений.
 - `DEC-01` Какое решение еще не принято и что именно оно блокирует.
 
-## Design References
+## Design Requirement Decision
 
-Если solution-space нужен, создай sibling [`design.md`](design.md) по шаблону `memory-bank/flows/templates/feature/design.md` и перечисли здесь только ссылки на design-pack owners. Не пересказывай selected solution, contracts, failure modes или rollout/backout в `brief.md`.
+Зафиксируй, нужен ли отдельный solution-space owner. Это gate decision, а не выбранное решение: не пересказывай selected solution, contracts, failure modes или rollout/backout в `brief.md`.
 
-| Artifact | Used for |
-| --- | --- |
-| [`design.md`](design.md) | Solution-space owner: selected approach, contracts, failure modes, rollout/backout |
-| [`../../adr/ADR-XXX.md`](../../adr/ADR-XXX.md) | Architecture decision, если нужна |
+| Decision | Reason | Downstream owner |
+| --- | --- | --- |
+| `Design required: yes/no` | Почему solution-space document нужен или не нужен | `design.md` / `none` |
 
 ## Verify
 
@@ -124,10 +125,10 @@ must_not_define:
 
 ### Traceability matrix
 
-| Requirement ID | Design refs | Acceptance refs | Checks | Evidence IDs |
+| Requirement ID | Problem/design refs | Acceptance refs | Checks | Evidence IDs |
 | --- | --- | --- | --- | --- |
-| `REQ-01` | `ASM-01`, `CON-01`, `DEC-01`, `design.md#SOL-01` | `EC-01`, `SC-01` | `CHK-01` | `EVID-01` |
-| `REQ-02` | `ASM-01`, `CON-01`, `design.md#SOL-02` | `EC-02`, `SC-02` | `CHK-01` | `EVID-01` |
+| `REQ-01` | `ASM-01`, `CON-01`, `DEC-01`, `SOL-01` if design required | `EC-01`, `SC-01` | `CHK-01` | `EVID-01` |
+| `REQ-02` | `ASM-01`, `CON-01`, `SOL-02` if design required | `EC-02`, `SC-02` | `CHK-01` | `EVID-01` |
 
 ### Acceptance Scenarios
 

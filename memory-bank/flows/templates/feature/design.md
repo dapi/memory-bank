@@ -22,7 +22,7 @@ canonical_for:
 
 Создавай `design.md`, когда фича требует solution-space reasoning: выбор подхода, trade-offs, contracts, invariants, failure modes, rollout/backout, ADR/C4/data-flow/diagram dependencies или design-pack из нескольких документов.
 
-На стадии анализа обязательно заполни C4 applicability decision. C4 artifact обязателен только когда trigger из `feature-flow.md#c4-analysis-requirements` требует C1/C2/C3/C4; для trivial/local feature достаточно `C4-00 not required` с причиной.
+На стадии анализа обязательно заполни C4 applicability decision. C4 artifact обязателен только когда trigger из [feature-flow.md#c4-analysis-requirements](../../feature-flow.md#c4-analysis-requirements) требует C1/C2/C3/C4; для local feature достаточно `C4-00 not required` с причиной.
 
 `design.md` не заменяет `brief.md`: требования, acceptance criteria и evidence contract остаются в `brief.md`. `design.md` также не является execution plan: file-level touchpoints, атомарные шаги, команды тестов и checkpoints принадлежат `implementation-plan.md`.
 
@@ -98,6 +98,12 @@ must_not_define:
 | --- | --- | --- | --- |
 | `TRD-01` | Какой компромисс принимаем | Что выигрываем | Что платим или мониторим |
 
+## Accepted Local Decisions
+
+Здесь живут только принятые feature-local decisions. Decisions reusable, architectural или cross-feature уровня выносятся в ADR.
+
+- `SD-01` Какое локальное решение принято и почему оно не требует ADR.
+
 ## Contracts
 
 Контракты описывай на уровне shape/semantics. Не добавляй реалистичные секреты, production IDs или file-level implementation steps.
@@ -130,5 +136,5 @@ must_not_define:
 
 | Requirement ID | Solution refs | Contracts / invariants | Failure / rollout refs |
 | --- | --- | --- | --- |
-| `REQ-01` | `SOL-01`, `TRD-01`, `C4-00` | `CTR-01`, `INV-01` | `FM-01`, `RB-01` |
+| `REQ-01` | `SOL-01`, `TRD-01`, `C4-00`, `SD-01` | `CTR-01`, `INV-01` | `FM-01`, `RB-01` |
 ```

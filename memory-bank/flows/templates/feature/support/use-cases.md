@@ -33,7 +33,8 @@ doc_function: reference
 purpose: "Derived use-case companion для FT-XXX. Упаковывает сценарии и test case candidates для review без переопределения canonical acceptance inventory."
 derived_from:
   - ../brief.md
-  - ../design.md
+  # Required only when design.md exists:
+  # - ../design.md
 status: draft
 audience: humans_and_agents
 must_not_define:
@@ -50,7 +51,7 @@ must_not_define:
 
 ## Role
 
-Этот документ дает review-friendly projection canonical facts из `brief.md` и `design.md`.
+Этот документ дает review-friendly projection canonical facts из `brief.md` и existing `design.md`.
 
 Canonical acceptance / test inventory остается в `brief.md` через `SC-*`, `NEG-*`, `CHK-*` и `EVID-*`.
 

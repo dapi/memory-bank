@@ -1,6 +1,6 @@
 ---
 title: Release And Deployment
-doc_kind: engineering
+doc_kind: ops
 doc_function: canonical
 purpose: Шаблон документа релизного процесса. Читать при адаптации versioning, changelog, deployment и release verification под проект.
 derived_from:

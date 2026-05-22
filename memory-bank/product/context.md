@@ -2,7 +2,7 @@
 title: Product Context
 doc_kind: product
 doc_function: canonical
-purpose: Каноничное project-wide описание продукта, проблемного пространства и top-level outcomes. Читать перед PRD, use cases и feature specs, чтобы не повторять общий контекст в каждой delivery-единице.
+purpose: Каноничное project-wide описание продукта, проблемного пространства и top-level outcomes. Читать перед PRD, use cases и feature briefs, чтобы не повторять общий контекст в каждой delivery-единице.
 derived_from:
   - ../dna/governance.md
 status: active

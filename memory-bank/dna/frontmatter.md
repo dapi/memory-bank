@@ -26,7 +26,7 @@ status: active
 
 Governed-документы могут содержать дополнительные поля, не описанные в этой schema. Дополнительные поля не требуют регистрации здесь и интерпретируются на уровне конкретного `doc_kind` или flow.
 
-Для `doc_kind: feature` lifecycle owner-ом остается canonical `brief.md` problem-space документа. Packages, созданные до split-а, могут ещё иметь `feature.md` или `solution.md`, но новые и migrated packages используют `brief.md` / `design.md`. Feature-level `README.md`, `design.md` и `implementation-plan.md` используют тот же `doc_kind`, но не обязаны иметь `delivery_status`, если сами не владеют delivery lifecycle.
+Для `doc_kind: feature` lifecycle owner-ом остается canonical `brief.md` problem-space документа. Feature-level `README.md`, conditional `design.md` и `implementation-plan.md` используют тот же `doc_kind`, но не обязаны иметь `delivery_status`, если сами не владеют delivery lifecycle.
 
 Для `doc_kind: feature-support` документ является reference / companion внутри feature package и не владеет `delivery_status`, canonical requirements, selected solution или execution sequencing.
 

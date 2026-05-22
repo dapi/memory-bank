@@ -1,6 +1,6 @@
 ---
 title: Operations Index
-doc_kind: engineering
+doc_kind: ops
 doc_function: index
 purpose: Навигация по операционной документации шаблона. Читать при адаптации dev/prod workflow, релизов, конфигурации и runbooks под проект.
 derived_from:

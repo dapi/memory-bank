@@ -35,7 +35,8 @@ doc_function: reference
 purpose: "Interface reference для FT-XXX. Фиксирует screen map, interaction states, mockups и UI traceability без переопределения canonical problem или solution facts."
 derived_from:
   - ../brief.md
-  - ../design.md
+  # Required only when design.md exists:
+  # - ../design.md
 status: draft
 audience: humans_and_agents
 must_not_define:
@@ -55,7 +56,7 @@ must_not_define:
 Этот документ раскрывает interface expectations для implementation и review. Canonical owners:
 
 - `brief.md` владеет requirements и acceptance.
-- `design.md` владеет selected design и contracts.
+- `design.md`, если есть, владеет selected design и contracts.
 - `implementation-plan.md` владеет execution sequencing.
 
 ## Interface Scope

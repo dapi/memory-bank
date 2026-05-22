@@ -19,10 +19,10 @@ template_target_path: ../../../features/FT-XXX/implementation-plan.md
 
 ## Wrapper Notes
 
-Требования, blocker-state и критерии приемки задаются в sibling `brief.md`. Selected design, accepted local decisions и solution-level contracts задаются в sibling `design.md` или ADR. Этот документ определяет только sequencing работ и checkpoints выполнения.
-В создаваемом feature package sibling `brief.md` и `design.md` должны быть инстанцированы из canonical templates в `memory-bank/flows/templates/feature/`.
+Требования, blocker-state и критерии приемки задаются в sibling `brief.md`. Если `brief.md` фиксирует `Design required: yes`, selected design, accepted local decisions и solution-level contracts задаются в sibling `design.md` или ADR. Этот документ определяет только sequencing работ и checkpoints выполнения.
+В создаваемом feature package sibling `brief.md` всегда инстанцируется из canonical template в `memory-bank/flows/templates/feature/`; `design.md` инстанцируется только когда required.
 
-Создавай этот документ только после того, как sibling `design.md` переведен в `status: active`. Пока план только формируется, сам `implementation-plan.md` может оставаться в `status: draft`; до перехода feature в `delivery_status: in_progress` план должен стать `status: active`.
+Создавай этот документ только после того, как upstream owners готовы: sibling `brief.md` имеет `status: active`, а required sibling `design.md` переведен в `status: active`. Пока план только формируется, сам `implementation-plan.md` может оставаться в `status: draft`; до перехода feature в `delivery_status: in_progress` план должен стать `status: active`.
 
 Когда feature переходит в `delivery_status: done` или `delivery_status: cancelled`, `implementation-plan.md` архивируется, если он больше не используется как рабочий execution-документ.
 
@@ -32,7 +32,7 @@ template_target_path: ../../../features/FT-XXX/implementation-plan.md
 
 Для ссылок внутри плана используй стабильные идентификаторы по taxonomy из [../../feature-flow.md#stable-identifiers](../../feature-flow.md#stable-identifiers).
 
-Если неизвестность меняет scope, acceptance criteria или evidence contract, она сначала поднимается upstream в sibling `brief.md`. Если неизвестность меняет selected design, to-be C4 architecture model, accepted local decisions, contracts или rollout/backout semantics, она сначала поднимается в sibling `design.md` или ADR и только после этого фигурирует в плане.
+Если неизвестность меняет scope, acceptance criteria или evidence contract, она сначала поднимается upstream в sibling `brief.md`. Если неизвестность меняет selected design, C4 architecture model, accepted local decisions, contracts или rollout/backout semantics, она сначала поднимается в required sibling `design.md` или ADR и только после этого фигурирует в плане.
 
 ## Instantiated Frontmatter
 
@@ -43,7 +43,8 @@ doc_function: derived
 purpose: "Execution-план реализации FT-XXX. Фиксирует discovery context, шаги, риски и test strategy без переопределения canonical problem и solution фактов."
 derived_from:
   - brief.md
-  - design.md
+  # Required only when brief.md says "Design required: yes":
+  # - design.md
   # Optional support refs:
   # - runtime-surfaces.md
   # - ui-reference/README.md
@@ -64,7 +65,7 @@ must_not_define:
 
 ## Цель текущего плана
 
-Какой delivery outcome должен дать этот план с учетом already accepted solution.
+Какой delivery outcome должен дать этот план с учетом `brief.md` и, если есть, already accepted solution.
 
 ## Grounding / Support References
 
@@ -73,9 +74,9 @@ must_not_define:
 | Document | Role in this plan | Facts reused | Conflict action |
 | --- | --- | --- | --- |
 | `brief.md` | canonical problem / verify owner | `REQ-*`, `SC-*`, `CHK-*`, `EVID-*` | Update `brief.md` first |
-| `design.md` | canonical solution owner | `SOL-*`, `C4-*`, `SD-*`, `CTR-*`, `FM-*`, `RB-*` | Update `design.md` or ADR first |
-| `runtime-surfaces.md` / `none` | optional grounding | `SURF-*`, `MAP-*`, context matrix | Promote changed design facts to `design.md` |
-| `ui-reference/README.md` / `none` | optional interface reference | `UI-*`, mockups, states | Promote changed requirements to `brief.md` or design facts to `design.md` |
+| `design.md` / `none` | conditional solution owner | `SOL-*`, `C4-*`, `SD-*`, `CTR-*`, `INV-*`, `FM-*`, `RB-*` | Update `design.md` or ADR first; if design is absent, promote new design facts before planning |
+| `runtime-surfaces.md` / `none` | optional grounding | `SURF-*`, `MAP-*`, context matrix | Promote changed design facts to `design.md` if design is required |
+| `ui-reference/README.md` / `none` | optional interface reference | `UI-*`, mockups, states | Promote changed requirements to `brief.md` or design facts to `design.md` if required |
 | `use-cases/README.md` / `none` | optional scenario companion | `FUC-*`, `TC-*` candidates | Keep canonical acceptance in `brief.md` |
 
 ## Current State / Reference Points
@@ -118,7 +119,7 @@ must_not_define:
 
 | Precondition ID | Canonical ref | Required state | Used by steps | Blocks start |
 | --- | --- | --- | --- | --- |
-| `PRE-01` | `CON-01` / `DEC-01` / `SD-01` / ADR path | Какой state upstream считается допустимым для старта | `STEP-01`, `STEP-02` | yes / no |
+| `PRE-01` | `CON-01` / `DEC-01` / `SD-01` / ADR path / design-not-required decision | Какой state upstream считается допустимым для старта | `STEP-01`, `STEP-02` | yes / no |
 
 ## Workstreams
 
@@ -191,6 +192,6 @@ must_not_define:
 - Все checkpoints имеют evidence.
 - Required local suites зелёные, а CI не противоречит local verify.
 - Manual-only gaps закрыты через approved `AG-*` или остаются blockers для `delivery_status: done`.
-- Support docs, если они есть, не расходятся с canonical `brief.md`, `design.md`, ADR и этим планом.
+- Support docs, если они есть, не расходятся с canonical `brief.md`, existing `design.md`, ADR и этим планом.
 - Финальная приемка идёт по `brief.md` `Verify`, а не по этому checklist.
 ```

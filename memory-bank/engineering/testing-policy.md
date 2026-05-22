@@ -51,7 +51,7 @@ audience: humans_and_agents
 ## Ownership Split
 
 - Canonical test cases delivery-единицы задаются в `brief.md` через `SC-*`, feature-specific `NEG-*`, `CHK-*` и `EVID-*`.
-- `design.md` владеет selected design, to-be C4 architecture model, `CTR-*`, `FM-*` и локальными `RB-*`, но не подменяет canonical verify contract.
+- `design.md`, если нужен, владеет selected design, C4 applicability/model, `CTR-*`, `INV-*`, `FM-*` и локальными `RB-*`, но не подменяет canonical verify contract.
 - `implementation-plan.md` владеет только стратегией исполнения: какие test surfaces будут добавлены или обновлены, какие gaps временно остаются manual-only и почему.
 
 ## Feature Flow Expectations
@@ -59,7 +59,7 @@ audience: humans_and_agents
 Canonical lifecycle gates живут в [../flows/feature-flow.md](../flows/feature-flow.md):
 
 - к `Problem Ready` `brief.md` уже фиксирует test case inventory;
-- к `Solution Ready` `design.md` фиксирует selected design, to-be C4 architecture model, contracts и solution-level failure modes;
+- к `Solution Ready` required `design.md` фиксирует selected design, C4 applicability/model, contracts и solution-level failure modes;
 - к `Plan Ready` `implementation-plan.md` содержит `Test Strategy` с planned automated coverage и manual-only gaps;
 - к `Done` required tests добавлены, локальные команды зелёные и CI не противоречит локальному verify.
 
@@ -67,7 +67,7 @@ Canonical lifecycle gates живут в [../flows/feature-flow.md](../flows/feat
 
 - Покрыт основной changed behavior и ближайший regression path.
 - Покрыты новые или измененные contracts, события, schema или integration boundaries.
-- Покрыты критичные failure modes из `FM-*` в `design.md`, bug history или acceptance risks.
+- Покрыты критичные failure modes из `FM-*` в required `design.md`, bug history или acceptance risks.
 - Покрыты feature-specific negative/edge scenarios, если они меняют verdict.
 - Процент line coverage сам по себе недостаточен: нужен scenario- и contract-level coverage.
 

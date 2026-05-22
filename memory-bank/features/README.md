@@ -17,9 +17,8 @@ audience: humans_and_agents
 ## Rules
 
 - Каждый package создается по правилам из [`../flows/feature-flow.md`](../flows/feature-flow.md).
-- Bootstrap package начинается с `README.md` и `brief.md`; после `Problem Ready` в него добавляется `design.md`, после `Solution Ready` — `implementation-plan.md`.
+- Bootstrap package начинается с `README.md` и `brief.md`; после `Problem Ready` в него добавляется `design.md`, если `brief.md` фиксирует `Design required: yes`; `implementation-plan.md` появляется после готовности нужных upstream owners.
 - Для bootstrap и downstream-документов используй шаблоны из [`../flows/templates/feature/`](../flows/templates/feature/).
-- Packages, созданные до split-а, могут ещё содержать `feature.md` / `solution.md`; новые и migrated packages не создают эти duplicate aliases.
 - По умолчанию feature ссылается на общий product context из [`../product/context.md`](../product/context.md), а при изменении предметных правил также на соответствующие документы из [`../domain/README.md`](../domain/README.md).
 - Если feature реализует или существенно меняет устойчивый сценарий проекта, она должна ссылаться на соответствующий `UC-*` из [`../use-cases/README.md`](../use-cases/README.md).
 - В шаблонном репозитории этот каталог может быть пустым. Это нормально.

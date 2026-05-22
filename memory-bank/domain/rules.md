@@ -36,6 +36,6 @@ canonical_for:
 
 ## Rule Change Policy
 
-- Если feature меняет domain invariant, обнови этот документ до или вместе с feature spec.
+- Если feature меняет domain invariant, обнови этот документ до или вместе с feature `brief.md` / required `design.md`.
 - Если правило локально только для одной delivery-единицы, держи его в feature package, пока оно не станет shared domain rule.
 - Если правило является архитектурным решением, фиксируй его в ADR и ссылайся отсюда.

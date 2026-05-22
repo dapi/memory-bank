@@ -3,6 +3,9 @@ title: Template Documentation Index
 doc_kind: project
 doc_function: index
 purpose: Корневая навигация по шаблонному memory-bank. Читать сначала, чтобы понять структуру и точки адаптации под конкретный проект.
+derived_from:
+  - dna/principles.md
+  - dna/governance.md
 status: active
 audience: humans_and_agents
 ---
