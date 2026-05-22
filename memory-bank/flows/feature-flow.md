@@ -46,6 +46,8 @@ audience: humans_and_agents
 13. Если фича является частью более крупной инициативы, `brief.md` может зависеть от PRD из `memory-bank/prd/`, но PRD не заменяет сам feature package.
 14. Если фича создает новый устойчивый сценарий проекта или materially changes существующий, соответствующий `UC-*` в `memory-bank/use-cases/` должен быть создан или обновлен до closure.
 15. Optional feature-support docs (`runtime-surfaces.md`, `ui-reference/README.md`, `use-cases/README.md`) допустимы для сложных фич как grounding / review / traceability aids. Они не становятся canonical owner problem space, solution space, acceptance inventory или execution sequencing.
+16. Если фича является частью epic, `brief.md` импортирует только relevant epic refs из `memory-bank/epics/EP-XXX/`, а не весь epic scope.
+17. Если работа требует roadmap, risk register и нескольких delivery subissues, это не feature package. Создай или обнови `memory-bank/epics/EP-XXX/`, затем веди каждую approved delivery-единицу как отдельный `FT-<issue>/`.
 
 ## Шаблон `brief.md`
 
@@ -231,6 +233,8 @@ flowchart LR
 14. Если численный target threshold относится только к одной delivery-единице, canonical owner — соответствующий `brief.md`. Поднимать такой KPI в project-level документ можно только после того, как он стал shared upstream fact для нескольких feature.
 15. Хороший `implementation-plan.md` начинается с discovery context: relevant paths, local reference patterns, unresolved questions, test surfaces и execution environment должны быть зафиксированы до sequencing изменений.
 16. Для рискованных, необратимых или внешне-эффективных действий `implementation-plan.md` должен явно описывать human approval gates и не скрывать их внутри prose шага.
+17. Если feature исполняет часть epic, `brief.md` должен ссылаться на relevant `EP-*` artifacts (`charter.md`, `roadmap.md`, `subissues.md`, `risks.md`) и импортировать только нужные `SLICE-*` / `UC-*`, а не весь epic scope. Если используются epic-local decisions, `design.md` или ADR ссылается на `decision-log.md`.
+18. Roadmap waves, cross-feature risks и subissue registry принадлежат `memory-bank/epics/EP-XXX/`, а не feature package.
 
 ## Test Ownership Summary
 
