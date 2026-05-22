@@ -36,8 +36,9 @@ audience: humans_and_agents
 7. Смысл стабильных идентификаторов (`REQ-*`, `NS-*`, `CHK-*`, `STEP-*` и т.д.) задается в секции «Stable Identifiers» ниже.
 8. Acceptance scenarios (`SC-*`) покрывают vertical slice end-to-end: от входного события до наблюдаемого результата через все затронутые слои. Тестирование отдельного слоя в изоляции допустимо как implementation detail плана, но не заменяет end-to-end acceptance.
 9. **Связь с task tracker.** При создании feature package агент обязан добавить в исходную задачу или ticket ссылки на `feature.md` и, после появления, на `implementation-plan.md`. Это обеспечивает навигацию из task tracker к спецификации без ручного поиска по репозиторию.
-10. Если фича является частью более крупной инициативы, `feature.md` может зависеть от PRD из `memory-bank/prd/`, но PRD не заменяет сам feature package.
+10. Если фича является частью более крупной инициативы, `feature.md` может зависеть от PRD из `memory-bank/prd/` или epic из `memory-bank/epics/`, но upstream initiative document не заменяет сам feature package.
 11. Если фича создает новый устойчивый сценарий проекта или materially changes существующий, соответствующий `UC-*` в `memory-bank/use-cases/` должен быть создан или обновлен до closure.
+12. Если работа требует roadmap, risk register и нескольких delivery subissues, это не feature package. Создай или обнови `memory-bank/epics/EP-XXX/`, затем веди каждую approved delivery-единицу как отдельный `FT-<issue>/`.
 
 ## Выбор шаблона `feature.md`
 
@@ -125,6 +126,8 @@ flowchart LR
 7. Если численный target threshold относится только к одной delivery-единице, canonical owner — соответствующий `feature.md`. Поднимать такой KPI в project-level документ можно только после того, как он стал shared upstream fact для нескольких feature.
 8. Хороший `implementation-plan.md` начинается с discovery context: relevant paths, local reference patterns, unresolved questions, test surfaces и execution environment должны быть зафиксированы до sequencing изменений.
 9. Для рискованных, необратимых или внешне-эффективных действий `implementation-plan.md` должен явно описывать human approval gates и не скрывать их внутри prose шага.
+10. Если feature исполняет часть epic, `feature.md` должен ссылаться на relevant `EP-*` artifacts (`charter.md`, `roadmap.md`, `decision-log.md`, `subissues.md`, `risks.md`) и импортировать только нужные `SLICE-*`/`UC-*`, а не весь epic scope.
+11. Roadmap waves, cross-feature risks и subissue registry принадлежат `memory-bank/epics/EP-XXX/`, а не feature package.
 
 ## Test Ownership Summary
 

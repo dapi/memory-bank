@@ -24,6 +24,9 @@ audience: humans_and_agents
 - [`prd/README.md`](prd/README.md)
   Читать, когда нужно: описать продуктовую инициативу между общим product context и downstream feature packages.
 
+- [`epics/README.md`](epics/README.md)
+  Читать, когда нужно: вести крупную инициативу через roadmap, decision log, risks и набор связанных delivery subissues.
+
 - [`use-cases/README.md`](use-cases/README.md)
   Читать, когда нужно: зарегистрировать устойчивый пользовательский или операционный сценарий проекта.
 
@@ -40,7 +43,7 @@ audience: humans_and_agents
   Читать, когда нужно: проверить SSoT rules, frontmatter contract и governance-правила документации.
 
 - [`flows/README.md`](flows/README.md)
-  Читать, когда нужно: создать feature package, провести фичу по lifecycle gates или использовать шаблон.
+  Читать, когда нужно: создать epic/feature package, провести инициативу по lifecycle gates или использовать шаблон.
 
 - [`adr/README.md`](adr/README.md)
   Читать, когда нужно: найти или завести Architecture Decision Record.
