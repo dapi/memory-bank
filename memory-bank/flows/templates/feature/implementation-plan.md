@@ -26,7 +26,7 @@ template_target_path: ../../../features/FT-XXX/implementation-plan.md
 
 Когда feature переходит в `delivery_status: done` или `delivery_status: cancelled`, `implementation-plan.md` архивируется, если он больше не используется как рабочий execution-документ.
 
-Документ должен быть исполнимым без дополнительного толкования. Если шаг нельзя связать с canonical IDs, solution refs, артефактом, проверкой или явной ручной процедурой, шаг описан недостаточно.
+Документ должен быть исполнимым без дополнительного толкования. Если шаг нельзя связать с canonical IDs, существующими solution refs, артефактом, проверкой или явной ручной процедурой, шаг описан недостаточно.
 План должен быть заземлен в текущем состоянии репозитория: сначала зафиксируй релевантные модули, локальные паттерны, открытые вопросы и execution environment, и только после этого расписывай sequencing изменений.
 План обязан явно зафиксировать, какие automated tests будут добавлены или обновлены по change surface, какие suites обязаны быть зелёными локально и в CI, а какие gaps временно остаются manual-only с justification и approval ref.
 
@@ -93,7 +93,7 @@ must_not_define:
 
 | Test surface | Canonical refs | Existing coverage | Planned automated coverage | Required local suites / commands | Required CI suites / jobs | Manual-only gap / justification | Manual-only approval ref |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| `path/or/behavior` | `REQ-01`, `SOL-01`, `SC-01`, `NEG-01`, `CHK-01` | Что покрыто сейчас | Какой suite, test type или deterministic check обязаны добавить или обновить | Какие команды или suites обязаны быть зелёными локально | Какие jobs или suites обязаны быть зелёными в CI | Что пока остается manual-only и почему | `AG-01` / review link / `none` |
+| `path/or/behavior` | `REQ-01`, `SC-01`, `NEG-01`, `CHK-01`, `SOL-01 если design существует` | Что покрыто сейчас | Какой suite, test type или deterministic check обязаны добавить или обновить | Какие команды или suites обязаны быть зелёными локально | Какие jobs или suites обязаны быть зелёными в CI | Что пока остается manual-only и почему | `AG-01` / review link / `none` |
 
 ## Open Questions / Ambiguities
 
@@ -119,7 +119,7 @@ must_not_define:
 
 | Precondition ID | Canonical ref | Required state | Used by steps | Blocks start |
 | --- | --- | --- | --- | --- |
-| `PRE-01` | `CON-01` / `DEC-01` / `SD-01` / ADR path / design-not-required decision | Какой state upstream считается допустимым для старта | `STEP-01`, `STEP-02` | yes / no |
+| `PRE-01` | `CON-01` / `DEC-01` / `SD-01 если design существует` / ADR path / design-not-required decision | Какой state upstream считается допустимым для старта | `STEP-01`, `STEP-02` | yes / no |
 
 ## Workstreams
 
@@ -127,7 +127,7 @@ must_not_define:
 
 | Workstream | Implements | Result | Owner | Dependencies |
 | --- | --- | --- | --- | --- |
-| `WS-1` | `REQ-01`, `SOL-01`, `CTR-01` | Что должно появиться | human / agent / either | Что блокирует старт или завершение |
+| `WS-1` | `REQ-01`, `SOL-01 если design существует`, `CTR-01 если design существует` | Что должно появиться | human / agent / either | Что блокирует старт или завершение |
 
 ## Approval Gates
 
@@ -143,7 +143,7 @@ must_not_define:
 
 | Step ID | Actor | Implements | Goal | Touchpoints | Artifact | Verifies | Evidence IDs | Check command / procedure | Blocked by | Needs approval | Escalate if |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `STEP-01` | human / agent / either | `REQ-01`, `SOL-01`, `CTR-01` | Что делаем на этом шаге | Какие файлы, сервисы или данные трогаем | Что должно появиться после шага | `CHK-01` | `EVID-01` | Как подтверждаем завершение | `PRE-01`, `OQ-01` | `AG-01` / `none` | Когда нельзя продолжать без эскалации |
+| `STEP-01` | human / agent / either | `REQ-01`, `SOL-01 если design существует`, `CTR-01 если design существует` | Что делаем на этом шаге | Какие файлы, сервисы или данные трогаем | Что должно появиться после шага | `CHK-01` | `EVID-01` | Как подтверждаем завершение | `PRE-01`, `OQ-01` | `AG-01` / `none` | Когда нельзя продолжать без эскалации |
 
 ## Parallelizable Work
 
@@ -158,7 +158,7 @@ must_not_define:
 
 | Checkpoint ID | Refs | Condition | Evidence IDs |
 | --- | --- | --- | --- |
-| `CP-01` | `STEP-01`, `SOL-01`, `CHK-01` | Какой промежуточный state должен быть доказан | `EVID-01` |
+| `CP-01` | `STEP-01`, `CHK-01`, `SOL-01 если design существует` | Какой промежуточный state должен быть доказан | `EVID-01` |
 
 ## Execution Risks
 
@@ -174,7 +174,7 @@ must_not_define:
 
 | Stop ID | Related refs | Trigger | Immediate action | Safe fallback state |
 | --- | --- | --- | --- | --- |
-| `STOP-01` | `DEC-01`, `SD-01`, `RJ-01` | По какому симптому останавливаемся | Что делаем сразу | До какого состояния откатываемся или замораживаем работу |
+| `STOP-01` | `DEC-01`, `RJ-01`, `SD-01 если design существует` | По какому симптому останавливаемся | Что делаем сразу | До какого состояния откатываемся или замораживаем работу |
 
 ## Plan-local Evidence
 

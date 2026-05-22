@@ -46,8 +46,8 @@ audience: humans_and_agents
 13. Если фича является частью более крупной инициативы, `brief.md` может зависеть от PRD из `memory-bank/prd/`, но PRD не заменяет сам feature package.
 14. Если фича создает новый устойчивый сценарий проекта или materially changes существующий, соответствующий `UC-*` в `memory-bank/use-cases/` должен быть создан или обновлен до closure.
 15. Optional feature-support docs (`runtime-surfaces.md`, `ui-reference/README.md`, `use-cases/README.md`) допустимы для сложных фич как grounding / review / traceability aids. Они не становятся canonical owner problem space, solution space, acceptance inventory или execution sequencing.
-16. Если фича является частью epic, `brief.md` импортирует только relevant epic refs из `memory-bank/epics/EP-XXX/`, а не весь epic scope.
-17. Если работа требует roadmap, risk register и нескольких delivery subissues, это не feature package. Создай или обнови `memory-bank/epics/EP-XXX/`, затем веди каждую approved delivery-единицу как отдельный `FT-<issue>/`.
+16. Если фича зависит от upstream-документа инициативы, `brief.md` импортирует только релевантные upstream-ссылки, а не весь upstream scope.
+17. Если работа крупнее одной delivery-feature и требует roadmap, risk register или нескольких delivery units, не расширяй feature package; выбери подходящий upstream flow из `memory-bank/flows/` и веди каждую утвержденную delivery-единицу как отдельный feature package.
 
 ## Шаблон `brief.md`
 
@@ -187,7 +187,7 @@ flowchart LR
 - [ ] `implementation-plan.md` → `status: active`
 - [ ] `implementation-plan.md` содержит ≥ 1 `PRE-*`, ≥ 1 `STEP-*`, ≥ 1 `CHK-*`, ≥ 1 `EVID-*`
 - [ ] discovery context в `implementation-plan.md` содержит: relevant paths, local reference patterns, unresolved questions (`OQ-*`), test surfaces и execution environment
-- [ ] шаги и workstreams в `implementation-plan.md` ссылаются на canonical IDs из `brief.md` и solution refs из `design.md` / ADR
+- [ ] шаги и workstreams в `implementation-plan.md` ссылаются на canonical IDs из `brief.md` и, если design layer существует, solution refs из `design.md` / ADR
 
 ### Plan Ready → Execution
 
@@ -233,8 +233,8 @@ flowchart LR
 14. Если численный target threshold относится только к одной delivery-единице, canonical owner — соответствующий `brief.md`. Поднимать такой KPI в project-level документ можно только после того, как он стал shared upstream fact для нескольких feature.
 15. Хороший `implementation-plan.md` начинается с discovery context: relevant paths, local reference patterns, unresolved questions, test surfaces и execution environment должны быть зафиксированы до sequencing изменений.
 16. Для рискованных, необратимых или внешне-эффективных действий `implementation-plan.md` должен явно описывать human approval gates и не скрывать их внутри prose шага.
-17. Если feature исполняет часть epic, `brief.md` должен ссылаться на relevant `EP-*` artifacts (`charter.md`, `roadmap.md`, `subissues.md`, `risks.md`) и импортировать только нужные `SLICE-*` / `UC-*`, а не весь epic scope. Если используются epic-local decisions, `design.md` или ADR ссылается на `decision-log.md`.
-18. Roadmap waves, cross-feature risks и subissue registry принадлежат `memory-bank/epics/EP-XXX/`, а не feature package.
+17. Если feature исполняет часть upstream initiative, `brief.md` должен ссылаться только на релевантные upstream artifacts и imported IDs, а не копировать весь upstream scope. Если используются upstream solution decisions, `design.md` или ADR ссылается на их canonical owner.
+18. Upstream roadmap, cross-feature risks и delivery-unit registries принадлежат upstream owner-документам, а не feature package.
 
 ## Test Ownership Summary
 
