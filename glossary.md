@@ -46,7 +46,7 @@
 
 ## Documentation Layer
 
-`Documentation layer` — не просто папка с markdown-файлами, а структурированный слой знаний с ролями документов, навигацией и границами ответственности. В этом репозитории template layer живет в `memory-bank/`, а project-specific layer показан в `examples/`.
+`Documentation layer` — не просто папка с markdown-файлами, а структурированный слой знаний с ролями документов, навигацией и границами ответственности. В этом репозитории template layer живет в `memory-bank/`.
 
 ## Process Layer
 
@@ -66,7 +66,7 @@
 
 ## Feature Package
 
-`Feature package` — каталог вида `FT-XXX/`, в котором собраны документы одной delivery-единицы: canonical feature, execution-план, связанные ADR и локальный индекс.
+`Feature package` — каталог вида `FT-XXX/`, в котором собраны документы одной delivery-единицы: canonical `brief.md`, optional `design.md`, execution-план, связанные ADR и локальный индекс.
 
 ## PRD
 

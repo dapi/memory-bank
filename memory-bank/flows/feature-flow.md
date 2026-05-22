@@ -91,7 +91,7 @@ Support docs должны ссылаться на canonical owners и явно �
 - Если такой package редактируется так, что меняется или дописывается problem-space content, canonical owner должен быть создан или перенесен в `brief.md`.
 - Если такой package редактируется так, что меняется или дописывается solution-space content, accepted design должен быть создан или перенесен в `design.md` до следующего существенного обновления `implementation-plan.md`.
 - Новые migrated packages не должны сохранять duplicate alias-файлы `feature.md` / `solution.md`; compatibility относится только к уже существующим packages.
-- Миграция может происходить постепенно, package-by-package; migrated example должен оставаться доступным в `examples/`.
+- Миграция может происходить постепенно, package-by-package; migrated package не должен сохранять duplicate alias-файлы.
 
 ## Lifecycle
 
