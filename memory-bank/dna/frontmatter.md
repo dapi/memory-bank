@@ -19,14 +19,14 @@ status: active
 | Поле | Когда | Описание |
 |---|---|---|
 | `derived_from` | Есть upstream-документ | Прямые upstream-зависимости. Каждый элемент — строка (путь) или объект `{path, fit}`, где `fit` объясняет scope зависимости |
-| `delivery_status` | Lifecycle-owning canonical `feature.md` | `planned` / `in_progress` / `done` / `cancelled` |
+| `delivery_status` | Lifecycle-owning canonical `brief.md` | `planned` / `in_progress` / `done` / `cancelled` |
 | `decision_status` | ADR-документы | `proposed` / `accepted` / `superseded` / `rejected` |
 
 ## Дополнительные поля
 
 Governed-документы могут содержать дополнительные поля, не описанные в этой schema. Дополнительные поля не требуют регистрации здесь и интерпретируются на уровне конкретного `doc_kind` или flow.
 
-Для `doc_kind: feature` lifecycle owner-ом остается canonical `feature.md` problem-space документа. Feature-level `README.md`, `solution.md` и `implementation-plan.md` используют тот же `doc_kind`, но не обязаны иметь `delivery_status`, если сами не владеют delivery lifecycle.
+Для `doc_kind: feature` lifecycle owner-ом остается canonical `brief.md` problem-space документа. Legacy alias `feature.md` валиден для уже существующих packages. Feature-level `README.md`, `design.md` / legacy `solution.md` и `implementation-plan.md` используют тот же `doc_kind`, но не обязаны иметь `delivery_status`, если сами не владеют delivery lifecycle.
 
 Для `doc_kind: feature-support` документ является reference / companion внутри feature package и не владеет `delivery_status`, canonical requirements, selected solution или execution sequencing.
 
@@ -44,7 +44,7 @@ delivery_status: planned
 ```yaml
 ---
 derived_from:
-  - ../feature.md
+  - ../brief.md
   - path: ../../../adr/ADR-001-model-stack.md
     fit: "используются только выбранные модели и VRAM constraints"
 status: active

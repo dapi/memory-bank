@@ -14,7 +14,7 @@ audience: humans_and_agents
 
 [Feature Flow](../../../../memory-bank/flows/feature-flow.md) — читай, когда работаешь с фичей, чтобы понимать ее lifecycle и требования к документации.
 
-Этот пакет является текущим golden reference для feature flow: здесь уже присутствуют `README.md`, `feature.md`, `spec.md`, `runtime-surfaces.md`, `implementation-plan.md`, optional `use-cases/README.md` и accepted ADR-зависимости.
+Этот пакет является текущим golden reference для legacy feature flow: здесь уже присутствуют `README.md`, `feature.md`, `spec.md`, `runtime-surfaces.md`, `implementation-plan.md`, optional `use-cases/README.md` и accepted ADR-зависимости. Новый split `brief.md` / `design.md` сюда ещё не перенесён и должен рассматриваться как отдельная миграция.
 
 ## Документы фичи
 

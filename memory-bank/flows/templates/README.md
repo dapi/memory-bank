@@ -8,6 +8,8 @@ derived_from:
   - prd/PRD-XXX.md
   - use-case/UC-XXX.md
   - feature/README.md
+  - feature/brief.md
+  - feature/design.md
   - feature/solution.md
   - feature/implementation-plan.md
   - feature/support/runtime-surfaces.md
@@ -18,6 +20,9 @@ derived_from:
   - adr/ADR-XXX.md
   - prompt/PROMPT-XXX.md
   - process/README.md
+  - process/process-card.md
+  - process/session-handoff.md
+  - process/lifecycle-protocol.md
 status: active
 audience: humans_and_agents
 ---
@@ -29,6 +34,8 @@ audience: humans_and_agents
 - [PRD-XXX: Product Initiative Name](prd/PRD-XXX.md) — компактный Product Requirements Document для инициативы, которая еще не разложена на один конкретный feature slice.
 - [UC-XXX: Use Case Name](use-case/UC-XXX.md) — канонический use case для устойчивого пользовательского или операционного сценария.
 - [FT-XXX Feature README Template](feature/README.md) — шаблон README для feature-каталога. Отвечает на вопрос: как оформить feature-level index.
+- [FT-XXX: Brief Template](feature/brief.md) — canonical problem-space template для новых feature packages. Отвечает на вопрос: как зафиксировать intent, scope и verify contract без solution/execution деталей.
+- [FT-XXX: Design Template](feature/design.md) — canonical solution-space template для feature package. Отвечает на вопрос: как зафиксировать selected design, rationale, contracts, failure modes и design-pack routing.
 - [FT-XXX: Feature Template - Short](feature/short.md) — минимальный canonical feature для problem space небольшой фичи. Отвечает на вопрос: как выглядит short `feature.md`.
 - [FT-XXX: Feature Template - Large](feature/large.md) — canonical feature с richer problem-space контекстом и verify-слоем. Отвечает на вопрос: как выглядит large `feature.md`.
 - [FT-XXX: Solution Template](feature/solution.md) — canonical solution-документ внутри feature package. Отвечает на вопрос: как фиксировать selected design, to-be C4 architecture model, accepted local decisions и contracts.
@@ -39,3 +46,6 @@ audience: humans_and_agents
 - [ADR-XXX: Short Decision Name](adr/ADR-XXX.md) — шаблон ADR. Отвечает на вопрос: как зафиксировать архитектурное решение.
 - [PROMPT-XXX: Reusable Prompt Name](prompt/PROMPT-XXX.md) — шаблон reusable prompt-документа. Отвечает на вопрос: как сохранить исходную формулировку в frontmatter и улучшенный prompt в copyable body-блоке.
 - [PROC-XXX: Process Documentation Index](process/README.md) — шаблон индекса процесс-документов. Отвечает на вопрос: как собрать routing-layer для reusable process cards, session handoff и lifecycle protocol.
+- [PROC-XXX: Compact Process Card](process/process-card.md) — шаблон короткого reusable workflow. Отвечает на вопрос: как зафиксировать процесс с одним trigger, шагами и exit criteria.
+- [PROC-XXX: Session Handoff](process/session-handoff.md) — шаблон передачи состояния между сессиями. Отвечает на вопрос: как продолжить процесс без потери assumptions, risks и next checks.
+- [PROC-XXX: Lifecycle Protocol](process/lifecycle-protocol.md) — шаблон полного lifecycle protocol. Отвечает на вопрос: как вести multi-phase process с gates, verification и rollback.

@@ -19,10 +19,10 @@ template_target_path: ../../../features/FT-XXX/implementation-plan.md
 
 ## Wrapper Notes
 
-Требования, blocker-state и критерии приемки задаются в sibling `feature.md`. Selected design, accepted local decisions и solution-level contracts задаются в sibling `solution.md` или ADR. Optional support docs (`runtime-surfaces.md`, `ui-reference/README.md`, `use-cases/README.md`) можно использовать как grounding/reference, но они не становятся execution owner. Этот документ определяет только sequencing работ и checkpoints выполнения.
-В создаваемом feature package sibling `feature.md` и `solution.md` должны быть инстанцированы из canonical templates в `memory-bank/flows/templates/feature/`.
+Требования, blocker-state и критерии приемки задаются в sibling `brief.md`. Selected design, accepted local decisions и solution-level contracts задаются в sibling `design.md` или ADR. Этот документ определяет только sequencing работ и checkpoints выполнения.
+В создаваемом feature package sibling `brief.md` и `design.md` должны быть инстанцированы из canonical templates в `memory-bank/flows/templates/feature/`.
 
-Создавай этот документ только после того, как sibling `solution.md` переведен в `status: active`. Пока план только формируется, сам `implementation-plan.md` может оставаться в `status: draft`; до перехода feature в `delivery_status: in_progress` план должен стать `status: active`.
+Создавай этот документ только после того, как sibling `design.md` переведен в `status: active`. Пока план только формируется, сам `implementation-plan.md` может оставаться в `status: draft`; до перехода feature в `delivery_status: in_progress` план должен стать `status: active`.
 
 Когда feature переходит в `delivery_status: done` или `delivery_status: cancelled`, `implementation-plan.md` архивируется, если он больше не используется как рабочий execution-документ.
 
@@ -32,7 +32,7 @@ template_target_path: ../../../features/FT-XXX/implementation-plan.md
 
 Для ссылок внутри плана используй стабильные идентификаторы по taxonomy из [../../feature-flow.md#stable-identifiers](../../feature-flow.md#stable-identifiers).
 
-Если неизвестность меняет scope, acceptance criteria или evidence contract, она сначала поднимается upstream в sibling `feature.md`. Если неизвестность меняет selected design, to-be C4 architecture model, accepted local decisions, contracts или rollout/backout semantics, она сначала поднимается в sibling `solution.md` или ADR и только после этого фигурирует в плане.
+Если неизвестность меняет scope, acceptance criteria или evidence contract, она сначала поднимается upstream в sibling `brief.md`. Если неизвестность меняет selected design, to-be C4 architecture model, accepted local decisions, contracts или rollout/backout semantics, она сначала поднимается в sibling `design.md` или ADR и только после этого фигурирует в плане.
 
 ## Instantiated Frontmatter
 
@@ -42,8 +42,8 @@ doc_kind: feature
 doc_function: derived
 purpose: "Execution-план реализации FT-XXX. Фиксирует discovery context, шаги, риски и test strategy без переопределения canonical problem и solution фактов."
 derived_from:
-  - feature.md
-  - solution.md
+  - brief.md
+  - design.md
   # Optional support refs:
   # - runtime-surfaces.md
   # - ui-reference/README.md

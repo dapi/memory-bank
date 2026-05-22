@@ -4,8 +4,8 @@ doc_kind: feature
 doc_function: derived
 purpose: "Execution-план реализации FT-4541. Фиксирует discovery context, шаги, риски и test strategy без переопределения canonical problem или solution фактов."
 derived_from:
-  - feature.md
-  - solution.md
+  - brief.md
+  - design.md
 status: active
 audience: humans_and_agents
 must_not_define:
@@ -19,7 +19,7 @@ must_not_define:
 
 ## Цель текущего плана
 
-Реализовать выбранное решение из [`solution.md`](solution.md): inline receipt через CloudPayments/CloudKassir для системных платежей и correction path за период простоя. План отвечает только за sequencing и verify этой реализации.
+Реализовать выбранное решение из [`design.md`](design.md): inline receipt через CloudPayments/CloudKassir для системных платежей и correction path за период простоя. План отвечает только за sequencing и verify этой реализации.
 
 ## Current State / Reference Points
 
