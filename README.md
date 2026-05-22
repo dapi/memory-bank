@@ -39,7 +39,7 @@ python3 scripts/check_memory_bank_index.py
 Параметры запуска:
 
 - `--max-depth N` — порог глубины индексной навигации в прыжках; по умолчанию `3`; документы глубже порога попадают в warning, а не в error;
-- `--entrypoint PATH` — явный entrypoint для аудита; параметр repeatable; принимает repo-relative или scope-relative пути; если передан, используется вместо дефолтного `memory-bank/README.md`;
+- `--entrypoint PATH` — явный entrypoint для аудита; параметр repeatable; принимает repo-relative или scope-relative пути; неоднозначные пути без префикса сначала резолвятся внутри `--scope-root`, а для явного repo-root пути используйте `./PATH` или `/PATH`; если передан, используется вместо дефолтного `memory-bank/README.md`;
 - `--scope-root DIR` — меняет audit scope; по умолчанию `memory-bank`;
 - `--repo-root DIR` — явно задаёт корень репозитория; полезно для сетевого запуска или локально установленной копии скрипта;
 - `--json` — печатает только JSON-отчёт.
