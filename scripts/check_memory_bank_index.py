@@ -108,17 +108,54 @@ def strip_fenced_code_blocks(text: str) -> str:
     return FENCED_CODE_BLOCK_RE.sub("", text)
 
 
-def parse_frontmatter(text: str) -> dict[str, str]:
+def strip_frontmatter_value(value: str) -> str:
+    return value.strip().strip("\"'")
+
+
+def parse_frontmatter_list_item(item: str) -> object:
+    if item.startswith("{") and item.endswith("}"):
+        fields: dict[str, str] = {}
+        for part in item.strip("{}").split(","):
+            if ":" not in part:
+                continue
+            key, value = part.split(":", 1)
+            fields[key.strip()] = strip_frontmatter_value(value)
+        return fields
+
+    if item.startswith("path:"):
+        return {"path": strip_frontmatter_value(item.split(":", 1)[1])}
+
+    return strip_frontmatter_value(item)
+
+
+def parse_frontmatter(text: str) -> dict[str, object]:
     match = FRONTMATTER_RE.match(text)
     if not match:
         return {}
 
-    frontmatter: dict[str, str] = {}
+    frontmatter: dict[str, object] = {}
+    current_key: str | None = None
     for line in match.group(1).splitlines():
-        if not line or line.startswith((" ", "\t", "-")) or ":" not in line:
+        if not line:
             continue
+        stripped_line = line.strip()
+        if line.startswith((" ", "\t")) and stripped_line.startswith("- ") and current_key:
+            current_value = frontmatter.setdefault(current_key, [])
+            if not isinstance(current_value, list):
+                current_value = []
+                frontmatter[current_key] = current_value
+            current_value.append(parse_frontmatter_list_item(stripped_line[2:].strip()))
+            continue
+        if line.startswith((" ", "\t", "-")) or ":" not in line:
+            continue
+
         key, value = line.split(":", 1)
-        frontmatter[key.strip()] = value.strip().strip("\"'")
+        current_key = key.strip()
+        stripped_value = value.strip()
+        if stripped_value:
+            frontmatter[current_key] = strip_frontmatter_value(stripped_value)
+        else:
+            frontmatter[current_key] = []
     return frontmatter
 
 
@@ -179,6 +216,55 @@ def extract_internal_markdown_links(source_path: str, text: str) -> list[str]:
             continue
         links.append(target)
     return links
+
+
+def extract_derived_from_paths(frontmatter: dict[str, object]) -> list[str]:
+    raw_value = frontmatter.get("derived_from")
+    if raw_value is None:
+        return []
+
+    values = raw_value if isinstance(raw_value, list) else [raw_value]
+    paths: list[str] = []
+    for value in values:
+        if isinstance(value, str):
+            if value:
+                paths.append(value)
+            continue
+        if isinstance(value, dict):
+            path = value.get("path")
+            if isinstance(path, str) and path:
+                paths.append(path)
+    return paths
+
+
+def validate_frontmatter_dependencies(
+    documents: dict[str, dict[str, object]],
+    scope_root: str,
+) -> list[dict[str, str]]:
+    known_paths = set(documents)
+    issues: list[dict[str, str]] = []
+
+    for source_path, document in documents.items():
+        if not is_scoped_markdown(source_path, scope_root):
+            continue
+
+        frontmatter = document["frontmatter"]
+        assert isinstance(frontmatter, dict)
+        for raw_path in extract_derived_from_paths(frontmatter):
+            target = normalize_internal_markdown_target(source_path, raw_path)
+            if target is None:
+                continue
+            if target not in known_paths:
+                issues.append(
+                    {
+                        "source": source_path,
+                        "field": "derived_from",
+                        "value": raw_path,
+                        "target": target,
+                    }
+                )
+
+    return issues
 
 
 def load_documents(repo_root: Path) -> dict[str, dict[str, object]]:
@@ -463,6 +549,7 @@ def build_report(
         "errors": {
             "config": [],
             "broken_links": flatten_broken_links(broken_links),
+            "frontmatter_dependencies": validate_frontmatter_dependencies(documents, scope_root),
             "orphans": [],
             "unreachable": [],
             "index_contract": [],
@@ -564,6 +651,7 @@ def build_report(
     stats.update(
         {
             "broken_link_count": len(errors["broken_links"]),
+            "frontmatter_dependency_issue_count": len(errors["frontmatter_dependencies"]),
             "orphan_count": len(errors["orphans"]),
             "unreachable_count": len(errors["unreachable"]),
             "index_contract_issue_count": len(errors["index_contract"]),
@@ -572,7 +660,10 @@ def build_report(
         }
     )
 
-    has_errors = any(bool(errors[key]) for key in ("config", "broken_links", "orphans", "unreachable", "index_contract"))
+    has_errors = any(
+        bool(errors[key])
+        for key in ("config", "broken_links", "frontmatter_dependencies", "orphans", "unreachable", "index_contract")
+    )
     report["exit_code"] = 1 if has_errors else 0
     return report
 
@@ -618,6 +709,17 @@ def print_text_report(report: dict[str, object]) -> None:
         print()
     else:
         print("OK: no broken internal markdown links in scope.")
+        print()
+
+    frontmatter_dependencies = errors["frontmatter_dependencies"]
+    assert isinstance(frontmatter_dependencies, list)
+    if frontmatter_dependencies:
+        print("Broken frontmatter markdown dependencies:")
+        for item in frontmatter_dependencies:
+            print(f"  - {item['source']} {item['field']}: {item['value']} -> {item['target']}")
+        print()
+    else:
+        print("OK: no broken frontmatter markdown dependencies in scope.")
         print()
 
     orphans = errors["orphans"]

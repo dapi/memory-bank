@@ -4,8 +4,8 @@ doc_kind: process
 doc_function: template
 purpose: Governed wrapper-шаблон для session handoff. Читать, чтобы сохранять состояние процесса между сессиями без потери assumptions, risks и next checks.
 derived_from:
-  - ../../dna/governance.md
-  - ../../dna/frontmatter.md
+  - ../../../dna/governance.md
+  - ../../../dna/frontmatter.md
   - ../../workflows.md
 status: active
 audience: humans_and_agents
@@ -44,7 +44,7 @@ doc_kind: process
 doc_function: canonical
 purpose: "Фиксирует состояние незавершенного процесса так, чтобы следующая сессия могла продолжить работу без потери контекста."
 derived_from:
-  - ../README.md
+  - README.md
 status: draft
 audience: humans_and_agents
 must_not_define:

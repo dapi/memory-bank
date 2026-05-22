@@ -125,10 +125,10 @@ must_not_define:
 
 ### Traceability matrix
 
-| Requirement ID | Problem/design refs | Acceptance refs | Checks | Evidence IDs |
+| Requirement ID | Problem refs | Acceptance refs | Checks | Evidence IDs |
 | --- | --- | --- | --- | --- |
-| `REQ-01` | `ASM-01`, `CON-01`, `DEC-01`, `SOL-01` if design required | `EC-01`, `SC-01` | `CHK-01` | `EVID-01` |
-| `REQ-02` | `ASM-01`, `CON-01`, `SOL-02` if design required | `EC-02`, `SC-02` | `CHK-01` | `EVID-01` |
+| `REQ-01` | `ASM-01`, `CON-01`, `DEC-01` | `EC-01`, `SC-01` | `CHK-01` | `EVID-01` |
+| `REQ-02` | `ASM-01`, `CON-01` | `EC-02`, `SC-02` | `CHK-01` | `EVID-01` |
 
 ### Acceptance Scenarios
 
