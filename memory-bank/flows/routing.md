@@ -83,6 +83,12 @@ Issue / Task
 - Если refactoring меняет observable behavior, выйди из Refactoring Flow и повтори routing.
 - Если задача меняет contract, rollout или требует approvals, она не может оставаться `Small Change`.
 
+## Carrier Selection
+
+Выбранный flow определяет lifecycle, а carrier определяет, где хранится durable context. Для обычной небольшой работы достаточно issue/PR. Если bugfix, refactoring или technical chore требует устойчивой traceability, нескольких review passes или контекста, который нельзя надёжно оставить только в PR, используй optional [`TASK-XXX` package](../tasks/README.md).
+
+`TASK-XXX` не является отдельным route и не ослабляет gates выбранного flow. Если package потребовал `design.md`, `implementation-plan.md`, contract change или несколько delivery units, повтори routing вместо расширения task carrier-а.
+
 ## Human Routing
 
 Следуй canonical triggers из [`../engineering/autonomy-boundaries.md`](../engineering/autonomy-boundaries.md). Для routing дополнительно запрашивай решение человека, когда выбор flow требует продуктового решения, риск нельзя контролировать существующими gates или несколько route остаются одинаково правдоподобными после доступного исследования.
