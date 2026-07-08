@@ -155,3 +155,11 @@ Flow:
 - Если задача меняет контракт, rollout или требует approvals, поднимай её до feature flow.
 - Если замечания не уменьшаются от итерации к итерации, проблема может быть upstream, а не в коде.
 - Если compact profile выбран для bugfix/refactor, PR обязан содержать routing signature и evidence по соответствующему template.
+
+## Optional Routing Support
+
+Для изменений самого selector-а используй [Workflow Decision Log](workflow-decision-log.md): он фиксирует причину, evidence, решение, expected consequences и review rule.
+
+Для проверки, что compact или managed profiles уменьшили лишнюю ceremony без потери safety/evidence, используй [Workflow Metrics](workflow-metrics.md). Safety misroutes, missing evidence и rework проверяются раньше lead time.
+
+Для короткого объяснения выбора workflow profile в issue/PR используй [Workflow Routing Developer Brief](workflow-routing-developer-brief.md). Он не заменяет этот canonical routing document и не делает optional profiles обязательными для каждого проекта.

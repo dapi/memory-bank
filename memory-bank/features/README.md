@@ -41,3 +41,6 @@ audience: humans_and_agents
 - [`FT-012`](FT-012/)
   Читать, когда нужно: вести delivery по issue #12 о compact task-flow для bugfix/refactor/chore через `feature-flow`.
   Отвечает на вопрос: какие scope, design, plan и локальные решения управляют добавлением task-flow family.
+
+- [FT-013](FT-013/)
+  Читать, когда нужно: открыть feature package для issue 13 про generic workflow routing metrics, decision log и developer brief.
