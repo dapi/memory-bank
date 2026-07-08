@@ -8,6 +8,7 @@ derived_from:
   - prd/PRD-XXX.md
   - use-case/UC-XXX.md
   - epic/README.md
+  - epic/brief.md
   - epic/charter.md
   - epic/roadmap.md
   - epic/decision-log.md
@@ -37,6 +38,7 @@ audience: humans_and_agents
 - [PRD-XXX: Product Initiative Name](prd/PRD-XXX.md) — компактный Product Requirements Document для инициативы, которая еще не разложена на один конкретный feature slice.
 - [UC-XXX: Use Case Name](use-case/UC-XXX.md) — канонический use case для устойчивого пользовательского или операционного сценария.
 - [Epic Templates](epic/README.md) — индекс шаблонов `EP-XXX` package.
+- [EP-XXX: Brief Template](epic/brief.md) — lightweight intake template для early epic proposal до полного setup. Отвечает на вопрос: как зафиксировать problem, outcome, rough scope, non-scope и readiness notes без подмены charter/roadmap.
 - [EP-XXX: Charter Template](epic/charter.md) — intent, scope, source/evidence and stakeholder channels.
 - [EP-XXX: Roadmap Template](epic/roadmap.md) — waves, dependencies, gates and stop rules.
 - [EP-XXX: Decision Log Template](epic/decision-log.md) — local epic decisions that do not require global ADR.

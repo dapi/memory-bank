@@ -29,3 +29,7 @@ audience: humans_and_agents
 - Базовый формат: `FT-XXX/`
 - Вместо `XXX` используй идентификатор, принятый в проекте: issue id, ticket id или другой стабильный ключ
 - Один package = одна delivery-единица
+
+## Packages
+
+- [`FT-014/`](FT-014/) — delivery package for issue 14: add lightweight epic intake brief template and related epic-flow/template index updates.
