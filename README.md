@@ -15,6 +15,11 @@
 - [`alfagen/mercury`](https://github.com/alfagen/mercury)
 - [`dapi/expert-kapremont-demo`](https://github.com/dapi/expert-kapremont-demo)
 
+
+```prompt
+Изучи что нового и полезного для нашего memory-bank появилось в репозиториях источниках
+```
+
 ## Как использовать
 
 1. Скопируйте каталог `./memory-bank` в корень своего проекта.
