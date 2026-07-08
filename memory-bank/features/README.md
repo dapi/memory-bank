@@ -28,7 +28,7 @@ audience: humans_and_agents
 
 | Feature ID | Title | Status | Delivery status | Source |
 | --- | --- | --- | --- | --- |
-| [`FT-015`](FT-015-pattern-operational-agentic-use-cases/README.md) | Operational and Agentic Use Cases Pattern | `active` | `in_progress` | [GitHub issue #15](https://github.com/dapi/memory-bank/issues/15) |
+| [`FT-015`](FT-015-pattern-operational-agentic-use-cases/README.md) | Operational and Agentic Use Cases Pattern | `active` | `done` | [GitHub issue #15](https://github.com/dapi/memory-bank/issues/15) |
 
 ## Naming
 
