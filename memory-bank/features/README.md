@@ -29,3 +29,8 @@ audience: humans_and_agents
 - Базовый формат: `FT-XXX/`
 - Вместо `XXX` используй идентификатор, принятый в проекте: issue id, ticket id или другой стабильный ключ
 - Один package = одна delivery-единица
+
+## Packages
+
+- [FT-013](FT-013/)
+  Читать, когда нужно: открыть feature package для issue 13 про generic workflow routing metrics, decision log и developer brief.
