@@ -48,6 +48,7 @@ derived_from:
   # - design.md
   # Optional support refs:
   # - runtime-surfaces.md
+  # - privacy-source-boundary.md
   # - ui-reference/README.md
   # - use-cases/README.md
 status: draft
@@ -77,6 +78,7 @@ must_not_define:
 | `brief.md` | canonical problem / verify owner | `REQ-*`, `SC-*`, `CHK-*`, `EVID-*` | Update `brief.md` first |
 | `design.md` / `none` | conditional solution owner | `SOL-*`, `C4-*`, `SD-*`, `CTR-*`, `INV-*`, `FM-*`, `RB-*` | Update `design.md` or ADR first; if design is absent, promote new design facts before planning |
 | `runtime-surfaces.md` / `none` | optional grounding | `SURF-*`, `MAP-*`, context matrix | Promote changed design facts to `design.md` if design is required |
+| `privacy-source-boundary.md` / `none` | optional source/privacy reference | `SRC-*`, `ALLOW-*`, `EXCL-*`, `PERM-*`, evidence handling notes | Promote changed requirements to `brief.md`, changed design facts to `design.md`, and execution approvals to `AG-*` |
 | `ui-reference/README.md` / `none` | optional interface reference | `UI-*`, mockups, states | Promote changed requirements to `brief.md` or design facts to `design.md` if required |
 | `use-cases/README.md` / `none` | optional scenario companion | `FUC-*`, `TC-*` candidates | Keep canonical acceptance in `brief.md` |
 | `contracts/<name>.md` / `none` | optional delegated contract owner | Explicit `CTR-*`, compatibility, errors, idempotency | Update delegated contract and `design.md` routing before planning against changed semantics |
@@ -93,6 +95,7 @@ must_not_define:
 ## Test Strategy
 
 Какие test surfaces должны быть обновлены по мере реализации. Этот раздел фиксирует expected automated coverage, required local/CI gates и manual-only exceptions для change surface, не переопределяя canonical test cases из `brief.md`.
+Если используется `privacy-source-boundary.md`, test strategy must state which evidence carriers are allowed, what must be redacted/summarized, and which source/privacy boundaries require `AG-*`.
 
 | Test surface | Canonical refs | Existing coverage | Planned automated coverage | Required local suites / commands | Required CI suites / jobs | Manual-only gap / justification | Manual-only approval ref |
 | --- | --- | --- | --- | --- | --- | --- | --- |

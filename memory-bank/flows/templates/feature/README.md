@@ -49,6 +49,10 @@ Downstream routes для living feature package добавляются по ме
   Читать, когда нужно: если для решения важны порядок interactions, async callbacks, retries, timeouts или compensation.
   Отвечает на вопрос: как canonical solution и contracts взаимодействуют во времени.
 
+- `privacy-source-boundary.md`
+  Читать, когда нужно: если feature uses logs, transcripts, diagnostics, observability artifacts, external metadata, source inventories or other sources where read/store/cite/evidence boundaries must be explicit.
+  Отвечает на вопрос: какие source classes, allowed metadata, excluded data, confidence/status and owner boundaries apply without replacing canonical docs.
+
 ## Instantiated Frontmatter
 
 ```yaml

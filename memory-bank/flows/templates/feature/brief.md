@@ -28,6 +28,8 @@ canonical_for:
 
 Optional companions выбирай по [Feature Artifact Catalog](../../feature-artifact-catalog.md). Не копируй весь каталог в feature и не создавай placeholders: Artifact Routing Decision перечисляет только выбранные artifacts и material omissions, которые важно объяснить reviewers.
 
+Если feature зависит от logs, transcripts, diagnostics, observability artifacts, external metadata или source inventories, рассмотри optional `privacy-source-boundary.md` как support/reference. `brief.md` всё равно владеет scope, non-scope, acceptance scenarios, canonical checks и evidence contract.
+
 Используй стабильные идентификаторы по taxonomy из [../../feature.md#stable-identifiers](../../feature.md#stable-identifiers).
 
 ### Frontmatter Quick Ref

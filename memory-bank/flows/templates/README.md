@@ -20,6 +20,7 @@ derived_from:
   - feature/implementation-plan.md
   - feature/support/runtime-surfaces.md
   - feature/support/sequence-diagram.md
+  - feature/support/privacy-source-boundary.md
   - feature/support/ui-reference.md
   - feature/support/use-cases.md
   - adr/ADR-XXX.md
@@ -51,6 +52,7 @@ audience: humans_and_agents
 - [FT-XXX: Implementation Plan](feature/implementation-plan.md) — шаблон derived execution-плана. Отвечает на вопрос: как оформить sequencing и checkpoints после готовности upstream owners.
 - [FT-XXX: Runtime Surfaces Template](feature/support/runtime-surfaces.md) — optional support template для current runtime inventory, semantic mapping, context matrix и resolution tables.
 - [FT-XXX: Sequence Diagram Template](feature/support/sequence-diagram.md) — optional reference template для temporal / async interactions, retries, timeouts и failure branches.
+- [FT-XXX: Privacy / Source Boundary Template](feature/support/privacy-source-boundary.md) — optional support template для source inventory, allowed/excluded data boundaries, confidence/status и evidence handling.
 - [FT-XXX: UI Reference Template](feature/support/ui-reference.md) — optional support template для interface changes, screen map, interaction states и mockups.
 - [FT-XXX: Feature Use Cases Template](feature/support/use-cases.md) — optional support template для derived use cases, test case candidates и `FUC -> REQ -> CHK` review mapping.
 - [ADR-XXX: Short Decision Name](adr/ADR-XXX.md) — шаблон ADR. Отвечает на вопрос: как зафиксировать архитектурное решение.

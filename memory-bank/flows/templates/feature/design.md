@@ -29,6 +29,8 @@ canonical_for:
 
 Если solution-space разбит на несколько артефактов, `design.md` становится индексом design-pack и фиксирует owner-а каждого design fact. Не дублируй canonical факты из ADR, C4, data-flow или других design docs; ссылайся на них.
 
+Если solution reasoning depends on source access, source confidence or privacy/evidence boundaries, index optional `privacy-source-boundary.md` in the design pack as support/reference. It does not own selected `SOL-*`, `CTR-*`, `INV-*` or `FM-*`.
+
 ## Instantiated Frontmatter
 
 ```yaml
@@ -62,6 +64,7 @@ must_not_define:
 | `contracts/<name>.md` | Optional delegated contract owner | Только явно перечисленные `CTR-*`; selected solution остается здесь |
 | `diagrams/<name>-sequence.md` | Optional temporal reference view | `SEQ-*` projection canonical solution / contract facts; новых решений не принимает |
 | `../../adr/ADR-XXX.md` | Architecture decision | Какой design choice принадлежит ADR |
+| `privacy-source-boundary.md` | Optional source/privacy reference | `SRC-*`, `ALLOW-*`, `EXCL-*`, `PERM-*`; does not own selected design |
 
 ## Context
 
