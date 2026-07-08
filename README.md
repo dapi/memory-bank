@@ -13,7 +13,6 @@
 - [`dapi/zelma`](https://github.com/dapi/zelma)
 - [`brandymint/merchantly`](https://github.com/brandymint/merchantly)
 - [`alfagen/mercury`](https://github.com/alfagen/mercury)
-- [`dapi/expert-kapremont-demo`](https://github.com/dapi/expert-kapremont-demo)
 
 
 ```prompt
