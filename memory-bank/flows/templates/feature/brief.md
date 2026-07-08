@@ -25,6 +25,8 @@ canonical_for:
 
 Если фича меняет API, event, schema, file format, CLI, env contract, security boundary, financial calculation, integration contract, rollout/backout или требует alternatives/trade-off reasoning, зафиксируй `Design required: yes` и создай sibling `design.md` по шаблону `design.md`. Новые пакеты держат substantial design только в `design.md` / design-pack.
 
+Если feature depends on logs, transcripts, diagnostics, observability artifacts, external metadata or source inventories, consider optional `privacy-source-boundary.md` as support/reference. `brief.md` still owns scope, non-scope, acceptance scenarios, canonical checks and evidence contract.
+
 Используй стабильные идентификаторы по taxonomy из [../../feature-flow.md#stable-identifiers](../../feature-flow.md#stable-identifiers).
 
 ### Frontmatter Quick Ref

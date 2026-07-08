@@ -45,7 +45,7 @@ audience: humans_and_agents
 12. **Связь с task tracker.** При создании feature package агент обязан добавить в исходную задачу или ticket ссылку на `brief.md`, а после появления downstream-документов — ссылки на существующие `design.md` и `implementation-plan.md`.
 13. Если фича является частью более крупной инициативы, `brief.md` может зависеть от PRD из `memory-bank/prd/`, но PRD не заменяет сам feature package.
 14. Если фича создает новый устойчивый сценарий проекта или materially changes существующий, соответствующий `UC-*` в `memory-bank/use-cases/` должен быть создан или обновлен до closure.
-15. Optional feature-support docs (`runtime-surfaces.md`, `ui-reference/README.md`, `use-cases/README.md`) допустимы для сложных фич как grounding / review / traceability aids. Они не становятся canonical owner problem space, solution space, acceptance inventory или execution sequencing.
+15. Optional feature-support docs (`runtime-surfaces.md`, `ui-reference/README.md`, `use-cases/README.md`, `privacy-source-boundary.md`) допустимы для сложных фич как grounding / review / traceability aids. Они не становятся canonical owner problem space, solution space, acceptance inventory или execution sequencing.
 16. Если фича зависит от upstream-документа инициативы, `brief.md` импортирует только релевантные upstream-ссылки, а не весь upstream scope.
 17. Если работа крупнее одной delivery-feature и требует roadmap, risk register или нескольких delivery units, не расширяй feature package; выбери подходящий upstream flow из `memory-bank/flows/` и веди каждую утвержденную delivery-единицу как отдельный feature package.
 
@@ -115,8 +115,9 @@ Support docs создаются только когда они снимают р
 | --- | --- | --- | --- |
 | `runtime-surfaces.md` | Фича затрагивает несколько runtime entrypoints, concrete surfaces, semantic mappings, fallback/error paths или context variants | current surface inventory, semantic mapping, adjacent out-of-scope surfaces, target mapping reference, context matrix, resolution / decision table, observability notes | requirements, selected design, acceptance criteria, implementation sequence |
 | `ui-reference/README.md` | Фича меняет интерфейс, authoring flow, navigation, screen states или preview / editor UX | generic interface reference: screen map, interaction states, component expectations, copy/state semantics, mockup links and UI traceability | project-specific UI framework rules, product requirements, selected architecture, implementation steps |
-| `ui-reference/mockups/*.md` или другой linkable artifact | Любое interface change требует хотя бы low-fidelity mockup; default format — Markdown, но допустимы images, design-tool links или other artifacts, если они versionable / linkable | screen sketch, state examples, interaction notes | canonical acceptance inventory или final visual design system |
+| `ui-reference/mockups/*.md` или другой linkable artifact | Создавай, когда interface change нельзя reliably review по prose и existing UI references; для trivial copy/state tweaks достаточно rationale в `brief.md` или `implementation-plan.md` | screen sketch, state examples, interaction notes | canonical acceptance inventory или final visual design system |
 | `use-cases/README.md` | Сценариев много, есть distinct happy/edge/error journeys, несколько user roles или нужен review-friendly `FUC -> REQ -> CHK` mapping | derived user-facing scenarios, edge/error cases, candidate test cases, traceability back to canonical refs | canonical `SC-*`, `NEG-*`, `CHK-*`, `EVID-*` |
+| `privacy-source-boundary.md` | Фича затрагивает logs, transcripts, diagnostics, observability artifacts, external metadata, source inventories или любой source class, где агенту нужны явные rules for read/store/cite/evidence use | source inventory, confidence/status, allowed metadata/data use, explicitly excluded data, owner/permission boundaries, evidence handling notes | requirements, selected design, acceptance criteria, canonical evidence contract, implementation sequence, global privacy/legal policy |
 
 Support docs должны ссылаться на canonical owners и явно писать, что они не подменяют `brief.md`, `design.md` или `implementation-plan.md`. Если support doc обнаруживает изменение scope, acceptance, selected design или execution sequence, сначала обновляется соответствующий canonical owner.
 
@@ -305,6 +306,10 @@ Canonical testing policy живёт в [../engineering/testing-policy.md](../eng
 | `UI-*` | interface screens, states, controls or interaction elements | `ui-reference/README.md` |
 | `FUC-*` | derived feature-local use cases | `use-cases/README.md` |
 | `TC-*` | derived test case candidates | `use-cases/README.md`, support docs |
+| `SRC-*` | source inventory entries / source classes / evidence carriers | `privacy-source-boundary.md` |
+| `ALLOW-*` | allowed metadata or data-use rows | `privacy-source-boundary.md` |
+| `EXCL-*` | explicitly excluded data classes or source-content boundaries | `privacy-source-boundary.md` |
+| `PERM-*` | owner / permission / escalation boundary rows | `privacy-source-boundary.md` |
 
 ### Required Minimum
 

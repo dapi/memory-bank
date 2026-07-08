@@ -14,9 +14,10 @@
 - [`brandymint/merchantly`](https://github.com/brandymint/merchantly)
 - [`alfagen/mercury`](https://github.com/alfagen/mercury)
 
+Для периодического аудита источников используйте промпт:
 
-```prompt
-Изучи что нового и полезного для нашего memory-bank появилось в репозиториях источниках
+```text
+Изучи, что нового и полезного для нашего memory-bank появилось в репозиториях-источниках.
 ```
 
 ## Как использовать
@@ -107,7 +108,7 @@ python3 ./tools/check_memory_bank_index.py --repo-root .
 
 ## Настроечные промпты для агента
 
-Запукаются в новых сессиях
+Запускаются в новых сессиях
 
 ```text
 Прочитай ./memory-bank и предложи адаптацию CLAUDE.md/AGENTS.md под правила этого шаблона.
@@ -132,17 +133,17 @@ python3 ./tools/check_memory_bank_index.py --repo-root .
 ```text
 Проведи ревью memory-bank на document governance
 ```
-(внеси правки и повторить до состояния которое вас устроит)
+(вноси правки и повторяй до состояния, которое вас устроит)
 
 
 ```text
-Проведи ревью memory-bank на консистетность, и непротиворечивость
+Проведи ревью memory-bank на консистентность и непротиворечивость
 ```
-(внеси правки и повторить до состояния которое вас устроит)
+(вноси правки и повторяй до состояния, которое вас устроит)
 
 ```text
-У нас в проекте подключен memory-bank. Я хочу быть уверен что все страницы в этом memory-bank-а так или иначе доступны через нидексацию начиная с
-AGENTS.md. Если страница не упомянются напрямую, то она упомянутся в файле который упомянут в файле который упомянут в AGENTS.md и так далее на глубину до 4-х шагов.
+У нас в проекте подключен memory-bank. Я хочу быть уверен, что все страницы в этом memory-bank так или иначе доступны через индексацию, начиная с
+AGENTS.md. Если страница не упоминается напрямую, то она упоминается в файле, который упомянут в файле, который упомянут в AGENTS.md и так далее на глубину до 4-х шагов.
 ```
 
 ```text
@@ -157,6 +158,7 @@ AGENTS.md. Если страница не упомянются напрямую,
 
 - `memory-bank/dna/` — governance-ядро: SSoT, frontmatter, lifecycle, cross-references.
 - `memory-bank/flows/` — lifecycle flows и шаблоны для PRD/feature/ADR.
+- `memory-bank/tasks/` — optional compact packages для managed bugfix/chore/refactor задач без full feature package.
 - `memory-bank/product/` — заготовки для product context, vision, customers, metrics, marketing и roadmap.
 - `memory-bank/domain/` — заготовки для glossary, domain model, rules, states, events и context map.
 - `memory-bank/prd/` — место для instantiated Product Requirements Documents.
