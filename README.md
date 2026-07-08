@@ -8,6 +8,13 @@
 
 - [INTRO.md](INTRO.md) — интро-инструкция по внедрению агентского подхода через Memory Bank: как объяснять шаблон команде, запускать Feature Flow и ставить задачи агентам через проверяемый контекст.
 
+## Источники пополнения `memory-bank`
+
+- [`dapi/zelma`](https://github.com/dapi/zelma)
+- [`brandymint/merchantly`](https://github.com/brandymint/merchantly)
+- [`alfagen/mercury`](https://github.com/alfagen/mercury)
+- [`dapi/expert-kapremont-demo`](https://github.com/dapi/expert-kapremont-demo)
+
 ## Как использовать
 
 1. Скопируйте каталог `./memory-bank` в корень своего проекта.
