@@ -1,0 +1,23 @@
+Memory-bank link audit
+Repo root: /Users/danil/worktrees/feature/issue-12-compact-task-flow-bugfix-refactor-chore
+Scope root: memory-bank
+Entrypoints: memory-bank/README.md
+Navigation depth threshold: 3
+Markdown files in scope: 82
+Index documents in scope: 17
+
+OK: no broken internal markdown links in scope.
+
+OK: no broken frontmatter markdown dependencies in scope.
+
+OK: no orphan markdown files in scope.
+
+OK: all scoped markdown files are reachable from the configured entrypoints via index navigation.
+
+OK: no documents are reachable only deeper than the configured threshold.
+
+Index compliance:
+  - OK
+
+Result: OK
+Machine-readable output: re-run with --json for a structured report suitable for auto-indexing.
