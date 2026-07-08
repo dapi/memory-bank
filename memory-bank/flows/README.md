@@ -13,6 +13,9 @@ derived_from:
   - epic.md
   - feature.md
   - feature-artifact-catalog.md
+  - workflow-decision-log.md
+  - workflow-metrics.md
+  - workflow-routing-developer-brief.md
   - templates/README.md
 status: active
 audience: humans_and_agents
@@ -30,4 +33,7 @@ audience: humans_and_agents
 - [Epic Flow](epic.md) — lifecycle крупных инициатив, roadmap, decision log, risks и handoff в feature packages.
 - [Feature Flow](feature.md) — lifecycle `brief.md -> optional design.md -> implementation-plan.md`, gates и стабильные ID (`REQ-*`, `SOL-*`, `STEP-*`).
 - [Feature Artifact Catalog](feature-artifact-catalog.md) — optional problem/solution/execution artifacts, selection triggers, ownership, default forms и template availability.
+- [Workflow Decision Log](workflow-decision-log.md) — optional журнал причин и ожидаемых последствий изменений workflow selector-а и profiles.
+- [Workflow Metrics](workflow-metrics.md) — optional safety-first метрики для проверки workflow profiles без подмены evidence скоростью.
+- [Workflow Routing Developer Brief](workflow-routing-developer-brief.md) — короткий reusable brief для выбора workflow profile и promotion triggers.
 - [Templates Index](templates/README.md) — эталонные шаблоны governed-документов, включая PRD, use case, epic, feature и ADR.

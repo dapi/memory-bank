@@ -83,6 +83,14 @@ Issue / Task
 - Если refactoring меняет observable behavior, выйди из Refactoring Flow и повтори routing.
 - Если задача меняет contract, rollout или требует approvals, она не может оставаться `Small Change`.
 
+## Optional Governance Aids
+
+- [Workflow Decision Log](workflow-decision-log.md) фиксирует причины и ожидаемые последствия изменений routing rules или workflow profiles.
+- [Workflow Metrics](workflow-metrics.md) проверяет routing changes через safety, evidence и traceability раньше speed.
+- [Workflow Routing Developer Brief](workflow-routing-developer-brief.md) даёт reusable routing signature и promotion checklist для issue/PR instructions.
+
+Эти документы помогают пересматривать selector, но не заменяют canonical predicates и outcome contract этого документа.
+
 ## Human Routing
 
 Следуй canonical triggers из [`../engineering/autonomy-boundaries.md`](../engineering/autonomy-boundaries.md). Для routing дополнительно запрашивай решение человека, когда выбор flow требует продуктового решения, риск нельзя контролировать существующими gates или несколько route остаются одинаково правдоподобными после доступного исследования.
