@@ -1,0 +1,55 @@
+memory-bank/flows/bugfix-flow.md:23:- `workflow_profile=bugfix-compact`;
+memory-bank/flows/bugfix-flow.md:24:- `workflow_profile=managed-task` и primary owner task package - `bugfix.md`.
+memory-bank/flows/bugfix-flow.md:26:Общие правила carrier/package, worktree, promotion и closure задает [`task-flow.md`](task-flow.md). Этот документ владеет только bugfix-процессом: symptom, reproduction, root cause, fix boundary и regression coverage.
+memory-bank/flows/bugfix-flow.md:57:- [ ] `contract_change=none` для `bugfix-compact`.
+memory-bank/flows/bugfix-flow.md:59:- [ ] Promotion triggers из [`workflows.md`](workflows.md) проверены.
+memory-bank/flows/bugfix-flow.md:71:Если root cause неизвестен, разрешены только discovery, logging, reproduction spec или diagnostic capture. Behavior-changing fix ждет известного `RC-*` или promotion.
+memory-bank/flows/refactor-flow.md:102:2. Если behavior change желателен или необходим, task повышается до `feature-package` или другого подходящего profile.
+memory-bank/flows/refactor-flow.md:105:5. Системный refactor с несколькими independent delivery units повышается минимум до `managed-task`, часто до `epic-package`.
+memory-bank/flows/refactor-flow.md:23:- `workflow_profile=refactor-small`;
+memory-bank/flows/refactor-flow.md:24:- `workflow_profile=managed-task` и primary owner task package - `refactor.md`.
+memory-bank/flows/refactor-flow.md:26:Общие правила carrier/package, worktree, promotion и closure задает [`task-flow.md`](task-flow.md). Этот документ владеет только refactor/chore-процессом: intent, behavior invariants, change surface, checkpoints и verification.
+memory-bank/flows/refactor-flow.md:56:- [ ] `contract_change=none` для `refactor-small`.
+memory-bank/flows/refactor-flow.md:58:- [ ] Promotion triggers из [`workflows.md`](workflows.md) проверены.
+memory-bank/flows/refactor-flow.md:70:Если проверяемые invariants нельзя сформулировать, refactor не готов к execution: сначала нужен discovery или promotion.
+memory-bank/flows/task-flow.md:106:- [ ] Routing Signature заполнен, включая `workflow_profile`.
+memory-bank/flows/task-flow.md:107:- [ ] Promotion triggers из [`workflows.md`](workflows.md) проверены.
+memory-bank/flows/task-flow.md:108:- [ ] Для compact profiles нет `risk=high/critical`.
+memory-bank/flows/task-flow.md:109:- [ ] `contract_change=none` для `tracker-only`, `bugfix-compact`, `refactor-small`.
+memory-bank/flows/task-flow.md:111:- [ ] Если есть `unknown` в `kind`, `risk`, `change_surface` или `contract_change`, задача не переходит в Task Ready без discovery или promotion.
+memory-bank/flows/task-flow.md:140:- [ ] Если появились promotion triggers, они не замаскированы: задача promoted или явно остановлена.
+memory-bank/flows/task-flow.md:145:Promotion обязателен, если появился любой trigger:
+memory-bank/flows/task-flow.md:33:Если задача создает новую capability, меняет устойчивый scenario, затрагивает API/schema/security/financial/integration/rollout contract или требует design reasoning, ее нужно повысить до `feature-package`, ADR или `epic-package` по promotion rules.
+memory-bank/flows/task-flow.md:39:| `tracker-only` | GitHub issue/PR с Routing Signature, boundary и verification evidence | none | `tiny/small`, `low` risk, без contract change, без durable owner doc |
+memory-bank/flows/task-flow.md:58:Используй [`bugfix-flow.md`](bugfix-flow.md). `task-flow` владеет carrier/package и promotion, `bugfix-flow` владеет symptom, reproduction, root cause, fix boundary и regression coverage.
+memory-bank/flows/task-flow.md:62:Используй [`refactor-flow.md`](refactor-flow.md). `task-flow` владеет carrier/package и promotion, `refactor-flow` владеет intent, behavior invariants, change surface, checkpoints и verification.
+memory-bank/flows/task-flow.md:78:5. В одном `TASK-XXX/` должен быть ровно один primary task owner: `bugfix.md` или `refactor.md`, кроме случаев, когда package явно служит routing-index для нескольких follow-up tasks. Если появляется несколько independent delivery units, создай отдельные `TASK-*` или promote в `epic-package`.
+memory-bank/flows/task-flow.md:79:6. `implementation-plan.md` внутри `TASK-XXX/` не создается. Sequencing и checkpoints должны помещаться в primary task owner. Если нужен полноценный execution contract, promote до `feature-package` или создай отдельный approved plan по upstream owner-решению.
+memory-bank/flows/task-flow.md:80:7. `design.md` внутри `TASK-XXX/` не создается. Если нужен solution-space owner, alternatives/trade-off reasoning, C4, migration strategy или rollout/backout design, promote до `feature-package` или ADR + feature package.
+memory-bank/flows/templates/task/bugfix.md:38:workflow_profile: bugfix-compact
+memory-bank/flows/templates/task/bugfix.md:57:| `contract_change` | `none` |
+memory-bank/flows/templates/task/bugfix.md:58:| `workflow_profile` | `bugfix-compact` |
+memory-bank/flows/templates/task/bugfix.md:60:Promotion check: если `contract_change != none`, `risk=high/critical` или root cause требует design reasoning, остановиться и поднять profile по `workflows.md`.
+memory-bank/flows/templates/task/package-README.md:33:workflow_profile: managed-task
+memory-bank/flows/templates/task/package-README.md:49:| `contract_change` | `none` |
+memory-bank/flows/templates/task/package-README.md:50:| `workflow_profile` | `managed-task` |
+memory-bank/flows/templates/task/package-README.md:52:Promotion check: если появляется capability, contract change, high/critical risk, design reasoning или несколько delivery units, остановиться и поднять profile по `workflows.md`.
+memory-bank/flows/templates/task/refactor.md:38:workflow_profile: refactor-small
+memory-bank/flows/templates/task/refactor.md:57:| `contract_change` | `none` |
+memory-bank/flows/templates/task/refactor.md:58:| `workflow_profile` | `refactor-small` / `managed-task` |
+memory-bank/flows/templates/task/refactor.md:60:Promotion check: если меняется observable behavior, contract, rollout, security/financial boundary или несколько bounded contexts, поднять profile по `workflows.md`.
+memory-bank/flows/workflows.md:127:| `tracker-only` | `tiny/small`, `low` risk, локальная правка без contract change | GitHub issue/PR: routing signature, short rationale, checks/evidence | Нужен durable owner doc, есть design decision или high-risk surface |
+memory-bank/flows/workflows.md:128:| `bugfix-compact` | Дефект с понятным symptom/repro/root cause и локальным fix | [`bugfix-flow.md`](bugfix-flow.md); GitHub issue/PR по шаблону [`templates/task/bugfix.md`](templates/task/bugfix.md); optional `memory-bank/tasks/TASK-XXX/README.md` + `bugfix.md`, если нужен durable context | Меняется API/schema/security/financial/integration/rollout или root cause требует design reasoning |
+memory-bank/flows/workflows.md:131:| `feature-package` | Новая или materially changed capability / delivery slice | `memory-bank/features/FT-XXX/` по [`feature-flow.md`](feature-flow.md) | Требуется roadmap/risk register/subissues для нескольких delivery units |
+memory-bank/flows/workflows.md:132:| `epic-package` | Инициатива крупнее одной delivery unit | `memory-bank/epics/EP-XXX/` по [`epic-flow.md`](epic-flow.md) | Есть только одна локальная delivery task |
+memory-bank/flows/workflows.md:137:## Promotion Rules
+memory-bank/flows/workflows.md:143:| Меняется API, event, schema, file format, CLI, security boundary, financial calculation, integration contract или operational rollout | `feature-package` или ADR + `feature-package` | Нужен solution-space owner и acceptance traceability |
+memory-bank/flows/workflows.md:144:| Bugfix требует alternatives/trade-off reasoning, migration strategy, rollout/backout или explicit failure-mode design | `managed-task` или `feature-package` | Issue/PR note перестает быть достаточным owner-ом решения |
+memory-bank/flows/workflows.md:145:| Refactor затрагивает несколько bounded contexts, shared abstractions или runtime topology | `managed-task` / `feature-package`; для серии задач - `epic-package` | Нужны checkpoints, invariants и stop conditions |
+memory-bank/flows/workflows.md:146:| Исправление создает новый устойчивый user/operator/system scenario | `feature-package` + обновление `UC-*` при необходимости | Это уже capability, а не только fix/chore |
+memory-bank/flows/workflows.md:148:| `risk=high/critical` или есть irreversible/external side effects | Минимум `managed-task`, часто `feature-package` | Нужны явные approvals, rollback/backout и durable evidence |
+memory-bank/flows/workflows.md:18:  - workflow_promotion_rules
+memory-bank/flows/workflows.md:59:| `contract_change` | `none`, `api`, `schema`, `event`, `security`, `financial`, `integration`, `rollout`, `unknown` | Включить promotion triggers |
+memory-bank/flows/workflows.md:63:| `workflow_profile` | `tracker-only`, `bugfix-compact`, `refactor-small`, `managed-task`, `feature-package`, `epic-package`, `incident-pir`, `unknown` | Зафиксировать итоговый profile selector-а |
+memory-bank/flows/workflows.md:65:Если `kind`, `risk`, `change_surface` или `contract_change` остаются `unknown`, агент не должен молча выбирать самый короткий путь. Нужно либо закрыть неизвестность через discovery, либо поднять задачу до более строгого profile.
+memory-bank/tasks/README.md:39:`implementation-plan.md` и `design.md` внутри `TASK-XXX/` не создаются. Если они стали нужны, task нужно повысить до `feature-package`, ADR или `epic-package`.

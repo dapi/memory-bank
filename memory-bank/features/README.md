@@ -29,3 +29,9 @@ audience: humans_and_agents
 - Базовый формат: `FT-XXX/`
 - Вместо `XXX` используй идентификатор, принятый в проекте: issue id, ticket id или другой стабильный ключ
 - Один package = одна delivery-единица
+
+## Packages
+
+- [`FT-012`](FT-012/)
+  Читать, когда нужно: вести delivery по issue #12 о compact task-flow для bugfix/refactor/chore через `feature-flow`.
+  Отвечает на вопрос: какие scope, design, plan и локальные решения управляют добавлением task-flow family.
