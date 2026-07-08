@@ -44,3 +44,8 @@ audience: humans_and_agents
 
 - [FT-013](FT-013/)
   Читать, когда нужно: открыть feature package для issue 13 про generic workflow routing metrics, decision log и developer brief.
+
+- [`FT-014/`](FT-014/) — delivery package for issue 14: add lightweight epic intake brief template and related epic-flow/template index updates.
+
+- [`FT-015`](FT-015-pattern-operational-agentic-use-cases/README.md)
+  Читать, когда нужно: открыть feature package для issue 15 про operational/agentic use case guidance.
