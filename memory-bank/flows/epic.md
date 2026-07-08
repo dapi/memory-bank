@@ -2,7 +2,7 @@
 title: Epic Flow
 doc_kind: governance
 doc_function: canonical
-purpose: "Определяет lifecycle и качество epic-документации: charter, roadmap, decision log, risks, subissues и handoff в feature packages."
+purpose: "Определяет lifecycle и качество epic-документации: optional intake brief, charter, roadmap, decision log, risks, subissues и handoff в feature packages."
 derived_from:
   - ../dna/governance.md
   - ../dna/frontmatter.md
@@ -25,7 +25,7 @@ audience: humans_and_agents
 
 # Epic Flow
 
-Epic - это управляемая инициатива крупнее одной delivery-feature. Он задаёт общий intent, границы, roadmap, решения, риски и subissue registry, но не подменяет feature package и не содержит code-level execution plan.
+Epic - это управляемая инициатива крупнее одной delivery-feature. Он задаёт общий intent, границы, roadmap, решения, риски и subissue registry, но не подменяет feature package и не содержит code-level execution plan. До полного epic setup может существовать lightweight intake `brief.md`; он помогает зафиксировать proposal, но не становится owner-ом full epic governance.
 
 FPF-основание:
 
@@ -38,19 +38,21 @@ FPF-основание:
 
 1. Все документы одного epic живут в `memory-bank/epics/EP-XXX/`.
 2. `README.md` - routing layer и annotated index.
-3. `charter.md` - canonical owner intent: problem, outcome, scope/non-scope, stakeholder channels, source/evidence boundaries.
-4. `roadmap.md` - execution order owner: waves, gates, dependencies, stop rules and handoff protocol.
-5. `decision-log.md` - local decision ledger for decisions that affect the epic but do not require global ADR.
-6. `subissues.md` - registry of candidate and accepted delivery subissues, each mapped to roadmap waves and source `SLICE-*`/`UC-*`.
-7. `risks.md` - epic-level risk register for financial, operational, scope and delivery risks.
-8. `design.md`, `specs/**`, `diagrams/**`, `source-docs/**` — опциональные knowledge-артефакты. Они допустимы только когда индексируются из epic package и подчиняются правилам knowledge-артефактов ниже.
-9. `implementation-plan.md` не создаётся внутри epic. Code-level execution belongs to a separate `memory-bank/features/FT-<issue>/` package.
-10. Для canonical epic docs используй templates from `memory-bank/flows/templates/epic/`.
+3. `brief.md` - optional lightweight intake owner for early proposal facts: problem, outcome, rough scope/non-scope, candidate feature brief links and readiness notes before full epic setup. It is not authoritative after full owner docs exist.
+4. `charter.md` - canonical owner intent: problem, outcome, scope/non-scope, stakeholder channels, source/evidence boundaries.
+5. `roadmap.md` - execution order owner: waves, gates, dependencies, stop rules and handoff protocol.
+6. `decision-log.md` - local decision ledger for decisions that affect the epic but do not require global ADR.
+7. `subissues.md` - registry of candidate and accepted delivery subissues, each mapped to roadmap waves and source `SLICE-*`/`UC-*`.
+8. `risks.md` - epic-level risk register for financial, operational, scope and delivery risks.
+9. `design.md`, `specs/**`, `diagrams/**`, `source-docs/**` — опциональные knowledge-артефакты. Они допустимы только когда индексируются из epic package и подчиняются правилам knowledge-артефактов ниже.
+10. `implementation-plan.md` не создаётся внутри epic. Code-level execution belongs to a separate `memory-bank/features/FT-<issue>/` package.
+11. Для canonical epic docs используй templates from `memory-bank/flows/templates/epic/`.
 
 ## Layer Model
 
 | Layer | Primary docs | Owns | Must NOT define |
 | --- | --- | --- | --- |
+| Intake | `brief.md` | early proposal: problem, outcome, rough scope/non-scope, readiness notes, candidate feature brief links | authoritative roadmap, accepted subissues, risk controls, selected solution, feature acceptance contracts, implementation sequence |
 | Intent | `charter.md` | business/problem frame, scope, non-scope, source evidence, stakeholder channels | file paths, code steps, final implementation sequence |
 | Roadmap | `roadmap.md`, `subissues.md` | waves, dependencies, issue candidates, handoff gates | final code plan, exact migrations, test commands |
 | Governance | `decision-log.md`, `risks.md` | local decisions, risk controls, stop rules | global architecture policy unless promoted to ADR |
@@ -71,6 +73,7 @@ Knowledge-артефакты существуют только для норма
 
 ```mermaid
 flowchart LR
+    IB["Optional Intake<br/>brief.md draft"] --> DE["Draft Epic<br/>charter.md draft"]
     DE["Draft Epic<br/>charter.md draft"] --> ER["Epic Ready<br/>charter.md active"]
     ER --> RR["Roadmap Ready<br/>roadmap/subissues/risks active"]
     RR --> EX["Execution<br/>delivery features created"]
@@ -81,6 +84,14 @@ flowchart LR
 ```
 
 ## Transition Gates
+
+### Optional Intake Brief
+
+- [ ] `brief.md` создан по шаблону `templates/epic/brief.md`
+- [ ] `brief.md` фиксирует problem, outcome, rough scope, non-scope и readiness notes
+- [ ] `brief.md` не определяет roadmap waves, accepted subissues, risk controls, selected solution, feature acceptance contracts или implementation sequence
+- [ ] если full epic owner docs уже существуют, `brief.md` не противоречит им или явно помечает intake facts как superseded by full owners
+- [ ] `implementation-plan.md` отсутствует
 
 ### Bootstrap Epic
 
@@ -165,6 +176,8 @@ Epic quality is a Q-Bundle, not one scalar.
 
 | Prefix | Meaning | Owner |
 | --- | --- | --- |
+| `BR-REQ-*` | Intake rough scope item | optional `brief.md` |
+| `BR-NS-*` | Intake rough non-scope item | optional `brief.md` |
 | `EP-SI-*` | Epic subissue candidate or accepted subissue | `subissues.md` |
 | `W*` | Roadmap wave | `roadmap.md` |
 | `HG-*` | Handoff gate before feature execution | `roadmap.md` |
@@ -179,3 +192,5 @@ Epic quality is a Q-Bundle, not one scalar.
 3. Epic may close local decisions with FPF and evidence. If a decision changes global project architecture, create ADR.
 4. Feature package, созданный из epic, должен ссылаться на релевантные `EP-*` docs и сохранять stable IDs вместо копирования всего scope. `brief.md` импортирует problem/scope refs; `design.md` или ADR импортирует epic-local decisions, когда они влияют на solution space.
 5. If a feature discovers a new epic-level fact, update the epic owner document first, then update the feature.
+6. Optional epic intake `brief.md` may exist before full setup, but it does not replace `charter.md`, `roadmap.md`, `subissues.md`, `risks.md` or `decision-log.md`; if facts mature or conflict, update the appropriate full owner.
+7. Optional epic intake `brief.md` must not define implementation sequence. Execution planning belongs to feature packages under `memory-bank/features/FT-<issue>/`.
