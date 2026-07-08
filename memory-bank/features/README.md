@@ -49,3 +49,6 @@ audience: humans_and_agents
 
 - [`FT-015`](FT-015-pattern-operational-agentic-use-cases/README.md)
   Читать, когда нужно: открыть feature package для issue 15 про operational/agentic use case guidance.
+
+- [FT-016: Privacy / Source Boundary Support Template](FT-016/README.md)
+  Читать, когда нужно: issue 16, generic privacy/source-boundary support template, source inventory confidence/status, allowed/excluded source data boundaries.
