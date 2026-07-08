@@ -1,0 +1,14 @@
+CHK-01 result: pass
+
+Commands:
+- python3 scripts/check_memory_bank_index.py
+- rg --files memory-bank | sort
+
+Observed:
+- Memory-bank link audit result: OK.
+- No broken internal markdown links.
+- No broken frontmatter markdown dependencies.
+- No orphan markdown files.
+- All scoped markdown files are reachable from memory-bank/README.md via index navigation.
+- Index compliance: OK.
+- memory-bank/engineering/ui-design-guide/README.md appears in rg --files output and is reachable through memory-bank/engineering/README.md.

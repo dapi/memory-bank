@@ -1,0 +1,14 @@
+CHK-03 result: pass
+
+Commands:
+- git diff --check
+- sed -n '1,160p' memory-bank/engineering/ui-design-guide/README.md
+- sed -n '1,120p' memory-bank/engineering/frontend.md
+- sed -n '1,120p' memory-bank/engineering/README.md
+
+Observed:
+- git diff --check produced no whitespace or conflict marker findings.
+- memory-bank/engineering/ui-design-guide/README.md has YAML frontmatter with status: active and doc_function: index.
+- memory-bank/engineering/frontend.md links the guide as an optional companion and keeps frontend engineering contract ownership.
+- memory-bank/engineering/README.md contains an annotated link to the optional UI Design Guide.
+- Manual owner-boundary review: the guide does not redefine product requirements, domain rules, frontend architecture contract or implementation sequence.

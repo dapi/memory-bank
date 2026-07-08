@@ -1,0 +1,11 @@
+CHK-02 result: pass
+
+Commands:
+- rg -n "components|forms|buttons|actions|tables|navigation|states|labels|screenshots|source code paths|agent instructions" memory-bank/engineering/ui-design-guide/README.md memory-bank/engineering/frontend.md memory-bank/engineering/README.md
+- rg -n "brandymint|merchantly|Inspinia|HAML" memory-bank --glob '!memory-bank/features/FT-017/**'
+
+Observed:
+- memory-bank/engineering/ui-design-guide/README.md includes sections for components, forms, buttons/actions, tables, navigation, states/labels, screenshots, source code paths and agent instructions.
+- The guide includes helper APIs and source path prompts.
+- Source-specific downstream terms were not found outside the FT-017 feature package.
+- Manual semantic review: the new guide uses placeholders and local-adaptation prompts, not copied downstream project rules or framework defaults.

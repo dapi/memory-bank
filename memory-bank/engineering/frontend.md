@@ -16,6 +16,8 @@ audience: humans_and_agents
 
 Product-level experience principles живут в [`../product/vision.md`](../product/vision.md). Domain language и rules живут в [`../domain/`](../domain/README.md). Здесь фиксируй engineering contract для UI.
 
+Если downstream-проект уже имеет устойчивый UI kit, admin/operator views, screenshots или helper APIs, можно добавить optional companion [`ui-design-guide/README.md`](ui-design-guide/README.md). Этот companion фиксирует concrete local UI reference material для агентов, но не заменяет frontend engineering contract в этом документе.
+
 ## UI Surfaces
 
 Опиши основные интерфейсы системы.

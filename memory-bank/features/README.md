@@ -29,3 +29,8 @@ audience: humans_and_agents
 - Базовый формат: `FT-XXX/`
 - Вместо `XXX` используй идентификатор, принятый в проекте: issue id, ticket id или другой стабильный ключ
 - Один package = одна delivery-единица
+
+## Active Feature Packages
+
+- [`FT-017`](FT-017/README.md)
+  Читать, когда нужно: вести issue 17 про optional UI design guide pattern для frontend/admin UI через feature-flow.
