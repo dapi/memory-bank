@@ -24,6 +24,12 @@ audience: humans_and_agents
 - Если feature реализует или существенно меняет устойчивый сценарий проекта, она должна ссылаться на соответствующий `UC-*` из [`../use-cases/README.md`](../use-cases/README.md).
 - В шаблонном репозитории этот каталог может быть пустым. Это нормально.
 
+## Реестр
+
+| Feature ID | Title | Status | Delivery status | Source |
+| --- | --- | --- | --- | --- |
+| [`FT-015`](FT-015-pattern-operational-agentic-use-cases/README.md) | Operational and Agentic Use Cases Pattern | `active` | `in_progress` | [GitHub issue #15](https://github.com/dapi/memory-bank/issues/15) |
+
 ## Naming
 
 - Базовый формат: `FT-XXX/`
