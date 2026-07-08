@@ -6,6 +6,7 @@ purpose: Корневая навигация по шаблонному memory-ba
 derived_from:
   - dna/principles.md
   - dna/governance.md
+  - flows/task-flow.md
 status: active
 audience: humans_and_agents
 ---
@@ -27,6 +28,9 @@ audience: humans_and_agents
 
 - [`epics/README.md`](epics/README.md)
   Читать, когда нужно: вести крупную инициативу через roadmap, decision log, risks и набор связанных delivery subissues.
+
+- [`tasks/README.md`](tasks/README.md)
+  Читать, когда нужно: вести managed non-feature bugfix/chore/refactor задачу в compact `TASK-XXX/` package без full feature package.
 
 - [`use-cases/README.md`](use-cases/README.md)
   Читать, когда нужно: зарегистрировать устойчивый пользовательский или операционный сценарий проекта.
