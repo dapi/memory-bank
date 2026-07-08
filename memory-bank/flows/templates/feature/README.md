@@ -36,6 +36,10 @@ Downstream routes для living feature package добавляются по ме
   Читать, когда нужно: если по фиче существует связанный ADR, оформить или проверить его с корректным `decision_status`.
   Отвечает на вопрос: почему по фиче выбирается конкретное архитектурное или инженерное решение и на каком оно этапе.
 
+- `privacy-source-boundary.md`
+  Читать, когда нужно: если feature uses logs, transcripts, diagnostics, observability artifacts, external metadata, source inventories or other sources where read/store/cite/evidence boundaries must be explicit.
+  Отвечает на вопрос: какие source classes, allowed metadata, excluded data, confidence/status and owner boundaries apply without replacing canonical docs.
+
 ## Instantiated Frontmatter
 
 ```yaml
@@ -65,5 +69,5 @@ audience: humans_and_agents
   Читать, когда нужно: открыть instantiated canonical feature-документ сразу после bootstrap нового feature package.
   Отвечает на вопрос: где находятся problem space, canonical verify contract и stable IDs для этой фичи.
 
-После появления downstream-документов добавь сюда routes для `design.md`, `implementation-plan.md` и связанных ADR.
+После появления downstream-документов добавь сюда routes для `design.md`, `implementation-plan.md`, optional support docs и связанных ADR.
 ```

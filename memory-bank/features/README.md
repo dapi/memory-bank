@@ -29,3 +29,8 @@ audience: humans_and_agents
 - Базовый формат: `FT-XXX/`
 - Вместо `XXX` используй идентификатор, принятый в проекте: issue id, ticket id или другой стабильный ключ
 - Один package = одна delivery-единица
+
+## Packages
+
+- [FT-016: Privacy / Source Boundary Support Template](FT-016/README.md)
+  Читать, когда нужно: issue 16, generic privacy/source-boundary support template, source inventory confidence/status, allowed/excluded source data boundaries.
