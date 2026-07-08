@@ -24,13 +24,34 @@ audience: humans_and_agents
 - Если feature реализует или существенно меняет устойчивый сценарий проекта, она должна ссылаться на соответствующий `UC-*` из [`../use-cases/README.md`](../use-cases/README.md).
 - В шаблонном репозитории этот каталог может быть пустым. Это нормально.
 
+## Реестр
+
+| Feature ID | Title | Status | Delivery status | Source |
+| --- | --- | --- | --- | --- |
+| [`FT-015`](FT-015-pattern-operational-agentic-use-cases/README.md) | Operational and Agentic Use Cases Pattern | `active` | `done` | [GitHub issue #15](https://github.com/dapi/memory-bank/issues/15) |
+
 ## Naming
 
 - Базовый формат: `FT-XXX/`
 - Вместо `XXX` используй идентификатор, принятый в проекте: issue id, ticket id или другой стабильный ключ
 - Один package = одна delivery-единица
 
-## Active Feature Packages
+## Packages
+
+- [`FT-012`](FT-012/)
+  Читать, когда нужно: вести delivery по issue #12 о compact task-flow для bugfix/refactor/chore через `feature-flow`.
+  Отвечает на вопрос: какие scope, design, plan и локальные решения управляют добавлением task-flow family.
+
+- [FT-013](FT-013/)
+  Читать, когда нужно: открыть feature package для issue 13 про generic workflow routing metrics, decision log и developer brief.
+
+- [`FT-014/`](FT-014/) — delivery package for issue 14: add lightweight epic intake brief template and related epic-flow/template index updates.
+
+- [`FT-015`](FT-015-pattern-operational-agentic-use-cases/README.md)
+  Читать, когда нужно: открыть feature package для issue 15 про operational/agentic use case guidance.
+
+- [FT-016: Privacy / Source Boundary Support Template](FT-016/README.md)
+  Читать, когда нужно: issue 16, generic privacy/source-boundary support template, source inventory confidence/status, allowed/excluded source data boundaries.
 
 - [`FT-017`](FT-017/README.md)
   Читать, когда нужно: вести issue 17 про optional UI design guide pattern для frontend/admin UI через feature-flow.
