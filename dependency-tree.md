@@ -53,8 +53,14 @@ memory-bank/dna/principles.md
     ├── memory-bank/engineering/testing-policy.md
     ├── memory-bank/features/README.md
     ├── memory-bank/flows/README.md
+    ├── memory-bank/flows/task-flow.md
+    ├── memory-bank/flows/bugfix-flow.md
+    ├── memory-bank/flows/refactor-flow.md
     ├── memory-bank/flows/feature-flow.md
     ├── memory-bank/flows/templates/README.md
+    ├── memory-bank/flows/templates/task/package-README.md
+    ├── memory-bank/flows/templates/task/bugfix.md
+    ├── memory-bank/flows/templates/task/refactor.md
     ├── memory-bank/flows/templates/adr/ADR-XXX.md
     ├── memory-bank/flows/templates/prd/PRD-XXX.md
     ├── memory-bank/flows/templates/use-case/UC-XXX.md
@@ -66,6 +72,7 @@ memory-bank/dna/principles.md
     ├── memory-bank/ops/runbooks/README.md
     ├── memory-bank/ops/stages.md
     ├── memory-bank/prd/README.md
+    ├── memory-bank/tasks/README.md
     ├── memory-bank/use-cases/README.md
     └── memory-bank/adr/README.md
 ```
@@ -78,8 +85,18 @@ memory-bank/dna/principles.md
 
 - Этот файл `dependency-tree.md` зависит от [`memory-bank/dna/governance.md`](memory-bank/dna/governance.md), но сознательно живет вне `memory-bank/`.
 - [`memory-bank/flows/feature-flow.md`](memory-bank/flows/feature-flow.md) зависит и от [`memory-bank/dna/governance.md`](memory-bank/dna/governance.md), и от [`memory-bank/dna/frontmatter.md`](memory-bank/dna/frontmatter.md).
-- [`memory-bank/flows/workflows.md`](memory-bank/flows/workflows.md) зависит от [`memory-bank/dna/governance.md`](memory-bank/dna/governance.md) и [`memory-bank/flows/feature-flow.md`](memory-bank/flows/feature-flow.md).
-- [`memory-bank/flows/README.md`](memory-bank/flows/README.md) зависит сразу от [`memory-bank/dna/governance.md`](memory-bank/dna/governance.md), [`memory-bank/flows/feature-flow.md`](memory-bank/flows/feature-flow.md), [`memory-bank/flows/workflows.md`](memory-bank/flows/workflows.md) и [`memory-bank/flows/templates/README.md`](memory-bank/flows/templates/README.md).
+- [`memory-bank/flows/workflows.md`](memory-bank/flows/workflows.md) зависит от [`memory-bank/dna/governance.md`](memory-bank/dna/governance.md), [`memory-bank/flows/task-flow.md`](memory-bank/flows/task-flow.md), [`memory-bank/flows/bugfix-flow.md`](memory-bank/flows/bugfix-flow.md), [`memory-bank/flows/refactor-flow.md`](memory-bank/flows/refactor-flow.md) и [`memory-bank/flows/feature-flow.md`](memory-bank/flows/feature-flow.md).
+- [`memory-bank/flows/task-flow.md`](memory-bank/flows/task-flow.md) зависит от [`memory-bank/dna/governance.md`](memory-bank/dna/governance.md), [`memory-bank/flows/workflows.md`](memory-bank/flows/workflows.md), [`memory-bank/flows/bugfix-flow.md`](memory-bank/flows/bugfix-flow.md) и [`memory-bank/flows/refactor-flow.md`](memory-bank/flows/refactor-flow.md).
+- [`memory-bank/flows/bugfix-flow.md`](memory-bank/flows/bugfix-flow.md) зависит от [`memory-bank/dna/governance.md`](memory-bank/dna/governance.md), [`memory-bank/flows/workflows.md`](memory-bank/flows/workflows.md) и [`memory-bank/flows/task-flow.md`](memory-bank/flows/task-flow.md).
+- [`memory-bank/flows/refactor-flow.md`](memory-bank/flows/refactor-flow.md) зависит от [`memory-bank/dna/governance.md`](memory-bank/dna/governance.md), [`memory-bank/flows/workflows.md`](memory-bank/flows/workflows.md) и [`memory-bank/flows/task-flow.md`](memory-bank/flows/task-flow.md).
+- [`memory-bank/flows/README.md`](memory-bank/flows/README.md) зависит сразу от [`memory-bank/dna/governance.md`](memory-bank/dna/governance.md), [`memory-bank/flows/task-flow.md`](memory-bank/flows/task-flow.md), [`memory-bank/flows/bugfix-flow.md`](memory-bank/flows/bugfix-flow.md), [`memory-bank/flows/refactor-flow.md`](memory-bank/flows/refactor-flow.md), [`memory-bank/flows/feature-flow.md`](memory-bank/flows/feature-flow.md), [`memory-bank/flows/workflows.md`](memory-bank/flows/workflows.md) и [`memory-bank/flows/templates/README.md`](memory-bank/flows/templates/README.md).
+
+### Task-related Docs
+
+- [`memory-bank/tasks/README.md`](memory-bank/tasks/README.md) зависит от [`memory-bank/dna/governance.md`](memory-bank/dna/governance.md), [`memory-bank/flows/task-flow.md`](memory-bank/flows/task-flow.md), [`memory-bank/flows/bugfix-flow.md`](memory-bank/flows/bugfix-flow.md), [`memory-bank/flows/refactor-flow.md`](memory-bank/flows/refactor-flow.md) и [`memory-bank/flows/workflows.md`](memory-bank/flows/workflows.md).
+- [`memory-bank/flows/templates/task/package-README.md`](memory-bank/flows/templates/task/package-README.md) зависит от [`memory-bank/flows/task-flow.md`](memory-bank/flows/task-flow.md), [`memory-bank/flows/bugfix-flow.md`](memory-bank/flows/bugfix-flow.md), [`memory-bank/flows/refactor-flow.md`](memory-bank/flows/refactor-flow.md) и [`memory-bank/dna/frontmatter.md`](memory-bank/dna/frontmatter.md).
+- [`memory-bank/flows/templates/task/bugfix.md`](memory-bank/flows/templates/task/bugfix.md) зависит от [`memory-bank/flows/workflows.md`](memory-bank/flows/workflows.md), [`memory-bank/flows/task-flow.md`](memory-bank/flows/task-flow.md), [`memory-bank/flows/bugfix-flow.md`](memory-bank/flows/bugfix-flow.md) и [`memory-bank/dna/frontmatter.md`](memory-bank/dna/frontmatter.md).
+- [`memory-bank/flows/templates/task/refactor.md`](memory-bank/flows/templates/task/refactor.md) зависит от [`memory-bank/flows/workflows.md`](memory-bank/flows/workflows.md), [`memory-bank/flows/task-flow.md`](memory-bank/flows/task-flow.md), [`memory-bank/flows/refactor-flow.md`](memory-bank/flows/refactor-flow.md) и [`memory-bank/dna/frontmatter.md`](memory-bank/dna/frontmatter.md).
 
 ### Feature-related Docs
 

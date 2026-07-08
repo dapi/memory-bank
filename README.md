@@ -158,6 +158,7 @@ AGENTS.md. Если страница не упомянются напрямую,
 
 - `memory-bank/dna/` — governance-ядро: SSoT, frontmatter, lifecycle, cross-references.
 - `memory-bank/flows/` — lifecycle flows и шаблоны для PRD/feature/ADR.
+- `memory-bank/tasks/` — optional compact packages для managed bugfix/chore/refactor задач без full feature package.
 - `memory-bank/product/` — заготовки для product context, vision, customers, metrics, marketing и roadmap.
 - `memory-bank/domain/` — заготовки для glossary, domain model, rules, states, events и context map.
 - `memory-bank/prd/` — место для instantiated Product Requirements Documents.

@@ -2,7 +2,7 @@
 title: Templates Index
 doc_kind: governance
 doc_function: index
-purpose: Навигация по эталонным шаблонам документации проекта. Читать, чтобы завести PRD, use case, epic, фичу, ADR, prompt или execution-документ без изобретения новой структуры.
+purpose: Навигация по эталонным шаблонам документации проекта. Читать, чтобы завести task package, PRD, use case, epic, фичу, ADR, prompt или execution-документ без изобретения новой структуры.
 derived_from:
   - ../../dna/governance.md
   - prd/PRD-XXX.md
@@ -13,6 +13,9 @@ derived_from:
   - epic/decision-log.md
   - epic/subissues.md
   - epic/risks.md
+  - task/package-README.md
+  - task/bugfix.md
+  - task/refactor.md
   - feature/README.md
   - feature/brief.md
   - feature/design.md
@@ -42,6 +45,9 @@ audience: humans_and_agents
 - [EP-XXX: Decision Log Template](epic/decision-log.md) — local epic decisions that do not require global ADR.
 - [EP-XXX: Subissues Template](epic/subissues.md) — candidate/accepted delivery subissue registry.
 - [EP-XXX: Risks Template](epic/risks.md) — epic-level risk register.
+- [TASK-XXX README Template](task/package-README.md) — routing/index layer для durable managed non-feature task package.
+- [TASK-XXX Bugfix Template](task/bugfix.md) — compact bugfix note для symptom, reproduction, root cause, fix boundary и regression evidence.
+- [TASK-XXX Refactor Template](task/refactor.md) — compact refactor/chore note для intent, invariants, change surface, checkpoints и verification.
 - [FT-XXX Feature README Template](feature/README.md) — шаблон README для feature-каталога. Отвечает на вопрос: как оформить feature-level index.
 - [FT-XXX: Brief Template](feature/brief.md) — canonical problem-space template для новых feature packages. Отвечает на вопрос: как зафиксировать intent, scope и verify contract без solution/execution деталей.
 - [FT-XXX: Design Template](feature/design.md) — canonical solution-space template для feature package. Отвечает на вопрос: как зафиксировать selected design, rationale, contracts, failure modes и design-pack routing.
