@@ -24,6 +24,12 @@ audience: humans_and_agents
 - Если feature реализует или существенно меняет устойчивый сценарий проекта, она должна ссылаться на соответствующий `UC-*` из [`../use-cases/README.md`](../use-cases/README.md).
 - В шаблонном репозитории этот каталог может быть пустым. Это нормально.
 
+## Реестр
+
+| Feature ID | Title | Status | Delivery status | Source |
+| --- | --- | --- | --- | --- |
+| [`FT-015`](FT-015-pattern-operational-agentic-use-cases/README.md) | Operational and Agentic Use Cases Pattern | `active` | `done` | [GitHub issue #15](https://github.com/dapi/memory-bank/issues/15) |
+
 ## Naming
 
 - Базовый формат: `FT-XXX/`
@@ -31,6 +37,10 @@ audience: humans_and_agents
 - Один package = одна delivery-единица
 
 ## Packages
+
+- [`FT-012`](FT-012/)
+  Читать, когда нужно: вести delivery по issue #12 о compact task-flow для bugfix/refactor/chore через `feature-flow`.
+  Отвечает на вопрос: какие scope, design, plan и локальные решения управляют добавлением task-flow family.
 
 - [FT-013](FT-013/)
   Читать, когда нужно: открыть feature package для issue 13 про generic workflow routing metrics, decision log и developer brief.
