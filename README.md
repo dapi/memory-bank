@@ -110,7 +110,7 @@ python3 ./tools/check_memory_bank_index.py --repo-root .
 Запукаются в новых сессиях
 
 ```text
-Прочитай ./memory-bank и предложи адаптацию CLAUDE.md/AGENTS.md под правила этого шаблона.
+Прочитай memory-bank - https://github.com/dapi/memory-bank/ склонируй его в наш репозиторий и адаптируй под наш проект
 ```
 
 ```text
