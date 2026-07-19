@@ -142,6 +142,41 @@ branch → worktree → agent session
 
 Главное правило адаптации: содержимое этого репозитория должно оставаться generic. Специфика конкретного продукта живёт только в его downstream-копии `memory-bank/` и не возвращается в шаблон.
 
+## Task Routing
+
+После получения issue выбирайте workflow в порядке, заданном в [`memory-bank/flows/workflows.md`](memory-bank/flows/workflows.md):
+
+```text
+Issue / Task
+     │
+     ▼
+Incident / PIR?
+     ├── да ─────────────► Incident Flow
+     └── нет
+          │
+          ▼
+         Bug?
+          ├── да ────────► Bug Fix Flow
+          └── нет
+               │
+               ▼
+       Issue достаточен,
+       design и plan не нужны?
+               ├── да ───► Small Change Flow
+               └── нет
+                    │
+                    ▼
+          Новое или изменённое
+          пользовательское поведение?
+                    ├── да ───► Feature Flow
+                    └── нет
+                         │
+                         ▼
+                    Refactoring?
+                         ├── да ─► Refactoring Flow
+                         └── нет ► Human Routing
+```
+
 ## Как выбирать артефакт
 
 - **Локальное изменение (`Small Change`)** — issue/task владеет intent, scope и acceptance; отдельные `brief.md`, `design.md` и `implementation-plan.md` не создаются.
