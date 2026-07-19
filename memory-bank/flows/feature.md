@@ -15,6 +15,7 @@ canonical_for:
   - feature_solution_gate_rules
   - feature_plan_gate_rules
   - feature_closure_rules
+  - feature_outcome_contract
   - feature_support_document_rules
   - feature_c4_model_selection_rules
   - feature_identifier_taxonomy
@@ -215,6 +216,27 @@ flowchart LR
 
 - [ ] `brief.md` → `delivery_status: cancelled`
 - [ ] `implementation-plan.md` отсутствует ∨ `status: archived`
+
+## Outcome / Exit Contract
+
+### Observable Outcome
+
+Один принятый vertical slice пользовательского поведения работает end-to-end в границах `brief.md`.
+
+### Required Evidence
+
+- active `brief.md` и optional active `design.md` с непрерывной traceability;
+- выполненные `CHK-*` и конкретные carriers для `EVID-*`;
+- automated coverage, required local/CI results и approval refs для manual-only gaps;
+- PR review и обновлённый `UC-*`, когда изменился устойчивый project-level scenario.
+
+### Terminal State
+
+`Done`: выполнен gate Execution → Done, `brief.md` имеет `delivery_status: done`, а `implementation-plan.md` архивирован. Альтернативный terminal state — `Cancelled` по соответствующему gate.
+
+### Handoff
+
+Закрой delivery issue и передай эксплуатационные или release-действия их owner-ам. Новые требования, решения и follow-up работу обнови у canonical owner и повторно маршрутизируй.
 
 ## Boundary Rules
 

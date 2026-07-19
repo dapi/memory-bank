@@ -13,6 +13,7 @@ canonical_for:
   - small_change_execution_flow
   - small_change_evidence_rules
   - small_change_escalation_rules
+  - small_change_outcome_contract
 status: active
 audience: humans_and_agents
 ---
@@ -72,6 +73,26 @@ issue/task → routing record → implementation → automated checks
 Memory Bank package не создаётся. Проверяемый след образуют issue/task, routing record, commit history, tests, PR и CI results.
 
 Если изменение исправляет существующий canonical fact, обнови его owner в Memory Bank. Если появляется новый устойчивый project fact или design decision, останови `Small Change` и повтори Task Routing.
+
+## Outcome / Exit Contract
+
+### Observable Outcome
+
+Acceptance из issue/task выполнен одним локальным change set без design- и plan-документов.
+
+### Required Evidence
+
+- Small Change routing record;
+- изменённый код и automated coverage для changed behavior;
+- результаты проверок из `Verify`, PR review и required CI.
+
+### Terminal State
+
+`Done`: все Execution Gates выполнены, change принят по git workflow проекта и delivery trace доступен из issue/task или PR.
+
+### Handoff
+
+Закрой issue/task; обнови canonical owner исправленного факта. Любую новую устойчивую информацию, design decision или оставшуюся работу сначала верни в Task Routing.
 
 ## Escalation
 

@@ -13,6 +13,7 @@ canonical_for:
   - refactoring_execution_flow
   - behavior_preservation_gates
   - refactoring_escalation_rules
+  - refactoring_outcome_contract
 status: active
 audience: humans_and_agents
 ---
@@ -59,3 +60,24 @@ task → baseline → characterization coverage → plan + checkpoints
 - [ ] simplify review подтверждает уменьшение или обоснование complexity
 - [ ] rollback или остановка на последнем checkpoint понятны
 - [ ] PR содержит before/after structure summary и evidence
+
+## Outcome / Exit Contract
+
+### Observable Outcome
+
+Для Local/Systemic refactoring внутренняя структура улучшена при сохранении observable behavior; для Research refactoring создан проверяемый proposal, plan или ADR без скрытого production change.
+
+### Required Evidence
+
+- baseline и characterization coverage;
+- результаты regression checks по checkpoints;
+- before/after summary либо research artifact с источниками и выводом;
+- PR review и required CI для production change.
+
+### Terminal State
+
+`Done`: выбранный результат принят, применимые Closure Gates выполнены, а behavior preservation подтверждён evidence.
+
+### Handoff
+
+Закрой исходную задачу. Любое обнаруженное изменение поведения, contract или отдельный structural scope верни в Task Routing.

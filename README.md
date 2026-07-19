@@ -199,6 +199,20 @@ Verify:
 
 Если появляется необходимость выбрать подход, изменить contract, спланировать зависимые этапы или зафиксировать новый устойчивый project fact, остановите прямую реализацию и повторите routing.
 
+## Результат каждого flow
+
+Flow считается завершённым не после создания артефактов или изменения кода, а после достижения наблюдаемого результата и предъявления evidence из его `Outcome / Exit Contract`.
+
+| Flow | Observable outcome | Required evidence | Terminal state и handoff |
+| --- | --- | --- | --- |
+| [Task Routing](memory-bank/flows/routing.md) | Выбран один допустимый flow или Human Routing | Route и подтверждающие entry predicates в issue/task или PR | `Routed` → выбранный flow; `Human Gate` → решение человека и повторный routing |
+| [Small Change](memory-bank/flows/small-change.md) | Локальный acceptance выполнен без design и plan | Routing record, код, coverage, verify results, PR и CI | `Done` → закрыть task; новые факты и follow-up вернуть в routing |
+| [Bug Fix](memory-bank/flows/bug-fix.md) | Expected behavior восстановлено и защищено от regression | Reproduction, root cause, regression evidence, PR и CI | `Resolved` → закрыть report; product/contract changes маршрутизировать отдельно |
+| [Feature](memory-bank/flows/feature.md) | Один vertical slice работает end-to-end | `brief.md`, optional `design.md`, archived plan, `CHK-*`/`EVID-*`, tests, PR и CI | `Done` или `Cancelled` → закрыть delivery issue и передать follow-up |
+| [Refactoring](memory-bank/flows/refactoring.md) | Структура улучшена при сохранении поведения либо принят research outcome | Baseline, characterization/regression evidence, before/after или research artifact | `Done` → закрыть task; behavior/contract changes повторно маршрутизировать |
+| [Incident / PIR](memory-bank/flows/incident.md) | Impact прекращён, recovery подтверждён, PIR принят | Timeline, recovery signals, RCA, remediation evidence и follow-up references | `Closed` → закрыть incident; каждый prevention item маршрутизировать отдельно |
+| [Epic](memory-bank/flows/epic.md) | Инициатива завершена через управляемые slices с outcome verdict | Charter, финальные roadmap/subissue/feature states, decisions, risks и follow-up refs | `Done` или `Cancelled` → закрыть initiative, перенести знания и маршрутизировать остаток |
+
 ## Как выбирать артефакт
 
 - **Локальное изменение (`Small Change`)** — issue/task владеет intent, scope, acceptance и routing record; отдельные `brief.md`, `design.md` и `implementation-plan.md` не создаются.

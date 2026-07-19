@@ -13,6 +13,7 @@ canonical_for:
   - bug_fix_execution_flow
   - bug_regression_evidence_rules
   - bug_fix_closure_rules
+  - bug_fix_outcome_contract
 status: active
 audience: humans_and_agents
 ---
@@ -59,3 +60,24 @@ report → triage → reproduction → analysis → fix
 - [ ] required local tests и CI зелёные
 
 Если analysis показывает, что observed behavior соответствует текущему contract, а требуется изменить expected behavior, это не bug fix: повтори Task Routing и выбери `Small Change` или Feature Flow.
+
+## Outcome / Exit Contract
+
+### Observable Outcome
+
+Подтверждённое expected behavior восстановлено, а исходный regression защищён от повторного появления.
+
+### Required Evidence
+
+- reproduction с expected/actual behavior или явно записанное ограничение reproduction;
+- подтверждённая root cause summary;
+- regression test или обоснованный альтернативный carrier;
+- PR review, результаты required tests и CI.
+
+### Terminal State
+
+`Resolved`: Regression And Closure Gates выполнены, fix принят по git workflow проекта, а report связан с evidence.
+
+### Handoff
+
+Закрой bug report. Product change, contract change, refactoring и другие follow-up задачи не включай скрыто в fix — верни их в Task Routing.

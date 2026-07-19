@@ -12,6 +12,7 @@ canonical_for:
   - workflow_type_selection
   - task_rerouting_rules
   - human_routing_rules
+  - task_routing_outcome_contract
 status: active
 audience: humans_and_agents
 ---
@@ -76,3 +77,23 @@ Issue / Task
 ## Human Routing
 
 Следуй canonical triggers из [`../engineering/autonomy-boundaries.md`](../engineering/autonomy-boundaries.md). Для routing дополнительно запрашивай решение человека, когда выбор flow требует продуктового решения, риск нельзя контролировать существующими gates или несколько route остаются одинаково правдоподобными после доступного исследования.
+
+## Outcome / Exit Contract
+
+### Observable Outcome
+
+Для входящей задачи выбран ровно один допустимый flow либо явно зафиксирован `Human Routing`.
+
+### Required Evidence
+
+- issue/task или draft PR называет выбранный flow;
+- запись показывает, какие entry predicates сделали route допустимым;
+- для `Human Routing` зафиксированы вопрос, риск или конкурирующие routes.
+
+### Terminal State
+
+Routing завершён в состоянии `Routed`, когда выбранный flow и его entry gate подтверждены, либо в состоянии `Human Gate`, когда дальнейший выбор требует решения человека.
+
+### Handoff
+
+`Routed` передаёт задачу в выбранный flow. После решения `Human Gate` задача повторно проходит Task Routing; не вошедшая в выбранный scope работа маршрутизируется отдельно.

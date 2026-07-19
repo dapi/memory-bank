@@ -16,6 +16,8 @@ canonical_for:
   - epic_subissue_rules
   - epic_quality_attributes
   - epic_feature_handoff_rules
+  - epic_closure_rules
+  - epic_outcome_contract
 status: active
 audience: humans_and_agents
 ---
@@ -109,6 +111,36 @@ flowchart LR
 - [ ] new `memory-bank/features/FT-<issue>/` package exists
 - [ ] новый feature package импортирует только релевантные epic refs (`charter.md`, `roadmap.md`, `subissues.md`, `risks.md` и `decision-log.md`, если используется), а не весь epic scope
 - [ ] feature `brief.md`, optional `design.md`, затем `implementation-plan.md` следуют `feature.md`
+
+### Execution -> Done
+
+- [ ] каждый accepted subissue завершён, отменён или явно передан в отдельную инициативу
+- [ ] delivered feature packages достигли своих terminal states и связаны из `subissues.md`
+- [ ] фактический outcome сопоставлен с `charter.md` acceptance и записан в его `Outcome`/`Acceptance`
+- [ ] `roadmap.md`, `subissues.md`, `risks.md` и `decision-log.md` отражают финальное состояние
+- [ ] открытые риски и follow-up work имеют owner и отдельные task references
+- [ ] человек подтвердил закрытие инициативы
+
+## Outcome / Exit Contract
+
+### Observable Outcome
+
+Инициатива доставлена управляемыми vertical slices либо осознанно завершена с явным outcome verdict и без скрытой незавершённой работы.
+
+### Required Evidence
+
+- charter с outcome verdict относительно acceptance;
+- финальные состояния roadmap waves, accepted subissues и feature packages;
+- актуальные decision log и risk register;
+- отдельные references и owners для переданных рисков и follow-up work.
+
+### Terminal State
+
+`Done`: выполнен gate Execution → Done. Альтернативный terminal state — `Cancelled`, если причина, принятые последствия и судьба уже созданных subissues зафиксированы в epic owners.
+
+### Handoff
+
+Закрой epic initiative; перенеси устойчивые знания в их canonical owners, а незавершённые delivery или prevention items повторно маршрутизируй как самостоятельные задачи.
 
 ## Quality Bundle
 

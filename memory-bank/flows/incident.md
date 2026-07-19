@@ -14,6 +14,7 @@ canonical_for:
   - incident_human_gates
   - pir_requirements
   - incident_followup_routing
+  - incident_outcome_contract
 status: active
 audience: humans_and_agents
 ---
@@ -54,3 +55,24 @@ detection → triage → containment → recovery → timeline
 - [ ] человек подтвердил RCA и приоритеты follow-up work
 
 Каждый follow-up issue проходит новый [`Task Routing`](routing.md). Не скрывай feature, refactoring или bug fix внутри PIR action list без собственного route и evidence.
+
+## Outcome / Exit Contract
+
+### Observable Outcome
+
+Operational impact прекращён, recovery подтверждён наблюдаемыми signals, а причины и границы текущего знания отражены в принятом PIR.
+
+### Required Evidence
+
+- timeline с фактами и timestamps;
+- recovery signals и проверка remediation;
+- RCA с разделением causes, contributing factors и hypotheses;
+- принятый человеком PIR и отдельные references для prevention items.
+
+### Terminal State
+
+`Closed`: выполнены PIR And Closure Gates и каждый незавершённый prevention item имеет owner и отдельную routed task. Завершение всех follow-up задач не требуется для закрытия incident flow.
+
+### Handoff
+
+Закрой incident record; передай prevention items в Task Routing и обнови canonical runbooks, ops facts или ADR до закрытия flow.
