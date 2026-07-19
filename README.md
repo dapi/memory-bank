@@ -97,7 +97,7 @@ problem space            solution space             execution space
 3. Создайте начальные glossary, domain model, rules и context map в `domain/`.
 4. Определите инженерные и операционные ограничения в `engineering/` и `ops/`; значимые технологические решения оформляйте как ADR.
 5. Опишите первую инициативу через PRD или epic и выделите канонические use cases.
-6. Разбейте инициативу на вертикальные feature packages и проводите каждую фичу через `brief.md → optional design.md → implementation-plan.md`.
+6. Сначала проверяйте `Small Change` gate. Остальные пользовательские изменения разбивайте на vertical-slice feature packages и проводите через `brief.md → optional design.md → implementation-plan.md`.
 7. Обновляйте постоянный контекст только по мере появления проверенных знаний.
 
 ### Выполнять задачи через Memory Bank и `start-issue`
@@ -148,12 +148,12 @@ branch → worktree → agent session
 - **Устойчивая продуктовая или операционная ситуация** — заведите `UC-*` в `use-cases/`.
 - **Продуктовая инициатива, объединяющая несколько фич** — создайте PRD.
 - **Крупная delivery-инициатива с roadmap и рисками** — используйте epic.
-- **Отдельная единица пользовательской ценности** — создайте feature package `features/FT-XXX/`.
+- **Единица пользовательской ценности, не прошедшая `Small Change` gate** — создайте feature package `features/FT-XXX/`.
 - **Архитектурное или повторно используемое решение с альтернативами** — зафиксируйте ADR.
 
 Feature package начинается с `README.md` и `brief.md`. `design.md` добавляется только тогда, когда решение требует отдельного проектирования. `implementation-plan.md` появляется после готовности upstream-документов и не должен самостоятельно изобретать требования или архитектурные решения.
 
-Размер изменения не определяет его тип: небольшое пользовательское улучшение остаётся feature, а локальная техническая работа становится `Small Change` только при выполнении всех routing predicates.
+`Small Change` проверяется до Feature Flow. Поэтому небольшое пользовательское улучшение может пройти напрямую, если issue достаточен и все routing predicates выполнены; иначе оно оформляется как vertical-slice feature package.
 
 ## Стартовые промпты
 

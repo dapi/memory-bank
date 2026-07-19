@@ -93,7 +93,7 @@ Canonical lifecycle gates живут в [../flows/feature-flow.md](../flows/feat
 2. **Simplify review** — код минимально сложен
 3. **Acceptance test** — end-to-end по `SC-*`
 
-Для small features допустимо в одной сессии, но simplify review не пропускается.
+Для compact feature packages допустимо в одной сессии, но simplify review не пропускается.
 
 ## Project-Specific Conventions
 
