@@ -85,6 +85,16 @@ go run github.com/dapi/memory-bank/cmd/memory-bank-lint@latest --repo-root .
 go install github.com/dapi/memory-bank/cmd/memory-bank-lint@latest
 ```
 
+Установка готового релиза через Homebrew:
+
+```bash
+brew install dapi/tap/memory-bank-lint
+```
+
+Готовые бинарники для Linux, macOS и Windows публикуются в [GitHub Releases](https://github.com/dapi/memory-bank/releases) при создании тега `v*`. Каждый релиз содержит `checksums.txt`; версия доступна через `memory-bank-lint --version`.
+
+Для публикации Homebrew Cask в `dapi/homebrew-tap` release workflow ожидает repository secret `HOMEBREW_TAP_GITHUB_TOKEN` с правом записи содержимого tap-репозитория.
+
 После установки запускайте его из корня downstream-репозитория:
 
 ```bash

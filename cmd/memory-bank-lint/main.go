@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 	"flag"
 	"fmt"
 	"io"
@@ -9,6 +10,8 @@ import (
 
 	"github.com/dapi/memory-bank/internal/audit"
 )
+
+var version = "dev"
 
 const (
 	defaultScopeRoot = "memory-bank"
@@ -45,14 +48,22 @@ func run(arguments []string, stdout, stderr io.Writer) int {
 	scopeRootArgument := flags.String("scope-root", defaultScopeRoot, "repository-relative directory to audit")
 	maxDepth := flags.Int("max-depth", defaultMaxDepth, "maximum allowed navigation depth before a warning")
 	jsonOutput := flags.Bool("json", false, "emit a machine-readable JSON report")
+	versionOutput := flags.Bool("version", false, "print the version and exit")
 	flags.Var(&configuredEntrypoints, "entrypoint", "markdown navigation entrypoint; may be repeated")
 
 	if err := flags.Parse(arguments); err != nil {
+		if errors.Is(err, flag.ErrHelp) {
+			return 0
+		}
 		return 2
 	}
 	if flags.NArg() > 0 {
 		fmt.Fprintf(stderr, "memory-bank-lint: unexpected arguments: %v\n", flags.Args())
 		return 2
+	}
+	if *versionOutput {
+		fmt.Fprintf(stdout, "memory-bank-lint %s\n", version)
+		return 0
 	}
 	if *maxDepth < 0 {
 		fmt.Fprintln(stderr, "memory-bank-lint: --max-depth must be greater than or equal to 0")

@@ -40,3 +40,29 @@ func TestRunRejectsNegativeDepth(t *testing.T) {
 		t.Fatalf("unexpected stderr: %s", stderr.String())
 	}
 }
+
+func TestRunPrintsVersion(t *testing.T) {
+	previousVersion := version
+	version = "v1.2.3"
+	defer func() { version = previousVersion }()
+
+	var stdout bytes.Buffer
+	var stderr bytes.Buffer
+	if exitCode := run([]string{"--version"}, &stdout, &stderr); exitCode != 0 {
+		t.Fatalf("unexpected exit code: %d; stderr: %s", exitCode, stderr.String())
+	}
+	if stdout.String() != "memory-bank-lint v1.2.3\n" {
+		t.Fatalf("unexpected stdout: %q", stdout.String())
+	}
+}
+
+func TestRunHelpSucceeds(t *testing.T) {
+	var stdout bytes.Buffer
+	var stderr bytes.Buffer
+	if exitCode := run([]string{"--help"}, &stdout, &stderr); exitCode != 0 {
+		t.Fatalf("unexpected exit code: %d", exitCode)
+	}
+	if !strings.Contains(stderr.String(), "Usage: memory-bank-lint") {
+		t.Fatalf("unexpected stderr: %s", stderr.String())
+	}
+}
