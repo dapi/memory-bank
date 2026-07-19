@@ -84,7 +84,9 @@ Acceptance из issue/task выполнен одним локальным change
 
 - Small Change routing record;
 - изменённый код и automated coverage для changed behavior;
-- результаты проверок из `Verify`, PR review и required CI.
+- результаты проверок из `Verify`;
+- последний review cycle завершён без открытых замечаний;
+- все изменения закоммичены и отправлены в remote branch, required CI полностью зелёный.
 
 ### Terminal State
 

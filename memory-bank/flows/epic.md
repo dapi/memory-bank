@@ -132,7 +132,9 @@ flowchart LR
 - charter с outcome verdict относительно acceptance;
 - финальные состояния roadmap waves, accepted subissues и feature packages;
 - актуальные decision log и risk register;
-- отдельные references и owners для переданных рисков и follow-up work.
+- отдельные references и owners для переданных рисков и follow-up work;
+- последний review cycle для epic package завершён без открытых замечаний;
+- все изменения epic package закоммичены и отправлены в remote branch, required CI полностью зелёный.
 
 ### Terminal State
 

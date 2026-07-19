@@ -72,7 +72,8 @@ task → baseline → characterization coverage → plan + checkpoints
 - baseline и characterization coverage;
 - результаты regression checks по checkpoints;
 - before/after summary либо research artifact с источниками и выводом;
-- PR review и required CI для production change.
+- последний review cycle завершён без открытых замечаний;
+- все изменения закоммичены и отправлены в remote branch, required CI полностью зелёный для production change.
 
 ### Terminal State
 

@@ -228,7 +228,9 @@ flowchart LR
 - active `brief.md` и optional active `design.md` с непрерывной traceability;
 - выполненные `CHK-*` и конкретные carriers для `EVID-*`;
 - automated coverage, required local/CI results и approval refs для manual-only gaps;
-- PR review и обновлённый `UC-*`, когда изменился устойчивый project-level scenario.
+- последний review cycle завершён без открытых замечаний;
+- все изменения закоммичены и отправлены в remote branch, required CI полностью зелёный;
+- обновлённый `UC-*`, когда изменился устойчивый project-level scenario.
 
 ### Terminal State
 

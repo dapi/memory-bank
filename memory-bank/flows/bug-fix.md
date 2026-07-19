@@ -72,7 +72,9 @@ report → triage → reproduction → analysis → fix
 - reproduction с expected/actual behavior или явно записанное ограничение reproduction;
 - подтверждённая root cause summary;
 - regression test или обоснованный альтернативный carrier;
-- PR review, результаты required tests и CI.
+- результаты required tests;
+- последний review cycle завершён без открытых замечаний;
+- все изменения закоммичены и отправлены в remote branch, required CI полностью зелёный.
 
 ### Terminal State
 

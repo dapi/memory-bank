@@ -203,6 +203,8 @@ Verify:
 
 Flow считается завершённым не после создания артефактов или изменения кода, а после достижения наблюдаемого результата и предъявления evidence из его `Outcome / Exit Contract`.
 
+Для любого flow, изменяющего репозиторий, финальное evidence также включает последний review cycle без открытых замечаний, все изменения закоммичены и отправлены в remote branch, required CI полностью зелёный.
+
 | Flow | Observable outcome | Required evidence | Terminal state и handoff |
 | --- | --- | --- | --- |
 | [Task Routing](memory-bank/flows/routing.md) | Выбран один допустимый flow или Human Routing | Route и подтверждающие entry predicates в issue/task или PR | `Routed` → выбранный flow; `Human Gate` → решение человека и повторный routing |

@@ -67,7 +67,9 @@ Operational impact прекращён, recovery подтверждён набл�
 - timeline с фактами и timestamps;
 - recovery signals и проверка remediation;
 - RCA с разделением causes, contributing factors и hypotheses;
-- принятый человеком PIR и отдельные references для prevention items.
+- принятый человеком PIR и отдельные references для prevention items;
+- последний review cycle для PIR и repository changes завершён без открытых замечаний;
+- все repository changes закоммичены и отправлены в remote branch, required CI полностью зелёный.
 
 ### Terminal State
 
