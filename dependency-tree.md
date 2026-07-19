@@ -53,12 +53,17 @@ memory-bank/dna/principles.md
     ├── memory-bank/engineering/testing-policy.md
     ├── memory-bank/features/README.md
     ├── memory-bank/flows/README.md
-    ├── memory-bank/flows/feature-flow.md
+    ├── memory-bank/flows/bug-fix.md
+    ├── memory-bank/flows/epic.md
+    ├── memory-bank/flows/feature.md
+    ├── memory-bank/flows/incident.md
+    ├── memory-bank/flows/refactoring.md
+    ├── memory-bank/flows/routing.md
+    ├── memory-bank/flows/small-change.md
     ├── memory-bank/flows/templates/README.md
     ├── memory-bank/flows/templates/adr/ADR-XXX.md
     ├── memory-bank/flows/templates/prd/PRD-XXX.md
     ├── memory-bank/flows/templates/use-case/UC-XXX.md
-    ├── memory-bank/flows/workflows.md
     ├── memory-bank/ops/README.md
     ├── memory-bank/ops/config.md
     ├── memory-bank/ops/development.md
@@ -77,19 +82,22 @@ memory-bank/dna/principles.md
 ### DNA and Flows
 
 - Этот файл `dependency-tree.md` зависит от [`memory-bank/dna/governance.md`](memory-bank/dna/governance.md), но сознательно живет вне `memory-bank/`.
-- [`memory-bank/flows/feature-flow.md`](memory-bank/flows/feature-flow.md) зависит и от [`memory-bank/dna/governance.md`](memory-bank/dna/governance.md), и от [`memory-bank/dna/frontmatter.md`](memory-bank/dna/frontmatter.md).
-- [`memory-bank/flows/workflows.md`](memory-bank/flows/workflows.md) зависит от [`memory-bank/dna/governance.md`](memory-bank/dna/governance.md) и [`memory-bank/flows/feature-flow.md`](memory-bank/flows/feature-flow.md).
-- [`memory-bank/flows/README.md`](memory-bank/flows/README.md) зависит сразу от [`memory-bank/dna/governance.md`](memory-bank/dna/governance.md), [`memory-bank/flows/feature-flow.md`](memory-bank/flows/feature-flow.md), [`memory-bank/flows/workflows.md`](memory-bank/flows/workflows.md) и [`memory-bank/flows/templates/README.md`](memory-bank/flows/templates/README.md).
+- [`memory-bank/flows/routing.md`](memory-bank/flows/routing.md) зависит от governance и [`memory-bank/engineering/autonomy-boundaries.md`](memory-bank/engineering/autonomy-boundaries.md); branch flows используют его как upstream owner route selection.
+- [`memory-bank/flows/feature.md`](memory-bank/flows/feature.md) зависит от governance, frontmatter и [`memory-bank/flows/routing.md`](memory-bank/flows/routing.md).
+- [`memory-bank/flows/epic.md`](memory-bank/flows/epic.md) зависит от governance/frontmatter и [`memory-bank/flows/feature.md`](memory-bank/flows/feature.md).
+- [`memory-bank/flows/small-change.md`](memory-bank/flows/small-change.md), [`memory-bank/flows/bug-fix.md`](memory-bank/flows/bug-fix.md) и [`memory-bank/flows/refactoring.md`](memory-bank/flows/refactoring.md) зависят от routing, governance и [`memory-bank/engineering/testing-policy.md`](memory-bank/engineering/testing-policy.md).
+- [`memory-bank/flows/incident.md`](memory-bank/flows/incident.md) зависит от routing, governance, testing policy и дополнительно от [`memory-bank/ops/runbooks/README.md`](memory-bank/ops/runbooks/README.md).
+- [`memory-bank/flows/README.md`](memory-bank/flows/README.md) зависит от governance, всех flow-документов и [`memory-bank/flows/templates/README.md`](memory-bank/flows/templates/README.md).
 
 ### Feature-related Docs
 
-- [`memory-bank/engineering/testing-policy.md`](memory-bank/engineering/testing-policy.md) зависит от [`memory-bank/dna/governance.md`](memory-bank/dna/governance.md) и [`memory-bank/flows/feature-flow.md`](memory-bank/flows/feature-flow.md).
-- [`memory-bank/features/README.md`](memory-bank/features/README.md) зависит от [`memory-bank/dna/governance.md`](memory-bank/dna/governance.md) и [`memory-bank/flows/feature-flow.md`](memory-bank/flows/feature-flow.md).
-- [`memory-bank/flows/templates/feature/README.md`](memory-bank/flows/templates/feature/README.md) зависит от [`memory-bank/flows/feature-flow.md`](memory-bank/flows/feature-flow.md) и [`memory-bank/dna/frontmatter.md`](memory-bank/dna/frontmatter.md).
-- [`memory-bank/flows/templates/feature/brief.md`](memory-bank/flows/templates/feature/brief.md) зависит от [`memory-bank/flows/feature-flow.md`](memory-bank/flows/feature-flow.md), [`memory-bank/dna/frontmatter.md`](memory-bank/dna/frontmatter.md) и [`memory-bank/engineering/testing-policy.md`](memory-bank/engineering/testing-policy.md).
-- [`memory-bank/flows/templates/feature/design.md`](memory-bank/flows/templates/feature/design.md) зависит от [`memory-bank/flows/feature-flow.md`](memory-bank/flows/feature-flow.md) и [`memory-bank/dna/frontmatter.md`](memory-bank/dna/frontmatter.md).
-- [`memory-bank/flows/templates/feature/implementation-plan.md`](memory-bank/flows/templates/feature/implementation-plan.md) зависит от [`memory-bank/flows/feature-flow.md`](memory-bank/flows/feature-flow.md), [`memory-bank/dna/frontmatter.md`](memory-bank/dna/frontmatter.md) и [`memory-bank/engineering/testing-policy.md`](memory-bank/engineering/testing-policy.md).
-- Feature-support templates [`runtime-surfaces.md`](memory-bank/flows/templates/feature/support/runtime-surfaces.md), [`ui-reference.md`](memory-bank/flows/templates/feature/support/ui-reference.md) и [`use-cases.md`](memory-bank/flows/templates/feature/support/use-cases.md) зависят от [`memory-bank/flows/feature-flow.md`](memory-bank/flows/feature-flow.md) и [`memory-bank/dna/frontmatter.md`](memory-bank/dna/frontmatter.md).
+- [`memory-bank/engineering/testing-policy.md`](memory-bank/engineering/testing-policy.md) зависит от [`memory-bank/dna/governance.md`](memory-bank/dna/governance.md) и [`memory-bank/flows/feature.md`](memory-bank/flows/feature.md).
+- [`memory-bank/features/README.md`](memory-bank/features/README.md) зависит от [`memory-bank/dna/governance.md`](memory-bank/dna/governance.md) и [`memory-bank/flows/feature.md`](memory-bank/flows/feature.md).
+- [`memory-bank/flows/templates/feature/README.md`](memory-bank/flows/templates/feature/README.md) зависит от [`memory-bank/flows/feature.md`](memory-bank/flows/feature.md) и [`memory-bank/dna/frontmatter.md`](memory-bank/dna/frontmatter.md).
+- [`memory-bank/flows/templates/feature/brief.md`](memory-bank/flows/templates/feature/brief.md) зависит от [`memory-bank/flows/feature.md`](memory-bank/flows/feature.md), [`memory-bank/dna/frontmatter.md`](memory-bank/dna/frontmatter.md) и [`memory-bank/engineering/testing-policy.md`](memory-bank/engineering/testing-policy.md).
+- [`memory-bank/flows/templates/feature/design.md`](memory-bank/flows/templates/feature/design.md) зависит от [`memory-bank/flows/feature.md`](memory-bank/flows/feature.md) и [`memory-bank/dna/frontmatter.md`](memory-bank/dna/frontmatter.md).
+- [`memory-bank/flows/templates/feature/implementation-plan.md`](memory-bank/flows/templates/feature/implementation-plan.md) зависит от [`memory-bank/flows/feature.md`](memory-bank/flows/feature.md), [`memory-bank/dna/frontmatter.md`](memory-bank/dna/frontmatter.md) и [`memory-bank/engineering/testing-policy.md`](memory-bank/engineering/testing-policy.md).
+- Feature-support templates [`runtime-surfaces.md`](memory-bank/flows/templates/feature/support/runtime-surfaces.md), [`ui-reference.md`](memory-bank/flows/templates/feature/support/ui-reference.md) и [`use-cases.md`](memory-bank/flows/templates/feature/support/use-cases.md) зависят от [`memory-bank/flows/feature.md`](memory-bank/flows/feature.md) и [`memory-bank/dna/frontmatter.md`](memory-bank/dna/frontmatter.md).
 
 ### Product And Domain Docs
 

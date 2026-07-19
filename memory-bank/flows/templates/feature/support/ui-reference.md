@@ -4,7 +4,7 @@ doc_kind: feature-support
 doc_function: template
 purpose: Governed wrapper-шаблон optional `ui-reference/README.md`. Читать, когда feature changes interface, navigation, screen states, editor/preview flows, copy/state semantics или interaction model.
 derived_from:
-  - ../../../feature-flow.md
+  - ../../../feature.md
   - ../../../../dna/frontmatter.md
 status: active
 audience: humans_and_agents

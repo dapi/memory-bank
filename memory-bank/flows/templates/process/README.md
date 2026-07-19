@@ -6,7 +6,7 @@ purpose: Governed wrapper-шаблон для `processes/README.md`. Читат�
 derived_from:
   - ../../../dna/governance.md
   - ../../../dna/frontmatter.md
-  - ../../workflows.md
+  - ../../routing.md
 status: active
 audience: humans_and_agents
 template_for: process
@@ -39,7 +39,7 @@ doc_kind: process
 doc_function: index
 purpose: "Навигация по reusable process-документам проекта и выбор правильного шаблона для конкретного workflow."
 derived_from:
-  - ../flows/workflows.md
+  - ../flows/routing.md
 status: active
 audience: humans_and_agents
 ```

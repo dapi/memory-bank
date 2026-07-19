@@ -138,13 +138,13 @@ branch → worktree → agent session
 5. Агент читает issue и связанные документы Memory Bank, реализует изменение и выполняет предусмотренные проверки.
 6. Завершите работу через PR и приложите требуемые evidence. Если в ходе задачи появились новые устойчивые правила, ограничения или решения, обновите их canonical owner в Memory Bank.
 
-Во всех сценариях выбирайте подходящий workflow в [`memory-bank/flows/workflows.md`](memory-bank/flows/workflows.md). Если issue полностью задаёт intent, scope и acceptance, решение не требует design-документов и все routing predicates выполнены, задача может пройти как `Small Change` напрямую к реализации. Поддерживайте индексы и относительные ссылки и запускайте [локальные проверки](#проверка-ссылок-и-индексации) перед коммитом.
+Во всех сценариях выбирайте подходящий workflow в [`memory-bank/flows/routing.md`](memory-bank/flows/routing.md). Если issue полностью задаёт intent, scope и acceptance, решение не требует design-документов и все routing predicates выполнены, задача может пройти как `Small Change` напрямую к реализации. Поддерживайте индексы и относительные ссылки и запускайте [локальные проверки](#проверка-ссылок-и-индексации) перед коммитом.
 
 Главное правило адаптации: содержимое этого репозитория должно оставаться generic. Специфика конкретного продукта живёт только в его downstream-копии `memory-bank/` и не возвращается в шаблон.
 
 ## Task Routing
 
-После получения issue выбирайте workflow в порядке, заданном в [`memory-bank/flows/workflows.md`](memory-bank/flows/workflows.md):
+После получения issue выбирайте workflow в порядке, заданном в [`memory-bank/flows/routing.md`](memory-bank/flows/routing.md):
 
 ```text
 Issue / Task
@@ -177,9 +177,29 @@ Incident / PIR?
                          └── нет ► Human Routing
 ```
 
+### Small Change Routing Record
+
+`Small Change` не создаёт отдельных документов в Memory Bank, но не остаётся бесследным. До реализации зафиксируйте в issue/task или draft PR, почему design и plan не нужны и как будет проверен результат:
+
+```text
+Workflow: Small Change
+
+Design: not required
+Reason: решение следует существующему паттерну <ссылка или путь>.
+
+Plan: not required
+Reason: change surface локален, порядок шагов и checkpoints не нужны.
+
+Verify:
+- <команда или проверка>
+- <ожидаемый результат или evidence>
+```
+
+Если появляется необходимость выбрать подход, изменить contract, спланировать зависимые этапы или зафиксировать новый устойчивый project fact, остановите прямую реализацию и повторите routing.
+
 ## Как выбирать артефакт
 
-- **Локальное изменение (`Small Change`)** — issue/task владеет intent, scope и acceptance; отдельные `brief.md`, `design.md` и `implementation-plan.md` не создаются.
+- **Локальное изменение (`Small Change`)** — issue/task владеет intent, scope, acceptance и routing record; отдельные `brief.md`, `design.md` и `implementation-plan.md` не создаются.
 - **Устойчивая продуктовая или операционная ситуация** — заведите `UC-*` в `use-cases/`.
 - **Продуктовая инициатива, объединяющая несколько фич** — создайте PRD.
 - **Крупная delivery-инициатива с roadmap и рисками** — используйте epic.
@@ -203,7 +223,7 @@ Feature package начинается с `README.md` и `brief.md`. `design.md` �
 Создать feature package:
 
 ```text
-Прочитай ./memory-bank/README.md и ./memory-bank/flows/feature-flow.md.
+Прочитай ./memory-bank/README.md и ./memory-bank/flows/feature.md.
 Создай feature package для этой задачи, начиная с README.md и brief.md.
 design.md создавай только по правилам Design Requirement Decision,
 а implementation-plan.md — только после готовности upstream-документов.

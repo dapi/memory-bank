@@ -6,8 +6,8 @@ purpose: Governed wrapper-шаблон для полного lifecycle protocol.
 derived_from:
   - ../../../dna/governance.md
   - ../../../dna/frontmatter.md
-  - ../../workflows.md
-  - ../../feature-flow.md
+  - ../../routing.md
+  - ../../feature.md
 status: active
 audience: humans_and_agents
 template_for: process
@@ -43,7 +43,7 @@ doc_function: canonical
 purpose: "Описывает полный процесс изменения с фазами, gates, verification и rollback."
 derived_from:
   - README.md
-  - ../flows/feature-flow.md
+  - ../flows/feature.md
 status: draft
 audience: humans_and_agents
 must_not_define:

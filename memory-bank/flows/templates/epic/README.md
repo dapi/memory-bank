@@ -4,7 +4,7 @@ doc_kind: governance
 doc_function: template
 purpose: "Wrapper-шаблоны для `memory-bank/epics/EP-XXX/` packages: charter, roadmap, decision log, subissues and risks."
 derived_from:
-  - ../../epic-flow.md
+  - ../../epic.md
 status: active
 audience: humans_and_agents
 ---

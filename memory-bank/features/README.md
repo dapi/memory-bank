@@ -5,7 +5,7 @@ doc_function: index
 purpose: Навигация по instantiated feature packages. Читать, чтобы найти существующую delivery-единицу или понять, где создавать новую.
 derived_from:
   - ../dna/governance.md
-  - ../flows/feature-flow.md
+  - ../flows/feature.md
 status: active
 audience: humans_and_agents
 ---
@@ -16,7 +16,7 @@ audience: humans_and_agents
 
 ## Rules
 
-- Каждый package создается по правилам из [`../flows/feature-flow.md`](../flows/feature-flow.md).
+- Каждый package создается по правилам из [`../flows/feature.md`](../flows/feature.md).
 - Bootstrap package начинается с `README.md` и `brief.md`; после `Problem Ready` в него добавляется `design.md`, если `brief.md` фиксирует `Design required: yes`; `implementation-plan.md` появляется после готовности нужных upstream owners.
 - Для bootstrap и downstream-документов используй шаблоны из [`../flows/templates/feature/`](../flows/templates/feature/).
 - Если работа требует roadmap, risk register и нескольких delivery subissues, сначала создай или обнови epic package в [`../epics/README.md`](../epics/README.md).

@@ -5,7 +5,7 @@ doc_function: canonical
 purpose: Описывает testing policy репозитория: обязательность test case design, требования к automated regression coverage и допустимые manual-only gaps.
 derived_from:
   - ../dna/governance.md
-  - ../flows/feature-flow.md
+  - ../flows/feature.md
 status: active
 canonical_for:
   - repository_testing_policy
@@ -56,7 +56,7 @@ audience: humans_and_agents
 
 ## Feature Flow Expectations
 
-Canonical lifecycle gates живут в [../flows/feature-flow.md](../flows/feature-flow.md):
+Canonical lifecycle gates живут в [../flows/feature.md](../flows/feature.md):
 
 - к `Problem Ready` `brief.md` уже фиксирует test case inventory;
 - к `Solution Ready` required `design.md` фиксирует selected design, C4 applicability/model, contracts и solution-level failure modes;
@@ -117,4 +117,4 @@ Canonical lifecycle gates живут в [../flows/feature-flow.md](../flows/feat
 - [ ] перечислены обязательные CI suites
 - [ ] задокументирован deterministic test data pattern
 - [ ] описаны manual-only exceptions
-- [ ] policy не противоречит [../flows/feature-flow.md](../flows/feature-flow.md)
+- [ ] policy не противоречит [../flows/feature.md](../flows/feature.md)

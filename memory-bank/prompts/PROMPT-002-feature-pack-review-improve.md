@@ -74,7 +74,7 @@ FINAL_REPORT_PATH: {{FINAL_REPORT_PATH}}
    - корректность frontmatter и `derived_from`;
    - открытые вопросы, assumptions, blockers и gaps;
    - расхождения между `brief.md`, conditional `design.md`, `implementation-plan.md`, ADR, verify/evidence и related docs;
-   - соответствие `memory-bank/dna` и `memory-bank/flows/feature-flow.md`.
+   - соответствие `memory-bank/dna` и `memory-bank/flows/feature.md`.
 
 2. Сохрани отчет текущего ревью в `REVIEW_REPORT_PATH`.
    Если путь не задан, используй `./tmp/feature-pack-review.md`.

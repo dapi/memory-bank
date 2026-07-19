@@ -61,7 +61,7 @@ MEMORY_BANK_PATH: {{MEMORY_BANK_PATH}}
 
 <instructions>
 1. Прочитай issue через разрешенный issue tracker tool или команду из `ISSUE_COMMAND`.
-2. Прочитай только feature-документы из `FEATURE_PATH` и релевантные governance-документы memory-bank: `dna/`, `flows/feature-flow.md`, `flows/workflows.md`.
+2. Прочитай только feature-документы из `FEATURE_PATH` и релевантные governance-документы memory-bank: `dna/`, `flows/feature.md`, `flows/routing.md`.
 3. Не исследуй код, runtime architecture, implementation modules или unrelated docs.
 4. Выдели дословные или явно выраженные требования заказчика из issue.
 5. Проверь, не добавляет ли feature-документация требований, страниц, сценариев, решений или ограничений, которых нет в issue.

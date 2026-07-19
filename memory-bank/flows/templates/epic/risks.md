@@ -4,7 +4,7 @@ doc_kind: governance
 doc_function: template
 purpose: "Шаблон epic-level risk register for financial, operational, scope and delivery risks."
 derived_from:
-  - ../../epic-flow.md
+  - ../../epic.md
 status: active
 audience: humans_and_agents
 template_target_path: ../../../epics/EP-XXX/risks.md

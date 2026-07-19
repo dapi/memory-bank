@@ -2,10 +2,11 @@
 title: Feature Flow
 doc_kind: governance
 doc_function: canonical
-purpose: "Определяет stage-based flow feature-документации с явным разделением `brief.md` (problem space), `design.md` (solution space) и `implementation-plan.md` (execution space)."
+purpose: "Определяет stage-based lifecycle feature-документации с явным разделением `brief.md` (problem space), `design.md` (solution space) и `implementation-plan.md` (execution space)."
 derived_from:
   - ../dna/governance.md
   - ../dna/frontmatter.md
+  - routing.md
 canonical_for:
   - feature_directory_structure
   - feature_document_boundaries

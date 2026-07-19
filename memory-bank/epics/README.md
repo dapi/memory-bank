@@ -5,8 +5,8 @@ doc_function: index
 purpose: "Навигация по instantiated epic packages. Читать, когда инициатива крупнее одной feature и должна исполняться через roadmap и набор связанных subissues."
 derived_from:
   - ../dna/governance.md
-  - ../flows/epic-flow.md
-  - ../flows/feature-flow.md
+  - ../flows/epic.md
+  - ../flows/feature.md
 status: active
 audience: humans_and_agents
 ---
@@ -21,7 +21,7 @@ audience: humans_and_agents
 - Epic владеет intent, roadmap, декомпозицией, decision log, рисками и реестром subissues.
 - Epic не владеет code-level execution: реализация идёт через отдельные `memory-bank/features/FT-<issue>/` packages.
 - Каждый delivery subissue должен ссылаться на соответствующие epic artifacts и project-level `UC-*`, если меняет устойчивый сценарий.
-- Правила создания и ведения epic packages живут в [`../flows/epic-flow.md`](../flows/epic-flow.md).
+- Правила создания и ведения epic packages живут в [`../flows/epic.md`](../flows/epic.md).
 
 ## Naming
 
@@ -38,7 +38,7 @@ audience: humans_and_agents
 | Knowledge | `design.md`, `specs/**`, `diagrams/**`, linked `UC-*` | Нормализованные требования, bounded contexts, сценарии, контракты и audit trail |
 | Execution Handoff | future `memory-bank/features/FT-<issue>/` | Конкретные code changes, тесты, rollout/backout для одного approved delivery issue |
 
-Knowledge-файлы опциональны. Если они создаются как Markdown внутри epic package, они должны быть индексированы из package `README.md` или owner-документа и следовать правилам frontmatter из [`../flows/epic-flow.md`](../flows/epic-flow.md).
+Knowledge-файлы опциональны. Если они создаются как Markdown внутри epic package, они должны быть индексированы из package `README.md` или owner-документа и следовать правилам frontmatter из [`../flows/epic.md`](../flows/epic.md).
 
 ## Instantiated Epics
 

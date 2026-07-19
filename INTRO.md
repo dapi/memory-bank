@@ -53,7 +53,7 @@ Memory Bank решает это через три механизма:
 
 - Single Source of Truth: каждый факт живет в одном месте;
 - Source Dependency Tree: при конфликте понятно, какой документ главнее;
-- Task Workflows и Feature Flow: после Incident и Bug Fix сначала проверяется `Small Change`; пользовательское изменение, не прошедшее этот gate, оформляется как vertical-slice feature package.
+- Task Routing и Feature Flow: после Incident и Bug Fix сначала проверяется `Small Change`; пользовательское изменение, не прошедшее этот gate, оформляется как vertical-slice feature package.
 
 ## Рабочий процесс внедрения
 
@@ -63,7 +63,7 @@ Memory Bank решает это через три механизма:
 4. Адаптировать минимум четыре раздела: `product/`, `domain/`, `engineering/`, `ops/`.
 5. Завести первые use cases для текущего эпика или фичи.
 6. По use cases сформировать проверяемые тест-кейсы: автоматические и ручные.
-7. Для `Small Change`, где issue полностью владеет intent, scope и acceptance и отдельные design-документы не нужны, использовать прямой workflow из `memory-bank/flows/workflows.md`.
+7. Для `Small Change`, где issue полностью владеет intent, scope и acceptance и отдельные design-документы не нужны, использовать прямой workflow из `memory-bank/flows/routing.md` и до реализации фиксировать routing record в issue/task или draft PR.
 8. Для пользовательского изменения, не прошедшего `Small Change` gate, создавать feature package: `README.md` как routing-слой и `brief.md` как canonical owner problem space и verification contract.
 9. После Problem Ready создавать `design.md`, если он required, а `implementation-plan.md` — только после готовности всех upstream owners.
 10. Запускать агента на задачу через подходящий governed artifact: task, use case, feature package, PRD или epic, а не через длинное устное объяснение.
@@ -149,7 +149,7 @@ git diff --check
 Фича-пак:
 
 ```text
-Прочитай ./memory-bank/README.md и ./memory-bank/flows/feature-flow.md, затем создай feature package для задачи. Сначала инстанцируй README.md и brief.md; в brief.md обязательно зафиксируй scope, non-scope, acceptance scenarios, checks, evidence и Design Requirement Decision. design.md создавай только если `Design required: yes`, а implementation-plan.md — после готовности upstream owners.
+Прочитай ./memory-bank/README.md и ./memory-bank/flows/feature.md, затем создай feature package для задачи. Сначала инстанцируй README.md и brief.md; в brief.md обязательно зафиксируй scope, non-scope, acceptance scenarios, checks, evidence и Design Requirement Decision. design.md создавай только если `Design required: yes`, а implementation-plan.md — после готовности upstream owners.
 ```
 
 Ревью Memory Bank:
@@ -165,6 +165,7 @@ git diff --check
 - Для текущего эпика заведены use cases.
 - По use cases есть автоматические или ручные проверки.
 - После Incident и Bug Fix проверяется `Small Change`; пользовательские изменения, не прошедшие этот gate, оформляются через feature package.
+- Каждый `Small Change` оставляет routing record с обоснованием `Design: not required`, `Plan: not required` и verify contract в issue/task или draft PR.
 - Спорные технические решения оформляются как ADR.
 - Скрипт проверки индексации проходит без errors.
 - Команда понимает: если факт нужен агенту, он должен быть записан в Memory Bank.

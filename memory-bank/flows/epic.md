@@ -6,7 +6,7 @@ purpose: "Определяет lifecycle и качество epic-докумен
 derived_from:
   - ../dna/governance.md
   - ../dna/frontmatter.md
-  - feature-flow.md
+  - feature.md
 canonical_for:
   - epic_directory_structure
   - epic_document_boundaries
@@ -108,7 +108,7 @@ flowchart LR
 - [ ] created/selected GitHub issue is linked to epic package
 - [ ] new `memory-bank/features/FT-<issue>/` package exists
 - [ ] новый feature package импортирует только релевантные epic refs (`charter.md`, `roadmap.md`, `subissues.md`, `risks.md` и `decision-log.md`, если используется), а не весь epic scope
-- [ ] feature `brief.md`, optional `design.md`, затем `implementation-plan.md` следуют `feature-flow.md`
+- [ ] feature `brief.md`, optional `design.md`, затем `implementation-plan.md` следуют `feature.md`
 
 ## Quality Bundle
 
