@@ -39,7 +39,7 @@ Memory Bank - это не вики и не архив заметок. Это р�
 
 `ops/` - операционный контекст: development, stages, release, config и runbooks.
 
-`features/` - фича-паки для пользовательских изменений, не прошедших `Small Change` gate. Каждый package является vertical slice и получает routing `README.md`, canonical `brief.md`, optional canonical `design.md` и, после готовности upstream owners, derived `implementation-plan.md`.
+`features/` - packages для одной пользовательской или плановой infrastructure/engineering/operations delivery-unit, не прошедшей `Small Change` gate. Пользовательский package является vertical slice; чисто инфраструктурный package фиксирует independently verifiable operational outcome. Каждый package получает routing `README.md`, canonical `brief.md`, optional canonical `design.md` и, после готовности upstream owners, derived `implementation-plan.md`.
 
 `adr/` - архитектурные решения. ADR нужен, когда команда выбирает подход и хочет сохранить не только решение, но и причины.
 
@@ -53,7 +53,7 @@ Memory Bank решает это через три механизма:
 
 - Single Source of Truth: каждый факт живет в одном месте;
 - Source Dependency Tree: при конфликте понятно, какой документ главнее;
-- Task Routing и Feature Flow: после Incident и Bug Fix сначала проверяется `Small Change`; пользовательское изменение, не прошедшее этот gate, оформляется как vertical-slice feature package.
+- Task Routing и governed delivery flows: после Incident и Bug Fix сначала проверяется `Small Change`; multi-feature initiative направляется в Epic Flow, behavior-preserving restructuring — в Refactoring Flow, а оставшаяся пользовательская или planned infrastructure/engineering/operations delivery-unit — в Feature Flow.
 
 ## Рабочий процесс внедрения
 
@@ -64,7 +64,7 @@ Memory Bank решает это через три механизма:
 5. Завести первые use cases для текущего эпика или фичи.
 6. По use cases сформировать проверяемые тест-кейсы: автоматические и ручные.
 7. Для `Small Change`, где issue полностью владеет intent, scope и acceptance и отдельные design-документы не нужны, использовать прямой workflow из `memory-bank/flows/routing.md` и до реализации фиксировать routing record в issue/task или draft PR.
-8. Для пользовательского изменения, не прошедшего `Small Change` gate, создавать feature package: `README.md` как routing-слой и `brief.md` как canonical owner problem space и verification contract.
+8. Если работа требует общего roadmap, cross-feature risks или нескольких delivery units, сначала создавать epic package. Для одной пользовательской или плановой infrastructure/engineering/operations delivery-unit, не прошедшей `Small Change` gate и не являющейся behavior-preserving refactoring, создавать feature package: `README.md` как routing-слой и `brief.md` как canonical owner problem space и verification contract.
 9. После Problem Ready создавать `design.md`, если он required, а `implementation-plan.md` — только после готовности всех upstream owners.
 10. Запускать агента на задачу через подходящий governed artifact: task, use case, feature package, PRD или epic, а не через длинное устное объяснение.
 11. После реализации обновлять Memory Bank, если появились новые факты, правила, риски или решения.
@@ -126,11 +126,11 @@ Memory Bank решает это через три механизма:
 Перед PR или после изменения структуры нужно запускать:
 
 ```bash
-go run ./cmd/memory-bank-lint
+memory-bank-lint --repo-root .
 git diff --check
 ```
 
-В downstream-проекте запускайте установленный CLI: `memory-bank-lint --repo-root .`. Первая команда проверяет относительные ссылки, orphan-документы, достижимость документов через README-индексы и ожидаемые README-файлы. Вторая ловит лишние пробелы и conflict markers.
+Установите CLI один раз по [инструкции в корневом README](README.md#установка-cli). Первая команда проверяет относительные ссылки, orphan-документы, достижимость документов через README-индексы и ожидаемые README-файлы. Вторая ловит лишние пробелы и conflict markers.
 
 ## Стартовые промпты
 
@@ -164,7 +164,7 @@ git diff --check
 - `product/`, `domain/`, `engineering/`, `ops/` адаптированы под проект.
 - Для текущего эпика заведены use cases.
 - По use cases есть автоматические или ручные проверки.
-- После Incident и Bug Fix проверяется `Small Change`; пользовательские изменения, не прошедшие этот gate, оформляются через feature package.
+- После Incident и Bug Fix проверяется `Small Change`; multi-feature initiatives оформляются через epic, behavior-preserving restructuring — через Refactoring Flow, а отдельные пользовательские и planned infrastructure/engineering/operations delivery units — через feature package.
 - Каждый `Small Change` оставляет routing record с обоснованием `Design: not required`, `Plan: not required` и verify contract в issue/task или draft PR.
 - Спорные технические решения оформляются как ADR.
 - Скрипт проверки индексации проходит без errors.

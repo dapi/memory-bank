@@ -6,6 +6,7 @@ purpose: "Определяет lifecycle и качество epic-докумен
 derived_from:
   - ../dna/governance.md
   - ../dna/frontmatter.md
+  - routing.md
   - feature.md
 canonical_for:
   - epic_directory_structure
@@ -117,7 +118,7 @@ flowchart LR
 - [ ] каждый accepted subissue завершён, отменён или явно передан в отдельную инициативу
 - [ ] delivered feature packages достигли своих terminal states и связаны из `subissues.md`
 - [ ] фактический outcome сопоставлен с `charter.md` acceptance и записан в его `Outcome`/`Acceptance`
-- [ ] `roadmap.md`, `subissues.md`, `risks.md` и `decision-log.md` отражают финальное состояние
+- [ ] `roadmap.md`, `subissues.md` и `risks.md` отражают финальное состояние; `decision-log.md`, если используется, также отражает финальное состояние
 - [ ] открытые риски и follow-up work имеют owner и отдельные task references
 - [ ] человек подтвердил закрытие инициативы
 
@@ -131,7 +132,7 @@ flowchart LR
 
 - charter с outcome verdict относительно acceptance;
 - финальные состояния roadmap waves, accepted subissues и feature packages;
-- актуальные decision log и risk register;
+- актуальный risk register и, если используется, актуальный decision log;
 - отдельные references и owners для переданных рисков и follow-up work;
 - последний review cycle для epic package завершён без открытых замечаний;
 - все изменения epic package закоммичены и отправлены в remote branch, required CI полностью зелёный.
@@ -153,7 +154,7 @@ Epic quality is a Q-Bundle, not one scalar.
 | Traceability | Source docs, decisions, requirements, UC and subissues linked by stable IDs | Can a reviewer trace each planned feature back to evidence? |
 | Decomposability | Bounded contexts and slices are separated | Can we create one delivery issue without dragging the whole epic? |
 | Roadmap clarity | Waves, dependencies, gates and stop rules are explicit | Does the team know what should happen first and why? |
-| Decision provenance | `decision-log.md` links facts, FPF reasoning and consequences | Is a decision backed by evidence rather than preference? |
+| Decision provenance | Если существуют non-trivial local decisions, `decision-log.md` связывает facts, FPF reasoning и consequences | Are existing local decisions backed by evidence rather than preference? |
 | Scope control | Non-scope and stop rules are explicit | Can we prevent accidental expansion during delivery? |
 | Risk governance | `risks.md` lists risks, controls and owners | Are high-impact financial/operator risks visible before code? |
 | Execution handoff | `subissues.md` and roadmap define feature-package inputs | Can a slice owner start without re-reading the whole epic? |

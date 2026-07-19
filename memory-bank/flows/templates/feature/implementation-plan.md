@@ -98,6 +98,7 @@ must_not_define:
 ## Open Questions / Ambiguities
 
 Какие неизвестности ещё не сняты после discovery. Если вопрос меняет upstream semantics, его нельзя молча разрешать в шаге исполнения.
+Если после discovery unresolved questions отсутствуют, укажи `none` вместо таблицы; не создавай фиктивный `OQ-*`.
 
 | Open Question ID | Question | Why unresolved | Blocks | Default action / escalation owner |
 | --- | --- | --- | --- | --- |

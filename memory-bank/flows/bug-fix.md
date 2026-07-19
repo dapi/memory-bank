@@ -25,9 +25,11 @@ Bug — наблюдаемое поведение, противоречащее 
 ## Entry Gate
 
 - [ ] expected и actual behavior различимы
-- [ ] указан источник expected behavior или явно отмечено, что его нужно подтвердить
+- [ ] указан источник уже принятого expected behavior либо зафиксировано его явное подтверждение человеком
 - [ ] report не является запросом на новое поведение
 - [ ] operational incident уже contained или передан в [`Incident Flow`](incident.md)
+
+Если нет ни доступного источника уже принятого expected behavior, ни зафиксированного решения человека, Entry Gate не выполнен: зафиксируй вопрос и риск через [Human Routing](routing.md#human-routing). До решения `Human Gate` не начинай Analysis And Fix и не изменяй код; после решения повтори Task Routing.
 
 ## Flow
 

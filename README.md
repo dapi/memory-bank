@@ -97,7 +97,7 @@ problem space            solution space             execution space
 3. Создайте начальные glossary, domain model, rules и context map в `domain/`.
 4. Определите инженерные и операционные ограничения в `engineering/` и `ops/`; значимые технологические решения оформляйте как ADR.
 5. Опишите первую инициативу через PRD или epic и выделите канонические use cases.
-6. Сначала проверяйте `Small Change` gate. Остальные пользовательские изменения разбивайте на vertical-slice feature packages и проводите через `brief.md → optional design.md → implementation-plan.md`.
+6. Работу крупнее одной delivery-feature с общим roadmap, cross-feature risks или несколькими delivery units ведите через epic. Для каждой отдельной delivery-unit сначала проверяйте `Small Change` gate; остальные пользовательские и плановые infrastructure/engineering/operations изменения проводите через feature package: `brief.md → optional design.md → implementation-plan.md`.
 7. Обновляйте постоянный контекст только по мере появления проверенных знаний.
 
 ### Выполнять задачи через Memory Bank и `start-issue`
@@ -121,7 +121,7 @@ branch → worktree → agent session
 
 Рабочий цикл:
 
-1. Подготовьте GitHub issue с ожидаемым результатом и ссылками на применимые PRD, use case, feature package или ADR.
+1. Подготовьте GitHub issue с ожидаемым результатом и ссылками на применимые PRD, epic, use case, feature package или ADR.
 2. Установите `start-issue` по [инструкции проекта](https://github.com/dapi/start-issue#install) и настройте предпочитаемого агента командой `start-issue setup`.
 3. При необходимости сначала проверьте планируемые действия без создания worktree:
 
@@ -166,18 +166,27 @@ Incident / PIR?
                └── нет
                     │
                     ▼
-          Новое или изменённое
-          пользовательское поведение?
-                    ├── да ───► Feature Flow
+          Работа крупнее одной delivery-feature,
+          нужен общий roadmap, cross-feature
+          risk register или несколько units?
+                    ├── да ───► Epic Flow
                     └── нет
                          │
                          ▼
                     Refactoring?
                          ├── да ─► Refactoring Flow
-                         └── нет ► Human Routing
+                         └── нет
+                              │
+                              ▼
+                    Одна delivery-unit меняет
+                    пользовательское поведение
+                    или доставляет planned
+                    engineering/operations outcome?
+                              ├── да ─► Feature Flow
+                              └── нет ► Human Routing
 ```
 
-После выбора route следуйте его canonical документу: [Incident](memory-bank/flows/incident.md), [Bug Fix](memory-bank/flows/bug-fix.md), [Small Change](memory-bank/flows/small-change.md), [Feature](memory-bank/flows/feature.md) или [Refactoring](memory-bank/flows/refactoring.md).
+После выбора route следуйте его canonical документу: [Incident](memory-bank/flows/incident.md), [Bug Fix](memory-bank/flows/bug-fix.md), [Small Change](memory-bank/flows/small-change.md), [Epic](memory-bank/flows/epic.md), [Refactoring](memory-bank/flows/refactoring.md) или [Feature](memory-bank/flows/feature.md).
 
 ### Small Change Routing Record
 
@@ -207,26 +216,26 @@ Flow считается завершённым не после создания 
 
 | Flow | Observable outcome | Required evidence | Terminal state и handoff |
 | --- | --- | --- | --- |
-| [Task Routing](memory-bank/flows/routing.md) | Выбран один допустимый flow или Human Routing | Route и подтверждающие entry predicates в issue/task или PR | `Routed` → выбранный flow; `Human Gate` → решение человека и повторный routing |
+| [Task Routing](memory-bank/flows/routing.md) | Выбран один допустимый flow или Human Routing | Route и подтверждающие entry predicates в issue/task, PR или incident record | `Routed` → выбранный flow; `Human Gate` → решение человека и повторный routing |
 | [Small Change](memory-bank/flows/small-change.md) | Локальный acceptance выполнен без design и plan | Routing record, код, coverage, verify results, PR и CI | `Done` → закрыть task; новые факты и follow-up вернуть в routing |
 | [Bug Fix](memory-bank/flows/bug-fix.md) | Expected behavior восстановлено и защищено от regression | Reproduction, root cause, regression evidence, PR и CI | `Resolved` → закрыть report; product/contract changes маршрутизировать отдельно |
-| [Feature](memory-bank/flows/feature.md) | Один vertical slice работает end-to-end | `brief.md`, optional `design.md`, archived plan, `CHK-*`/`EVID-*`, tests, PR и CI | `Done` или `Cancelled` → закрыть delivery issue и передать follow-up |
+| [Feature](memory-bank/flows/feature.md) | Одна пользовательская или infrastructure/engineering/operations delivery-unit принята end-to-end | `brief.md`, optional `design.md`, archived plan, `CHK-*`/`EVID-*`, tests, PR и CI | `Done` или `Cancelled` → закрыть delivery issue и передать follow-up |
 | [Refactoring](memory-bank/flows/refactoring.md) | Структура улучшена при сохранении поведения либо принят research outcome | Baseline, characterization/regression evidence, before/after или research artifact | `Done` → закрыть task; behavior/contract changes повторно маршрутизировать |
 | [Incident / PIR](memory-bank/flows/incident.md) | Impact прекращён, recovery подтверждён, PIR принят | Timeline, recovery signals, RCA, remediation evidence и follow-up references | `Closed` → закрыть incident; каждый prevention item маршрутизировать отдельно |
-| [Epic](memory-bank/flows/epic.md) | Инициатива завершена через управляемые slices с outcome verdict | Charter, финальные roadmap/subissue/feature states, decisions, risks и follow-up refs | `Done` или `Cancelled` → закрыть initiative, перенести знания и маршрутизировать остаток |
+| [Epic](memory-bank/flows/epic.md) | Инициатива завершена через управляемые slices с outcome verdict | Charter, финальные roadmap/subissue/feature states, optional decision log, risks и follow-up refs | `Done` или `Cancelled` → закрыть initiative, перенести знания и маршрутизировать остаток |
 
 ## Как выбирать артефакт
 
 - **Локальное изменение (`Small Change`)** — issue/task владеет intent, scope, acceptance и routing record; отдельные `brief.md`, `design.md` и `implementation-plan.md` не создаются.
 - **Устойчивая продуктовая или операционная ситуация** — заведите `UC-*` в `use-cases/`.
-- **Продуктовая инициатива, объединяющая несколько фич** — создайте PRD.
+- **Продуктовая инициатива, объединяющая несколько фич** — создайте PRD как owner продуктовых требований; если delivery требует общего roadmap, cross-feature risks или нескольких units, дополнительно используйте epic.
 - **Крупная delivery-инициатива с roadmap и рисками** — используйте epic.
-- **Единица пользовательской ценности, не прошедшая `Small Change` gate** — создайте feature package `features/FT-XXX/`.
+- **Одна пользовательская или плановая infrastructure/engineering/operations delivery-unit, не прошедшая `Small Change` gate** — создайте feature package `features/FT-XXX/`.
 - **Архитектурное или повторно используемое решение с альтернативами** — зафиксируйте ADR.
 
 Feature package начинается с `README.md` и `brief.md`. `design.md` добавляется только тогда, когда решение требует отдельного проектирования. `implementation-plan.md` появляется после готовности upstream-документов и не должен самостоятельно изобретать требования или архитектурные решения.
 
-`Small Change` проверяется до Feature Flow. Поэтому небольшое пользовательское улучшение может пройти напрямую, если issue достаточен и все routing predicates выполнены; иначе оно оформляется как vertical-slice feature package.
+`Small Change` проверяется до governed delivery flows. Поэтому небольшое пользовательское или infrastructure/engineering/operations изменение может пройти напрямую, если issue достаточен и все routing predicates выполнены. Работа с несколькими delivery units сначала оформляется как epic; одна оставшаяся delivery-unit проходит Feature Flow, если это не behavior-preserving refactoring.
 
 ## Стартовые промпты
 
@@ -255,6 +264,25 @@ orphan-документы, недостающие README-индексы и не�
 Предложи минимальные правки и запусти локальные проверки.
 ```
 
+## Codex Goal Example
+
+Для ограниченного этапа работы с epic можно использовать `/goal`, чтобы Codex
+сохранял целевое lifecycle-состояние и критерии готовности в рамках одного чата.
+Например, чтобы подготовить epic к передаче первой feature:
+
+```text
+/goal Подготовить EP-042 к статусу Roadmap Ready:
+заполнить и согласовать charter, roadmap, subissues, risks и при необходимости
+decision log; не придумывать неподтверждённые факты; остановиться на human gate
+для существенных решений; убедиться, что первая feature может быть создана без
+изобретения epic-level фактов.
+```
+
+Не используй один `/goal` для неопределённой цели вроде «полностью реализовать
+epic». Вместо этого ставь отдельную конечную цель для каждого lifecycle-этапа,
+delivery wave или feature handoff. `/goal` удерживает итоговое состояние, а
+governance и owner-документы epic остаются источником правил и фактов.
+
 ## Проверка ссылок и индексации
 
 Go CLI [`memory-bank-lint`](cmd/memory-bank-lint/main.go) аудирует `memory-bank/` и проверяет:
@@ -265,10 +293,34 @@ Go CLI [`memory-bank-lint`](cmd/memory-bank-lint/main.go) аудирует `memo
 - документы, которые достижимы только глубже порога навигации;
 - contract ожидаемых `README.md`-индексов.
 
-Обычный локальный запуск из корня репозитория:
+### Установка CLI
+
+Для регулярных проверок установите CLI один раз. Требуется Go версии `1.21` или новее:
 
 ```bash
-go run ./cmd/memory-bank-lint
+go install github.com/dapi/memory-bank/cmd/memory-bank-lint@latest
+```
+
+`go install` помещает бинарник в `GOBIN` или `GOPATH/bin`; этот каталог должен находиться в `PATH`. Повторите ту же команду, чтобы обновить CLI до актуальной версии.
+
+На macOS или Linux проверьте, что установленная команда доступна:
+
+```bash
+command -v memory-bank-lint
+```
+
+Если репозиторий уже клонирован и нужно установить версию из текущего checkout:
+
+```bash
+go install ./cmd/memory-bank-lint
+```
+
+### Запуск
+
+После установки запускайте CLI из корня репозитория:
+
+```bash
+memory-bank-lint --repo-root .
 ```
 
 Что означает результат:
@@ -288,51 +340,23 @@ go run ./cmd/memory-bank-lint
 Примеры:
 
 ```bash
-go run ./cmd/memory-bank-lint --max-depth 4
+memory-bank-lint --repo-root . --max-depth 4
 ```
 
 ```bash
-go run ./cmd/memory-bank-lint \
+memory-bank-lint --repo-root . \
   --entrypoint README.md \
   --entrypoint AGENTS.md \
   --max-depth 4
 ```
 
-Быстрый запуск без предварительной установки CLI:
+Для разовой проверки без установки CLI:
 
 ```bash
 go run github.com/dapi/memory-bank/cmd/memory-bank-lint@latest --repo-root .
 ```
 
-Установка CLI из GitHub:
-
-```bash
-go install github.com/dapi/memory-bank/cmd/memory-bank-lint@latest
-```
-
-Установка готового релиза через Homebrew:
-
-```bash
-brew install dapi/tap/memory-bank-lint
-```
-
-Готовые бинарники для Linux, macOS и Windows публикуются в [GitHub Releases](https://github.com/dapi/memory-bank/releases) при создании тега `v*`. Каждый релиз содержит `checksums.txt`; версия доступна через `memory-bank-lint --version`.
-
-Для публикации Homebrew Cask в `dapi/homebrew-tap` release workflow ожидает repository secret `HOMEBREW_TAP_GITHUB_TOKEN` с правом записи содержимого tap-репозитория.
-
-После установки запускайте его из корня downstream-репозитория:
-
-```bash
-memory-bank-lint --repo-root .
-```
-
-Для сборки бинарника из клонированного репозитория:
-
-```bash
-go build -o ./memory-bank-lint ./cmd/memory-bank-lint
-```
-
-Для разработки нужен Go версии `1.21` или новее. `go install` помещает бинарник в `GOBIN` или `GOPATH/bin`; этот каталог должен находиться в `PATH`. Команды запуска одинаковы на macOS и Linux.
+Установку из GitHub Releases или через Homebrew используйте только после фактической публикации соответствующих release assets и Cask; если их ещё нет, используйте `go install`.
 
 Когда запускать:
 

@@ -16,10 +16,10 @@
 
 ## Команды разработки и проверки
 
-У репозитория нет runtime-приложения, но есть Go CLI для проверки документации. Перед PR запускайте:
+У репозитория нет runtime-приложения, но есть Go CLI для проверки документации. Установите `memory-bank-lint` один раз по [инструкции в корневом README](README.md#установка-cli). Перед PR запускайте:
 
 - `rg --files memory-bank` для проверки структуры и имён файлов;
-- `go run ./cmd/memory-bank-lint` для аудита ссылок, reachability и expected README-индексов внутри `memory-bank/`;
+- `memory-bank-lint --repo-root .` для аудита ссылок, reachability и expected README-индексов внутри `memory-bank/`;
 - `go test ./...` для проверки валидатора и его JSON-контракта;
 - `git diff --check` для поиска лишних пробелов и conflict markers;
 - `sed -n '1,120p' path/to/doc.md` для быстрой проверки frontmatter и заголовков;

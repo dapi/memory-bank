@@ -23,7 +23,7 @@ audience: humans_and_agents
 
 ## Routing Order
 
-Проверяй маршруты именно в этом порядке. `Small Change` — fast path перед Feature Flow, а не semantic type задачи.
+Проверяй маршруты именно в этом порядке. `Small Change` — fast path перед ветками Epic, Refactoring и Feature, а не semantic type задачи. После него сначала отделяй multi-feature Epic и behavior-preserving Refactoring, затем направляй оставшуюся single-delivery работу в Feature Flow.
 
 ```text
 Issue / Task
@@ -35,10 +35,17 @@ Issue / Task
      +-- Issue достаточен,
      |   design и plan не нужны? --------> Small Change Flow
      |
-     +-- Новое или изменённое
-     |   пользовательское поведение? ----> Feature Flow
+     +-- Работа крупнее одной delivery-feature,
+     |   нужен общий roadmap, cross-feature
+     |   risk register или несколько
+     |   delivery units? ----------------> Epic Flow
      |
      +-- Refactoring? --------------------> Refactoring Flow
+     |
+     +-- Одна delivery-unit меняет
+     |   пользовательское поведение или
+     |   доставляет planned engineering /
+     |   operations outcome? ------------> Feature Flow
      |
      +-- Неясно / высокий риск ----------> Human Routing
 ```
@@ -50,9 +57,10 @@ Issue / Task
 | 1 | Есть активный operational impact, требуется containment или PIR? | [`Incident Flow`](incident.md) |
 | 2 | Наблюдаемое поведение противоречит уже ожидаемому? | [`Bug Fix Flow`](bug-fix.md) |
 | 3 | Выполнены все `Small Change` predicates ниже? | [`Small Change Flow`](small-change.md) |
-| 4 | Создаётся или materially меняется пользовательское поведение? | [`Feature Flow`](feature.md) |
+| 4 | Работа крупнее одной delivery-feature и требует общего roadmap, cross-feature risk register или нескольких delivery units? | [`Epic Flow`](epic.md) |
 | 5 | Цель — изменить внутреннюю структуру при сохранении поведения? | [`Refactoring Flow`](refactoring.md) |
-| 6 | Маршрут остаётся неоднозначным или риск не контролируется? | Human Routing |
+| 6 | Задача укладывается в одну delivery-unit и создаёт или materially меняет пользовательское поведение либо доставляет плановое infrastructure, engineering или operations изменение с проверяемым outcome? | [`Feature Flow`](feature.md) |
+| 7 | Маршрут остаётся неоднозначным или риск не контролируется? | Human Routing |
 
 ### Small Change Gate
 
@@ -68,8 +76,9 @@ Issue / Task
 
 ## Rerouting Rules
 
-- Не начинай выбранный flow, пока выполнены его entry gates.
+- Не начинай выбранный flow, пока не выполнены его entry gates.
 - Если в `Small Change` понадобились design, execution plan или новый устойчивый project fact, останови реализацию и повтори routing.
+- Если в Feature Flow выяснилось, что работа крупнее одной delivery-feature и требует общего roadmap, cross-feature risk register или нескольких delivery units, останови feature package и повтори routing в [`Epic Flow`](epic.md).
 - Если report оказался изменением ожидаемого поведения, а не дефектом, выйди из Bug Fix Flow и повтори routing.
 - Если refactoring меняет observable behavior, выйди из Refactoring Flow и повтори routing.
 - Если задача меняет contract, rollout или требует approvals, она не может оставаться `Small Change`.
@@ -86,8 +95,8 @@ Issue / Task
 
 ### Required Evidence
 
-- issue/task или draft PR называет выбранный flow;
-- запись показывает, какие entry predicates сделали route допустимым;
+- issue/task или draft PR называет выбранный flow; для active incident достаточно alert или incident-management record, подтверждающего operational impact или необходимость containment;
+- запись показывает, какие entry predicates сделали route допустимым; provisional incident record может быть дополнен полным routing record после containment;
 - для `Human Routing` зафиксированы вопрос, риск или конкурирующие routes.
 
 ### Terminal State
@@ -96,4 +105,4 @@ Routing завершён в состоянии `Routed`, когда выбран
 
 ### Handoff
 
-`Routed` передаёт задачу в выбранный flow. После решения `Human Gate` задача повторно проходит Task Routing; не вошедшая в выбранный scope работа маршрутизируется отдельно.
+`Routed` передаёт задачу в выбранный flow. Active incident передаётся в Incident Flow сразу после provisional routing: отсутствие issue/task или draft PR не блокирует containment, а repository trace создаётся или дополняется после стабилизации. После решения `Human Gate` задача повторно проходит Task Routing; не вошедшая в выбранный scope работа маршрутизируется отдельно.
