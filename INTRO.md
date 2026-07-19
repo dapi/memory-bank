@@ -58,7 +58,7 @@ Memory Bank решает это через три механизма:
 ## Рабочий процесс внедрения
 
 1. Скопировать шаблон `memory-bank/` в корень проекта.
-2. Скопировать или установить `scripts/check_memory_bank_index.py`, если downstream-проект должен запускать аудит индексации локально.
+2. Установить `memory-bank-lint`, если downstream-проект должен запускать аудит индексации локально.
 3. Подключить `AGENTS.md` или `CLAUDE.md` так, чтобы агент сначала читал `memory-bank/README.md`, затем `memory-bank/dna/README.md`.
 4. Адаптировать минимум четыре раздела: `product/`, `domain/`, `engineering/`, `ops/`.
 5. Завести первые use cases для текущего эпика или фичи.
@@ -124,11 +124,11 @@ Memory Bank решает это через три механизма:
 Перед PR или после изменения структуры нужно запускать:
 
 ```bash
-python3 scripts/check_memory_bank_index.py
+go run ./cmd/memory-bank-lint
 git diff --check
 ```
 
-Если скрипт установлен в downstream-проекте под другим путём, запускайте установленную копию, например `python3 ./tools/check_memory_bank_index.py --repo-root .`. Первый скрипт проверяет относительные ссылки, orphan-документы, достижимость документов через README-индексы и ожидаемые README-файлы. Второй ловит лишние пробелы и conflict markers.
+В downstream-проекте запускайте установленный CLI: `memory-bank-lint --repo-root .`. Первая команда проверяет относительные ссылки, orphan-документы, достижимость документов через README-индексы и ожидаемые README-файлы. Вторая ловит лишние пробелы и conflict markers.
 
 ## Стартовые промпты
 

@@ -26,12 +26,13 @@
 
 ## Локальные проверки
 
-- `python3 scripts/check_memory_bank_index.py` — аудит достижимости markdown-документов, broken links и expected README-индексов внутри `memory-bank/`.
+- `go run ./cmd/memory-bank-lint` — аудит достижимости markdown-документов, broken links и expected README-индексов внутри `memory-bank/`.
+- `go test ./...` — тесты валидатора и проверка стабильности JSON-контракта.
 - `git diff --check` — проверка лишних пробелов и conflict markers перед PR.
 
 ### Аудит ссылок и индексации `memory-bank`
 
-Скрипт [`scripts/check_memory_bank_index.py`](scripts/check_memory_bank_index.py) аудирует `memory-bank/` и проверяет:
+Go CLI [`memory-bank-lint`](cmd/memory-bank-lint/main.go) аудирует `memory-bank/` и проверяет:
 
 - broken relative markdown links внутри audit scope;
 - orphan-документы, на которые никто не ссылается внутри scope;
@@ -42,7 +43,7 @@
 Обычный локальный запуск из корня репозитория:
 
 ```bash
-python3 scripts/check_memory_bank_index.py
+go run ./cmd/memory-bank-lint
 ```
 
 Что означает результат:
@@ -62,42 +63,41 @@ python3 scripts/check_memory_bank_index.py
 Примеры:
 
 ```bash
-python3 scripts/check_memory_bank_index.py --max-depth 4
+go run ./cmd/memory-bank-lint --max-depth 4
 ```
 
 ```bash
-python3 scripts/check_memory_bank_index.py \
+go run ./cmd/memory-bank-lint \
   --entrypoint README.md \
   --entrypoint AGENTS.md \
   --max-depth 4
 ```
 
-Быстрый запуск по сети без предварительной установки:
+Быстрый запуск без предварительной установки CLI:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/dapi/memory-bank/main/scripts/check_memory_bank_index.py \
-  | python3 - --repo-root .
+go run github.com/dapi/memory-bank/cmd/memory-bank-lint@latest --repo-root .
 ```
 
-Локальная установка или копирование с GitHub:
-
-1. Скопируйте файл со страницы `scripts/check_memory_bank_index.py` на GitHub или скачайте raw-версию:
+Установка CLI из GitHub:
 
 ```bash
-mkdir -p ./tools
-curl -fsSL \
-  -o ./tools/check_memory_bank_index.py \
-  https://raw.githubusercontent.com/dapi/memory-bank/main/scripts/check_memory_bank_index.py
-chmod +x ./tools/check_memory_bank_index.py
+go install github.com/dapi/memory-bank/cmd/memory-bank-lint@latest
 ```
 
-2. Запускайте его из корня downstream-репозитория:
+После установки запускайте его из корня downstream-репозитория:
 
 ```bash
-python3 ./tools/check_memory_bank_index.py --repo-root .
+memory-bank-lint --repo-root .
 ```
 
-`macOS` и `Linux`: команды запуска одинаковые. Отличие только в том, куда класть локальную копию, если хочется вызывать скрипт без относительного пути: на Linux чаще используют `~/.local/bin`, на macOS — `~/bin` или любой каталог, добавленный в `PATH`. Если не хотите менять `PATH`, запускайте скрипт через `python3` по полному или относительному пути.
+Для сборки бинарника из клонированного репозитория:
+
+```bash
+go build -o ./memory-bank-lint ./cmd/memory-bank-lint
+```
+
+Для разработки нужен Go версии `1.21` или новее. `go install` помещает бинарник в `GOBIN` или `GOPATH/bin`; этот каталог должен находиться в `PATH`. Команды запуска одинаковы на macOS и Linux.
 
 Когда запускать:
 
