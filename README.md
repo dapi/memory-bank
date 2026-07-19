@@ -1,177 +1,193 @@
-# Шаблон `memory-bank` для агентной разработки
+# Memory Bank для агентной разработки
 
-Этот репозиторий содержит переносимый шаблон:
+## О чём этот репозиторий
 
-- `memory-bank/` — документационный шаблон, который можно копировать в любой проект по разработке ПО.
+Это репозиторий с переносимым **Memory Bank — шаблоном проектной документации для разработки ПО с AI-агентами**.
 
-## Введение
+Его копируют в другой проект и адаптируют под конкретный продукт. Шаблон помогает хранить проверяемый контекст, чтобы человек и агент одинаково понимали:
 
-- [INTRO.md](INTRO.md) — интро-инструкция по внедрению агентского подхода через Memory Bank: как объяснять шаблон команде, запускать Feature Flow и ставить задачи агентам через проверяемый контекст.
+- какой продукт создаётся и для кого;
+- как устроена предметная область;
+- какие инженерные и операционные правила действуют;
+- какие требования, сценарии и архитектурные решения приняты;
+- как фича проходит путь от постановки проблемы до реализации и проверки.
 
-## Источники пополнения `memory-bank`
+Ключевая идея — документация как управляемая система знаний. `dna/` задаёт правила и единый источник истины; `product/`, `domain/`, `engineering/` и `ops/` описывают постоянный контекст проекта; PRD, epic, use case и ADR фиксируют инициативы, сценарии и решения; feature packages связывают требования, дизайн, план реализации и результаты проверок.
 
-- [`dapi/zelma`](https://github.com/dapi/zelma)
-- [`brandymint/merchantly`](https://github.com/brandymint/merchantly)
-- [`alfagen/mercury`](https://github.com/alfagen/mercury)
+Для фич предусмотрен последовательный workflow:
 
-
-```prompt
-Изучи что нового и полезного для нашего memory-bank появилось в репозиториях источниках
+```text
+brief — что и зачем
+  → design — какое решение выбрано, если дизайн необходим
+    → implementation-plan — как выполнить и проверить
 ```
 
-## Как использовать
+Репозиторий не содержит приложения или runtime-кода. Это generic-шаблон документационного контура, дополненный скриптом, который проверяет ссылки, индексацию и достижимость документов.
 
-1. Скопируйте каталог `./memory-bank` в корень своего проекта.
-2. Прочитайте и адаптируйте в нем как минимум `product/`, `domain/`, `engineering/` и `ops/`.
+## Зачем это нужно
 
-## Локальные проверки
+Memory Bank становится общей рабочей памятью команды и агентов. Важный контекст хранится не в голове разработчика и не в одноразовом чате, а в связанных, проверяемых и версионируемых документах рядом с кодом.
 
-- `go run ./cmd/memory-bank-lint` — аудит достижимости markdown-документов, broken links и expected README-индексов внутри `memory-bank/`.
-- `go test ./...` — тесты валидатора и проверка стабильности JSON-контракта.
-- `git diff --check` — проверка лишних пробелов и conflict markers перед PR.
+Шаблон даёт для этого:
 
-### Аудит ссылок и индексации `memory-bank`
+- единый источник истины для каждого значимого факта;
+- явные зависимости и приоритет между документами;
+- навигацию от общего контекста к конкретной задаче;
+- lifecycle и шаблоны для PRD, epic, use case, feature и ADR;
+- проверяемую связь между требованиями, решением, планом реализации и результатами проверок.
 
-Go CLI [`memory-bank-lint`](cmd/memory-bank-lint/main.go) аудирует `memory-bank/` и проверяет:
+## Как устроена работа
 
-- broken relative markdown links внутри audit scope;
-- orphan-документы, на которые никто не ссылается внутри scope;
-- достижимость каждого документа от entrypoint'ов по индексной навигации;
-- документы, которые достижимы только глубже порога навигации;
-- contract ожидаемых `README.md`-индексов.
+Сначала команда адаптирует постоянный контекст проекта: `product/`, `domain/`, `engineering/` и `ops/`. Затем конкретные инициативы и задачи получают подходящие документы — от небольшого task workflow до PRD, epic или feature package.
 
-Обычный локальный запуск из корня репозитория:
+Для значимой фичи контекст созревает поэтапно:
 
-```bash
-go run ./cmd/memory-bank-lint
+```text
+brief.md                 design.md                  implementation-plan.md
+что и зачем       →      какое решение       →     как реализовать и проверить
+problem space            solution space             execution space
+                         (если требуется)
 ```
 
-Что означает результат:
+Документы не должны дублировать друг друга. Код владеет реализацией, а Memory Bank — намерением, требованиями, обоснованием решений и контрактами. После завершения работы в документах остаётся контекст, с которым другой человек или новая сессия агента могут продолжить работу.
 
-- exit code `0` — errors не найдены; warnings по глубине возможны, но аудит считается пройденным;
-- non-zero exit code — найдены проблемы, которые нужно исправить до PR;
-- `--json` — структурированный отчёт, пригодный для последующей автоматической доиндексации другим агентом или инструментом.
+Подробное введение для команды и рекомендации по внедрению находятся в [`INTRO.md`](INTRO.md).
 
-Параметры запуска:
+## Что находится в шаблоне
 
-- `--max-depth N` — порог глубины индексной навигации в прыжках; по умолчанию `3`; документы глубже порога попадают в warning, а не в error;
-- `--entrypoint PATH` — явный entrypoint для аудита; параметр repeatable; принимает repo-relative или scope-relative пути; неоднозначные пути без префикса сначала резолвятся внутри `--scope-root`, а для явного repo-root пути используйте `./PATH` или `/PATH`; если передан, используется вместо дефолтного `memory-bank/README.md`;
-- `--scope-root DIR` — меняет audit scope; по умолчанию `memory-bank`;
-- `--repo-root DIR` — явно задаёт корень репозитория; полезно для сетевого запуска или локально установленной копии скрипта;
-- `--json` — печатает только JSON-отчёт.
+| Каталог | Назначение |
+| --- | --- |
+| [`dna/`](memory-bank/dna/README.md) | Governance-ядро: SSoT, frontmatter, lifecycle и правила связей между документами |
+| [`product/`](memory-bank/product/README.md) | Контекст продукта, vision, customers, metrics, marketing и roadmap |
+| [`domain/`](memory-bank/domain/README.md) | Glossary, domain model, business rules, states, events и context map |
+| [`engineering/`](memory-bank/engineering/README.md) | Архитектура, frontend, тестирование, coding style, git workflow и границы автономии агента |
+| [`ops/`](memory-bank/ops/README.md) | Локальная разработка, окружения, конфигурация, релизы и runbooks |
+| [`prd/`](memory-bank/prd/README.md) | Продуктовые инициативы между общим product context и отдельными фичами |
+| [`epics/`](memory-bank/epics/README.md) | Крупные инициативы с roadmap, рисками, решениями и delivery subissues |
+| [`use-cases/`](memory-bank/use-cases/README.md) | Канонические пользовательские и операционные сценарии проекта |
+| [`features/`](memory-bank/features/README.md) | Пакеты отдельных delivery-фич |
+| [`adr/`](memory-bank/adr/README.md) | Архитектурные решения и причины их принятия |
+| [`flows/`](memory-bank/flows/README.md) | Lifecycle-процессы и шаблоны документов |
+| [`prompts/`](memory-bank/prompts/README.md) | Переиспользуемые промпты для типовых этапов работы |
 
-Примеры:
+Корневой [`memory-bank/README.md`](memory-bank/README.md) служит основным индексом после установки шаблона в проект.
 
-```bash
-go run ./cmd/memory-bank-lint --max-depth 4
+## Быстрый старт
+
+1. Скопируйте каталог `memory-bank/` в корень своего проекта.
+2. Добавьте в `AGENTS.md`, `CLAUDE.md` или аналогичный файл инструкцию начинать работу с `memory-bank/README.md`.
+3. Адаптируйте как минимум `product/`, `domain/`, `engineering/` и `ops/`. Удалите placeholder-текст и зафиксируйте реальные правила проекта.
+4. Выберите подходящий workflow в [`memory-bank/flows/workflows.md`](memory-bank/flows/workflows.md). Не каждой небольшой задаче нужен полный feature package.
+5. Для средней, большой или рискованной фичи используйте [`Feature Flow`](memory-bank/flows/feature-flow.md) и шаблоны из [`flows/templates/`](memory-bank/flows/templates/README.md).
+6. Поддерживайте индексы и относительные ссылки при добавлении документов.
+7. Запустите проверки перед коммитом:
+
+   ```bash
+   python3 scripts/check_memory_bank_index.py
+   git diff --check
+   ```
+
+Главное правило адаптации: содержимое этого репозитория должно оставаться generic. Специфика конкретного продукта живёт только в его downstream-копии `memory-bank/` и не возвращается в шаблон.
+
+## Как выбирать артефакт
+
+- **Небольшая локальная задача** — используйте минимальный task workflow.
+- **Устойчивая продуктовая или операционная ситуация** — заведите `UC-*` в `use-cases/`.
+- **Продуктовая инициатива, объединяющая несколько фич** — создайте PRD.
+- **Крупная delivery-инициатива с roadmap и рисками** — используйте epic.
+- **Отдельная единица пользовательской ценности** — создайте feature package `features/FT-XXX/`.
+- **Архитектурное или повторно используемое решение с альтернативами** — зафиксируйте ADR.
+
+Feature package начинается с `README.md` и `brief.md`. `design.md` добавляется только тогда, когда решение требует отдельного проектирования. `implementation-plan.md` появляется после готовности upstream-документов и не должен самостоятельно изобретать требования или архитектурные решения.
+
+## Стартовые промпты
+
+Адаптировать шаблон под проект:
+
+```text
+Прочитай ./memory-bank/README.md и governance-ядро в ./memory-bank/dna/.
+Помоги адаптировать product, domain, engineering и ops под этот проект.
+Не переноси project-specific детали обратно в generic-шаблон.
 ```
 
+Создать feature package:
+
+```text
+Прочитай ./memory-bank/README.md и ./memory-bank/flows/feature-flow.md.
+Создай feature package для этой задачи, начиная с README.md и brief.md.
+design.md создавай только по правилам Design Requirement Decision,
+а implementation-plan.md — только после готовности upstream-документов.
+```
+
+Проверить качество Memory Bank:
+
+```text
+Проведи ревью ./memory-bank на SSoT, противоречия, broken links,
+orphan-документы, недостающие README-индексы и неясные зависимости.
+Предложи минимальные правки и запусти локальные проверки.
+```
+
+## Проверка ссылок и индексации
+
+Скрипт [`scripts/check_memory_bank_index.py`](scripts/check_memory_bank_index.py) проверяет:
+
+- неработающие относительные Markdown-ссылки;
+- orphan-документы, не включённые в навигацию;
+- достижимость документов от заданных entrypoint-файлов;
+- слишком глубокие навигационные цепочки;
+- наличие ожидаемых `README.md`-индексов.
+
+Обычный запуск из корня этого репозитория:
+
 ```bash
-go run ./cmd/memory-bank-lint \
+python3 scripts/check_memory_bank_index.py
+```
+
+Exit code `0` означает, что ошибок нет. Предупреждения о глубине навигации не делают проверку неуспешной. Ненулевой exit code означает, что перед PR нужно исправить найденные ошибки.
+
+Основные параметры:
+
+- `--max-depth N` — порог глубины навигации; по умолчанию `3`;
+- `--entrypoint PATH` — явная точка входа; параметр можно повторять;
+- `--scope-root DIR` — проверяемый каталог; по умолчанию `memory-bank`;
+- `--repo-root DIR` — корень downstream-репозитория;
+- `--json` — структурированный отчёт для агента или другого инструмента.
+
+Пример проверки навигации от нескольких точек входа:
+
+```bash
+python3 scripts/check_memory_bank_index.py \
   --entrypoint README.md \
   --entrypoint AGENTS.md \
   --max-depth 4
 ```
 
-Быстрый запуск без предварительной установки CLI:
+Если скрипт не скопирован в downstream-проект, его можно запустить напрямую из репозитория:
 
 ```bash
-go run github.com/dapi/memory-bank/cmd/memory-bank-lint@latest --repo-root .
+curl -fsSL https://raw.githubusercontent.com/dapi/memory-bank/main/scripts/check_memory_bank_index.py \
+  | python3 - --repo-root .
 ```
 
-Установка CLI из GitHub:
+Или установить локальную копию:
 
 ```bash
-go install github.com/dapi/memory-bank/cmd/memory-bank-lint@latest
+mkdir -p ./tools
+curl -fsSL \
+  -o ./tools/check_memory_bank_index.py \
+  https://raw.githubusercontent.com/dapi/memory-bank/main/scripts/check_memory_bank_index.py
+chmod +x ./tools/check_memory_bank_index.py
+python3 ./tools/check_memory_bank_index.py --repo-root .
 ```
 
-Установка готового релиза через Homebrew:
+Запускайте аудит после добавления, удаления или переименования Markdown-файлов, после изменения индексов и перед PR с правками структуры документации.
 
-```bash
-brew install dapi/tap/memory-bank-lint
-```
+## Развитие шаблона
 
-Готовые бинарники для Linux, macOS и Windows публикуются в [GitHub Releases](https://github.com/dapi/memory-bank/releases) при создании тега `v*`. Каждый релиз содержит `checksums.txt`; версия доступна через `memory-bank-lint --version`.
+Источники полезных практик для развития `memory-bank`:
 
-Для публикации Homebrew Cask в `dapi/homebrew-tap` release workflow ожидает repository secret `HOMEBREW_TAP_GITHUB_TOKEN` с правом записи содержимого tap-репозитория.
+- [`dapi/zelma`](https://github.com/dapi/zelma);
+- [`brandymint/merchantly`](https://github.com/brandymint/merchantly);
+- [`alfagen/mercury`](https://github.com/alfagen/mercury).
 
-После установки запускайте его из корня downstream-репозитория:
-
-```bash
-memory-bank-lint --repo-root .
-```
-
-Для сборки бинарника из клонированного репозитория:
-
-```bash
-go build -o ./memory-bank-lint ./cmd/memory-bank-lint
-```
-
-Для разработки нужен Go версии `1.21` или новее. `go install` помещает бинарник в `GOBIN` или `GOPATH/bin`; этот каталог должен находиться в `PATH`. Команды запуска одинаковы на macOS и Linux.
-
-Когда запускать:
-
-- после добавления, удаления или переименования `.md`-файлов в `memory-bank/`;
-- после правок `README.md`-индексов и относительных ссылок;
-- перед открытием PR с изменениями в template navigation или document structure.
-
-## Настроечные промпты для агента
-
-Запукаются в новых сессиях
-
-```text
-Прочитай memory-bank - https://github.com/dapi/memory-bank/ склонируй его в наш репозиторий и адаптируй под наш проект
-```
-
-```text
-Прочитай ./memory-bank и помоги адаптировать секцию `product`
-```
-
-```text
-Прочитай ./memory-bank и помоги адаптировать секцию `domain`
-```
-
-```text
-Прочитай ./memory-bank и помоги адаптировать секцию `ops`
-```
-
-```text
-Прочитай ./memory-bank и помоги адаптировать секцию `engineering`
-```
-
-```text
-Проведи ревью memory-bank на document governance
-```
-(внеси правки и повторить до состояния которое вас устроит)
-
-
-```text
-Проведи ревью memory-bank на консистетность, и непротиворечивость
-```
-(внеси правки и повторить до состояния которое вас устроит)
-
-```text
-У нас в проекте подключен memory-bank. Я хочу быть уверен что все страницы в этом memory-bank-а так или иначе доступны через нидексацию начиная с
-AGENTS.md. Если страница не упомянются напрямую, то она упомянутся в файле который упомянут в файле который упомянут в AGENTS.md и так далее на глубину до 4-х шагов.
-```
-
-```text
-Помоги создать PRD
-```
-
-```text
-Помоги создать глоссарий
-```
-
-## Что есть внутри шаблона
-
-- `memory-bank/dna/` — governance-ядро: SSoT, frontmatter, lifecycle, cross-references.
-- `memory-bank/flows/` — lifecycle flows и шаблоны для PRD/feature/ADR.
-- `memory-bank/product/` — заготовки для product context, vision, customers, metrics, marketing и roadmap.
-- `memory-bank/domain/` — заготовки для glossary, domain model, rules, states, events и context map.
-- `memory-bank/prd/` — место для instantiated Product Requirements Documents.
-- `memory-bank/use-cases/` — место для instantiated project-level use cases.
-- `memory-bank/engineering/` — architecture patterns, frontend engineering, testing policy, coding style, autonomy boundaries, git workflow.
-- `memory-bank/ops/` — заготовки для development, stages, releases, config и runbooks.
-- `memory-bank/adr/` — место для instantiated ADR.
-- `memory-bank/features/` — место для instantiated feature packages.
+При переносе практик из downstream-репозиториев добавляйте только обобщаемые правила и шаблоны. Названия продуктов, инфраструктурные детали и другие project-specific факты не должны попадать в этот репозиторий.
