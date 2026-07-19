@@ -177,6 +177,8 @@ Incident / PIR?
                          └── нет ► Human Routing
 ```
 
+После выбора route следуйте его canonical документу: [Incident](memory-bank/flows/incident.md), [Bug Fix](memory-bank/flows/bug-fix.md), [Small Change](memory-bank/flows/small-change.md), [Feature](memory-bank/flows/feature.md) или [Refactoring](memory-bank/flows/refactoring.md).
+
 ### Small Change Routing Record
 
 `Small Change` не создаёт отдельных документов в Memory Bank, но не остаётся бесследным. До реализации зафиксируйте в issue/task или draft PR, почему design и plan не нужны и как будет проверен результат:
