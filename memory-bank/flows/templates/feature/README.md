@@ -5,6 +5,7 @@ doc_function: template
 purpose: Governed wrapper-шаблон для feature-level `README.md`. Читать, чтобы инстанцировать bootstrap-safe routing-layer фичи без смешения wrapper-метаданных и frontmatter целевого README.
 derived_from:
   - ../../feature.md
+  - ../../feature-artifact-catalog.md
   - ../../../dna/frontmatter.md
 status: active
 audience: humans_and_agents
@@ -18,11 +19,11 @@ template_target_path: ../../../features/FT-XXX/README.md
 
 ## Wrapper Notes
 
-Каталог `memory-bank/flows/templates/feature/` хранит wrapper-шаблоны feature package: этот README-шаблон, canonical `brief.md` template, conditional `design.md` template и derived template для `implementation-plan.md`. Новые packages всегда используют `brief.md`, а `design.md` добавляют только когда `brief.md` фиксирует `Design required: yes`.
+Каталог `memory-bank/flows/templates/feature/` хранит core wrapper-шаблоны README, canonical `brief.md`, conditional `design.md` и derived `implementation-plan.md`, а также optional templates для API contracts и support views. Новые packages всегда используют `brief.md`; любой другой artifact добавляется только по trigger из `feature-artifact-catalog.md`.
 
 При создании нового feature package embedded README должен оставаться bootstrap-safe: сначала он маршрутизирует только на instantiated `brief.md`, а `design.md`, `implementation-plan.md` и связанные ADR добавляются уже после появления соответствующих документов.
 
-Downstream routes для living feature package добавляются по мере прохождения lifecycle stages. Типовой пример таких post-bootstrap routes:
+Downstream routes для living feature package добавляются по мере прохождения lifecycle stages. Это меню, а не checklist: добавляй только реально существующие и полезные для конкретной feature routes.
 
 - [`design.md`](design.md)
   Читать, когда нужно: после `Problem Ready` зафиксировать или проверить selected design, to-be C4 architecture model, accepted local decisions, contracts и local rollout/backout semantics.
@@ -35,6 +36,18 @@ Downstream routes для living feature package добавляются по ме
 - `../../../adr/ADR-XXX.md`
   Читать, когда нужно: если по фиче существует связанный ADR, оформить или проверить его с корректным `decision_status`.
   Отвечает на вопрос: почему по фиче выбирается конкретное архитектурное или инженерное решение и на каком оно этапе.
+
+- `use-cases/README.md`
+  Читать, когда нужно: если scenario set требует отдельного review-friendly представления happy/edge/error journeys.
+  Отвечает на вопрос: какие derived feature-local use cases и test candidates проецируются из canonical brief.
+
+- `contracts/<name>.md`
+  Читать, когда нужно: если API/event/schema/provider contract вынесен из `design.md` из-за объема или самостоятельной review boundary.
+  Отвечает на вопрос: каковы точные operations/messages, fields, validation, compatibility, errors и idempotency semantics.
+
+- `diagrams/<name>-sequence.md`
+  Читать, когда нужно: если для решения важны порядок interactions, async callbacks, retries, timeouts или compensation.
+  Отвечает на вопрос: как canonical solution и contracts взаимодействуют во времени.
 
 ## Instantiated Frontmatter
 
@@ -57,7 +70,7 @@ audience: humans_and_agents
 
 ## О разделе
 
-Каталог feature package начинается с canonical `brief.md`. Downstream solution/execution routes добавляются только после появления соответствующих документов. Сначала читай `brief.md`, затем расширяй routing по мере появления design, implementation plan и связанных ADR.
+Каталог feature package начинается с canonical `brief.md`. Downstream solution/execution/support routes добавляются только после появления соответствующих документов. Сначала читай `brief.md`, затем расширяй routing минимально необходимыми design, use-case, contract, diagram, implementation-plan и ADR artifacts.
 
 ## Аннотированный индекс
 
@@ -65,5 +78,5 @@ audience: humans_and_agents
   Читать, когда нужно: открыть instantiated canonical feature-документ сразу после bootstrap нового feature package.
   Отвечает на вопрос: где находятся problem space, canonical verify contract и stable IDs для этой фичи.
 
-После появления downstream-документов добавь сюда routes для `design.md`, `implementation-plan.md` и связанных ADR.
+После появления downstream-документов добавь сюда только существующие routes. Возможный состав и triggers смотри в `memory-bank/flows/feature-artifact-catalog.md`; отсутствие optional use cases, contracts, diagrams, support docs или ADR является нормальным.
 ```

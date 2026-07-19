@@ -5,6 +5,7 @@ doc_function: template
 purpose: Governed wrapper-шаблон для feature-local `design.md`. Фиксирует solution-space слой: выбранный подход, rationale, contracts, failure modes и design-pack routing без смешения с problem space или execution contract.
 derived_from:
   - ../../feature.md
+  - ../../feature-artifact-catalog.md
   - ../../../dna/frontmatter.md
 status: active
 audience: humans_and_agents
@@ -53,11 +54,13 @@ must_not_define:
 
 ## Design Pack
 
-Если design-pack состоит только из этого файла, оставь одну строку `design.md`. Если есть ADR, C4, data-flow, диаграммы или contract notes, добавь их в таблицу и укажи canonical owner.
+Если design-pack состоит только из этого файла, оставь одну строку `design.md`. Если есть ADR, C4, data-flow, API contract, sequence diagram, migration design или другая полезная companion view, добавь ее в таблицу и укажи ownership. Не создавай дополнительные artifacts только ради заполнения таблицы.
 
 | Artifact | Role | Owns |
 | --- | --- | --- |
 | `design.md` | Feature-local solution owner | `SOL-*`, `ALT-*`, `TRD-*`, `C4-*`, feature-local `CTR-*`, `INV-*`, `FM-*`, `RB-*` |
+| `contracts/<name>.md` | Optional delegated contract owner | Только явно перечисленные `CTR-*`; selected solution остается здесь |
+| `diagrams/<name>-sequence.md` | Optional temporal reference view | `SEQ-*` projection canonical solution / contract facts; новых решений не принимает |
 | `../../adr/ADR-XXX.md` | Architecture decision | Какой design choice принадлежит ADR |
 
 ## Context

@@ -5,6 +5,7 @@ doc_function: template
 purpose: Governed wrapper-шаблон плана имплементации. Фиксирует, как инстанцировать execution-документ без переопределения canonical problem или solution facts и без смешения wrapper с целевым `implementation-plan.md`.
 derived_from:
   - ../../feature.md
+  - ../../feature-artifact-catalog.md
   - ../../../dna/frontmatter.md
   - ../../../engineering/testing-policy.md
 status: active
@@ -78,6 +79,8 @@ must_not_define:
 | `runtime-surfaces.md` / `none` | optional grounding | `SURF-*`, `MAP-*`, context matrix | Promote changed design facts to `design.md` if design is required |
 | `ui-reference/README.md` / `none` | optional interface reference | `UI-*`, mockups, states | Promote changed requirements to `brief.md` or design facts to `design.md` if required |
 | `use-cases/README.md` / `none` | optional scenario companion | `FUC-*`, `TC-*` candidates | Keep canonical acceptance in `brief.md` |
+| `contracts/<name>.md` / `none` | optional delegated contract owner | Explicit `CTR-*`, compatibility, errors, idempotency | Update delegated contract and `design.md` routing before planning against changed semantics |
+| `diagrams/<name>-sequence.md` / `none` | optional temporal reference | `SEQ-*`, ordering, async and failure branches | Update canonical `design.md` / contract first if the sequence reveals changed solution facts |
 
 ## Current State / Reference Points
 

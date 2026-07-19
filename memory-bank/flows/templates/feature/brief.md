@@ -5,6 +5,7 @@ doc_function: template
 purpose: Governed wrapper-шаблон для canonical `brief.md` в AI-driven development. Фиксирует, как инстанцировать problem-space intent, scope и machine-checkable verify без смешения wrapper и целевого frontmatter.
 derived_from:
   - ../../feature.md
+  - ../../feature-artifact-catalog.md
   - ../../../dna/frontmatter.md
   - ../../../engineering/testing-policy.md
 status: active
@@ -24,6 +25,8 @@ canonical_for:
 Используй этот шаблон для problem-space документа новых feature packages. `brief.md` фиксирует problem, outcome, scope/non-scope и verify contract delivery-единицы.
 
 Если фича меняет API, event, schema, file format, CLI, env contract, security boundary, financial calculation, integration contract, rollout/backout или требует alternatives/trade-off reasoning, зафиксируй `Design required: yes` и создай sibling `design.md` по шаблону `design.md`. Новые пакеты держат substantial design только в `design.md` / design-pack.
+
+Optional companions выбирай по [Feature Artifact Catalog](../../feature-artifact-catalog.md). Не копируй весь каталог в feature и не создавай placeholders: Artifact Routing Decision перечисляет только выбранные artifacts и material omissions, которые важно объяснить reviewers.
 
 Используй стабильные идентификаторы по taxonomy из [../../feature.md#stable-identifiers](../../feature.md#stable-identifiers).
 
@@ -113,6 +116,14 @@ must_not_define:
 | Decision | Reason | Downstream owner |
 | --- | --- | --- |
 | `Design required: yes/no` | Почему solution-space document нужен или не нужен | `design.md` / `none` |
+
+## Artifact Routing Decision
+
+Секция optional. Используй ее, когда кроме core `README.md` + `brief.md` нужен companion artifact или важно явно объяснить его отсутствие. Перечисляй только выбранные artifacts и material omissions; полный список не копируй.
+
+| Artifact | Decision | Trigger / reason | Route / owner |
+| --- | --- | --- | --- |
+| `use-cases/README.md` / `runtime-surfaces.md` / `ui-reference/README.md` / другой artifact из catalog | selected / omitted | Какую неоднозначность снимает или почему не нужен | Planned path и canonical owner / `none` |
 
 ## Verify
 
