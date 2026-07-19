@@ -40,25 +40,38 @@ audience: humans_and_agents
 
 ## Типы Workflow
 
-### 1. Малая фича
+### 1. Локальное изменение (Small Change)
 
-Когда:
+`Small Change` — задача, для которой issue/task уже содержит достаточно контекста, чтобы безопасно перейти к реализации без отдельных requirement-, design- и planning-документов. Определяющий признак — не размер diff или длительность работы, а отсутствие необходимости принимать и фиксировать design decisions.
 
-- задача понятна;
-- scope локален;
-- решение помещается в одну сессию или один компактный change set.
+Все условия должны выполняться одновременно:
+
+- issue/task полностью задаёт intent, scope и acceptance;
+- изменение не создаёт и materially не меняет пользовательское поведение;
+- решение следует существующему паттерну и не требует выбора подхода;
+- не меняются API, event, schema, file format, CLI, env/config или integration contracts;
+- не затрагиваются security boundary, data migration, rollout или обязательные approvals;
+- change surface локален, а отдельная декомпозиция и checkpoints не нужны.
+
+Для `Small Change` не создаются feature package, `brief.md`, `design.md`, `implementation-plan.md` или ADR. Issue/task остаётся owner-ом intent, scope и acceptance.
 
 Flow:
 
-`issue/task -> routing -> implementation -> review -> merge`
+`issue/task -> routing gate -> implementation -> automated checks -> simplify review -> PR -> review + CI -> merge`
 
-### 2. Средняя или большая фича
+Типичные примеры: документационная правка, добавление недостающего теста, локальная чистка кода или небольшое изменение внутренних инструментов без изменения их контрактов.
+
+Если обнаружена необходимость воспроизвести дефект и защититься от регрессии, используй Bug Fix Flow. Если появляется или materially меняется пользовательское поведение, требуется design decision или срабатывает любой contract/risk trigger выше, останови `Small Change` и маршрутизируй работу в Feature Flow. Компактная feature остаётся vertical slice и использует минимальный feature package.
+
+### 2. Feature (vertical slice)
 
 Когда:
 
-- затрагивает несколько слоёв;
-- требует design choices;
-- нужны checkpoints и явный execution plan.
+- появляется или materially меняется пользовательское поведение;
+- задача представляет отдельную единицу пользовательской ценности;
+- acceptance должен покрывать результат end-to-end через все затронутые слои.
+
+Размер feature определяет глубину содержимого package, а не выбор workflow. Компактная feature использует минимальный `brief.md` и может зафиксировать `Design required: no`; более сложная feature добавляет `design.md`, richer verification context, checkpoints и подробный execution plan по правилам Feature Flow.
 
 Flow:
 
@@ -94,6 +107,7 @@ Flow:
 
 Используй минимальный workflow, который не теряет контроль над риском.
 
-- Если задача маленькая и понятная, не раздувай её до большого feature package.
+- Используй `Small Change` только когда все его routing predicates истинны; размер diff сам по себе не является критерием.
 - Если задача меняет контракт, rollout или требует approvals, поднимай её до feature flow.
+- Если в ходе `Small Change` потребовался отдельный design или execution plan, останови прямую реализацию и выполни повторный routing.
 - Если замечания не уменьшаются от итерации к итерации, проблема может быть upstream, а не в коде.

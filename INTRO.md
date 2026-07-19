@@ -39,7 +39,7 @@ Memory Bank - это не вики и не архив заметок. Это р�
 
 `ops/` - операционный контекст: development, stages, release, config и runbooks.
 
-`features/` - фича-паки. Каждая значимая фича получает `README.md`, canonical `feature.md` и, после Design Ready, derived `implementation-plan.md`.
+`features/` - фича-паки. Каждая feature является vertical slice и получает routing `README.md`, canonical `brief.md`, optional canonical `design.md` и, после готовности upstream owners, derived `implementation-plan.md`.
 
 `adr/` - архитектурные решения. ADR нужен, когда команда выбирает подход и хочет сохранить не только решение, но и причины.
 
@@ -53,7 +53,7 @@ Memory Bank решает это через три механизма:
 
 - Single Source of Truth: каждый факт живет в одном месте;
 - Source Dependency Tree: при конфликте понятно, какой документ главнее;
-- Task Workflows и Feature Flow: задача получает подходящий уровень формализации, а средняя, большая или рискованная фича превращается в фича-пак, из которого агент может проектировать, реализовывать и проверять результат.
+- Task Workflows и Feature Flow: локальное изменение без design-документов может пройти как `Small Change`, а любое новое или materially изменённое пользовательское поведение оформляется как vertical-slice feature package.
 
 ## Рабочий процесс внедрения
 
@@ -63,23 +63,25 @@ Memory Bank решает это через три механизма:
 4. Адаптировать минимум четыре раздела: `product/`, `domain/`, `engineering/`, `ops/`.
 5. Завести первые use cases для текущего эпика или фичи.
 6. По use cases сформировать проверяемые тест-кейсы: автоматические и ручные.
-7. Для малых локальных задач использовать минимальный workflow из `memory-bank/flows/workflows.md`, не раздувая их до feature package без риска или необходимости.
-8. Для средней, большой или рискованной фичи создавать feature package: `README.md` как routing-слой и `feature.md` как canonical owner scope, design и verification.
-9. После Design Ready создавать `implementation-plan.md` как derived execution-документ с grounding, шагами, checkpoints и traceability к IDs из `feature.md`.
+7. Для `Small Change`, где issue полностью владеет intent, scope и acceptance и отдельные design-документы не нужны, использовать прямой workflow из `memory-bank/flows/workflows.md`.
+8. Для любой feature создавать feature package: `README.md` как routing-слой и `brief.md` как canonical owner problem space и verification contract.
+9. После Problem Ready создавать `design.md`, если он required, а `implementation-plan.md` — только после готовности всех upstream owners.
 10. Запускать агента на задачу через подходящий governed artifact: task, use case, feature package, PRD или epic, а не через длинное устное объяснение.
 11. После реализации обновлять Memory Bank, если появились новые факты, правила, риски или решения.
 
 ## Feature Flow
 
-Фича-пак разделяет задачу на canonical intent/design и derived execution.
+Фича-пак разделяет problem space, optional solution space и derived execution.
 
-`feature.md` - canonical owner delivery-единицы. Он фиксирует problem, outcome, scope (`REQ-*`), non-scope (`NS-*`), constraints, design, acceptance scenarios (`SC-*`), checks (`CHK-*`) и evidence contract (`EVID-*`).
+`brief.md` - canonical owner problem space delivery-единицы. Он фиксирует problem, outcome, scope (`REQ-*`), non-scope (`NS-*`), acceptance scenarios (`SC-*`), checks (`CHK-*`) и evidence contract (`EVID-*`), но не принимает solution decisions.
 
-`README.md` внутри `features/FT-XXX/` - routing-слой. Он создается вместе с `feature.md` и добавляет ссылки на optional derived-документы только после их появления.
+`design.md` - conditional canonical owner solution space. Он создаётся после Problem Ready, только если `brief.md` фиксирует `Design required: yes`, и содержит выбранное решение, contracts, invariants, failure modes и ссылки на ADR.
 
-`implementation-plan.md` появляется только после того, как `feature.md` стал design-ready. Это execution-документ: relevant paths, existing patterns, unresolved questions, test surfaces, execution environment, шаги, checkpoints и traceability к canonical IDs из `feature.md`.
+`README.md` внутри `features/FT-XXX/` - routing-слой. Он создаётся вместе с `brief.md` и добавляет ссылки на downstream-документы только после их появления.
 
-Раздел верификации в `feature.md` обязателен. Если агент не понимает, как проверить результат, он будет оптимизировать под "код написан", а не под "фича работает".
+`implementation-plan.md` появляется после готовности нужных upstream owners. Это execution-документ: relevant paths, existing patterns, unresolved questions, test surfaces, execution environment, шаги, checkpoints и traceability к canonical IDs из `brief.md` и, если он существует, `design.md`.
+
+Раздел верификации в `brief.md` обязателен. Если агент не понимает, как проверить результат, он будет оптимизировать под "код написан", а не под "фича работает".
 
 ## Контекст и перезапуск агентов
 
@@ -147,7 +149,7 @@ git diff --check
 Фича-пак:
 
 ```text
-Прочитай ./memory-bank/README.md и ./memory-bank/flows/feature-flow.md, затем создай feature package для задачи. Сначала инстанцируй README.md и feature.md; в feature.md обязательно зафиксируй scope, non-scope, design, acceptance scenarios, checks и evidence. implementation-plan.md создавай только после Design Ready.
+Прочитай ./memory-bank/README.md и ./memory-bank/flows/feature-flow.md, затем создай feature package для задачи. Сначала инстанцируй README.md и brief.md; в brief.md обязательно зафиксируй scope, non-scope, acceptance scenarios, checks, evidence и Design Requirement Decision. design.md создавай только если `Design required: yes`, а implementation-plan.md — после готовности upstream owners.
 ```
 
 Ревью Memory Bank:
@@ -162,7 +164,7 @@ git diff --check
 - `product/`, `domain/`, `engineering/`, `ops/` адаптированы под проект.
 - Для текущего эпика заведены use cases.
 - По use cases есть автоматические или ручные проверки.
-- Средние, большие или рискованные фичи оформляются через feature package; малые локальные задачи проходят через минимальный workflow.
+- Любая feature оформляется через feature package; локальные изменения проходят как `Small Change` только при выполнении routing predicates из `memory-bank/flows/workflows.md`.
 - Спорные технические решения оформляются как ADR.
 - Скрипт проверки индексации проходит без errors.
 - Команда понимает: если факт нужен агенту, он должен быть записан в Memory Bank.
