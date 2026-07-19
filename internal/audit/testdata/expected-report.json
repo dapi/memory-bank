@@ -1,0 +1,100 @@
+{
+  "format_version": 1,
+  "repo_root": "repo-root",
+  "scope_root": "memory-bank",
+  "entrypoints": [
+    "memory-bank/README.md"
+  ],
+  "missing_entrypoints": [],
+  "max_depth": 1,
+  "stats": {
+    "markdown_files_in_scope": 6,
+    "index_documents_in_scope": 3,
+    "broken_link_count": 1,
+    "frontmatter_dependency_issue_count": 1,
+    "orphan_count": 1,
+    "unreachable_count": 1,
+    "index_contract_issue_count": 1,
+    "deep_reachable_warning_count": 3,
+    "entrypoint_count": 1
+  },
+  "errors": {
+    "config": [],
+    "broken_links": [
+      {
+        "source": "memory-bank/section/child.md",
+        "target": "memory-bank/section/missing-document.md"
+      }
+    ],
+    "frontmatter_dependencies": [
+      {
+        "source": "memory-bank/section/child.md",
+        "field": "derived_from",
+        "value": "missing-source.md",
+        "target": "memory-bank/section/missing-source.md"
+      }
+    ],
+    "orphans": [
+      {
+        "path": "memory-bank/orphan.md",
+        "expected_parent_index": "memory-bank/README.md",
+        "inbound_links": []
+      }
+    ],
+    "unreachable": [
+      {
+        "path": "memory-bank/orphan.md",
+        "expected_parent_index": "memory-bank/README.md",
+        "inbound_links": []
+      }
+    ],
+    "index_contract": [
+      {
+        "path": "memory-bank/section/README.md",
+        "issues": [
+          "missing 'purpose' in frontmatter"
+        ],
+        "expected_parent_index": "memory-bank/README.md"
+      }
+    ]
+  },
+  "warnings": {
+    "deep_reachable": [
+      {
+        "path": "memory-bank/section/child.md",
+        "depth": 2,
+        "max_depth": 1,
+        "expected_parent_index": "memory-bank/section/README.md",
+        "route": [
+          "memory-bank/README.md",
+          "memory-bank/section/README.md",
+          "memory-bank/section/child.md"
+        ]
+      },
+      {
+        "path": "memory-bank/section/deep/README.md",
+        "depth": 2,
+        "max_depth": 1,
+        "expected_parent_index": "memory-bank/section/README.md",
+        "route": [
+          "memory-bank/README.md",
+          "memory-bank/section/README.md",
+          "memory-bank/section/deep/README.md"
+        ]
+      },
+      {
+        "path": "memory-bank/section/deep/leaf.md",
+        "depth": 3,
+        "max_depth": 1,
+        "expected_parent_index": "memory-bank/section/deep/README.md",
+        "route": [
+          "memory-bank/README.md",
+          "memory-bank/section/README.md",
+          "memory-bank/section/deep/README.md",
+          "memory-bank/section/deep/leaf.md"
+        ]
+      }
+    ]
+  },
+  "exit_code": 1
+}
