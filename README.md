@@ -24,7 +24,7 @@ brief — что и зачем
     → implementation-plan — как выполнить и проверить
 ```
 
-Репозиторий не содержит приложения или runtime-кода. Это generic-шаблон документационного контура, дополненный скриптом, который проверяет ссылки, индексацию и достижимость документов.
+Репозиторий не содержит приложения или runtime-кода. Это generic-шаблон документационного контура, дополненный CLI, который проверяет ссылки, индексацию и достижимость документов.
 
 ## Зачем это нужно
 
@@ -257,58 +257,88 @@ orphan-документы, недостающие README-индексы и не�
 
 ## Проверка ссылок и индексации
 
-Скрипт [`scripts/check_memory_bank_index.py`](scripts/check_memory_bank_index.py) проверяет:
+Go CLI [`memory-bank-lint`](cmd/memory-bank-lint/main.go) аудирует `memory-bank/` и проверяет:
 
-- неработающие относительные Markdown-ссылки;
-- orphan-документы, не включённые в навигацию;
-- достижимость документов от заданных entrypoint-файлов;
-- слишком глубокие навигационные цепочки;
-- наличие ожидаемых `README.md`-индексов.
+- broken relative markdown links внутри audit scope;
+- orphan-документы, на которые никто не ссылается внутри scope;
+- достижимость каждого документа от entrypoint'ов по индексной навигации;
+- документы, которые достижимы только глубже порога навигации;
+- contract ожидаемых `README.md`-индексов.
 
-Обычный запуск из корня этого репозитория:
+Обычный локальный запуск из корня репозитория:
 
 ```bash
-python3 scripts/check_memory_bank_index.py
+go run ./cmd/memory-bank-lint
 ```
 
-Exit code `0` означает, что ошибок нет. Предупреждения о глубине навигации не делают проверку неуспешной. Ненулевой exit code означает, что перед PR нужно исправить найденные ошибки.
+Что означает результат:
 
-Основные параметры:
+- exit code `0` — errors не найдены; warnings по глубине возможны, но аудит считается пройденным;
+- non-zero exit code — найдены проблемы, которые нужно исправить до PR;
+- `--json` — структурированный отчёт, пригодный для последующей автоматической доиндексации другим агентом или инструментом.
 
-- `--max-depth N` — порог глубины навигации; по умолчанию `3`;
-- `--entrypoint PATH` — явная точка входа; параметр можно повторять;
-- `--scope-root DIR` — проверяемый каталог; по умолчанию `memory-bank`;
-- `--repo-root DIR` — корень downstream-репозитория;
-- `--json` — структурированный отчёт для агента или другого инструмента.
+Параметры запуска:
 
-Пример проверки навигации от нескольких точек входа:
+- `--max-depth N` — порог глубины индексной навигации в прыжках; по умолчанию `3`; документы глубже порога попадают в warning, а не в error;
+- `--entrypoint PATH` — явный entrypoint для аудита; параметр repeatable; принимает repo-relative или scope-relative пути; неоднозначные пути без префикса сначала резолвятся внутри `--scope-root`, а для явного repo-root пути используйте `./PATH` или `/PATH`; если передан, используется вместо дефолтного `memory-bank/README.md`;
+- `--scope-root DIR` — меняет audit scope; по умолчанию `memory-bank`;
+- `--repo-root DIR` — явно задаёт корень репозитория; полезно для сетевого запуска или локально установленной копии скрипта;
+- `--json` — печатает только JSON-отчёт.
+
+Примеры:
 
 ```bash
-python3 scripts/check_memory_bank_index.py \
+go run ./cmd/memory-bank-lint --max-depth 4
+```
+
+```bash
+go run ./cmd/memory-bank-lint \
   --entrypoint README.md \
   --entrypoint AGENTS.md \
   --max-depth 4
 ```
 
-Если скрипт не скопирован в downstream-проект, его можно запустить напрямую из репозитория:
+Быстрый запуск без предварительной установки CLI:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/dapi/memory-bank/main/scripts/check_memory_bank_index.py \
-  | python3 - --repo-root .
+go run github.com/dapi/memory-bank/cmd/memory-bank-lint@latest --repo-root .
 ```
 
-Или установить локальную копию:
+Установка CLI из GitHub:
 
 ```bash
-mkdir -p ./tools
-curl -fsSL \
-  -o ./tools/check_memory_bank_index.py \
-  https://raw.githubusercontent.com/dapi/memory-bank/main/scripts/check_memory_bank_index.py
-chmod +x ./tools/check_memory_bank_index.py
-python3 ./tools/check_memory_bank_index.py --repo-root .
+go install github.com/dapi/memory-bank/cmd/memory-bank-lint@latest
 ```
 
-Запускайте аудит после добавления, удаления или переименования Markdown-файлов, после изменения индексов и перед PR с правками структуры документации.
+Установка готового релиза через Homebrew:
+
+```bash
+brew install dapi/tap/memory-bank-lint
+```
+
+Готовые бинарники для Linux, macOS и Windows публикуются в [GitHub Releases](https://github.com/dapi/memory-bank/releases) при создании тега `v*`. Каждый релиз содержит `checksums.txt`; версия доступна через `memory-bank-lint --version`.
+
+Для публикации Homebrew Cask в `dapi/homebrew-tap` release workflow ожидает repository secret `HOMEBREW_TAP_GITHUB_TOKEN` с правом записи содержимого tap-репозитория.
+
+После установки запускайте его из корня downstream-репозитория:
+
+```bash
+memory-bank-lint --repo-root .
+```
+
+Для сборки бинарника из клонированного репозитория:
+
+```bash
+go build -o ./memory-bank-lint ./cmd/memory-bank-lint
+```
+
+Для разработки нужен Go версии `1.21` или новее. `go install` помещает бинарник в `GOBIN` или `GOPATH/bin`; этот каталог должен находиться в `PATH`. Команды запуска одинаковы на macOS и Linux.
+
+Когда запускать:
+
+- после добавления, удаления или переименования `.md`-файлов в `memory-bank/`;
+- после правок `README.md`-индексов и относительных ссылок;
+- перед открытием PR с изменениями в template navigation или document structure.
 
 ## Развитие шаблона
 
