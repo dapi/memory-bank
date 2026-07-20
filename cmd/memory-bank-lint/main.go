@@ -7,8 +7,6 @@ import (
 	"fmt"
 	"io"
 	"os"
-
-	"github.com/dapi/memory-bank/internal/audit"
 )
 
 var version = "dev"
@@ -69,17 +67,17 @@ func run(arguments []string, stdout, stderr io.Writer) int {
 		fmt.Fprintln(stderr, "memory-bank-lint: --max-depth must be greater than or equal to 0")
 		return 2
 	}
-	scopeRoot, err := audit.NormalizeScopeRoot(*scopeRootArgument)
+	scopeRoot, err := NormalizeScopeRoot(*scopeRootArgument)
 	if err != nil {
 		fmt.Fprintln(stderr, err)
 		return 1
 	}
-	repoRoot, err := audit.ResolveRepoRoot(*repoRootArgument, scopeRoot)
+	repoRoot, err := ResolveRepoRoot(*repoRootArgument, scopeRoot)
 	if err != nil {
 		fmt.Fprintln(stderr, err)
 		return 1
 	}
-	report, err := audit.Run(audit.Options{
+	report, err := Run(Options{
 		RepoRoot: repoRoot, ScopeRoot: scopeRoot, Entrypoints: configuredEntrypoints, MaxDepth: *maxDepth,
 	})
 	if err != nil {
@@ -96,7 +94,7 @@ func run(arguments []string, stdout, stderr io.Writer) int {
 			return 1
 		}
 	} else {
-		audit.PrintTextReport(stdout, report)
+		PrintTextReport(stdout, report)
 	}
 	return report.ExitCode
 }

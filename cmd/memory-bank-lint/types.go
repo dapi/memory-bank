@@ -1,4 +1,4 @@
-package audit
+package main
 
 type Options struct {
 	RepoRoot    string

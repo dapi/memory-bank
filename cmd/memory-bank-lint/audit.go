@@ -1,4 +1,4 @@
-package audit
+package main
 
 import (
 	"fmt"
@@ -24,7 +24,7 @@ func NormalizeScopeRoot(scopeRoot string) (string, error) {
 	return strings.TrimSuffix(normalized, "/"), nil
 }
 
-func ResolveRepoRoot(repoRootArgument, scopeRoot string) (string, error) {
+func ResolveRepoRoot(repoRootArgument, _ string) (string, error) {
 	if repoRootArgument != "" {
 		return filepath.Abs(repoRootArgument)
 	}
@@ -33,17 +33,27 @@ func ResolveRepoRoot(repoRootArgument, scopeRoot string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	candidates := []string{currentDirectory}
-	if executable, executableErr := os.Executable(); executableErr == nil {
-		executableDirectory := filepath.Dir(executable)
-		candidates = append(candidates, executableDirectory, filepath.Dir(executableDirectory))
-	}
-	for _, candidate := range candidates {
-		if info, statErr := os.Stat(filepath.Join(candidate, filepath.FromSlash(scopeRoot))); statErr == nil && info.IsDir() {
-			return filepath.Abs(candidate)
-		}
+	if gitRoot, ok := findNearestGitRoot(currentDirectory); ok {
+		return gitRoot, nil
 	}
 	return filepath.Abs(currentDirectory)
+}
+
+func findNearestGitRoot(startDirectory string) (string, bool) {
+	currentDirectory, err := filepath.Abs(startDirectory)
+	if err != nil {
+		return "", false
+	}
+	for {
+		if _, statErr := os.Stat(filepath.Join(currentDirectory, ".git")); statErr == nil {
+			return currentDirectory, true
+		}
+		parent := filepath.Dir(currentDirectory)
+		if parent == currentDirectory {
+			return "", false
+		}
+		currentDirectory = parent
+	}
 }
 
 func Run(options Options) (Report, error) {
