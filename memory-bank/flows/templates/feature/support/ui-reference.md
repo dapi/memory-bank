@@ -23,6 +23,8 @@ canonical_for:
 
 Создавай `ui-reference/README.md`, если feature меняет interface. Документ generic: он не должен тянуть project-specific interface conventions в reusable template. В instantiated project можно ссылаться на локальный design system, но generic template фиксирует только структуру interface reference.
 
+Project-wide catalog существующих components, helpers, screenshots и source paths при необходимости живет в `engineering/ui-design-guide/README.md`, создаваемом по [`engineering/ui-design-guide.md`](../../engineering/ui-design-guide.md). Feature-local reference ссылается на него и описывает только interface change этой feature.
+
 Для interface changes нужны mockups. Default format — Markdown mockups в `ui-reference/mockups/*.md`. Допустимы изображения, design-tool links или другие artifacts, если они versionable / linkable и доступны reviewers.
 
 `ui-reference/README.md` не владеет requirements, selected architecture, acceptance inventory или implementation sequence.
