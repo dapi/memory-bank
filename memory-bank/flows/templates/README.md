@@ -47,7 +47,7 @@ audience: humans_and_agents
 - [FT-XXX Feature README Template](feature/README.md) — шаблон README для feature-каталога. Отвечает на вопрос: как оформить feature-level index.
 - [FT-XXX: Brief Template](feature/brief.md) — canonical problem-space template для новых feature packages. Отвечает на вопрос: как зафиксировать intent, scope и verify contract без solution/execution деталей.
 - [FT-XXX: Design Template](feature/design.md) — canonical solution-space template для feature package. Отвечает на вопрос: как зафиксировать selected design, architecture coverage, contracts, design verification и design-pack routing.
-- [FT-XXX: Interaction Contract Template](feature/api-contract.md) — optional canonical design-pack template для подробной семантики API/event/queue/file/store/cache/auth/locking/runtime-config connector, делегированной из `design.md`.
+- [FT-XXX: Interaction Contract Template](feature/api-contract.md) — optional canonical design-pack template для подробной семантики API/event/queue/callback/file/store/cache/auth/locking/runtime-config connector; schema/encoding фиксируются как format, а provider — как party/role.
 - [FT-XXX: Implementation Plan](feature/implementation-plan.md) — шаблон derived execution-плана. Отвечает на вопрос: как оформить sequencing и checkpoints после готовности upstream owners.
 - [FT-XXX: Runtime Surfaces Template](feature/support/runtime-surfaces.md) — optional support template для current runtime inventory, semantic mapping, context matrix и resolution tables.
 - [FT-XXX: Sequence Diagram Template](feature/support/sequence-diagram.md) — optional reference template для temporal / async interactions, retries, timeouts и failure branches.

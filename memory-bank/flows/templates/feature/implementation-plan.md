@@ -127,11 +127,15 @@ must_not_define:
 
 ## Design Realization Mapping
 
-Для designed feature покажи, где реализуется каждый применимый `SOL-*`, `C4-*`, `SD-*`, `CTR-*`, `INV-*`, `FM-*`, `RB-*` и accepted ADR ref. Строка связывает уже принятое решение с execution; она не вводит новые solution facts или decisions. Если mapping обнаруживает gap или требует изменить semantics, сначала обнови canonical owner и только затем этот план. Для feature с `Design required: no` укажи `not applicable` и ссылку на decision из `brief.md`.
+Для designed feature покажи, где реализуется каждый применимый `SOL-*`, `C4-*`, `SD-*`, `CTR-*`, `INV-*`, `FM-*`, `RB-*` и accepted ADR ref. Каждый применимый ref должен встречаться минимум в одной строке. Объединяй в строке только refs с одним canonical owner, общим realization target и одной verification chain; иначе раздели их. Строка связывает уже принятое решение с execution и не вводит новые solution facts или decisions. Если mapping обнаруживает gap или требует изменить semantics, сначала обнови canonical owner и только затем этот план. Для feature с `Design required: no` укажи `not applicable` и ссылку на decision из `brief.md`.
 
 | Canonical solution refs | Owner | Realization target | Steps | Checks | Evidence |
 | --- | --- | --- | --- | --- | --- |
-| `SOL-01`, `C4-01`, `SD-01`, `CTR-01`, `INV-01`, `FM-01`, `RB-01`, `../../adr/ADR-XXX.md` | `design.md` / delegated contract / accepted ADR | Module, interface, topology, migration, config or operational surface | `STEP-01`, `STEP-02` | `CHK-01` | `EVID-01` |
+| `SOL-01`, `SD-01` | `design.md` | Module or service | `STEP-01` | `CHK-01` | `EVID-01` |
+| `CTR-01` | `contracts/<name>.md` | Interface or interaction boundary | `STEP-02` | `CHK-02` | `EVID-02` |
+| `C4-01`, `INV-01`, `FM-01` | `design.md` | Runtime topology | `STEP-03` | `CHK-03` | `EVID-03` |
+| `RB-01` | `design.md` | Migration, config or operational surface | `STEP-04` | `CHK-04` | `EVID-04` |
+| `../../adr/ADR-XXX.md` | `../../adr/ADR-XXX.md` (`accepted`) | Decision realization target | `STEP-05` | `CHK-05` | `EVID-05` |
 
 ## Workstreams
 

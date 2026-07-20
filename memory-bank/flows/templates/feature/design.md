@@ -86,15 +86,15 @@ must_not_define:
 
 ## Architecture Coverage Decision
 
-Для каждого аспекта выбери `covered` или обоснованный `N/A`. Analysis обязателен; дополнительные artifacts создавай только по trigger. Canonical artifact должен входить в Design Pack, если это отдельный solution-space файл.
+Для каждого аспекта выбери `covered` или обоснованный `N/A`. Analysis обязателен; дополнительные artifacts создавай только по trigger. В `Canonical owner / refs` укажи документ-владелец и stable IDs, а supporting view не считай canonical owner. Отдельный solution-space artifact должен входить в Design Pack.
 
-| Aspect | Status | Canonical artifact | Reason if N/A / coverage note |
-| --- | --- | --- | --- |
-| Components / responsibilities | `covered` / `N/A` | `design.md` / C3 / ADR | Где определены ответственности и provided/required interfaces или почему аспект неприменим |
-| Connectors / interactions | `covered` / `N/A` | `design.md` / `CTR-*` / sequence / contract | Где определены механизм и значимые interaction semantics или почему аспект неприменим |
-| Configuration / topology | `covered` / `N/A` | `design.md` / C2/C3 / data-flow | Где определены bindings, direction, connector kind, optional links и affected topology или почему аспект неприменим |
-| Behavioral semantics | `covered` / `N/A` | `design.md` / sequence / state machine | Где определены ordering, transitions и failure behavior или почему аспект неприменим |
-| Quality / evolution concerns | `covered` / `N/A` | `CON-*` / `INV-*` / `FM-*` / `RB-*` / ADR | Где закрыты relevant quality, compatibility и evolution risks или почему аспект неприменим |
+| Aspect | Status | Canonical owner / refs | Supporting view / artifact | Reason if N/A / coverage note |
+| --- | --- | --- | --- | --- |
+| Components / responsibilities | `covered` / `N/A` | `design.md` `SOL-*` / `SD-*` или accepted ADR | C3 / component map / `none` | Где определены ответственности и provided/required interfaces или почему аспект неприменим |
+| Connectors / interactions | `covered` / `N/A` | `design.md` `CTR-*` или `contracts/<name>.md` | sequence / `none` | Где определены механизм и значимые interaction semantics или почему аспект неприменим |
+| Configuration / topology | `covered` / `N/A` | `design.md` `SOL-*` / `SD-*` или accepted ADR | C2/C3 / data-flow / `none` | Где определены bindings, direction, connector kind, optional links и affected topology или почему аспект неприменим |
+| Behavioral semantics | `covered` / `N/A` | `design.md` `SOL-*` / `CTR-*` / `INV-*` / `FM-*` | sequence / state machine / `none` | Где определены ordering, transitions и failure behavior или почему аспект неприменим |
+| Quality / evolution concerns | `covered` / `N/A` | `brief.md` `CON-*`; `design.md` `INV-*` / `FM-*` / `RB-*`; accepted ADR | analysis artifact / `none` | Где закрыты relevant quality, compatibility и evolution risks или почему аспект неприменим |
 
 ## Selected Solution
 
@@ -121,7 +121,7 @@ must_not_define:
 
 ## Contracts
 
-Connector — first-class design concept: API, event, queue, callback, shared store/file, cache interaction, authentication handoff, locking/concurrency mechanism или runtime/config binding. Для значимого connector зафиксируй применимые roles, protocol/format и direction, sync/async boundary, ordering/delivery, timeout/retry/idempotency, trust boundary, failure/degradation, compatibility/versioning и observability. Компактное описание оставь здесь; отдельный interaction contract создавай только при самостоятельной review boundary. Не добавляй реалистичные секреты, production IDs или file-level implementation steps.
+Connector — first-class механизм или binding, связывающий стороны решения: API call, event, queue, callback, shared store/file access, cache interaction, authentication handoff, locking/concurrency mechanism или runtime/config binding. Не смешивай connector kind с protocol/format (`schema`, encoding) или parties/roles (producer, consumer, provider, initiator, target). Для значимого connector зафиксируй применимые roles, protocol/format и direction, sync/async boundary, ordering/delivery, timeout/retry/idempotency, trust boundary, failure/degradation, compatibility/versioning и observability. Компактное описание оставь здесь; отдельный interaction contract создавай только при самостоятельной review boundary. Не добавляй реалистичные секреты, production IDs или file-level implementation steps.
 
 | Contract ID | Connector / direction | Roles and sync boundary | Guarantees / failure / evolution semantics |
 | --- | --- | --- | --- |

@@ -133,7 +133,7 @@ C4 можно не создавать, если изменение одновр�
 ### Components, Connectors And Configuration
 
 1. **Components** — затронутые элементы решения, их ответственности и предоставляемые/потребляемые интерфейсы. Имена элементов без распределения ответственности не дают достаточного coverage.
-2. **Connectors** — first-class механизмы взаимодействия, а не только wire shape. К ним относятся API, event, queue, callback, shared store или file, cache interaction, authentication handoff, locking/concurrency mechanism и runtime/config binding.
+2. **Connectors** — first-class механизмы или bindings, связывающие стороны решения, а не только wire shape. Connector kind может быть API call, event, queue, callback, shared store/file access, cache interaction, authentication handoff, locking/concurrency mechanism или runtime/config binding. Не смешивай connector kind с protocol/format (`schema`, encoding) или parties/roles (producer, consumer, provider, initiator, target).
 3. **Configuration** — конкретная topology и bindings между components/connectors. Для cross-component change покажи direction, connector kind, conditional/optional links и затронутую runtime/deployment topology, если она влияет на решение. Один перечень components без bindings недостаточен.
 
 Для значимого connector описание по риску фиксирует roles (producer/consumer/initiator), protocol/format и direction, sync/async boundary, ordering/delivery guarantees, timeout/retry/idempotency, trust/security boundary, failure/degradation semantics, compatibility/versioning и observability. Компактное описание остается в `design.md`; отдельный interaction contract создается только при самостоятельной review boundary или заметном росте объема.
@@ -229,7 +229,7 @@ flowchart LR
 - [ ] `implementation-plan.md` содержит ≥ 1 `PRE-*`, ≥ 1 `STEP-*`, ≥ 1 `CHK-*`, ≥ 1 `EVID-*`
 - [ ] discovery context в `implementation-plan.md` содержит: relevant paths, local reference patterns, unresolved questions (`OQ-*` или явное `none`, если после discovery их нет), test surfaces и execution environment
 - [ ] шаги и workstreams в `implementation-plan.md` ссылаются на canonical IDs из `brief.md` и, если design layer существует, solution refs из `design.md` / ADR
-- [ ] для designed feature план содержит явное refinement применимых `SOL-*`, `C4-*`, `SD-*`, `CTR-*`, `INV-*`, `FM-*`, `RB-*` и accepted ADR refs через `realization target -> STEP/CHK/EVID`; найденный solution gap сначала обновляет canonical owner
+- [ ] для designed feature план содержит явное refinement применимых `SOL-*`, `C4-*`, `SD-*`, `CTR-*`, `INV-*`, `FM-*`, `RB-*` и accepted ADR refs через `realization target -> STEP/CHK/EVID`; каждый применимый ref встречается минимум в одной mapping-строке, а найденный solution gap сначала обновляет canonical owner
 
 ### Plan Ready → Execution
 
@@ -388,7 +388,7 @@ Canonical testing policy живёт в [../engineering/testing-policy.md](../eng
 1. Scope в `brief.md` фиксируется через `REQ-*`, non-scope через `NS-*`.
 2. Verify в `brief.md` связывает `REQ-*` с test cases через `Acceptance Scenarios`, feature-specific `NEG-*`, `Traceability matrix`, `Test matrix` и `Evidence contract`.
 3. `design.md`, если есть, связывает `REQ-*` из `brief.md` с `SOL-*`, `ALT-*`, `TRD-*`, `C4-*`, `SD-*`, `CTR-*`, `INV-*`, `FM-*`, `RB-*` и accepted ADR refs.
-4. `implementation-plan.md` ссылается на canonical IDs из `brief.md` и, если есть, применимые `SOL-*`, `C4-*`, `SD-*`, `CTR-*`, `INV-*`, `FM-*`, `RB-*` и accepted ADR refs в Design Realization Mapping и колонках `Implements`, `Verifies` и `Evidence IDs`.
+4. `implementation-plan.md` ссылается на canonical IDs из `brief.md` и, если есть, применимые `SOL-*`, `C4-*`, `SD-*`, `CTR-*`, `INV-*`, `FM-*`, `RB-*` и accepted ADR refs в Design Realization Mapping и `Implements`; `Verifies` содержит связанные `CHK-*`, а `Evidence IDs` — подтверждающие `EVID-*`, образуя trace chain от canonical ref до evidence.
 5. Если sequencing блокируется неизвестностью, план фиксирует её как `OQ-*`, а не прячет в prose.
 6. Если выполнение требует человеческого подтверждения для рискованных действий, план фиксирует это через `AG-*`.
 7. Если design или to-be C4 architecture model меняется после `Solution Ready`, сначала обновляется `design.md` или ADR, затем план.

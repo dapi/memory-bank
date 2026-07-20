@@ -22,11 +22,13 @@ canonical_for:
 
 ## Wrapper Notes
 
-Создавай отдельный contract, когда API, event, queue, callback, schema, shared file/store, cache, authentication handoff, locking/concurrency mechanism, provider или runtime/config binding содержит достаточно самостоятельных semantics, чтобы inline `CTR-*` в `design.md` стал трудно проверяемым.
+Создавай отдельный contract, когда API call, event, queue, callback, shared file/store access, cache interaction, authentication handoff, locking/concurrency mechanism или runtime/config binding содержит достаточно самостоятельных semantics, чтобы inline `CTR-*` в `design.md` стал трудно проверяемым. Schema/encoding фиксируй как protocol/format, а provider — как party/role, не как connector kind.
 
 Если contract компактен, оставь его в `design.md`. Отдельный файл не является обязательной частью feature package и не должен появляться как placeholder.
 
 Инстанцируй только применимые sections: operation/request/response tables подходят для wire contracts, но могут быть заменены binding/state/concurrency tables для store, cache, lock или config connector. Не заполняй неприменимые sections фиктивными данными.
+
+Путь `api-contract.md` и `feature_api_contract_template` сохранены как compatibility aliases; семантически это общий Interaction Contract Template.
 
 `design.md` обязан индексировать contract в Design Pack, перечислить делегированные `CTR-*` и связать их с `SOL-*` и `REQ-*`. Contract не выбирает solution, не меняет scope и не задает implementation sequence.
 
@@ -54,20 +56,22 @@ must_not_define:
 ````markdown
 # FT-XXX: <Boundary Name> Contract
 
+Оставь только применимые sections. Для wire contract используй operation/request/response tables; для store, cache, lock или config connector замени их подходящими binding/state/concurrency tables. Не сохраняй и не заполняй неприменимые placeholders.
+
 ## Role And Ownership
 
 | Role | Value |
 | --- | --- |
-| Boundary | Какой interaction или runtime/config boundary описан |
+| Boundary | Какой connector boundary описан, какие стороны он связывает и какой interaction mechanism или runtime/config binding фиксирует |
 | Owns | Какие `CTR-*` делегированы этому документу из `design.md` |
 | Does not own | Scope, selected solution, acceptance, execution sequencing |
-| Roles | Producer / consumer / initiator / target и owner каждой стороны |
+| Roles | Producer / consumer / provider / initiator / target и owner каждой стороны |
 
 ## Connector Semantics
 
 | Concern | Contract |
 | --- | --- |
-| Mechanism and binding | API, event, queue, callback, shared store/file, cache, auth handoff, lock или runtime/config binding; где связаны стороны |
+| Connector kind and binding | API call, event, queue, callback, shared store/file access, cache interaction, auth handoff, lock или runtime/config binding; где связаны стороны |
 | Protocol / format / direction | Protocol, encoding/schema и `initiator -> target` |
 | Sync / async boundary | Где caller ждёт ответ, где ownership переходит асинхронно |
 | Ordering / delivery | At-most/at-least/exactly-once claim, ordering scope, duplicates and gaps |
@@ -90,7 +94,7 @@ must_not_define:
 
 | Contract ID | Operation / message | Direction | Purpose | Related refs |
 | --- | --- | --- | --- | --- |
-| `CTR-01` | Method, endpoint, event or schema name | producer -> consumer | Какая capability предоставляется | `REQ-01`, `SOL-01` |
+| `CTR-01` | Method, endpoint, event, operation or binding name | producer -> consumer | Какая capability предоставляется | `REQ-01`, `SOL-01` |
 
 ## Request / Input
 
