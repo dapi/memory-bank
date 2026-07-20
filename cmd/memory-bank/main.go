@@ -9,5 +9,5 @@ import (
 var version = "dev"
 
 func main() {
-	os.Exit(cli.RunLint(os.Args[1:], "memory-bank-lint", version, os.Stdout, os.Stderr))
+	os.Exit(cli.Run(os.Args[1:], version, os.Stdout, os.Stderr))
 }

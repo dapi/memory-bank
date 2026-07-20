@@ -1,4 +1,4 @@
-package main
+package lint
 
 import (
 	"fmt"
@@ -22,38 +22,6 @@ func NormalizeScopeRoot(scopeRoot string) (string, error) {
 		return "", fmt.Errorf("--scope-root must point to a repository-relative directory")
 	}
 	return strings.TrimSuffix(normalized, "/"), nil
-}
-
-func ResolveRepoRoot(repoRootArgument, _ string) (string, error) {
-	if repoRootArgument != "" {
-		return filepath.Abs(repoRootArgument)
-	}
-
-	currentDirectory, err := os.Getwd()
-	if err != nil {
-		return "", err
-	}
-	if gitRoot, ok := findNearestGitRoot(currentDirectory); ok {
-		return gitRoot, nil
-	}
-	return filepath.Abs(currentDirectory)
-}
-
-func findNearestGitRoot(startDirectory string) (string, bool) {
-	currentDirectory, err := filepath.Abs(startDirectory)
-	if err != nil {
-		return "", false
-	}
-	for {
-		if _, statErr := os.Stat(filepath.Join(currentDirectory, ".git")); statErr == nil {
-			return currentDirectory, true
-		}
-		parent := filepath.Dir(currentDirectory)
-		if parent == currentDirectory {
-			return "", false
-		}
-		currentDirectory = parent
-	}
 }
 
 func Run(options Options) (Report, error) {
