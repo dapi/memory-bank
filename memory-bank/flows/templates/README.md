@@ -8,6 +8,8 @@ derived_from:
   - prd/PRD-XXX.md
   - use-case/UC-XXX.md
   - epic/README.md
+  - epic/package-README.md
+  - epic/brief.md
   - epic/charter.md
   - epic/roadmap.md
   - epic/decision-log.md
@@ -39,6 +41,8 @@ audience: humans_and_agents
 - [PRD-XXX: Product Initiative Name](prd/PRD-XXX.md) — компактный Product Requirements Document для инициативы, которая еще не разложена на один конкретный feature slice.
 - [UC-XXX: Use Case Name](use-case/UC-XXX.md) — канонический use case для устойчивого пользовательского или операционного сценария; selection и lifecycle определяет [Use Case Flow](../use-case.md).
 - [Epic Templates](epic/README.md) — индекс шаблонов `EP-XXX` package.
+- [EP-XXX Package README Template](epic/package-README.md) — routing index и lifecycle stage owner для epic package, включая intake-only состояние.
+- [EP-XXX: Epic Proposal Template](epic/brief.md) — обязательный при Epic Intake brief с proposal disposition и promotion contract; при прямом Bootstrap Epic не создаётся.
 - [EP-XXX: Charter Template](epic/charter.md) — intent, scope, source/evidence and stakeholder channels.
 - [EP-XXX: Roadmap Template](epic/roadmap.md) — waves, dependencies, gates and stop rules.
 - [EP-XXX: Decision Log Template](epic/decision-log.md) — local epic decisions that do not require global ADR.

@@ -20,6 +20,8 @@ doc_function: canonical
 purpose: "<What this epic governs and why it is larger than one feature>"
 derived_from:
   - ../../flows/epic.md
+  # Include `brief.md` when the epic was promoted from Epic Intake.
+  # - brief.md
 status: draft
 audience: humans_and_agents
 must_not_define:
@@ -28,6 +30,14 @@ must_not_define:
 ---
 
 # EP-XXX: <Epic Name>
+
+## Origin and Epic Route
+
+| Field | Value |
+| --- | --- |
+| Source / trigger | `<issue, request, PRD or evidence URL>` |
+| Why Epic | `<multiple delivery units, shared roadmap or cross-feature risk>` |
+| Intake proposal | `<brief.md link or not used>` |
 
 ## Problem
 
