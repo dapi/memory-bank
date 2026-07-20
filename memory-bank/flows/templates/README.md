@@ -2,7 +2,7 @@
 title: Templates Index
 doc_kind: governance
 doc_function: index
-purpose: Навигация по эталонным шаблонам документации проекта. Читать, чтобы завести PRD, use case, epic, фичу, engineering reference, ADR, prompt или execution-документ без изобретения новой структуры.
+purpose: Навигация по эталонным шаблонам документации проекта. Читать, чтобы завести PRD, use case, epic, фичу, ADR, prompt или execution-документ без изобретения новой структуры.
 derived_from:
   - ../../dna/governance.md
   - prd/PRD-XXX.md
@@ -22,7 +22,6 @@ derived_from:
   - feature/support/sequence-diagram.md
   - feature/support/ui-reference.md
   - feature/support/use-cases.md
-  - engineering/ui-design-guide.md
   - adr/ADR-XXX.md
   - prompt/PROMPT-XXX.md
   - process/README.md
@@ -54,7 +53,6 @@ audience: humans_and_agents
 - [FT-XXX: Sequence Diagram Template](feature/support/sequence-diagram.md) — optional reference template для temporal / async interactions, retries, timeouts и failure branches.
 - [FT-XXX: UI Reference Template](feature/support/ui-reference.md) — optional support template для interface changes, screen map, interaction states и mockups.
 - [FT-XXX: Feature Use Cases Template](feature/support/use-cases.md) — optional support template для derived use cases, test case candidates и `FUC -> REQ -> CHK` review mapping.
-- [Project UI Design Guide Template](engineering/ui-design-guide.md) — optional project-level reference template для concrete reusable components, helper APIs, examples, screenshots и source paths существующего UI kit.
 - [ADR-XXX: Short Decision Name](adr/ADR-XXX.md) — шаблон ADR. Отвечает на вопрос: как зафиксировать архитектурное решение.
 - [PROMPT-XXX: Reusable Prompt Name](prompt/PROMPT-XXX.md) — шаблон reusable prompt-документа. Отвечает на вопрос: как сохранить исходную формулировку в frontmatter и улучшенный prompt в copyable body-блоке.
 - [PROC-XXX: Process Documentation Index](process/README.md) — шаблон индекса процесс-документов. Отвечает на вопрос: как собрать routing-layer для reusable process cards, session handoff и lifecycle protocol.

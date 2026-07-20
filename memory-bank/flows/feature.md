@@ -135,7 +135,7 @@ Support docs создаются только когда снимают реал�
 
 Support docs используют `doc_kind: feature-support`, ссылаются на canonical owners и явно пишут, что не подменяют `brief.md`, `design.md`, delegated contract или `implementation-plan.md`. Если support doc обнаруживает изменение canonical fact, сначала обновляется соответствующий owner.
 
-Если в проекте инстанцирован `engineering/ui-design-guide/README.md`, feature-local `ui-reference/README.md` ссылается на него как на project-level discovery reference и не копирует catalog shared components, helpers и examples в feature package.
+Feature-local `ui-reference/README.md` ссылается на `engineering/ui-design-guide/README.md` или на нужный surface document внутри него как на project-level discovery reference и не копирует catalog shared components, helpers и examples в feature package.
 
 ## Migration Strategy
 

@@ -23,7 +23,7 @@ canonical_for:
 
 Создавай `ui-reference/README.md`, если feature меняет interface. Документ generic: он не должен тянуть project-specific interface conventions в reusable template. В instantiated project можно ссылаться на локальный design system, но generic template фиксирует только структуру interface reference.
 
-Project-wide catalog существующих components, helpers, screenshots и source paths при необходимости живет в `engineering/ui-design-guide/README.md`, создаваемом по [`engineering/ui-design-guide.md`](../../engineering/ui-design-guide.md). Feature-local reference ссылается на него и описывает только interface change этой feature.
+Project-wide catalog существующих components, helpers, screenshots и source paths живет в [`engineering/ui-design-guide/README.md`](../../../../engineering/ui-design-guide/README.md). Feature-local reference ссылается на нужный surface document и описывает только interface change этой feature.
 
 Для interface changes нужны mockups. Default format — Markdown mockups в `ui-reference/mockups/*.md`. Допустимы изображения, design-tool links или другие artifacts, если они versionable / linkable и доступны reviewers.
 
@@ -38,10 +38,9 @@ doc_function: reference
 purpose: "Interface reference для FT-XXX. Фиксирует screen map, interaction states, mockups и UI traceability без переопределения canonical problem или solution facts."
 derived_from:
   - ../brief.md
+  - ../../../engineering/ui-design-guide/README.md
   # Required only when design.md exists:
   # - ../design.md
-  # Optional when the instantiated project UI guide exists and is used:
-  # - ../../../engineering/ui-design-guide/README.md
 status: draft
 audience: humans_and_agents
 must_not_define:
@@ -64,9 +63,9 @@ must_not_define:
 - `design.md`, если есть, владеет selected design и contracts.
 - `implementation-plan.md` владеет execution sequencing.
 
-## Project UI Guide (Optional)
+## Project UI Guide
 
-Если в проекте есть [`engineering/ui-design-guide/README.md`](../../../engineering/ui-design-guide/README.md), укажи, какие existing components, helpers и examples переиспользует feature. Удали эту секцию, если project guide не инстанцирован.
+Сошлись на [`engineering/ui-design-guide/README.md`](../../../engineering/ui-design-guide/README.md) или на конкретный surface document внутри него. Укажи, какие existing components, helpers и examples переиспользует feature.
 
 ## Interface Scope
 
