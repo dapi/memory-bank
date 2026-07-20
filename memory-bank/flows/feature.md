@@ -7,6 +7,7 @@ derived_from:
   - ../dna/governance.md
   - ../dna/frontmatter.md
   - routing.md
+  - ../engineering/validation-profiles.md
 canonical_for:
   - feature_directory_structure
   - feature_document_boundaries
@@ -35,7 +36,7 @@ audience: humans_and_agents
 
 1. Все документы одной фичи живут в `memory-bank/features/FT-XXX/`.
 2. **Feature = одна проверяемая delivery-unit.** По умолчанию это vertical slice пользовательской ценности, пронизывающий все затронутые слои системы (UI, API, storage, infra). Для чисто инфраструктурной работы допустима одна independently verifiable engineering/operations delivery-unit с observable outcome; горизонтальная нарезка ("все endpoints", "весь UI") должна быть явно обоснована через `NS-*`. Behavior-preserving restructuring следует [`Refactoring Flow`](refactoring.md).
-3. `brief.md` — canonical owner problem space: problem, outcome, scope, non-scope, assumptions, constraints, unresolved blocking decisions и canonical verify contract delivery-единицы.
+3. `brief.md` — canonical owner problem space: problem, outcome, scope, non-scope, assumptions, constraints, unresolved blocking decisions, validation profile decision и canonical verify contract delivery-единицы.
 4. `design.md` — conditional canonical owner solution space. Он создается только когда фича требует explicit design reasoning: selected design, C4/design decision, accepted feature-local decisions, contracts, invariants, failure modes, rollout/backout или ссылки на принятые ADR.
 5. `README.md` создается вместе с `brief.md` и остается routing-слоем на всем lifecycle.
 6. Lifecycle owner для `delivery_status` — только canonical `brief.md`. `design.md`, feature-level `README.md` и `implementation-plan.md` не дублируют это поле.
@@ -50,6 +51,7 @@ audience: humans_and_agents
 15. Optional feature-support docs (`runtime-surfaces.md`, `diagrams/<name>-sequence.md`, `ui-reference/README.md`, `use-cases/README.md`) допустимы для сложных фич как grounding / review / traceability aids. Они не становятся canonical owner problem space, solution space, acceptance inventory или execution sequencing.
 16. Если фича зависит от upstream-документа инициативы, `brief.md` импортирует только релевантные upstream-ссылки, а не весь upstream scope.
 17. Если работа крупнее одной delivery-feature и требует общего roadmap, cross-feature risk register или нескольких delivery units, не расширяй feature package: повтори [`Task Routing`](routing.md), выбери [`Epic Flow`](epic.md) и после epic handoff веди каждую утвержденную delivery-единицу как отдельный feature package.
+18. Validation profile выбирается в `brief.md` по [`validation-profiles.md`](../engineering/validation-profiles.md). `design.md` может уточнить risk facts, а `implementation-plan.md` разворачивает minimum contract в команды, suites и checkpoints, но ни один из них не дублирует profile decision.
 
 ## Feature Package Anatomy
 
@@ -178,6 +180,7 @@ flowchart LR
 - [ ] секция `Verify` содержит ≥ 1 `CHK-*` и ≥ 1 `EVID-*`
 - [ ] если deliverable нельзя принять без negative/edge coverage → ≥ 1 `NEG-*`
 - [ ] `brief.md` содержит Design Requirement Decision: `Design required: yes/no` и причину
+- [ ] `brief.md` содержит один validation profile, triggers/rationale и required downgrade approval ref
 - [ ] `brief.md` не содержит accepted solution decisions, `How`, to-be C4 architecture model, `Change Surface`, solution-level `Flow`, `CTR-*`, `FM-*`, `RB-*` или rollout/backout prose
 
 ### Problem Ready → Solution Ready
@@ -203,6 +206,7 @@ flowchart LR
 - [ ] `implementation-plan.md` содержит ≥ 1 `PRE-*`, ≥ 1 `STEP-*`, ≥ 1 `CHK-*`, ≥ 1 `EVID-*`
 - [ ] discovery context в `implementation-plan.md` содержит: relevant paths, local reference patterns, unresolved questions (`OQ-*` или явное `none`, если после discovery их нет), test surfaces и execution environment
 - [ ] шаги и workstreams в `implementation-plan.md` ссылаются на canonical IDs из `brief.md` и, если design layer существует, solution refs из `design.md` / ADR
+- [ ] `Test Strategy`, approvals и checkpoints покрывают применимые obligations validation profile из `brief.md`, не дублируя решение
 
 ### Plan Ready → Execution
 
@@ -219,6 +223,7 @@ flowchart LR
 - [ ] delivered behavior не противоречит accepted `SOL-*` / `SD-*` / ADR refs, если design layer существует
 - [ ] automated tests для change surface добавлены или обновлены
 - [ ] required test suites зелёные локально и в CI
+- [ ] minimum validation/evidence contract выбранного profile закрыт concrete evidence
 - [ ] каждый manual-only gap явно approved человеком (approval ref в `AG-*`)
 - [ ] simplify review выполнен: код минимально сложен или complexity обоснована ссылкой на `CON-*`, `FM-*`, `SD-*` или accepted ADR
 - [ ] если feature добавляет новый stable flow или materially changes существующий project-level scenario, соответствующий `UC-*` создан или обновлен и зарегистрирован в `memory-bank/use-cases/README.md`
@@ -239,6 +244,7 @@ flowchart LR
 ### Required Evidence
 
 - active `brief.md` и optional active `design.md` с непрерывной traceability;
+- validation profile decision и evidence его minimum contract;
 - выполненные `CHK-*` и конкретные carriers для `EVID-*`;
 - automated coverage, required local/CI results и approval refs для manual-only gaps;
 - последний review cycle завершён без открытых замечаний;
@@ -256,7 +262,7 @@ flowchart LR
 ## Boundary Rules
 
 1. `brief.md` обязан содержать секции `What` и `Verify`.
-2. `brief.md` владеет только problem space: problem, outcome, scope, non-scope, assumptions, constraints, unresolved blocking decisions, Design Requirement Decision и canonical verify contract.
+2. `brief.md` владеет только problem space и связанными gate decisions: problem, outcome, scope, non-scope, assumptions, constraints, unresolved blocking decisions, Design Requirement Decision, validation profile decision и canonical verify contract.
 3. `brief.md` не должен содержать `How`, selected design, to-be C4 architecture model, accepted solution decisions, change surface, internal flow, concrete solution contracts, solution-level failure modes, rollout/backout semantics или execution sequencing.
 4. `DEC-*` в `brief.md` означает только unresolved blocking decisions. Как только решение принято, оно переезжает в `design.md` как `SD-*` или в ADR.
 5. `design.md`, если нужен, владеет только solution space: selected design, C4 applicability/artifacts, accepted feature-local decisions, solution structure, internal flow, concrete contracts, invariants, solution-level failure modes, local rollout/backout semantics и ссылки на принятые ADR.

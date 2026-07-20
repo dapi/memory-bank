@@ -6,6 +6,7 @@ purpose: Описывает testing policy репозитория: обязат�
 derived_from:
   - ../dna/governance.md
   - ../flows/feature.md
+  - validation-profiles.md
 status: active
 canonical_for:
   - repository_testing_policy
@@ -42,6 +43,7 @@ audience: humans_and_agents
 
 ## Core Rules
 
+- Выбранный [`validation profile`](validation-profiles.md) задаёт minimum validation/evidence floor независимо от delivery flow; project-specific policy может только усиливать его.
 - Любое изменение поведения, которое можно проверить детерминированно, обязано получить automated regression coverage.
 - Любой новый или измененный contract обязан получить contract-level automated verification.
 - Любой bugfix обязан добавить regression test на воспроизводимый сценарий.
@@ -50,6 +52,7 @@ audience: humans_and_agents
 
 ## Ownership Split
 
+- Canonical validation profile decision живёт только в owner-е, назначенном [`validation-profiles.md`](validation-profiles.md); testing policy и execution artifacts не выбирают profile повторно.
 - Canonical test cases delivery-единицы задаются в `brief.md` через `SC-*`, feature-specific `NEG-*`, `CHK-*` и `EVID-*`.
 - `design.md`, если нужен, владеет selected design, C4 applicability/model, `CTR-*`, `INV-*`, `FM-*` и локальными `RB-*`, но не подменяет canonical verify contract.
 - `implementation-plan.md` владеет только стратегией исполнения: какие test surfaces будут добавлены или обновлены, какие gaps временно остаются manual-only и почему.
@@ -58,7 +61,7 @@ audience: humans_and_agents
 
 Canonical lifecycle gates живут в [../flows/feature.md](../flows/feature.md):
 
-- к `Problem Ready` `brief.md` уже фиксирует test case inventory;
+- к `Problem Ready` `brief.md` уже фиксирует validation profile decision и test case inventory;
 - к `Solution Ready` required `design.md` фиксирует selected design, C4 applicability/model, contracts и solution-level failure modes;
 - к `Plan Ready` `implementation-plan.md` содержит `Test Strategy` с planned automated coverage и manual-only gaps;
 - к `Done` required tests добавлены, локальные команды зелёные и CI не противоречит локальному verify.
@@ -75,6 +78,7 @@ Canonical lifecycle gates живут в [../flows/feature.md](../flows/feature.m
 
 - Сценарий зависит от live infra, внешних систем, hardware, недетерминированной среды или human оценки UI.
 - Для каждого manual-only gap: причина, ручная процедура, owner follow-up.
+- Для каждого manual-only gap соблюдены approval requirements выбранного validation profile.
 - Если manual-only gap оставляет без regression protection критичный путь, feature не считается завершённой.
 
 ## Simplify Review

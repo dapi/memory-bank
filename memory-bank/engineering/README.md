@@ -16,6 +16,7 @@ audience: humans_and_agents
 - [Engineering Architecture Patterns](architecture.md) — code/module boundaries, runtime patterns, concurrency, error handling и configuration ownership. Domain bounded contexts живут отдельно в [`../domain/context-map.md`](../domain/context-map.md).
 - [Frontend Engineering](frontend.md) — UI surfaces, frontend stack, component boundaries, design system integration и i18n.
 - [Testing Policy](testing-policy.md) — правила тестирования, обязательные automated tests, sufficient coverage. Отвечает на вопрос: когда feature обязана иметь test cases и когда допустим manual-only verify.
+- [Validation Profiles](validation-profiles.md) — независимая от delivery flow глубина validation: taxonomy, risk triggers, minimum evidence contract и canonical owner решения.
 - [Autonomy Boundaries](autonomy-boundaries.md) — границы автономии агента: автопилот, супервизия, эскалация. Отвечает на вопрос: что агент может делать сам, а где должен остановиться и спросить.
 - [Coding Style](coding-style.md) — конвенции оформления кода, tooling и правила локальной сложности.
 - [Git Workflow](git-workflow.md) — git-конвенции: commits, ветки, PR и optional worktrees.

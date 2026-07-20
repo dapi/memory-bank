@@ -76,7 +76,7 @@ audience: humans_and_agents
 
 - [`brief.md`](brief.md)
   Читать, когда нужно: открыть instantiated canonical feature-документ сразу после bootstrap нового feature package.
-  Отвечает на вопрос: где находятся problem space, canonical verify contract и stable IDs для этой фичи.
+  Отвечает на вопрос: где находятся problem space, validation profile decision, canonical verify contract и stable IDs для этой фичи.
 
 После появления downstream-документов добавь сюда только существующие routes. Возможный состав и triggers смотри в `memory-bank/flows/feature-artifact-catalog.md`; отсутствие optional use cases, contracts, diagrams, support docs или ADR является нормальным.
 ```

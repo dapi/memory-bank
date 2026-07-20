@@ -21,6 +21,8 @@ audience: humans_and_agents
 
 Этот документ выбирает flow для входящей задачи. Он не определяет lifecycle выбранной ветки: entry/exit gates, evidence и escalation принадлежат соответствующему flow-документу.
 
+Flow определяет организацию lifecycle, но не глубину проверки. После выбора route отдельно выбери один [`validation profile`](../engineering/validation-profiles.md) в canonical owner выбранного delivery flow. Profile не участвует в routing order и не заменяет flow; если его triggers выявили contract, rollout или другой scope, несовместимый с текущим route, примени обычные rerouting rules.
+
 ## Routing Order
 
 Проверяй маршруты именно в этом порядке. `Small Change` — fast path перед ветками Epic, Refactoring и Feature, а не semantic type задачи. После него сначала отделяй multi-feature Epic и behavior-preserving Refactoring, затем направляй оставшуюся single-delivery работу в Feature Flow.
@@ -97,6 +99,7 @@ Issue / Task
 
 - issue/task или draft PR называет выбранный flow; для active incident достаточно alert или incident-management record, подтверждающего operational impact или необходимость containment;
 - запись показывает, какие entry predicates сделали route допустимым; provisional incident record может быть дополнен полным routing record после containment;
+- для применимого delivery flow его canonical owner фиксирует отдельный validation profile decision по [`validation-profiles.md`](../engineering/validation-profiles.md); это downstream evidence выбора flow, а не дополнительный route;
 - для `Human Routing` зафиксированы вопрос, риск или конкурирующие routes.
 
 ### Terminal State
