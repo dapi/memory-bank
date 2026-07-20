@@ -24,6 +24,8 @@ canonical_for:
 
 Guide каталогизирует существующие components, helper APIs, examples, screenshots и source paths. Нормативные project-wide engineering rules сначала фиксируй в `frontend.md`; product requirements и business semantics — у product/domain owners; interface change одной feature — в feature-local [`ui-reference/README.md`](../feature/support/ui-reference.md).
 
+После инстанцирования добавь аннотированную ссылку на `ui-design-guide/README.md` в `../../../engineering/README.md`, чтобы guide был достижим из project index. Ссылку на wrapper-template можно сохранить как creation route, но она не заменяет route к instantiated guide. При удалении guide удали и ссылку из index.
+
 Удаляй неиспользуемые sections при инстанцировании. Не оставляй placeholder rows и не создавай пустые дочерние файлы или screenshot-каталоги.
 
 ## Instantiated Frontmatter
@@ -43,6 +45,7 @@ must_not_define:
   - domain_rules
   - frontend_architecture_contract
   - feature_interface_requirements
+  - implementation_source_of_truth
   - implementation_sequence
 ---
 ```
@@ -59,6 +62,8 @@ must_not_define:
 - `../frontend.md` владеет frontend stack, boundaries и обязательными engineering rules;
 - product/domain docs владеют product intent, business language и state semantics;
 - `features/FT-XXX/ui-reference/README.md` описывает interface change конкретной feature.
+
+Guide владеет curated discovery map, а не implementation truth. Код владеет фактическими component APIs, signatures и behavior; перед изменением проверяй указанные source paths и examples по текущему checkout.
 
 ## Component Catalog
 
@@ -97,4 +102,8 @@ must_not_define:
 | Task type | Inspect first | Reusable examples | Additional owner context |
 | --- | --- | --- | --- |
 | Например, добавить form | Реальные component/helper paths | Реальные screens/tests/screenshots | Ссылка на `../frontend.md` и нужный domain/product owner |
+
+## Maintenance
+
+Обновляй guide, когда shared UI component, helper API, representative example или source path добавлен, удален или materially changed. Если запись не удается подтвердить по коду, исправь или удали ее до использования guide как implementation context.
 ```

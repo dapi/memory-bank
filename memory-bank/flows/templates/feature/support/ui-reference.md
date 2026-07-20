@@ -40,6 +40,8 @@ derived_from:
   - ../brief.md
   # Required only when design.md exists:
   # - ../design.md
+  # Optional when the instantiated project UI guide exists and is used:
+  # - ../../../engineering/ui-design-guide/README.md
 status: draft
 audience: humans_and_agents
 must_not_define:
@@ -61,6 +63,10 @@ must_not_define:
 - `brief.md` владеет requirements и acceptance.
 - `design.md`, если есть, владеет selected design и contracts.
 - `implementation-plan.md` владеет execution sequencing.
+
+## Project UI Guide (Optional)
+
+Если в проекте есть [`engineering/ui-design-guide/README.md`](../../../engineering/ui-design-guide/README.md), укажи, какие existing components, helpers и examples переиспользует feature. Удали эту секцию, если project guide не инстанцирован.
 
 ## Interface Scope
 

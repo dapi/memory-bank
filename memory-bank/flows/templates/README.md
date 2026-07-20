@@ -2,7 +2,7 @@
 title: Templates Index
 doc_kind: governance
 doc_function: index
-purpose: Навигация по эталонным шаблонам документации проекта. Читать, чтобы завести PRD, use case, epic, фичу, ADR, prompt или execution-документ без изобретения новой структуры.
+purpose: Навигация по эталонным шаблонам документации проекта. Читать, чтобы завести PRD, use case, epic, фичу, engineering reference, ADR, prompt или execution-документ без изобретения новой структуры.
 derived_from:
   - ../../dna/governance.md
   - prd/PRD-XXX.md
