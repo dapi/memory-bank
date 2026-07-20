@@ -7,6 +7,7 @@ derived_from:
   - ../../../dna/governance.md
   - ../../../dna/frontmatter.md
   - ../../../product/context.md
+  - ../../use-case.md
 status: active
 audience: humans_and_agents
 template_for: use_case
@@ -23,6 +24,8 @@ canonical_for:
 
 Use case фиксирует устойчивый проектный сценарий. Он описывает trigger, preconditions, основной flow, альтернативы и postconditions, но не уходит в implementation sequence, архитектуру или feature-level verify.
 
+Критерии выбора, lifecycle и границы между `UC-*`, `SC-*` и `FUC-*` определяет [`Use Case Flow`](../../use-case.md).
+
 Если сценарий слишком локален и живет только внутри одной delivery-единицы, не поднимай его в `UC-*`: оставь его в `SC-*` у соответствующей feature.
 
 Если сценарий зависит от domain invariant, state transition или domain event, добавь соответствующий документ из `../domain/` в `derived_from`.
@@ -35,6 +38,7 @@ doc_kind: use_case
 doc_function: canonical
 purpose: "Фиксирует устойчивый пользовательский или операционный сценарий проекта."
 derived_from:
+  - ../flows/use-case.md
   - ../product/context.md
   # Optional:
   # - ../prd/PRD-XXX-short-name.md
@@ -59,7 +63,8 @@ must_not_define:
 
 ## Primary Actor
 
-Кто инициирует сценарий.
+Кто инициирует сценарий: пользователь, оператор, команда, автоматизированный
+агент или внешний сервис.
 
 ## Trigger
 
@@ -91,6 +96,28 @@ must_not_define:
 - `BR-01` Правило, которое обязана соблюдать любая реализация этого сценария.
 - `BR-02` Ограничение или policy, которая влияет на flow.
 
+## Operational Contract (Optional)
+
+Заполняй только для operational / agentic сценария, если перечисленные элементы
+являются наблюдаемой частью project-level behavior. Не описывай здесь внутреннюю
+архитектуру, implementation sequence или конкретные команды runbook-а.
+
+### Observable Status
+
+- Какие statuses/fields публикуются или где находится canonical schema.
+- Кто должен одинаково интерпретировать этот contract.
+
+### Handoff
+
+- Какой минимальный payload передается или где находится canonical schema.
+- Как получатель определяет, что handoff завершен и пригоден для продолжения.
+
+### Diagnostics And Recovery
+
+- Какие structured diagnostics наблюдаемы при неуспешном flow.
+- Какой recovery outcome и terminal state ожидаются; конкретная процедура может
+  принадлежать связанному runbook-у.
+
 ## Traceability
 
 | Upstream / Downstream | References |
@@ -98,4 +125,10 @@ must_not_define:
 | PRD | `PRD-XXX` / `none` |
 | Features | `FT-XXX`, `FT-YYY` |
 | ADR | `ADR-XXX` / `none` |
+| Runbooks / Ops | `../ops/...` / `none` |
+
+## Lifecycle Note (Required When Archived)
+
+- Почему сценарий больше не является active behavior.
+- Какой `UC-*` или другой contract заменил его, либо `none`.
 ```
