@@ -42,9 +42,13 @@ jobs:
         env:
           CGO_ENABLED: 0
         run: |
+          go build -ldflags "-s -w -X main.version=ci" -o "$RUNNER_TEMP/memory-bank" ./cmd/memory-bank
           go build -ldflags "-s -w -X main.version=ci" -o "$RUNNER_TEMP/memory-bank-lint" ./cmd/memory-bank-lint
+          "$RUNNER_TEMP/memory-bank" --version
           "$RUNNER_TEMP/memory-bank-lint" --version
-          "$RUNNER_TEMP/memory-bank-lint"
+          "$RUNNER_TEMP/memory-bank" lint --json > "$RUNNER_TEMP/memory-bank.json"
+          "$RUNNER_TEMP/memory-bank-lint" --json > "$RUNNER_TEMP/memory-bank-lint.json"
+          cmp "$RUNNER_TEMP/memory-bank.json" "$RUNNER_TEMP/memory-bank-lint.json"
 
   release-config:
     runs-on: ubuntu-latest

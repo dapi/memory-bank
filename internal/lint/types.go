@@ -1,4 +1,4 @@
-package main
+package lint
 
 type Options struct {
 	RepoRoot    string

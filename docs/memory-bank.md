@@ -1,10 +1,6 @@
-# memory-bank-lint: compatibility entrypoint
+# CLI memory-bank
 
-Основной интерфейс CLI — [`memory-bank lint`](memory-bank.md). Команда `memory-bank-lint` временно сохраняется для совместимости: она использует тот же audit-движок и сохраняет прежние flags, exit codes, текстовый результат и JSON contract.
-
-Новые установки и CI должны использовать `memory-bank`. Инструкции ниже оставлены для существующей автоматизации в течение переходного периода.
-
-`memory-bank-lint` проверяет навигационную целостность `memory-bank/`:
+`memory-bank lint` проверяет навигационную целостность `memory-bank/`:
 
 - broken relative markdown links внутри audit scope;
 - orphan-документы, на которые никто не ссылается внутри scope;
@@ -17,7 +13,7 @@
 Для регулярных проверок установите CLI один раз. Требуется Go версии `1.21` или новее:
 
 ```bash
-go install github.com/dapi/memory-bank/cmd/memory-bank-lint@latest
+go install github.com/dapi/memory-bank/cmd/memory-bank@latest
 ```
 
 `go install` помещает бинарник в `GOBIN` или `GOPATH/bin`; этот каталог должен находиться в `PATH`. Повторите ту же команду, чтобы обновить CLI до актуальной версии.
@@ -27,13 +23,13 @@ go install github.com/dapi/memory-bank/cmd/memory-bank-lint@latest
 На macOS или Linux проверьте, что установленная команда доступна:
 
 ```bash
-command -v memory-bank-lint
+command -v memory-bank
 ```
 
 Если репозиторий уже клонирован и нужно установить версию из текущего checkout:
 
 ```bash
-go install ./cmd/memory-bank-lint
+go install ./cmd/memory-bank
 ```
 
 ## Запуск
@@ -41,13 +37,13 @@ go install ./cmd/memory-bank-lint
 После установки запускайте CLI из любого места внутри Git-репозитория:
 
 ```bash
-memory-bank-lint
+memory-bank lint
 ```
 
-По умолчанию `memory-bank-lint` ищет ближайший родительский `.git` и использует найденный каталог как repo root. Если запуск идёт вне Git-репозитория или нужно проверить другой checkout, передайте корень явно:
+По умолчанию `memory-bank lint` ищет ближайший родительский `.git` и использует найденный каталог как repo root. Если запуск идёт вне Git-репозитория или нужно проверить другой checkout, передайте корень явно:
 
 ```bash
-memory-bank-lint --repo-root /path/to/repository
+memory-bank lint --repo-root /path/to/repository
 ```
 
 Что означает результат:
@@ -69,11 +65,11 @@ memory-bank-lint --repo-root /path/to/repository
 ## Примеры
 
 ```bash
-memory-bank-lint --max-depth 4
+memory-bank lint --max-depth 4
 ```
 
 ```bash
-memory-bank-lint \
+memory-bank lint \
   --entrypoint README.md \
   --entrypoint AGENTS.md \
   --max-depth 4
@@ -82,10 +78,34 @@ memory-bank-lint \
 Для разовой проверки без установки CLI:
 
 ```bash
-go run github.com/dapi/memory-bank/cmd/memory-bank-lint@latest
+go run github.com/dapi/memory-bank/cmd/memory-bank@latest lint
 ```
 
 Установку из GitHub Releases или через Homebrew используйте только после фактической публикации соответствующих release assets и Cask; если их ещё нет, используйте `go install`.
+
+## Общий command contract
+
+- `memory-bank --help` и `memory-bank --version` относятся ко всему CLI;
+- `memory-bank lint [flags]` — read-only команда: она не изменяет проверяемый репозиторий;
+- результат и `--json` записываются в stdout, diagnostics и ошибки использования — в stderr;
+- exit code `0` означает успешную команду без lint errors, `1` — lint errors или operational failure, `2` — неверный вызов CLI;
+- repo root находится по ближайшему родительскому `.git`, а `--repo-root` переопределяет discovery.
+
+CLI спроектирован для расширения командами `init`, `update`, `doctor` и `adapt brownfield`. Они не реализованы в текущем релизе; в частности, автоматическая brownfield-адаптация не входит в `memory-bank lint`.
+
+## Переход с memory-bank-lint
+
+`memory-bank-lint` остаётся compatibility entrypoint на переходный период. Его flags, exit codes, текстовый результат и JSON format version `1` совпадают с `memory-bank lint`:
+
+```bash
+# новый основной интерфейс
+memory-bank lint --json
+
+# совместимый прежний интерфейс
+memory-bank-lint --json
+```
+
+Новые интеграции должны использовать `memory-bank lint`. Существующие интеграции можно мигрировать заменой имени команды; удаление compatibility-бинарника потребует отдельного объявления и релиза.
 
 ## Когда запускать
 

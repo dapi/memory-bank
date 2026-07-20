@@ -27,7 +27,7 @@ memory-bank/README.md
 memory-bank/dna/README.md
 ```
 
-Не копируйте весь репозиторий `dapi/memory-bank` как основу продукта, если вам не нужна разработка самого шаблона и CLI. Иначе в downstream-проект попадут CI/release-файлы шаблона, Go-модуль и исходники `memory-bank-lint`.
+Не копируйте весь репозиторий `dapi/memory-bank` как основу продукта, если вам не нужна разработка самого шаблона и CLI. Иначе в downstream-проект попадут CI/release-файлы шаблона, Go-модуль и исходники `memory-bank`.
 
 ## Адаптировать существующий проект (brownfield)
 
@@ -73,7 +73,7 @@ memory-bank/dna/README.md
 - переносить в Memory Bank все старые документы без нормализации и ownership;
 - создавать PRD/feature packages до описания базового product/domain/engineering context;
 - дублировать один и тот же факт в нескольких местах;
-- подключать CI до первого успешного локального `memory-bank-lint`;
+- подключать CI до первого успешного локального `memory-bank lint`;
 - блокировать PR из-за устаревшей документации, которую команда ещё не готова исправлять.
 
 ### Brownfield готовность
@@ -84,7 +84,7 @@ Brownfield-внедрение достаточно для первого раб�
 - минимум `product/`, `domain/`, `engineering/` и `ops/` адаптированы под реальный проект;
 - known gaps явно отмечены;
 - одна реальная задача прошла через `Small Change`, feature package, bug fix или другой выбранный flow;
-- `memory-bank-lint` проходит локально.
+- `memory-bank lint` проходит локально.
 
 ## Начать новый проект (greenfield)
 
@@ -140,7 +140,7 @@ Greenfield-внедрение достаточно для старта разр�
 - первая инициатива имеет понятный owner: issue, PRD, epic или feature package;
 - выбранные технологии и дорогие решения зафиксированы в ADR;
 - локальный запуск и проверки описаны;
-- `memory-bank-lint` проходит локально;
+- `memory-bank lint` проходит локально;
 - CI либо подключён, либо явно отложен с причиной.
 
 ## Подключить агента
@@ -159,25 +159,25 @@ Greenfield-внедрение достаточно для старта разр�
 
 ## Установить локальную проверку
 
-Для локального аудита установите `memory-bank-lint` как внешний бинарник:
+Для локального аудита установите `memory-bank` как внешний бинарник:
 
 ```bash
-go install github.com/dapi/memory-bank/cmd/memory-bank-lint@latest
+go install github.com/dapi/memory-bank/cmd/memory-bank@latest
 ```
 
 После этого из любого места внутри downstream Git-репозитория:
 
 ```bash
-memory-bank-lint
+memory-bank lint
 ```
 
-Подробности по флагам и установке: [`memory-bank-lint.md`](memory-bank-lint.md).
+Подробности по флагам, migration path и установке: [`memory-bank.md`](memory-bank.md).
 
 ## Подключить CI
 
-CI-проверка Memory Bank должна быть opt-in в downstream-проекте. Не копируйте `.github/workflows/ci.yml` из этого репозитория: он предназначен для разработки самого шаблона и собирает локальный Go CLI из `cmd/memory-bank-lint`.
+CI-проверка Memory Bank должна быть opt-in в downstream-проекте. Не копируйте `.github/workflows/ci.yml` из этого репозитория: он предназначен для разработки самого шаблона и собирает локальный Go CLI из `cmd/memory-bank`.
 
-Перед подключением выберите конкретный release tag или commit CLI. Если оставить `@latest`, новая версия `memory-bank-lint` сможет изменить результат проверки без изменений в downstream-репозитории.
+Перед подключением выберите конкретный release tag или commit CLI. Если оставить `@latest`, новая версия `memory-bank` сможет изменить результат проверки без изменений в downstream-репозитории.
 
 Минимальный GitHub Actions workflow для downstream-проекта:
 
@@ -197,7 +197,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       # Замените значением вида v1.2.3 или полным commit SHA.
-      MEMORY_BANK_LINT_VERSION: REPLACE_WITH_RELEASE_TAG_OR_COMMIT
+      MEMORY_BANK_VERSION: REPLACE_WITH_RELEASE_TAG_OR_COMMIT
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -208,11 +208,11 @@ jobs:
           go-version: '1.21'
           cache: false
 
-      - name: Install memory-bank-lint
-        run: go install "github.com/dapi/memory-bank/cmd/memory-bank-lint@${MEMORY_BANK_LINT_VERSION}"
+      - name: Install memory-bank
+        run: go install "github.com/dapi/memory-bank/cmd/memory-bank@${MEMORY_BANK_VERSION}"
 
       - name: Audit Memory Bank
-        run: memory-bank-lint
+        run: memory-bank lint
 ```
 
 Если в проекте уже есть Go toolchain setup, можно переиспользовать существующий шаг `actions/setup-go`. Если Go в проекте не используется, он нужен только для установки CLI через `go install`; после публикации release binaries или Homebrew formula CI можно заменить на установку готового бинарника.
@@ -225,5 +225,5 @@ Memory Bank считается внедрённым, когда:
 - постоянный контекст `product/`, `domain/`, `engineering/` и `ops/` отражает фактические правила проекта или явно помечает пробелы;
 - агентские инструкции указывают читать `memory-bank/README.md` и governance-ядро;
 - первая реальная задача прошла через выбранный flow или `Small Change` routing record;
-- `memory-bank-lint` проходит локально;
+- `memory-bank lint` проходит локально;
 - CI-проверка подключена, если команда хочет блокировать PR при broken links или нарушенной индексной навигации.

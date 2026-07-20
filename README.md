@@ -75,10 +75,10 @@ problem space            solution space             execution space
 | --- | --- |
 | [Внедрение Memory Bank](docs/adoption.md) | Для команд, подключающих шаблон к brownfield- или greenfield-проекту |
 | [Использование Memory Bank](docs/usage.md) | Для повседневной работы с задачами и AI-агентами после внедрения |
-| [Установка и использование `memory-bank-lint`](docs/memory-bank-lint.md) | Для пользователей CLI и downstream CI |
+| [Установка и использование `memory-bank`](docs/memory-bank.md) | Для пользователей CLI и downstream CI |
 | [Разработка репозитория](docs/development.md) | Для разработчиков шаблона и CLI |
 
-`memory-bank-lint` проверяет broken links, orphan-документы, достижимость через индексную навигацию и contract ожидаемых `README.md`-индексов.
+`memory-bank lint` проверяет broken links, orphan-документы, достижимость через индексную навигацию и contract ожидаемых `README.md`-индексов. Прежний `memory-bank-lint` временно остаётся совместимым entrypoint для существующей автоматизации.
 
 ## Развитие шаблона
 

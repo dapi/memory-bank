@@ -1,0 +1,160 @@
+// Package cli defines the shared command contract for the memory-bank binaries.
+package cli
+
+import (
+	"encoding/json"
+	"errors"
+	"flag"
+	"fmt"
+	"io"
+
+	"github.com/dapi/memory-bank/internal/lint"
+	"github.com/dapi/memory-bank/internal/repository"
+)
+
+const (
+	defaultScopeRoot = "memory-bank"
+	defaultMaxDepth  = 3
+	exitSuccess      = 0
+	exitFailure      = 1
+	exitUsage        = 2
+)
+
+type entrypointFlags []string
+
+func (values *entrypointFlags) String() string {
+	return fmt.Sprint([]string(*values))
+}
+
+func (values *entrypointFlags) Set(value string) error {
+	*values = append(*values, value)
+	return nil
+}
+
+// Run executes the primary, subcommand-based memory-bank CLI.
+func Run(arguments []string, version string, stdout, stderr io.Writer) int {
+	if len(arguments) == 0 {
+		printRootUsage(stderr)
+		return exitUsage
+	}
+
+	switch arguments[0] {
+	case "lint":
+		return RunLint(arguments[1:], "memory-bank lint", version, stdout, stderr)
+	case "--version", "-version":
+		if len(arguments) != 1 {
+			fmt.Fprintf(stderr, "memory-bank: unexpected arguments: %v\n", arguments[1:])
+			return exitUsage
+		}
+		fmt.Fprintf(stdout, "memory-bank %s\n", version)
+		return exitSuccess
+	case "--help", "-h", "-help", "help":
+		if len(arguments) != 1 {
+			fmt.Fprintf(stderr, "memory-bank: unexpected arguments: %v\n", arguments[1:])
+			return exitUsage
+		}
+		printRootUsage(stdout)
+		return exitSuccess
+	default:
+		fmt.Fprintf(stderr, "memory-bank: unknown command %q\n\n", arguments[0])
+		printRootUsage(stderr)
+		return exitUsage
+	}
+}
+
+func printRootUsage(writer io.Writer) {
+	fmt.Fprintln(writer, "Memory Bank documentation tooling.")
+	fmt.Fprintln(writer)
+	fmt.Fprintln(writer, "Usage: memory-bank <command> [options]")
+	fmt.Fprintln(writer)
+	fmt.Fprintln(writer, "Commands:")
+	fmt.Fprintln(writer, "  lint    Audit markdown navigation integrity")
+	fmt.Fprintln(writer)
+	fmt.Fprintln(writer, "Options:")
+	fmt.Fprintln(writer, "  --help       Show this help")
+	fmt.Fprintln(writer, "  --version    Print the version and exit")
+}
+
+// RunLint executes the lint command. commandName controls only human-readable
+// usage and diagnostics, allowing the compatibility binary to preserve its CLI.
+func RunLint(arguments []string, commandName, version string, stdout, stderr io.Writer) int {
+	flags := flag.NewFlagSet(commandName, flag.ContinueOnError)
+	flags.SetOutput(stderr)
+	flags.Usage = func() {
+		fmt.Fprintln(stderr, "Audit markdown navigation integrity for a memory-bank-like documentation tree.")
+		fmt.Fprintln(stderr)
+		fmt.Fprintf(stderr, "Usage: %s [options]\n", commandName)
+		flags.PrintDefaults()
+	}
+
+	var configuredEntrypoints entrypointFlags
+	repoRootArgument := addRepoRootFlag(flags)
+	scopeRootArgument := flags.String("scope-root", defaultScopeRoot, "repository-relative directory to audit")
+	maxDepth := flags.Int("max-depth", defaultMaxDepth, "maximum allowed navigation depth before a warning")
+	jsonOutput := addJSONOutputFlag(flags)
+	versionOutput := flags.Bool("version", false, "print the version and exit")
+	flags.Var(&configuredEntrypoints, "entrypoint", "markdown navigation entrypoint; may be repeated")
+
+	if err := flags.Parse(arguments); err != nil {
+		if errors.Is(err, flag.ErrHelp) {
+			return exitSuccess
+		}
+		return exitUsage
+	}
+	if flags.NArg() > 0 {
+		fmt.Fprintf(stderr, "%s: unexpected arguments: %v\n", commandName, flags.Args())
+		return exitUsage
+	}
+	if *versionOutput {
+		fmt.Fprintf(stdout, "%s %s\n", commandName, version)
+		return exitSuccess
+	}
+	if *maxDepth < 0 {
+		fmt.Fprintf(stderr, "%s: --max-depth must be greater than or equal to 0\n", commandName)
+		return exitUsage
+	}
+	scopeRoot, err := lint.NormalizeScopeRoot(*scopeRootArgument)
+	if err != nil {
+		fmt.Fprintln(stderr, err)
+		return exitFailure
+	}
+	repoRoot, err := repository.ResolveRoot(*repoRootArgument)
+	if err != nil {
+		fmt.Fprintln(stderr, err)
+		return exitFailure
+	}
+	report, err := lint.Run(lint.Options{
+		RepoRoot: repoRoot, ScopeRoot: scopeRoot, Entrypoints: configuredEntrypoints, MaxDepth: *maxDepth,
+	})
+	if err != nil {
+		fmt.Fprintln(stderr, err)
+		return exitFailure
+	}
+
+	if err := writeResult(stdout, *jsonOutput, report, func(writer io.Writer) {
+		lint.PrintTextReport(writer, report)
+	}); err != nil {
+		fmt.Fprintln(stderr, err)
+		return exitFailure
+	}
+	return report.ExitCode
+}
+
+func addRepoRootFlag(flags *flag.FlagSet) *string {
+	return flags.String("repo-root", "", "filesystem path to the repository root")
+}
+
+func addJSONOutputFlag(flags *flag.FlagSet) *bool {
+	return flags.Bool("json", false, "emit a machine-readable JSON report")
+}
+
+func writeResult(writer io.Writer, jsonOutput bool, result any, writeText func(io.Writer)) error {
+	if !jsonOutput {
+		writeText(writer)
+		return nil
+	}
+	encoder := json.NewEncoder(writer)
+	encoder.SetEscapeHTML(false)
+	encoder.SetIndent("", "  ")
+	return encoder.Encode(result)
+}

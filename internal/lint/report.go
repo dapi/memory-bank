@@ -1,4 +1,4 @@
-package main
+package lint
 
 import (
 	"fmt"
