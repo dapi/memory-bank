@@ -29,11 +29,11 @@ template_target_path: ../../../features/FT-XXX/implementation-plan.md
 
 Документ должен быть исполнимым без дополнительного толкования. Если шаг нельзя связать с canonical IDs, существующими solution refs, артефактом, проверкой или явной ручной процедурой, шаг описан недостаточно.
 План должен быть заземлен в текущем состоянии репозитория: сначала зафиксируй релевантные модули, локальные паттерны, открытые вопросы и execution environment, и только после этого расписывай sequencing изменений.
-План обязан явно зафиксировать, какие automated tests будут добавлены или обновлены по change surface, какие suites обязаны быть зелёными локально и в CI, а какие gaps временно остаются manual-only с justification и approval ref. Он исполняет validation profile из sibling `brief.md`, но не выбирает и не дублирует profile.
+План обязан явно зафиксировать, какие automated tests будут добавлены или обновлены по change surface, какие suites обязаны быть зелёными локально и в CI, а какие gaps временно остаются manual-only с justification и approval ref. Он исполняет validation profile из sibling `brief.md`, но не выбирает и не дублирует profile. Для designed feature план также показывает refinement каждого применимого `SOL-*`, `C4-*`, `SD-*`, `CTR-*`, `INV-*`, `FM-*`, `RB-*` и accepted ADR ref в realization target, steps, checks и evidence, не принимая новых solution decisions.
 
 Для ссылок внутри плана используй стабильные идентификаторы по taxonomy из [../../feature.md#stable-identifiers](../../feature.md#stable-identifiers).
 
-Если неизвестность меняет scope, acceptance criteria или evidence contract, она сначала поднимается upstream в sibling `brief.md`. Если неизвестность меняет selected design, C4 architecture model, accepted local decisions, contracts или rollout/backout semantics, она сначала поднимается в required sibling `design.md` или ADR и только после этого фигурирует в плане.
+Если неизвестность меняет scope, acceptance criteria или evidence contract, она сначала поднимается upstream в sibling `brief.md`. Если неизвестность меняет selected design, architecture coverage, C4 architecture model, accepted local decisions, contracts, invariants, failure modes или rollout/backout semantics, она сначала поднимается в required sibling `design.md`, delegated contract или ADR и только после этого фигурирует в плане.
 
 ## Instantiated Frontmatter
 
@@ -126,13 +126,25 @@ must_not_define:
 | --- | --- | --- | --- | --- |
 | `PRE-01` | `CON-01` / `DEC-01` / `SD-01 если design существует` / ADR path / design-not-required decision | Какой state upstream считается допустимым для старта | `STEP-01`, `STEP-02` | yes / no |
 
+## Design Realization Mapping
+
+Для designed feature покажи, где реализуется каждый применимый `SOL-*`, `C4-*`, `SD-*`, `CTR-*`, `INV-*`, `FM-*`, `RB-*` и accepted ADR ref. Каждый применимый ref должен встречаться минимум в одной строке. Объединяй в строке только refs с одним canonical owner, общим realization target и одной verification chain; иначе раздели их. Строка связывает уже принятое решение с execution и не вводит новые solution facts или decisions. Если mapping обнаруживает gap или требует изменить semantics, сначала обнови canonical owner и только затем этот план. Для feature с `Design required: no` укажи `not applicable` и ссылку на decision из `brief.md`.
+
+| Canonical solution refs | Owner | Realization target | Steps | Checks | Evidence |
+| --- | --- | --- | --- | --- | --- |
+| `SOL-01`, `SD-01` | `design.md` | Module or service | `STEP-01` | `CHK-01` | `EVID-01` |
+| `CTR-01` | `contracts/<name>.md` | Interface or interaction boundary | `STEP-02` | `CHK-02` | `EVID-02` |
+| `C4-01`, `INV-01`, `FM-01` | `design.md` | Runtime topology | `STEP-03` | `CHK-03` | `EVID-03` |
+| `RB-01` | `design.md` | Migration, config or operational surface | `STEP-04` | `CHK-04` | `EVID-04` |
+| `../../adr/ADR-XXX.md` | `../../adr/ADR-XXX.md` (`accepted`) | Decision realization target | `STEP-05` | `CHK-05` | `EVID-05` |
+
 ## Workstreams
 
 Разбей работу на независимые потоки с явным результатом каждого.
 
 | Workstream | Implements | Result | Owner | Dependencies |
 | --- | --- | --- | --- | --- |
-| `WS-1` | `REQ-01`, `SOL-01 если design существует`, `CTR-01 если design существует` | Что должно появиться | human / agent / either | Что блокирует старт или завершение |
+| `WS-1` | `REQ-01`, применимые `SOL-*`, `C4-*`, `SD-*`, `CTR-*`, `INV-*`, `FM-*`, `RB-*` и accepted ADR refs | Что должно появиться | human / agent / either | Что блокирует старт или завершение |
 
 ## Approval Gates
 
@@ -148,7 +160,7 @@ must_not_define:
 
 | Step ID | Actor | Implements | Goal | Touchpoints | Artifact | Verifies | Evidence IDs | Check command / procedure | Blocked by | Needs approval | Escalate if |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `STEP-01` | human / agent / either | `REQ-01`, `SOL-01 если design существует`, `CTR-01 если design существует` | Что делаем на этом шаге | Какие файлы, сервисы или данные трогаем | Что должно появиться после шага | `CHK-01` | `EVID-01` | Как подтверждаем завершение | `PRE-01`, `OQ-01` | `AG-01` / `none` | Когда нельзя продолжать без эскалации |
+| `STEP-01` | human / agent / either | `REQ-01`, применимые `SOL-*`, `C4-*`, `SD-*`, `CTR-*`, `INV-*`, `FM-*`, `RB-*` и accepted ADR refs | Что делаем на этом шаге | Какие файлы, сервисы или данные трогаем | Что должно появиться после шага | `CHK-01` | `EVID-01` | Как подтверждаем завершение | `PRE-01`, `OQ-01` | `AG-01` / `none` | Когда нельзя продолжать без эскалации |
 
 ## Parallelizable Work
 

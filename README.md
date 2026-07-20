@@ -86,6 +86,7 @@ problem space            solution space             execution space
 
 - [`dapi/zelma`](https://github.com/dapi/zelma);
 - [`brandymint/merchantly`](https://github.com/brandymint/merchantly);
-- [`alfagen/mercury`](https://github.com/alfagen/mercury).
+- [`alfagen/mercury`](https://github.com/alfagen/mercury);
+- Nenad Medvidovic, Richard N. Taylor, [*A Classification and Comparison Framework for Software Architecture Description Languages*](https://ics.uci.edu/~taylor/documents/2000-ADLs-TSE.pdf) — источник архитектурной модели components, connectors и configurations.
 
 Добавляйте в шаблон только обобщаемые правила. Названия продуктов, инфраструктурные детали и другие project-specific факты должны оставаться в downstream-копии `memory-bank/`.
