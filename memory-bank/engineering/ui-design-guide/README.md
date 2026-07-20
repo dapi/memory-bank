@@ -21,7 +21,7 @@ must_not_define:
 
 # UI Design Guide
 
-Этот каталог маршрутизирует к project-level references по существующему UI kit. Адаптируй его под реальные UI surfaces проекта и добавляй только те дочерние документы, которые снимают реальную неоднозначность.
+Этот каталог маршрутизирует к project-level references по существующему UI kit. При адаптации заполни заготовки для реальных UI surfaces проекта, переведи их в `status: active` и удали неприменимые файлы вместе со ссылками из этого index.
 
 ## Ownership
 
@@ -32,18 +32,23 @@ must_not_define:
 
 ## Organization By UI Surface
 
-Не смешивай в одном документе surfaces с разными component libraries, interaction patterns, release boundaries или owners. В таком случае создай отдельные lowercase kebab-case documents, например:
+Не смешивай в одном документе surfaces с разными component libraries, interaction patterns, release boundaries или owners. Каталог уже содержит draft-заготовки:
 
 - `public-web.md` — public website и customer-facing flows;
 - `admin.md` — operator/admin UI;
 - `mobile.md` — native или mobile-specific UI;
 - `shared-components.md` — только действительно shared components и tokens, которые не принадлежат одной surface.
 
-Если в проекте одна компактная UI surface и весь material помещается в [`../frontend.md`](../frontend.md), не создавай дочерний guide. Оставь в этом index короткую запись, что UI conventions покрыты `frontend.md`.
+Если в проекте одна компактная UI surface и весь material помещается в [`../frontend.md`](../frontend.md), удали все surface-заготовки и оставь в этом index короткую запись, что UI conventions покрыты `frontend.md`.
 
 ## Аннотированный Индекс
 
-При адаптации добавь сюда ссылки только на реально созданные surface documents. Для каждой ссылки объясни, когда читать документ и какую UI surface он покрывает. Не оставляй placeholder links.
+- [`public-web.md`](public-web.md) — draft reference для customer-facing web UI: routes, responsive behavior, public forms и accessibility patterns.
+- [`admin.md`](admin.md) — draft reference для operator/admin UI: dense workflows, permissions, tables и bulk actions.
+- [`mobile.md`](mobile.md) — draft reference для native или mobile-specific UI: navigation, lifecycle, offline и platform patterns.
+- [`shared-components.md`](shared-components.md) — draft reference для UI assets, helpers и tokens, которые действительно используются несколькими surfaces.
+
+При адаптации перепиши аннотации под реальный проект и удали ссылки на неприменимые заготовки.
 
 ## Surface Document Contract
 
