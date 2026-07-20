@@ -37,7 +37,7 @@ audience: humans_and_agents
 Каталог `memory-bank/flows/templates/` хранит эталонные шаблоны документации проекта. Все шаблоны живут как governed wrapper-документы с `doc_function: template`: у wrapper-а есть собственные purpose, а frontmatter и body инстанцируемого документа — внутри embedded template contract.
 
 - [PRD-XXX: Product Initiative Name](prd/PRD-XXX.md) — компактный Product Requirements Document для инициативы, которая еще не разложена на один конкретный feature slice.
-- [UC-XXX: Use Case Name](use-case/UC-XXX.md) — канонический use case для устойчивого пользовательского или операционного сценария.
+- [UC-XXX: Use Case Name](use-case/UC-XXX.md) — канонический use case для устойчивого пользовательского или операционного сценария; selection и lifecycle определяет [Use Case Flow](../use-case.md).
 - [Epic Templates](epic/README.md) — индекс шаблонов `EP-XXX` package.
 - [EP-XXX: Charter Template](epic/charter.md) — intent, scope, source/evidence and stakeholder channels.
 - [EP-XXX: Roadmap Template](epic/roadmap.md) — waves, dependencies, gates and stop rules.
