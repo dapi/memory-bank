@@ -7,6 +7,7 @@ derived_from:
   - ../dna/governance.md
   - routing.md
   - ../engineering/testing-policy.md
+  - ../engineering/validation-profiles.md
 canonical_for:
   - small_change_entry_contract
   - small_change_routing_record
@@ -46,7 +47,13 @@ Reason: change surface локален, порядок шагов и checkpoints 
 Verify:
 - <команда или проверка>
 - <ожидаемый результат или evidence>
+
+Validation profile: documentation | low-risk | standard
+Triggers / rationale: <почему выбранный minimum достаточен>
+Downgrade approval: none
 ```
+
+`high-risk` и `release-deployment` несовместимы с Small Change predicates: остановись и повтори Task Routing. `standard` не требует feature package, если issue всё ещё полностью задаёт решение, change surface локален и остальные Small Change predicates истинны.
 
 `Design: not required` допустим, только если не требуется выбирать между альтернативами и не появляются новые contracts, invariants, security boundaries, migrations, rollout rules или failure modes.
 
@@ -83,6 +90,7 @@ Acceptance из issue/task выполнен одним локальным change
 ### Required Evidence
 
 - Small Change routing record;
+- validation profile decision и evidence его minimum contract;
 - изменённый код и automated coverage для changed behavior;
 - результаты проверок из `Verify`;
 - последний review cycle завершён без открытых замечаний;

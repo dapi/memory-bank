@@ -19,7 +19,7 @@ template_target_path: ../../../features/FT-XXX/README.md
 
 ## Wrapper Notes
 
-Каталог `memory-bank/flows/templates/feature/` хранит core wrapper-шаблоны README, canonical `brief.md`, conditional `design.md` и derived `implementation-plan.md`, а также optional templates для API contracts и support views. Новые packages всегда используют `brief.md`; любой другой artifact добавляется только по trigger из `feature-artifact-catalog.md`.
+Каталог `memory-bank/flows/templates/feature/` хранит core wrapper-шаблоны README, canonical `brief.md`, conditional `design.md` и derived `implementation-plan.md`, а также optional templates для interaction contracts и support views. Новые packages всегда используют `brief.md`; любой другой artifact добавляется только по trigger из `feature-artifact-catalog.md`.
 
 При создании нового feature package embedded README должен оставаться bootstrap-safe: сначала он маршрутизирует только на instantiated `brief.md`, а `design.md`, `implementation-plan.md` и связанные ADR добавляются уже после появления соответствующих документов.
 
@@ -42,8 +42,8 @@ Downstream routes для living feature package добавляются по ме
   Отвечает на вопрос: какие derived feature-local use cases и test candidates проецируются из canonical brief.
 
 - `contracts/<name>.md`
-  Читать, когда нужно: если API/event/schema/provider contract вынесен из `design.md` из-за объема или самостоятельной review boundary.
-  Отвечает на вопрос: каковы точные operations/messages, fields, validation, compatibility, errors и idempotency semantics.
+  Читать, когда нужно: если API/event/queue/callback/file/store/cache/auth/locking/runtime-config interaction contract вынесен из `design.md` из-за объема или самостоятельной review boundary.
+  Отвечает на вопрос: каковы точные connector roles, protocol/format, delivery, failure, compatibility и observability semantics.
 
 - `diagrams/<name>-sequence.md`
   Читать, когда нужно: если для решения важны порядок interactions, async callbacks, retries, timeouts или compensation.
@@ -76,7 +76,7 @@ audience: humans_and_agents
 
 - [`brief.md`](brief.md)
   Читать, когда нужно: открыть instantiated canonical feature-документ сразу после bootstrap нового feature package.
-  Отвечает на вопрос: где находятся problem space, canonical verify contract и stable IDs для этой фичи.
+  Отвечает на вопрос: где находятся problem space, validation profile decision, canonical verify contract и stable IDs для этой фичи.
 
 После появления downstream-документов добавь сюда только существующие routes. Возможный состав и triggers смотри в `memory-bank/flows/feature-artifact-catalog.md`; отсутствие optional use cases, contracts, diagrams, support docs или ADR является нормальным.
 ```
