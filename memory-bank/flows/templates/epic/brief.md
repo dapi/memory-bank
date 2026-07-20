@@ -114,7 +114,7 @@ must_not_define:
 | --- | --- | --- |
 | Problem, outcome, scope/non-scope | `charter.md` | `<REQ-*, NS-* or section links>` |
 | Candidate slices and dependencies | `roadmap.md` / `subissues.md` | `<SLICE-*, EP-SI-* when accepted>` |
-| Material risks and controls | `risks.md` | `<ERISK-*>` |
+| Material risks | `risks.md` | `<ERISK-*>`; controls are newly established in `risks.md`, not promoted from this brief |
 | Material epic-local decisions | `decision-log.md` | `<DL-*>` |
 
 ## Boundary Check

@@ -42,7 +42,7 @@ audience: humans_and_agents
 - [UC-XXX: Use Case Name](use-case/UC-XXX.md) — канонический use case для устойчивого пользовательского или операционного сценария; selection и lifecycle определяет [Use Case Flow](../use-case.md).
 - [Epic Templates](epic/README.md) — индекс шаблонов `EP-XXX` package.
 - [EP-XXX Package README Template](epic/package-README.md) — routing index и lifecycle stage owner для epic package, включая intake-only состояние.
-- [EP-XXX: Epic Proposal Template](epic/brief.md) — optional Epic Intake brief с proposal disposition и promotion contract.
+- [EP-XXX: Epic Proposal Template](epic/brief.md) — обязательный при Epic Intake brief с proposal disposition и promotion contract; при прямом Bootstrap Epic не создаётся.
 - [EP-XXX: Charter Template](epic/charter.md) — intent, scope, source/evidence and stakeholder channels.
 - [EP-XXX: Roadmap Template](epic/roadmap.md) — waves, dependencies, gates and stop rules.
 - [EP-XXX: Decision Log Template](epic/decision-log.md) — local epic decisions that do not require global ADR.
