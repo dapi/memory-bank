@@ -42,8 +42,8 @@ Downstream routes для living feature package добавляются по ме
   Отвечает на вопрос: какие derived feature-local use cases и test candidates проецируются из canonical brief.
 
 - `contracts/<name>.md`
-  Читать, когда нужно: если API/event/schema/provider contract вынесен из `design.md` из-за объема или самостоятельной review boundary.
-  Отвечает на вопрос: каковы точные operations/messages, fields, validation, compatibility, errors и idempotency semantics.
+  Читать, когда нужно: если API/event/queue/file/store/cache/auth/locking/runtime-config interaction contract вынесен из `design.md` из-за объема или самостоятельной review boundary.
+  Отвечает на вопрос: каковы точные connector roles, protocol/format, delivery, failure, compatibility и observability semantics.
 
 - `diagrams/<name>-sequence.md`
   Читать, когда нужно: если для решения важны порядок interactions, async callbacks, retries, timeouts или compensation.
