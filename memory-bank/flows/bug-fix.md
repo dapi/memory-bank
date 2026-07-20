@@ -7,6 +7,7 @@ derived_from:
   - ../dna/governance.md
   - routing.md
   - ../engineering/testing-policy.md
+  - ../engineering/validation-profiles.md
 canonical_for:
   - bug_fix_entry_contract
   - bug_reproduction_rules
@@ -28,6 +29,7 @@ Bug — наблюдаемое поведение, противоречащее 
 - [ ] указан источник уже принятого expected behavior либо зафиксировано его явное подтверждение человеком
 - [ ] report не является запросом на новое поведение
 - [ ] operational incident уже contained или передан в [`Incident Flow`](incident.md)
+- [ ] bug report или связанная delivery task фиксирует validation profile decision
 
 Если нет ни доступного источника уже принятого expected behavior, ни зафиксированного решения человека, Entry Gate не выполнен: зафиксируй вопрос и риск через [Human Routing](routing.md#human-routing). До решения `Human Gate` не начинай Analysis And Fix и не изменяй код; после решения повтори Task Routing.
 
@@ -72,6 +74,7 @@ report → triage → reproduction → analysis → fix
 ### Required Evidence
 
 - reproduction с expected/actual behavior или явно записанное ограничение reproduction;
+- validation profile decision и evidence его minimum contract;
 - подтверждённая root cause summary;
 - regression test или обоснованный альтернативный carrier;
 - результаты required tests;

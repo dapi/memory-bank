@@ -44,7 +44,7 @@ audience: humans_and_agents
   Читать, когда нужно: проверить SSoT rules, frontmatter contract и governance-правила документации.
 
 - [`flows/README.md`](flows/README.md)
-  Читать, когда нужно: создать epic/feature package, провести инициативу по lifecycle gates или использовать шаблон.
+  Читать, когда нужно: создать use case, epic/feature package, провести артефакт по lifecycle gates или использовать шаблон.
 
 - [`adr/README.md`](adr/README.md)
   Читать, когда нужно: найти или завести Architecture Decision Record.

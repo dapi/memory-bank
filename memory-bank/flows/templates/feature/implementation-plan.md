@@ -29,7 +29,7 @@ template_target_path: ../../../features/FT-XXX/implementation-plan.md
 
 Документ должен быть исполнимым без дополнительного толкования. Если шаг нельзя связать с canonical IDs, существующими solution refs, артефактом, проверкой или явной ручной процедурой, шаг описан недостаточно.
 План должен быть заземлен в текущем состоянии репозитория: сначала зафиксируй релевантные модули, локальные паттерны, открытые вопросы и execution environment, и только после этого расписывай sequencing изменений.
-План обязан явно зафиксировать, какие automated tests будут добавлены или обновлены по change surface, какие suites обязаны быть зелёными локально и в CI, а какие gaps временно остаются manual-only с justification и approval ref. Для designed feature он также показывает refinement каждого применимого `SOL-*`, `C4-*`, `SD-*`, `CTR-*`, `INV-*`, `FM-*`, `RB-*` и accepted ADR ref в realization target, steps, checks и evidence, не принимая новых solution decisions.
+План обязан явно зафиксировать, какие automated tests будут добавлены или обновлены по change surface, какие suites обязаны быть зелёными локально и в CI, а какие gaps временно остаются manual-only с justification и approval ref. Он исполняет validation profile из sibling `brief.md`, но не выбирает и не дублирует profile. Для designed feature план также показывает refinement каждого применимого `SOL-*`, `C4-*`, `SD-*`, `CTR-*`, `INV-*`, `FM-*`, `RB-*` и accepted ADR ref в realization target, steps, checks и evidence, не принимая новых solution decisions.
 
 Для ссылок внутри плана используй стабильные идентификаторы по taxonomy из [../../feature.md#stable-identifiers](../../feature.md#stable-identifiers).
 
@@ -57,6 +57,7 @@ must_not_define:
   - ft_xxx_selected_design
   - ft_xxx_acceptance_criteria
   - ft_xxx_blocker_state
+  - ft_xxx_validation_profile
 ```
 
 ## Instantiated Body
@@ -74,7 +75,7 @@ must_not_define:
 
 | Document | Role in this plan | Facts reused | Conflict action |
 | --- | --- | --- | --- |
-| `brief.md` | canonical problem / verify owner | `REQ-*`, `SC-*`, `CHK-*`, `EVID-*` | Update `brief.md` first |
+| `brief.md` | canonical problem / validation profile / verify owner | profile decision, `REQ-*`, `SC-*`, `CHK-*`, `EVID-*` | Update `brief.md` first |
 | `design.md` / `none` | conditional solution owner | `SOL-*`, `C4-*`, `SD-*`, `CTR-*`, `INV-*`, `FM-*`, `RB-*` | Update `design.md` or ADR first; if design is absent, promote new design facts before planning |
 | `runtime-surfaces.md` / `none` | optional grounding | `SURF-*`, `MAP-*`, context matrix | Promote changed design facts to `design.md` if design is required |
 | `ui-reference/README.md` / `none` | optional interface reference | `UI-*`, mockups, states | Promote changed requirements to `brief.md` or design facts to `design.md` if required |
@@ -92,7 +93,7 @@ must_not_define:
 
 ## Test Strategy
 
-Какие test surfaces должны быть обновлены по мере реализации. Этот раздел фиксирует expected automated coverage, required local/CI gates и manual-only exceptions для change surface, не переопределяя canonical test cases из `brief.md`.
+Какие test surfaces должны быть обновлены по мере реализации. Сошлись на validation profile из `brief.md` и покажи, как каждая применимая обязанность его minimum contract закрывается tests, suites, evidence, approvals и rollout/backout checkpoints. Этот раздел не переопределяет profile decision или canonical test cases из `brief.md`.
 
 | Test surface | Canonical refs | Existing coverage | Planned automated coverage | Required local suites / commands | Required CI suites / jobs | Manual-only gap / justification | Manual-only approval ref |
 | --- | --- | --- | --- | --- | --- | --- | --- |
