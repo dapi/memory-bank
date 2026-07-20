@@ -12,6 +12,7 @@ derived_from:
   - refactoring.md
   - epic.md
   - feature.md
+  - feature-artifact-catalog.md
   - templates/README.md
 status: active
 audience: humans_and_agents
@@ -28,4 +29,5 @@ audience: humans_and_agents
 - [Refactoring Flow](refactoring.md) — behavior-preserving restructuring, characterization coverage, checkpoints и closure gates.
 - [Epic Flow](epic.md) — lifecycle крупных инициатив, roadmap, decision log, risks и handoff в feature packages.
 - [Feature Flow](feature.md) — lifecycle `brief.md -> optional design.md -> implementation-plan.md`, gates и стабильные ID (`REQ-*`, `SOL-*`, `STEP-*`).
+- [Feature Artifact Catalog](feature-artifact-catalog.md) — optional problem/solution/execution artifacts, selection triggers, ownership, default forms и template availability.
 - [Templates Index](templates/README.md) — эталонные шаблоны governed-документов, включая PRD, use case, epic, feature и ADR.

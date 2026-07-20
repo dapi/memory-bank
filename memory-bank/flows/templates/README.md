@@ -16,8 +16,10 @@ derived_from:
   - feature/README.md
   - feature/brief.md
   - feature/design.md
+  - feature/api-contract.md
   - feature/implementation-plan.md
   - feature/support/runtime-surfaces.md
+  - feature/support/sequence-diagram.md
   - feature/support/ui-reference.md
   - feature/support/use-cases.md
   - adr/ADR-XXX.md
@@ -45,8 +47,10 @@ audience: humans_and_agents
 - [FT-XXX Feature README Template](feature/README.md) — шаблон README для feature-каталога. Отвечает на вопрос: как оформить feature-level index.
 - [FT-XXX: Brief Template](feature/brief.md) — canonical problem-space template для новых feature packages. Отвечает на вопрос: как зафиксировать intent, scope и verify contract без solution/execution деталей.
 - [FT-XXX: Design Template](feature/design.md) — canonical solution-space template для feature package. Отвечает на вопрос: как зафиксировать selected design, rationale, contracts, failure modes и design-pack routing.
+- [FT-XXX: API Contract Template](feature/api-contract.md) — optional canonical design-pack template для подробного API/event/schema/provider contract, делегированного из `design.md`.
 - [FT-XXX: Implementation Plan](feature/implementation-plan.md) — шаблон derived execution-плана. Отвечает на вопрос: как оформить sequencing и checkpoints после готовности upstream owners.
 - [FT-XXX: Runtime Surfaces Template](feature/support/runtime-surfaces.md) — optional support template для current runtime inventory, semantic mapping, context matrix и resolution tables.
+- [FT-XXX: Sequence Diagram Template](feature/support/sequence-diagram.md) — optional reference template для temporal / async interactions, retries, timeouts и failure branches.
 - [FT-XXX: UI Reference Template](feature/support/ui-reference.md) — optional support template для interface changes, screen map, interaction states и mockups.
 - [FT-XXX: Feature Use Cases Template](feature/support/use-cases.md) — optional support template для derived use cases, test case candidates и `FUC -> REQ -> CHK` review mapping.
 - [ADR-XXX: Short Decision Name](adr/ADR-XXX.md) — шаблон ADR. Отвечает на вопрос: как зафиксировать архитектурное решение.

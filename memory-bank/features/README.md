@@ -6,6 +6,7 @@ purpose: Навигация по instantiated feature packages. Читать, ч
 derived_from:
   - ../dna/governance.md
   - ../flows/feature.md
+  - ../flows/feature-artifact-catalog.md
 status: active
 audience: humans_and_agents
 ---
@@ -17,6 +18,7 @@ audience: humans_and_agents
 ## Rules
 
 - Каждый package создается по правилам из [`../flows/feature.md`](../flows/feature.md).
+- Optional problem, solution, execution и review artifacts выбираются по [`../flows/feature-artifact-catalog.md`](../flows/feature-artifact-catalog.md); каталог является меню, а не checklist.
 - Bootstrap package начинается с `README.md` и `brief.md`; после `Problem Ready` в него добавляется `design.md`, если `brief.md` фиксирует `Design required: yes`; `implementation-plan.md` появляется после готовности нужных upstream owners.
 - Для bootstrap и downstream-документов используй шаблоны из [`../flows/templates/feature/`](../flows/templates/feature/).
 - Если работа требует roadmap, risk register и нескольких delivery subissues, сначала создай или обнови epic package в [`../epics/README.md`](../epics/README.md).
