@@ -2,7 +2,7 @@
 title: Epic Flow
 doc_kind: governance
 doc_function: canonical
-purpose: "Определяет lifecycle и качество epic-документации: charter, roadmap, decision log, risks, subissues и handoff в feature packages."
+purpose: "Определяет Epic Intake, lifecycle и качество epic-документации: proposal brief, charter, roadmap, decision log, risks, subissues и handoff в feature packages."
 derived_from:
   - ../dna/governance.md
   - ../dna/frontmatter.md
@@ -12,6 +12,8 @@ canonical_for:
   - epic_directory_structure
   - epic_document_boundaries
   - epic_template_selection_rules
+  - epic_intake_rules
+  - epic_proposal_disposition
   - epic_flow_stages
   - epic_roadmap_rules
   - epic_subissue_rules
@@ -25,7 +27,7 @@ audience: humans_and_agents
 
 # Epic Flow
 
-Epic - это управляемая инициатива крупнее одной delivery-feature. Он задаёт общий intent, границы, roadmap, решения, риски и subissue registry, но не подменяет feature package и не содержит code-level execution plan.
+Epic - это управляемая инициатива крупнее одной delivery-feature. Он задаёт общий intent, границы, roadmap, решения, риски и subissue registry, но не подменяет feature package и не содержит code-level execution plan. Если Epic route уже выбран, но facts ещё недостаточны для полного setup, flow начинается с **Epic Intake**; его состояние **Epic Proposal** фиксируется в optional `brief.md`.
 
 FPF-основание:
 
@@ -37,20 +39,22 @@ FPF-основание:
 ## Package Rules
 
 1. Все документы одного epic живут в `memory-bank/epics/EP-XXX/`.
-2. `README.md` - routing layer и annotated index.
-3. `charter.md` - canonical owner intent: problem, outcome, scope/non-scope, stakeholder channels, source/evidence boundaries.
-4. `roadmap.md` - execution order owner: waves, gates, dependencies, stop rules and handoff protocol.
-5. `decision-log.md` - local decision ledger for decisions that affect the epic but do not require global ADR.
-6. `subissues.md` - registry of candidate and accepted delivery subissues, each mapped to roadmap waves and source `SLICE-*`/`UC-*`.
-7. `risks.md` - epic-level risk register for financial, operational, scope and delivery risks.
-8. `design.md`, `specs/**`, `diagrams/**`, `source-docs/**` — опциональные knowledge-артефакты. Они допустимы только когда индексируются из epic package и подчиняются правилам knowledge-артефактов ниже.
-9. `implementation-plan.md` не создаётся внутри epic. Code-level execution belongs to a separate `memory-bank/features/FT-<issue>/` package.
-10. Для canonical epic docs используй templates from `memory-bank/flows/templates/epic/`.
+2. `README.md` - routing layer и annotated index. Он создаётся первым, содержит `epic_stage` и обеспечивает reachability даже для intake-only package.
+3. `brief.md` - optional Epic Intake owner: source/trigger, problem, outcome, rough scope/non-scope, Epic route hypothesis, candidate slices, open questions и proposal disposition. После promotion он не владеет canonical epic facts.
+4. `charter.md` - canonical owner intent: problem, outcome, scope/non-scope, stakeholder channels, source/evidence boundaries.
+5. `roadmap.md` - execution order owner: waves, gates, dependencies, stop rules and handoff protocol.
+6. `decision-log.md` - local decision ledger for decisions that affect the epic but do not require global ADR.
+7. `subissues.md` - registry of candidate and accepted delivery subissues, each mapped to roadmap waves and source `SLICE-*`/`UC-*`.
+8. `risks.md` - epic-level risk register for financial, operational, scope and delivery risks.
+9. `design.md`, `specs/**`, `diagrams/**`, `source-docs/**` — опциональные knowledge-артефакты. Они допустимы только когда индексируются из epic package и подчиняются правилам knowledge-артефактов ниже.
+10. `implementation-plan.md` не создаётся внутри epic. Code-level execution belongs to a separate `memory-bank/features/FT-<issue>/` package.
+11. Для epic package используй templates from `memory-bank/flows/templates/epic/`.
 
 ## Layer Model
 
 | Layer | Primary docs | Owns | Must NOT define |
 | --- | --- | --- | --- |
+| Intake | `README.md`, optional `brief.md` | package stage, early proposal facts, open questions and disposition | authoritative roadmap, accepted subissues, selected solution, risk controls, feature acceptance or implementation sequence |
 | Intent | `charter.md` | business/problem frame, scope, non-scope, source evidence, stakeholder channels | file paths, code steps, final implementation sequence |
 | Roadmap | `roadmap.md`, `subissues.md` | waves, dependencies, issue candidates, handoff gates | final code plan, exact migrations, test commands |
 | Governance | `decision-log.md`, `risks.md` | local decisions, risk controls, stop rules | global architecture policy unless promoted to ADR |
@@ -71,6 +75,13 @@ Knowledge-артефакты существуют только для норма
 
 ```mermaid
 flowchart LR
+    RT["Task Routing<br/>Epic route"] --> EI["Epic Intake<br/>brief.md draft"]
+    RT -->|facts ready| DE
+    EI --> PR["Epic Proposal<br/>brief.md active"]
+    PR --> DE
+    PR --> RRTE["Rerouted"]
+    PR --> PK["Parked"]
+    PR --> RJ["Rejected"]
     DE["Draft Epic<br/>charter.md draft"] --> ER["Epic Ready<br/>charter.md active"]
     ER --> RR["Roadmap Ready<br/>roadmap/subissues/risks active"]
     RR --> EX["Execution<br/>delivery features created"]
@@ -82,16 +93,58 @@ flowchart LR
 
 ## Transition Gates
 
+### Enter Epic Intake
+
+Этот этап optional: если routing input уже достаточен для `charter.md`, сразу переходи к `Bootstrap Epic`.
+
+- [ ] Task Routing выбрал Epic route по multi-feature scope, shared roadmap, cross-feature risk или нескольким delivery units
+- [ ] создан `memory-bank/epics/EP-XXX/README.md` с `epic_stage: epic_intake`
+- [ ] создан `brief.md` с `status: draft` и `proposal_status: pending`
+- [ ] source/trigger и proposal owner указаны
+- [ ] зафиксирована проверяемая гипотеза, почему инициатива требует Epic Flow
+- [ ] `implementation-plan.md`, accepted subissues и delivery `FT-*` packages отсутствуют
+
+### Epic Intake -> Proposal Ready
+
+- [ ] `brief.md` имеет `status: active` и `proposal_status: pending`
+- [ ] problem, observable outcome, rough scope/non-scope и available evidence записаны
+- [ ] candidate delivery slices используют `BR-SLICE-*` и не представлены как approved `EP-SI-*` или `FT-*`
+- [ ] open questions показывают, каких facts не хватает для approval и canonical owners
+- [ ] указан decision owner, который может выбрать disposition
+- [ ] proposal не определяет roadmap waves, risk controls, selected solution, feature acceptance contracts или implementation sequence
+- [ ] package `README.md` имеет `epic_stage: proposal_ready`
+
+### Proposal Ready -> Draft Epic
+
+- [ ] decision owner подтвердил disposition `approved`
+- [ ] `charter.md` создан со `status: draft`
+- [ ] подтверждённые problem/outcome/scope/non-scope перенесены в `charter.md`, а не скопированы как второй active owner
+- [ ] для candidate slices заполнен promotion map; если draft `roadmap.md` или `subissues.md` уже созданы, slices перенесены туда только как candidates
+- [ ] risks and local decisions перенесены в соответствующие owners, если они уже material
+- [ ] `brief.md` содержит promotion map, ссылки на новых owners, `proposal_status: approved` и `status: archived`
+- [ ] package `README.md` имеет `epic_stage: draft`
+
+### Proposal Disposition Without Epic Bootstrap
+
+- **Rerouted:** укажи новый route и ссылку на его owner artifact; установи `proposal_status: rerouted`, `status: archived`, `epic_stage: rerouted`.
+- **Parked:** запиши причину, owner и review trigger/date; установи `proposal_status: parked`, `epic_stage: parked`. Delivery не начинается, brief остаётся текущим intake owner.
+- **Rejected:** запиши decision owner, rationale и evidence; установи `proposal_status: rejected`, `status: archived`, `epic_stage: rejected`.
+
+Во всех трёх исходах должны отсутствовать accepted epic subissues, delivery feature packages и implementation sequence, созданные только на основании proposal.
+
 ### Bootstrap Epic
 
 - [ ] `README.md` создан
 - [ ] `charter.md` создан
+- [ ] package `README.md` имеет `epic_stage: draft`
+- [ ] если intake был пропущен, source/trigger и основание Epic route зафиксированы в `charter.md` или linked issue
 - [ ] `implementation-plan.md` отсутствует
 - [ ] если source docs уже известны, они отделены от derived specs
 
 ### Draft -> Epic Ready
 
 - [ ] `charter.md` имеет `status: active`
+- [ ] package `README.md` имеет `epic_stage: epic_ready`
 - [ ] scope/non-scope explicit
 - [ ] source/evidence boundaries explicit
 - [ ] stakeholder channels and decision process recorded
@@ -104,6 +157,7 @@ flowchart LR
 - [ ] `risks.md` active and names controls/owners
 - [ ] `decision-log.md` active when non-trivial decisions exist
 - [ ] first delivery feature can be created without inventing epic-level facts
+- [ ] package `README.md` имеет `epic_stage: roadmap_ready`
 
 ### Roadmap Ready -> Execution
 
@@ -112,6 +166,7 @@ flowchart LR
 - [ ] new `memory-bank/features/FT-<issue>/` package exists
 - [ ] новый feature package импортирует только релевантные epic refs (`charter.md`, `roadmap.md`, `subissues.md`, `risks.md` и `decision-log.md`, если используется), а не весь epic scope
 - [ ] feature `brief.md`, optional `design.md`, затем `implementation-plan.md` следуют `feature.md`
+- [ ] package `README.md` имеет `epic_stage: execution`
 
 ### Execution -> Done
 
@@ -121,8 +176,34 @@ flowchart LR
 - [ ] `roadmap.md`, `subissues.md` и `risks.md` отражают финальное состояние; `decision-log.md`, если используется, также отражает финальное состояние
 - [ ] открытые риски и follow-up work имеют owner и отдельные task references
 - [ ] человек подтвердил закрытие инициативы
+- [ ] package `README.md` имеет `epic_stage: done`; для отменённой инициативы используется `epic_stage: cancelled`
 
-## Outcome / Exit Contract
+## Epic Intake Outcome / Exit Contract
+
+### Observable Outcome
+
+Proposal получил evidence-backed disposition и либо передан в canonical Epic setup, либо остановлен/перенаправлен без преждевременного delivery.
+
+### Required Evidence
+
+- source/trigger, proposal owner и decision owner;
+- problem, observable outcome и обоснование Epic route;
+- rough scope/non-scope, candidate slices, available evidence и open questions;
+- disposition, rationale и decision reference;
+- promotion map для `approved`, target owner для `rerouted` или review trigger для `parked`.
+
+### Terminal State
+
+`Approved` передаёт инициативу в Draft Epic и архивирует intake brief после promotion. `Rerouted` и `Rejected` завершают proposal package с явным owner/reason. `Parked` не terminal: proposal остаётся governed intake record до review trigger.
+
+### Handoff
+
+- `Approved` -> `charter.md` и canonical epic owners.
+- `Rerouted` -> owner artifact выбранного flow.
+- `Parked` -> named owner и review trigger/date.
+- `Rejected` -> archived proposal с decision evidence.
+
+## Epic Delivery Outcome / Exit Contract
 
 ### Observable Outcome
 
@@ -151,6 +232,7 @@ Epic quality is a Q-Bundle, not one scalar.
 
 | Quality | What must be visible | Review question |
 | --- | --- | --- |
+| Intake decisiveness | Proposal names decision owner, open questions and disposition evidence | Can we approve, reroute, park or reject without inventing facts? |
 | Traceability | Source docs, decisions, requirements, UC and subissues linked by stable IDs | Can a reviewer trace each planned feature back to evidence? |
 | Decomposability | Bounded contexts and slices are separated | Can we create one delivery issue without dragging the whole epic? |
 | Roadmap clarity | Waves, dependencies, gates and stop rules are explicit | Does the team know what should happen first and why? |
@@ -165,6 +247,9 @@ Epic quality is a Q-Bundle, not one scalar.
 
 | Prefix | Meaning | Owner |
 | --- | --- | --- |
+| `BR-REQ-*` | Intake rough scope item | optional `brief.md` |
+| `BR-NS-*` | Intake rough non-scope item | optional `brief.md` |
+| `BR-SLICE-*` | Candidate delivery slice before epic approval | optional `brief.md` |
 | `EP-SI-*` | Epic subissue candidate or accepted subissue | `subissues.md` |
 | `W*` | Roadmap wave | `roadmap.md` |
 | `HG-*` | Handoff gate before feature execution | `roadmap.md` |
@@ -179,3 +264,6 @@ Epic quality is a Q-Bundle, not one scalar.
 3. Epic may close local decisions with FPF and evidence. If a decision changes global project architecture, create ADR.
 4. Feature package, созданный из epic, должен ссылаться на релевантные `EP-*` docs и сохранять stable IDs вместо копирования всего scope. `brief.md` импортирует problem/scope refs; `design.md` или ADR импортирует epic-local decisions, когда они влияют на solution space.
 5. If a feature discovers a new epic-level fact, update the epic owner document first, then update the feature.
+6. Epic Intake может называть только candidate `BR-SLICE-*`. До `Roadmap Ready -> Execution` нельзя создавать delivery `FT-*` package на основании intake proposal.
+7. После approved promotion `brief.md` остаётся historical intake context; canonical facts принадлежат `charter.md`, `roadmap.md`, `subissues.md`, `risks.md` и `decision-log.md`.
+8. `proposal_status` принимает `pending`, `approved`, `rerouted`, `parked` или `rejected`; `epic_stage` в package README принимает значения из package README template и обновляется на каждом переходе.

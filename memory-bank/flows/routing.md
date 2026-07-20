@@ -74,11 +74,18 @@ Issue / Task
 
 Размер diff и оценка длительности сами по себе не являются routing predicates.
 
+### Epic Intake Handoff
+
+Если признаки Epic route уже подтверждены, но problem, outcome, границы или evidence ещё недостаточны для canonical `charter.md`, задача всё равно маршрутизируется в [`Epic Flow`](epic.md). В этом случае Epic Flow начинается с `Epic Intake`: создаётся proposal package с `README.md` и `brief.md`, а недостающие факты фиксируются как open questions.
+
+Неполнота epic facts сама по себе не является основанием для `Human Routing`. Human gate нужен только тогда, когда нельзя обоснованно выбрать route, требуется продуктовое решение о самом направлении инициативы или доступный риск нельзя контролировать intake boundaries.
+
 ## Rerouting Rules
 
 - Не начинай выбранный flow, пока не выполнены его entry gates.
 - Если в `Small Change` понадобились design, execution plan или новый устойчивый project fact, останови реализацию и повтори routing.
 - Если в Feature Flow выяснилось, что работа крупнее одной delivery-feature и требует общего roadmap, cross-feature risk register или нескольких delivery units, останови feature package и повтори routing в [`Epic Flow`](epic.md).
+- Не создавай delivery feature packages из Epic Intake. До `Roadmap Ready` proposal может называть только candidate delivery slices; accepted subissues и `FT-*` появляются после соответствующих epic gates.
 - Если report оказался изменением ожидаемого поведения, а не дефектом, выйди из Bug Fix Flow и повтори routing.
 - Если refactoring меняет observable behavior, выйди из Refactoring Flow и повтори routing.
 - Если задача меняет contract, rollout или требует approvals, она не может оставаться `Small Change`.
@@ -97,6 +104,7 @@ Issue / Task
 
 - issue/task или draft PR называет выбранный flow; для active incident достаточно alert или incident-management record, подтверждающего operational impact или необходимость containment;
 - запись показывает, какие entry predicates сделали route допустимым; provisional incident record может быть дополнен полным routing record после containment;
+- для Epic route запись дополнительно указывает `Epic Intake`, когда facts ещё недостаточны для прямого `Bootstrap Epic`;
 - для `Human Routing` зафиксированы вопрос, риск или конкурирующие routes.
 
 ### Terminal State
