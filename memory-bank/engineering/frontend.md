@@ -16,6 +16,8 @@ audience: humans_and_agents
 
 Product-level experience principles живут в [`../product/vision.md`](../product/vision.md). Domain language и rules живут в [`../domain/`](../domain/README.md). Здесь фиксируй engineering contract для UI.
 
+Конкретные UI components, helper APIs, screenshots и local examples каталогизируй в project-level [`ui-design-guide/README.md`](ui-design-guide/README.md). Если public site, admin, mobile или другие UI surfaces имеют разные libraries, patterns или owners, разделяй их на surface-specific documents внутри guide. Этот reference не заменяет frontend contract и не владеет requirements или feature-specific interface design. UI конкретной feature документируй в feature-local [`ui-reference/README.md`](../flows/templates/feature/support/ui-reference.md).
+
 ## UI Surfaces
 
 Опиши основные интерфейсы системы.

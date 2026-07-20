@@ -23,6 +23,8 @@ canonical_for:
 
 Создавай `ui-reference/README.md`, если feature меняет interface. Документ generic: он не должен тянуть project-specific interface conventions в reusable template. В instantiated project можно ссылаться на локальный design system, но generic template фиксирует только структуру interface reference.
 
+Project-wide catalog существующих components, helpers, screenshots и source paths живет в [`engineering/ui-design-guide/README.md`](../../../../engineering/ui-design-guide/README.md). Feature-local reference ссылается на нужный surface document и описывает только interface change этой feature.
+
 Для interface changes нужны mockups. Default format — Markdown mockups в `ui-reference/mockups/*.md`. Допустимы изображения, design-tool links или другие artifacts, если они versionable / linkable и доступны reviewers.
 
 `ui-reference/README.md` не владеет requirements, selected architecture, acceptance inventory или implementation sequence.
@@ -36,6 +38,7 @@ doc_function: reference
 purpose: "Interface reference для FT-XXX. Фиксирует screen map, interaction states, mockups и UI traceability без переопределения canonical problem или solution facts."
 derived_from:
   - ../brief.md
+  - ../../../engineering/ui-design-guide/README.md
   # Required only when design.md exists:
   # - ../design.md
 status: draft
@@ -59,6 +62,10 @@ must_not_define:
 - `brief.md` владеет requirements и acceptance.
 - `design.md`, если есть, владеет selected design и contracts.
 - `implementation-plan.md` владеет execution sequencing.
+
+## Project UI Guide
+
+Сошлись на [`engineering/ui-design-guide/README.md`](../../../engineering/ui-design-guide/README.md) или на конкретный surface document внутри него. Укажи, какие existing components, helpers и examples переиспользует feature.
 
 ## Interface Scope
 
