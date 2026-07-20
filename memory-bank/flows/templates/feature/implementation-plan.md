@@ -29,7 +29,7 @@ template_target_path: ../../../features/FT-XXX/implementation-plan.md
 
 Документ должен быть исполнимым без дополнительного толкования. Если шаг нельзя связать с canonical IDs, существующими solution refs, артефактом, проверкой или явной ручной процедурой, шаг описан недостаточно.
 План должен быть заземлен в текущем состоянии репозитория: сначала зафиксируй релевантные модули, локальные паттерны, открытые вопросы и execution environment, и только после этого расписывай sequencing изменений.
-План обязан явно зафиксировать, какие automated tests будут добавлены или обновлены по change surface, какие suites обязаны быть зелёными локально и в CI, а какие gaps временно остаются manual-only с justification и approval ref. Для designed feature он также показывает refinement каждого применимого canonical solution fact в realization target, steps, checks и evidence, не принимая новых solution decisions.
+План обязан явно зафиксировать, какие automated tests будут добавлены или обновлены по change surface, какие suites обязаны быть зелёными локально и в CI, а какие gaps временно остаются manual-only с justification и approval ref. Для designed feature он также показывает refinement каждого применимого `SOL-*`, `C4-*`, `SD-*`, `CTR-*`, `INV-*`, `FM-*`, `RB-*` и accepted ADR ref в realization target, steps, checks и evidence, не принимая новых solution decisions.
 
 Для ссылок внутри плана используй стабильные идентификаторы по taxonomy из [../../feature.md#stable-identifiers](../../feature.md#stable-identifiers).
 
@@ -127,11 +127,11 @@ must_not_define:
 
 ## Design Realization Mapping
 
-Для designed feature покажи, где реализуется каждый применимый canonical solution fact. Строка связывает уже принятое решение с execution; она не вводит новый `SOL-*`, `CTR-*`, `INV-*`, `FM-*` или `RB-*`. Если mapping обнаруживает gap или требует изменить semantics, сначала обнови canonical owner и только затем этот план. Для feature с `Design required: no` укажи `not applicable` и ссылку на decision из `brief.md`.
+Для designed feature покажи, где реализуется каждый применимый `SOL-*`, `C4-*`, `SD-*`, `CTR-*`, `INV-*`, `FM-*`, `RB-*` и accepted ADR ref. Строка связывает уже принятое решение с execution; она не вводит новые solution facts или decisions. Если mapping обнаруживает gap или требует изменить semantics, сначала обнови canonical owner и только затем этот план. Для feature с `Design required: no` укажи `not applicable` и ссылку на decision из `brief.md`.
 
 | Canonical solution refs | Owner | Realization target | Steps | Checks | Evidence |
 | --- | --- | --- | --- | --- | --- |
-| `SOL-01`, `CTR-01`, `INV-01`, `FM-01`, `RB-01` | `design.md` / delegated contract / ADR | Module, interface, migration, config or operational surface | `STEP-01`, `STEP-02` | `CHK-01` | `EVID-01` |
+| `SOL-01`, `C4-01`, `SD-01`, `CTR-01`, `INV-01`, `FM-01`, `RB-01`, `../../adr/ADR-XXX.md` | `design.md` / delegated contract / accepted ADR | Module, interface, topology, migration, config or operational surface | `STEP-01`, `STEP-02` | `CHK-01` | `EVID-01` |
 
 ## Workstreams
 
@@ -139,7 +139,7 @@ must_not_define:
 
 | Workstream | Implements | Result | Owner | Dependencies |
 | --- | --- | --- | --- | --- |
-| `WS-1` | `REQ-01`, `SOL-01 если design существует`, применимые `CTR/INV/FM/RB-*` | Что должно появиться | human / agent / either | Что блокирует старт или завершение |
+| `WS-1` | `REQ-01`, применимые `SOL-*`, `C4-*`, `SD-*`, `CTR-*`, `INV-*`, `FM-*`, `RB-*` и accepted ADR refs | Что должно появиться | human / agent / either | Что блокирует старт или завершение |
 
 ## Approval Gates
 
@@ -155,7 +155,7 @@ must_not_define:
 
 | Step ID | Actor | Implements | Goal | Touchpoints | Artifact | Verifies | Evidence IDs | Check command / procedure | Blocked by | Needs approval | Escalate if |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `STEP-01` | human / agent / either | `REQ-01`, `SOL-01 если design существует`, применимые `CTR/INV/FM/RB-*` | Что делаем на этом шаге | Какие файлы, сервисы или данные трогаем | Что должно появиться после шага | `CHK-01` | `EVID-01` | Как подтверждаем завершение | `PRE-01`, `OQ-01` | `AG-01` / `none` | Когда нельзя продолжать без эскалации |
+| `STEP-01` | human / agent / either | `REQ-01`, применимые `SOL-*`, `C4-*`, `SD-*`, `CTR-*`, `INV-*`, `FM-*`, `RB-*` и accepted ADR refs | Что делаем на этом шаге | Какие файлы, сервисы или данные трогаем | Что должно появиться после шага | `CHK-01` | `EVID-01` | Как подтверждаем завершение | `PRE-01`, `OQ-01` | `AG-01` / `none` | Когда нельзя продолжать без эскалации |
 
 ## Parallelizable Work
 
