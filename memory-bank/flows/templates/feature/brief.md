@@ -22,7 +22,7 @@ canonical_for:
 
 ## Wrapper Notes
 
-Используй этот шаблон для problem-space документа новых feature packages. `brief.md` фиксирует problem, outcome, scope/non-scope и verify contract delivery-единицы.
+Используй этот шаблон для problem-space документа новых feature packages. `brief.md` фиксирует problem, outcome, scope/non-scope, validation profile decision и verify contract delivery-единицы.
 
 Если фича меняет API, event, schema, file format, CLI, env contract, security boundary, financial calculation, integration contract, rollout/backout или требует alternatives/trade-off reasoning, зафиксируй `Design required: yes` и создай sibling `design.md` по шаблону `design.md`. Новые пакеты держат substantial design только в `design.md` / design-pack.
 
@@ -52,7 +52,7 @@ Optional companions выбирай по [Feature Artifact Catalog](../../feature
 title: "FT-XXX: Feature Name"
 doc_kind: feature
 doc_function: canonical
-purpose: "Canonical brief для delivery-единицы. Фиксирует problem space, scope и verify без смешения с solution space или execution plan."
+purpose: "Canonical brief для delivery-единицы. Фиксирует problem space, scope, validation profile и verify без смешения с solution space или execution plan."
 derived_from:
   - ../../flows/feature.md
   # Optional:
@@ -124,6 +124,14 @@ must_not_define:
 | Artifact | Decision | Trigger / reason | Route / owner |
 | --- | --- | --- | --- |
 | `use-cases/README.md` / `runtime-surfaces.md` / `ui-reference/README.md` / другой artifact из catalog | selected / omitted | Какую неоднозначность снимает или почему не нужен | Planned path и canonical owner / `none` |
+
+## Validation Profile Decision
+
+Выбери один profile по [`../../engineering/validation-profiles.md`](../../engineering/validation-profiles.md). Эта секция — canonical owner решения; `implementation-plan.md` ссылается на неё и задаёт конкретные suites/checkpoints без повторного выбора profile.
+
+| Profile | Triggers / rationale | Downgrade approval |
+| --- | --- | --- |
+| `documentation` / `low-risk` / `standard` / `high-risk` / `release-deployment` | Какие triggers проверены и почему выбранный minimum достаточен | Human approval ref, если trigger требует downgrade; иначе `none` |
 
 ## Verify
 

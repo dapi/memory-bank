@@ -7,6 +7,7 @@ derived_from:
   - ../dna/governance.md
   - routing.md
   - ../engineering/testing-policy.md
+  - ../engineering/validation-profiles.md
 canonical_for:
   - refactoring_entry_contract
   - refactoring_classification
@@ -35,6 +36,7 @@ Refactoring меняет внутреннюю структуру, сохраня
 - [ ] baseline tests или characterization checks определены
 - [ ] local refactoring не прошёл `Small Change` gate либо сознательно требует отдельного flow
 - [ ] для architecture-level decisions существует accepted ADR или запланирован decision gate
+- [ ] исходная task фиксирует validation profile decision с учётом blast radius и critical behavior
 
 ## Flow
 
@@ -70,6 +72,7 @@ task → baseline → characterization coverage → plan + checkpoints
 ### Required Evidence
 
 - baseline и characterization coverage;
+- validation profile decision и evidence его minimum contract;
 - результаты regression checks по checkpoints;
 - before/after summary либо research artifact с источниками и выводом;
 - последний review cycle завершён без открытых замечаний;
