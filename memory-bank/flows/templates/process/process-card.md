@@ -6,7 +6,7 @@ purpose: Governed wrapper-шаблон для компактной process-card.
 derived_from:
   - ../../../dna/governance.md
   - ../../../dna/frontmatter.md
-  - ../../workflows.md
+  - ../../routing.md
 status: active
 audience: humans_and_agents
 template_for: process

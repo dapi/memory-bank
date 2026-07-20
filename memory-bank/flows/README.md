@@ -2,12 +2,16 @@
 title: Flows And Templates Index
 doc_kind: governance
 doc_function: index
-purpose: Навигация по lifecycle flows и governed-шаблонам. Читать при создании epic или feature package, переводе инициативы между стадиями или инстанцировании нового governed-документа.
+purpose: Навигация по task routing, lifecycle flows и governed-шаблонам. Читать при выборе route, запуске flow или инстанцировании governed-документа.
 derived_from:
   - ../dna/governance.md
-  - epic-flow.md
-  - feature-flow.md
-  - workflows.md
+  - routing.md
+  - incident.md
+  - bug-fix.md
+  - small-change.md
+  - refactoring.md
+  - epic.md
+  - feature.md
   - templates/README.md
 status: active
 audience: humans_and_agents
@@ -17,7 +21,11 @@ audience: humans_and_agents
 
 Каталог `memory-bank/flows/` содержит reusable process-layer для шаблона: lifecycle rules, taxonomy стабильных идентификаторов и governed templates.
 
-- [Task Workflows](workflows.md) — маршрутизация задач по типам, базовый цикл разработки и градиент автономии.
-- [Epic Flow](epic-flow.md) — lifecycle крупных инициатив, roadmap, decision log, risks и handoff в feature packages.
-- [Feature Flow](feature-flow.md) — lifecycle `brief.md -> optional design.md -> implementation-plan.md`, gates и стабильные ID (`REQ-*`, `SOL-*`, `STEP-*`).
+- [Task Routing](routing.md) — порядок выбора flow, routing predicates, повторный routing и Human Routing.
+- [Incident And PIR Flow](incident.md) — containment, recovery, timeline, RCA, PIR и prevention work.
+- [Bug Fix Flow](bug-fix.md) — reproduction, analysis, fix, regression coverage и closure.
+- [Small Change Flow](small-change.md) — direct delivery без feature package, design и execution plan, но с обязательным routing record.
+- [Refactoring Flow](refactoring.md) — behavior-preserving restructuring, characterization coverage, checkpoints и closure gates.
+- [Epic Flow](epic.md) — lifecycle крупных инициатив, roadmap, decision log, risks и handoff в feature packages.
+- [Feature Flow](feature.md) — lifecycle `brief.md -> optional design.md -> implementation-plan.md`, gates и стабильные ID (`REQ-*`, `SOL-*`, `STEP-*`).
 - [Templates Index](templates/README.md) — эталонные шаблоны governed-документов, включая PRD, use case, epic, feature и ADR.

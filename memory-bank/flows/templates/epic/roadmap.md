@@ -4,7 +4,7 @@ doc_kind: governance
 doc_function: template
 purpose: "Шаблон epic roadmap: execution waves, dependencies, gates and stop rules before creating delivery feature packages."
 derived_from:
-  - ../../epic-flow.md
+  - ../../epic.md
 status: active
 audience: humans_and_agents
 template_target_path: ../../../epics/EP-XXX/roadmap.md

@@ -4,7 +4,7 @@ doc_kind: feature
 doc_function: template
 purpose: Governed wrapper-шаблон для feature-level `README.md`. Читать, чтобы инстанцировать bootstrap-safe routing-layer фичи без смешения wrapper-метаданных и frontmatter целевого README.
 derived_from:
-  - ../../feature-flow.md
+  - ../../feature.md
   - ../../../dna/frontmatter.md
 status: active
 audience: humans_and_agents

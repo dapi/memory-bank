@@ -4,7 +4,7 @@ doc_kind: feature-support
 doc_function: template
 purpose: Governed wrapper-шаблон optional `runtime-surfaces.md`. Читать, когда feature needs grounding по current runtime surfaces, semantic mappings, context variants, fallback/error paths или adjacent boundaries.
 derived_from:
-  - ../../../feature-flow.md
+  - ../../../feature.md
   - ../../../../dna/frontmatter.md
 status: active
 audience: humans_and_agents

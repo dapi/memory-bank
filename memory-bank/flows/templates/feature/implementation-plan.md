@@ -4,7 +4,7 @@ doc_kind: feature
 doc_function: template
 purpose: Governed wrapper-шаблон плана имплементации. Фиксирует, как инстанцировать execution-документ без переопределения canonical problem или solution facts и без смешения wrapper с целевым `implementation-plan.md`.
 derived_from:
-  - ../../feature-flow.md
+  - ../../feature.md
   - ../../../dna/frontmatter.md
   - ../../../engineering/testing-policy.md
 status: active
@@ -30,7 +30,7 @@ template_target_path: ../../../features/FT-XXX/implementation-plan.md
 План должен быть заземлен в текущем состоянии репозитория: сначала зафиксируй релевантные модули, локальные паттерны, открытые вопросы и execution environment, и только после этого расписывай sequencing изменений.
 План обязан явно зафиксировать, какие automated tests будут добавлены или обновлены по change surface, какие suites обязаны быть зелёными локально и в CI, а какие gaps временно остаются manual-only с justification и approval ref.
 
-Для ссылок внутри плана используй стабильные идентификаторы по taxonomy из [../../feature-flow.md#stable-identifiers](../../feature-flow.md#stable-identifiers).
+Для ссылок внутри плана используй стабильные идентификаторы по taxonomy из [../../feature.md#stable-identifiers](../../feature.md#stable-identifiers).
 
 Если неизвестность меняет scope, acceptance criteria или evidence contract, она сначала поднимается upstream в sibling `brief.md`. Если неизвестность меняет selected design, C4 architecture model, accepted local decisions, contracts или rollout/backout semantics, она сначала поднимается в required sibling `design.md` или ADR и только после этого фигурирует в плане.
 
@@ -98,6 +98,7 @@ must_not_define:
 ## Open Questions / Ambiguities
 
 Какие неизвестности ещё не сняты после discovery. Если вопрос меняет upstream semantics, его нельзя молча разрешать в шаге исполнения.
+Если после discovery unresolved questions отсутствуют, укажи `none` вместо таблицы; не создавай фиктивный `OQ-*`.
 
 | Open Question ID | Question | Why unresolved | Blocks | Default action / escalation owner |
 | --- | --- | --- | --- | --- |

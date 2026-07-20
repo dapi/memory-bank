@@ -4,7 +4,7 @@ doc_kind: governance
 doc_function: template
 purpose: "Шаблон registry for candidate and accepted delivery subissues under an epic."
 derived_from:
-  - ../../epic-flow.md
+  - ../../epic.md
 status: active
 audience: humans_and_agents
 template_target_path: ../../../epics/EP-XXX/subissues.md

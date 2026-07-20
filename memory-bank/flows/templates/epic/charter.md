@@ -4,7 +4,7 @@ doc_kind: governance
 doc_function: template
 purpose: "Шаблон epic charter: canonical intent, scope/non-scope, evidence and acceptance boundaries for a multi-feature initiative."
 derived_from:
-  - ../../epic-flow.md
+  - ../../epic.md
 status: active
 audience: humans_and_agents
 template_target_path: ../../../epics/EP-XXX/charter.md
@@ -19,7 +19,7 @@ doc_kind: epic
 doc_function: canonical
 purpose: "<What this epic governs and why it is larger than one feature>"
 derived_from:
-  - ../../flows/epic-flow.md
+  - ../../flows/epic.md
 status: draft
 audience: humans_and_agents
 must_not_define:

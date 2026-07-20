@@ -4,7 +4,7 @@ doc_kind: feature
 doc_function: template
 purpose: Governed wrapper-шаблон для feature-local `design.md`. Фиксирует solution-space слой: выбранный подход, rationale, contracts, failure modes и design-pack routing без смешения с problem space или execution contract.
 derived_from:
-  - ../../feature-flow.md
+  - ../../feature.md
   - ../../../dna/frontmatter.md
 status: active
 audience: humans_and_agents
@@ -22,7 +22,7 @@ canonical_for:
 
 Создавай `design.md`, когда фича требует solution-space reasoning: выбор подхода, trade-offs, contracts, invariants, failure modes, rollout/backout, ADR/C4/data-flow/diagram dependencies или design-pack из нескольких документов.
 
-На стадии анализа обязательно заполни C4 applicability decision. C4 artifact обязателен только когда trigger из [feature-flow.md#c4-analysis-requirements](../../feature-flow.md#c4-analysis-requirements) требует C1/C2/C3/C4; для local feature достаточно `C4-00 not required` с причиной.
+На стадии анализа обязательно заполни C4 applicability decision. C4 artifact обязателен только когда trigger из [feature.md#c4-analysis-requirements](../../feature.md#c4-analysis-requirements) требует C1/C2/C3/C4; для local feature достаточно `C4-00 not required` с причиной.
 
 `design.md` не заменяет `brief.md`: требования, acceptance criteria и evidence contract остаются в `brief.md`. `design.md` также не является execution plan: file-level touchpoints, атомарные шаги, команды тестов и checkpoints принадлежат `implementation-plan.md`.
 

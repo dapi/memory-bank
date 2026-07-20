@@ -4,7 +4,7 @@ doc_kind: feature-support
 doc_function: template
 purpose: Governed wrapper-шаблон optional feature-local `use-cases/README.md`. Читать, когда feature needs review-friendly scenarios and derived test case candidates without moving canonical acceptance out of `brief.md`.
 derived_from:
-  - ../../../feature-flow.md
+  - ../../../feature.md
   - ../../../../dna/frontmatter.md
 status: active
 audience: humans_and_agents
