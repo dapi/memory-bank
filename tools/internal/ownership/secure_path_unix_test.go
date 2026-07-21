@@ -6,6 +6,7 @@ import (
 	"errors"
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 
 	"golang.org/x/sys/unix"
@@ -74,5 +75,43 @@ func TestSecureReadDestinationKeepsPinnedParentAfterAncestorReplacement(t *testi
 	}
 	if string(data) != "inside" {
 		t.Fatalf("read was redirected after ancestor replacement: %q", data)
+	}
+}
+
+func TestAgentPlanReadDoesNotFollowReplacedParentSymlink(t *testing.T) {
+	root := t.TempDir()
+	insideParent := filepath.Join(root, "instructions")
+	if err := os.MkdirAll(insideParent, 0o755); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(filepath.Join(insideParent, "AGENTS.md"), []byte("inside rules\n"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	outside := t.TempDir()
+	if err := os.WriteFile(filepath.Join(outside, "AGENTS.md"), []byte("outside secret\n"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	repo, err := pinRepoRoot(root)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	var replaceErr error
+	reader := func(repo pinnedRepo, relative string) (os.FileInfo, []byte, error) {
+		replaceErr = os.Rename(insideParent, filepath.Join(root, "original-instructions"))
+		if replaceErr == nil {
+			replaceErr = os.Symlink(outside, insideParent)
+		}
+		return secureReadDestination(repo, relative)
+	}
+	_, _, err = buildAgentPlanWithReader(repo, "instructions/AGENTS.md", reader)
+	if replaceErr != nil {
+		t.Fatal(replaceErr)
+	}
+	if err == nil {
+		t.Fatal("agent plan followed a replaced parent symlink")
+	}
+	if !strings.Contains(err.Error(), "read agent instruction file") {
+		t.Fatalf("unexpected error: %v", err)
 	}
 }

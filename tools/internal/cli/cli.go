@@ -48,6 +48,8 @@ func Run(arguments []string, version string, stdout, stderr io.Writer) int {
 		return runOwnership(arguments[1:], "init", stdout, stderr)
 	case "update":
 		return runOwnership(arguments[1:], "update", stdout, stderr)
+	case "doctor":
+		return runDoctor(arguments[1:], stdout, stderr)
 	case "--version", "-version":
 		if len(arguments) != 1 {
 			fmt.Fprintf(stderr, "memory-bank: unexpected arguments: %v\n", arguments[1:])
@@ -77,6 +79,7 @@ func printRootUsage(writer io.Writer) {
 	fmt.Fprintln(writer, "Commands:")
 	fmt.Fprintln(writer, "  init    Adopt or install a template and create its ownership lock")
 	fmt.Fprintln(writer, "  update  Safely update a template using its ownership lock")
+	fmt.Fprintln(writer, "  doctor  Check the managed agent-instruction block for drift")
 	fmt.Fprintln(writer, "  lint    Audit markdown navigation integrity")
 	fmt.Fprintln(writer)
 	fmt.Fprintln(writer, "Options:")
@@ -96,6 +99,7 @@ func runOwnership(arguments []string, command string, stdout, stderr io.Writer) 
 	templateVersion := flags.String("template-version", "", "human-readable template version")
 	sourceRef := flags.String("source-ref", "", "full commit SHA matching the source checkout HEAD")
 	dryRun := flags.Bool("dry-run", false, "print the complete mutation plan without applying it")
+	agentFile := flags.String("agent-file", "AGENTS.md", "single repository-relative agent instruction file to manage")
 	jsonOutput := addJSONOutputFlag(flags)
 	if err := flags.Parse(arguments); err != nil {
 		if errors.Is(err, flag.ErrHelp) {
@@ -124,6 +128,7 @@ func runOwnership(arguments []string, command string, stdout, stderr io.Writer) 
 	options := ownership.Options{
 		RepoRoot: repoRoot, SourceRoot: sourceRoot, TemplateVersion: *templateVersion,
 		SourceRef: *sourceRef, DryRun: *dryRun,
+		AgentFile: *agentFile,
 	}
 	var report ownership.Report
 	if command == "init" {
@@ -159,6 +164,9 @@ func printOwnershipReport(writer io.Writer, report ownership.Report) {
 	sort.Slice(decisions, func(i, j int) bool { return decisions[i].Path < decisions[j].Path })
 	for _, decision := range decisions {
 		fmt.Fprintf(writer, "%s\t%s\t%s\t%s\n", decision.Action, decision.Ownership, decision.Path, decision.Reason)
+		if decision.Diff != "" {
+			fmt.Fprint(writer, decision.Diff)
+		}
 	}
 	switch {
 	case report.ConflictCount > 0:
@@ -168,6 +176,46 @@ func printOwnershipReport(writer io.Writer, report ownership.Report) {
 	case report.Applied:
 		fmt.Fprintln(writer, "update applied atomically")
 	}
+}
+
+func runDoctor(arguments []string, stdout, stderr io.Writer) int {
+	flags := flag.NewFlagSet("memory-bank doctor", flag.ContinueOnError)
+	flags.SetOutput(stderr)
+	flags.Usage = func() {
+		fmt.Fprintln(stderr, "Usage: memory-bank doctor [options]")
+		flags.PrintDefaults()
+	}
+	repoRootArgument := addRepoRootFlag(flags)
+	agentFile := flags.String("agent-file", "AGENTS.md", "single repository-relative agent instruction file to check")
+	jsonOutput := addJSONOutputFlag(flags)
+	if err := flags.Parse(arguments); err != nil {
+		if errors.Is(err, flag.ErrHelp) {
+			return exitSuccess
+		}
+		return exitUsage
+	}
+	if flags.NArg() > 0 {
+		fmt.Fprintf(stderr, "memory-bank doctor: unexpected arguments: %v\n", flags.Args())
+		return exitUsage
+	}
+	repoRoot, err := repository.ResolveRoot(*repoRootArgument)
+	if err != nil {
+		fmt.Fprintln(stderr, err)
+		return exitFailure
+	}
+	report, err := ownership.Doctor(repoRoot, *agentFile)
+	if err != nil {
+		fmt.Fprintln(stderr, err)
+		return exitFailure
+	}
+	if err := writeResult(stdout, *jsonOutput, report, func(writer io.Writer) { printOwnershipReport(writer, report) }); err != nil {
+		fmt.Fprintln(stderr, err)
+		return exitFailure
+	}
+	if report.DriftCount > 0 {
+		return exitFailure
+	}
+	return exitSuccess
 }
 
 // RunLint executes the lint command. commandName controls only human-readable

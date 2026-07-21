@@ -78,6 +78,7 @@ problem space            solution space             execution space
 | [Использование Memory Bank](docs/usage.md) | Для повседневной работы с задачами и AI-агентами после внедрения |
 | [Установка и использование `memory-bank`](docs/memory-bank.md) | Для пользователей CLI и downstream CI |
 | [Ownership и безопасные обновления](docs/ownership.md) | Для понимания lock schema, границ владения и conflict policy |
+| [Managed-блок инструкций агента](docs/agent-instructions.md) | Для marker contract, doctor и выбора единственного agent instruction target |
 | [Разработка репозитория](docs/development.md) | Для разработчиков шаблона и CLI |
 
 `memory-bank lint` проверяет broken links, orphan-документы, достижимость через индексную навигацию и contract ожидаемых `README.md`-индексов. Прежний `memory-bank-lint` временно остаётся совместимым entrypoint для существующей автоматизации.

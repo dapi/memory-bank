@@ -59,6 +59,47 @@ func decisionFor(t *testing.T, report Report, path string) Decision {
 	return Decision{}
 }
 
+func TestAgentFileRejectsCaseAliasesOfMemoryBank(t *testing.T) {
+	repo := t.TempDir()
+	for _, target := range []string{"memory-bank", "Memory-Bank/README.md", "MEMORY-BANK/dna/README.md"} {
+		t.Run(target, func(t *testing.T) {
+			if _, err := Doctor(repo, target); err == nil || !strings.Contains(err.Error(), "outside memory-bank") {
+				t.Fatalf("target %q was not rejected: %v", target, err)
+			}
+		})
+	}
+}
+
+func TestAgentPlanPreservesExplicitZeroMode(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("Windows does not expose Unix permission bits")
+	}
+	repoRoot := t.TempDir()
+	target := "AGENTS.md"
+	write(t, repoRoot, target, "project rules\n")
+	targetPath := filepath.Join(repoRoot, target)
+	if err := os.Chmod(targetPath, 0); err != nil {
+		t.Fatal(err)
+	}
+	info, err := os.Stat(targetPath)
+	if err != nil {
+		t.Fatal(err)
+	}
+	repo, err := pinRepoRoot(repoRoot)
+	if err != nil {
+		t.Fatal(err)
+	}
+	plan, _, err := buildAgentPlanWithReader(repo, target, func(pinnedRepo, string) (os.FileInfo, []byte, error) {
+		return info, []byte("project rules\n"), nil
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if plan == nil || !plan.modeSet || plan.mode.Perm() != 0 {
+		t.Fatalf("zero mode was not captured explicitly: %#v", plan)
+	}
+}
+
 func TestCleanUpdateAndRepeatedUpdateAreIdempotent(t *testing.T) {
 	repo, source := t.TempDir(), t.TempDir()
 	path := "memory-bank/dna/rule.md"

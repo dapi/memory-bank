@@ -58,6 +58,7 @@ type Decision struct {
 	Ownership Class  `json:"ownership"`
 	Action    Action `json:"action"`
 	Reason    string `json:"reason"`
+	Diff      string `json:"diff,omitempty"`
 }
 
 type Report struct {
@@ -66,6 +67,7 @@ type Report struct {
 	Applied       bool       `json:"applied"`
 	Decisions     []Decision `json:"decisions"`
 	ConflictCount int        `json:"conflict_count"`
+	DriftCount    int        `json:"drift_count"`
 }
 
 type Options struct {
@@ -74,6 +76,7 @@ type Options struct {
 	TemplateVersion string
 	SourceRef       string
 	DryRun          bool
+	AgentFile       string
 	Now             func() time.Time
 	// verifySource is replaced by unit tests that use synthetic source trees.
 	// CLI callers always use the Git-backed provenance verifier.
