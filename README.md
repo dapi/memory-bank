@@ -63,16 +63,6 @@ problem space            solution space             execution space
 
 Следуйте [инструкции по внедрению](docs/adoption.md).
 
-Для запуска greenfield-интеграции откройте Codex в корне downstream-репозитория и отправьте:
-
-```text
-Прочитай протокол адаптации Memory Bank по адресу
-https://github.com/dapi/memory-bank/blob/main/docs/greenfield-integration-protocol.md
-и выполни его в текущем репозитории.
-```
-
-Для воспроизводимого запуска замените `main` на immutable commit SHA. Полный lifecycle и условия остановки описаны в [greenfield integration protocol](docs/greenfield-integration-protocol.md).
-
 ## Выбор рабочего процесса
 
 Каждая задача сначала проходит [Task Routing](memory-bank/flows/routing.md). Он направляет работу в Incident, Bug Fix, Small Change, Epic, Refactoring, Feature или на ручное решение.
