@@ -88,60 +88,9 @@ Brownfield-внедрение достаточно для первого раб�
 
 ## Начать новый проект (greenfield)
 
-В новом проекте Memory Bank помогает сначала определить проверяемые границы и правила, а затем переходить к реализации.
+Для нового GitHub-проекта используйте [универсальный greenfield integration protocol](greenfield-integration-protocol.md). Он задаёт phases, gates, evidence, CI, practical validation, update и rollback без привязки к языку приложения или конкретному продукту.
 
-Цель greenfield-внедрения — создать минимальный управляемый контекст до того, как код и решения начнут расходиться. Здесь Memory Bank работает как scaffold для product/domain/engineering/ops решений, но он не должен превращаться в большой speculative design document.
-
-1. Скопируйте `memory-bank/` и подключите его через файл инструкций агента.
-2. Зафиксируйте vision, пользователей, ожидаемые результаты и метрики в `product/`.
-3. Создайте начальные glossary, domain model, rules и context map в `domain/`.
-4. Определите инженерные и операционные ограничения в `engineering/` и `ops/`; значимые технологические решения оформляйте как ADR.
-5. Опишите первую инициативу через PRD или epic и выделите канонические use cases.
-6. Работу крупнее одной delivery-feature с общим roadmap, cross-feature risks или несколькими delivery units ведите через epic. Для каждой отдельной delivery-unit сначала проверяйте `Small Change` gate; остальные пользовательские и плановые infrastructure/engineering/operations изменения проводите через feature package: `brief.md → optional design.md → implementation-plan.md`.
-7. Обновляйте постоянный контекст только по мере появления проверенных знаний.
-
-### Greenfield минимальный стартовый комплект
-
-Перед первой существенной реализацией заполните:
-
-- `product/vision.md` — зачем существует продукт и какой outcome ожидается;
-- `product/customers.md` — для кого продукт делается;
-- `product/metrics.md` — как будет понятно, что результат полезен;
-- `domain/glossary.md` — базовые термины без конфликтующих синонимов;
-- `domain/model.md` — основные сущности и связи;
-- `engineering/architecture.md` — начальные архитектурные границы и выбранный stack;
-- `engineering/testing-policy.md` — какие проверки обязательны с первого дня;
-- `ops/development.md` — как запускать проект локально;
-- `ops/config.md` — как задаются переменные окружения и secrets;
-- ADR для каждого решения, которое будет дорого менять.
-
-### Greenfield порядок работы
-
-1. Сначала product intent: users, problem, outcome, non-goals.
-2. Затем domain language: glossary, entities, states, events, business rules.
-3. Затем engineering constraints: stack, module boundaries, testing, CI, repo workflow.
-4. Затем first initiative: PRD или epic, если работа шире одной delivery-feature.
-5. Затем первая delivery-unit: feature package или `Small Change`, если issue полностью достаточен.
-
-### Greenfield типичные ошибки
-
-- проектировать слишком много до первой проверки реальным use case;
-- фиксировать технологические предпочтения без ADR и trade-offs;
-- создавать feature packages без product/domain owner-фактов;
-- писать acceptance criteria, которые невозможно проверить;
-- откладывать testing policy и CI до “потом”;
-- смешивать template rules и project-specific решения.
-
-### Greenfield готовность
-
-Greenfield-внедрение достаточно для старта разработки, когда:
-
-- `product/`, `domain/`, `engineering/` и `ops/` задают минимальные проверяемые границы;
-- первая инициатива имеет понятный owner: issue, PRD, epic или feature package;
-- выбранные технологии и дорогие решения зафиксированы в ADR;
-- локальный запуск и проверки описаны;
-- `memory-bank lint` проходит локально;
-- CI либо подключён, либо явно отложен с причиной.
+Коротко: зафиксируйте provenance шаблона, подключите agent entrypoint, адаптируйте минимальный `product/`, `domain/`, `engineering/` и `ops/` context, проведите первую реальную задачу через Task Routing, затем подтвердите интеграцию локальным lint и GitHub CI. Не создавайте feature package автоматически: initial delivery route определяется самой задачей.
 
 ## Подключить агента
 
