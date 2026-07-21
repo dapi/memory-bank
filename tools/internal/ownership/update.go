@@ -28,6 +28,7 @@ type mutation struct {
 	decision         Decision
 	data             []byte
 	mode             fs.FileMode
+	modeSet          bool
 	expectedExists   bool
 	expectedDigest   string
 	expectedMode     string
@@ -231,7 +232,7 @@ func buildAgentPlanWithReader(repo pinnedRepo, target string, readDestination fu
 	if exists {
 		mode = info.Mode().Perm()
 	}
-	return &mutation{decision: decision, data: plan.Data, mode: mode, expectedExists: exists, expectedDigest: currentDigest, expectedMode: currentMode}, decision, nil
+	return &mutation{decision: decision, data: plan.Data, mode: mode, modeSet: true, expectedExists: exists, expectedDigest: currentDigest, expectedMode: currentMode}, decision, nil
 }
 
 // Doctor checks only the managed agent-instruction contract without mutation.
@@ -526,7 +527,7 @@ func buildPlan(repo pinnedRepo, source map[string]payload, old Lock, hasLock boo
 		decision.Ownership = file.Ownership
 		if decision.Action == Create || decision.Action == UpdateFile {
 			sourceMutations = append(sourceMutations, mutation{
-				decision: decision, data: incoming.data, mode: fileMode(incoming.mode), expectedExists: exists, expectedDigest: currentDigest, expectedMode: currentMode, topology: topology,
+				decision: decision, data: incoming.data, mode: fileMode(incoming.mode), modeSet: true, expectedExists: exists, expectedDigest: currentDigest, expectedMode: currentMode, topology: topology,
 			})
 			if topology != nil {
 				for _, prerequisite := range topology.files {
@@ -757,7 +758,7 @@ func applyAtomicallyPinnedWithOps(options Options, mutations []mutation, repo pi
 			continue
 		}
 		mode := item.mode
-		if mode == 0 {
+		if mode == 0 && !item.modeSet {
 			mode = 0o644
 		}
 		staged[index].replacement = filepath.Join(newDirectory, fmt.Sprintf("%06d", index))

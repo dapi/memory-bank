@@ -70,6 +70,36 @@ func TestAgentFileRejectsCaseAliasesOfMemoryBank(t *testing.T) {
 	}
 }
 
+func TestAgentPlanPreservesExplicitZeroMode(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("Windows does not expose Unix permission bits")
+	}
+	repoRoot := t.TempDir()
+	target := "AGENTS.md"
+	write(t, repoRoot, target, "project rules\n")
+	targetPath := filepath.Join(repoRoot, target)
+	if err := os.Chmod(targetPath, 0); err != nil {
+		t.Fatal(err)
+	}
+	info, err := os.Stat(targetPath)
+	if err != nil {
+		t.Fatal(err)
+	}
+	repo, err := pinRepoRoot(repoRoot)
+	if err != nil {
+		t.Fatal(err)
+	}
+	plan, _, err := buildAgentPlanWithReader(repo, target, func(pinnedRepo, string) (os.FileInfo, []byte, error) {
+		return info, []byte("project rules\n"), nil
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if plan == nil || !plan.modeSet || plan.mode.Perm() != 0 {
+		t.Fatalf("zero mode was not captured explicitly: %#v", plan)
+	}
+}
+
 func TestCleanUpdateAndRepeatedUpdateAreIdempotent(t *testing.T) {
 	repo, source := t.TempDir(), t.TempDir()
 	path := "memory-bank/dna/rule.md"

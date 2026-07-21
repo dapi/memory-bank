@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"runtime"
 	"strings"
 	"testing"
 )
@@ -65,6 +66,36 @@ func TestTransactionStagesAllPayloadsBeforeFirstMutation(t *testing.T) {
 	}
 	if got := read(t, repo, second); got != "b1\n" {
 		t.Fatalf("second target changed during staging: %q", got)
+	}
+	assertNoTransactionStaging(t, repo)
+}
+
+func TestTransactionDoesNotDefaultExplicitZeroMode(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("Windows does not expose Unix permission bits")
+	}
+	repo := t.TempDir()
+	stageErr := errors.New("stop after observing staged mode")
+	var stagedMode os.FileMode
+	mutations := []mutation{{
+		decision: Decision{Path: "AGENTS.md", Action: Create},
+		data:     []byte("instructions\n"),
+		mode:     0,
+		modeSet:  true,
+	}}
+	ops := transactionOps{
+		writeFile: func(_ string, _ []byte, mode os.FileMode) error {
+			stagedMode = mode
+			return stageErr
+		},
+	}
+
+	err := applyAtomicallyWithOps(Options{RepoRoot: repo}, mutations, ops)
+	if !errors.Is(err, stageErr) {
+		t.Fatalf("expected staging error, got %v", err)
+	}
+	if stagedMode != 0 {
+		t.Fatalf("explicit zero mode defaulted to %04o", stagedMode)
 	}
 	assertNoTransactionStaging(t, repo)
 }
