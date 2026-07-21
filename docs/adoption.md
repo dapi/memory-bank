@@ -1,6 +1,6 @@
 # Внедрение Memory Bank в проект
 
-Этот документ описывает, как подключить Memory Bank к существующему или новому проекту. В downstream-проект устанавливается каталог `memory-bank/`, а внутри него создаётся служебный `memory-bank/.lock`; dev-инфраструктура этого репозитория (`cmd/`, `.github/`, `.goreleaser.yml`, `go.mod`, `docs/`) не является частью шаблона приложения. Lock создаёт `memory-bank init`, а не upstream template. Его нужно коммитить: он хранит версию источника и ownership-границу для безопасных обновлений.
+Этот документ описывает, как подключить Memory Bank к существующему или новому проекту. В downstream-проект устанавливается каталог `memory-bank/`, а внутри него создаётся служебный `memory-bank/.lock`; dev-инфраструктура этого репозитория (`tools/`, `.github/`, `docs/`) не является частью шаблона приложения. Lock создаёт `memory-bank init`, а не upstream template. Его нужно коммитить: он хранит версию источника и ownership-границу для безопасных обновлений.
 
 ## Что копировать
 
@@ -120,7 +120,7 @@ codex --search \
 Для локального аудита установите `memory-bank` как внешний бинарник:
 
 ```bash
-go install github.com/dapi/memory-bank/cmd/memory-bank@latest
+go install github.com/dapi/memory-bank/tools/cmd/memory-bank@latest
 ```
 
 После этого из любого места внутри downstream Git-репозитория:
@@ -133,7 +133,7 @@ memory-bank lint
 
 ## Подключить CI
 
-CI-проверка Memory Bank должна быть opt-in в downstream-проекте. Не копируйте `.github/workflows/ci.yml` из этого репозитория: он предназначен для разработки самого шаблона и собирает локальный Go CLI из `cmd/memory-bank`.
+CI-проверка Memory Bank должна быть opt-in в downstream-проекте. Не копируйте `.github/workflows/ci.yml` из этого репозитория: он предназначен для разработки самого шаблона и собирает локальный Go CLI из `tools/cmd/memory-bank`.
 
 Перед подключением выберите конкретный release tag или commit CLI. Если оставить `@latest`, новая версия `memory-bank` сможет изменить результат проверки без изменений в downstream-репозитории.
 
@@ -167,7 +167,7 @@ jobs:
           cache: false
 
       - name: Install memory-bank
-        run: go install "github.com/dapi/memory-bank/cmd/memory-bank@${MEMORY_BANK_VERSION}"
+        run: go install "github.com/dapi/memory-bank/tools/cmd/memory-bank@${MEMORY_BANK_VERSION}"
 
       - name: Audit Memory Bank
         run: memory-bank lint
