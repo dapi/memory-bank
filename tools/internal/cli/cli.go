@@ -10,6 +10,7 @@ import (
 	"path/filepath"
 	"sort"
 
+	"github.com/dapi/memory-bank/tools/internal/doctor"
 	"github.com/dapi/memory-bank/tools/internal/lint"
 	"github.com/dapi/memory-bank/tools/internal/ownership"
 	"github.com/dapi/memory-bank/tools/internal/repository"
@@ -79,7 +80,7 @@ func printRootUsage(writer io.Writer) {
 	fmt.Fprintln(writer, "Commands:")
 	fmt.Fprintln(writer, "  init    Adopt or install a template and create its ownership lock")
 	fmt.Fprintln(writer, "  update  Safely update a template using its ownership lock")
-	fmt.Fprintln(writer, "  doctor  Check the managed agent-instruction block for drift")
+	fmt.Fprintln(writer, "  doctor  Diagnose adoption, governance, managed drift, and navigation")
 	fmt.Fprintln(writer, "  lint    Audit markdown navigation integrity")
 	fmt.Fprintln(writer)
 	fmt.Fprintln(writer, "Options:")
@@ -187,6 +188,9 @@ func runDoctor(arguments []string, stdout, stderr io.Writer) int {
 	}
 	repoRootArgument := addRepoRootFlag(flags)
 	agentFile := flags.String("agent-file", "AGENTS.md", "single repository-relative agent instruction file to check")
+	profileArgument := flags.String("profile", "auto", "diagnostic profile: auto, template, or downstream")
+	scopeRootArgument := flags.String("scope-root", defaultScopeRoot, "repository-relative Memory Bank directory to diagnose")
+	maxDepth := flags.Int("max-depth", defaultMaxDepth, "maximum navigation depth before a warning")
 	jsonOutput := addJSONOutputFlag(flags)
 	if err := flags.Parse(arguments); err != nil {
 		if errors.Is(err, flag.ErrHelp) {
@@ -198,24 +202,54 @@ func runDoctor(arguments []string, stdout, stderr io.Writer) int {
 		fmt.Fprintf(stderr, "memory-bank doctor: unexpected arguments: %v\n", flags.Args())
 		return exitUsage
 	}
+	if *maxDepth < 0 {
+		fmt.Fprintln(stderr, "memory-bank doctor: --max-depth must be greater than or equal to 0")
+		return exitUsage
+	}
+	profile, err := doctor.NormalizeProfile(*profileArgument)
+	if err != nil {
+		fmt.Fprintln(stderr, err)
+		return exitUsage
+	}
+	scopeRoot, err := lint.NormalizeScopeRoot(*scopeRootArgument)
+	if err != nil {
+		fmt.Fprintln(stderr, err)
+		return exitFailure
+	}
 	repoRoot, err := repository.ResolveRoot(*repoRootArgument)
 	if err != nil {
 		fmt.Fprintln(stderr, err)
 		return exitFailure
 	}
-	report, err := ownership.Doctor(repoRoot, *agentFile)
+	report, err := doctor.Run(doctor.Options{RepoRoot: repoRoot, ScopeRoot: scopeRoot, AgentFile: *agentFile, Profile: profile, MaxDepth: *maxDepth})
 	if err != nil {
 		fmt.Fprintln(stderr, err)
 		return exitFailure
 	}
-	if err := writeResult(stdout, *jsonOutput, report, func(writer io.Writer) { printOwnershipReport(writer, report) }); err != nil {
+	if err := writeResult(stdout, *jsonOutput, report, func(writer io.Writer) { printDoctorReport(writer, report) }); err != nil {
 		fmt.Fprintln(stderr, err)
 		return exitFailure
 	}
-	if report.DriftCount > 0 {
+	if report.Summary.Errors > 0 {
 		return exitFailure
 	}
 	return exitSuccess
+}
+
+func printDoctorReport(writer io.Writer, report doctor.Report) {
+	fmt.Fprintf(writer, "Memory Bank doctor (%s profile)\n", report.Profile)
+	if report.TemplateIdentity.Version != "" {
+		fmt.Fprintf(writer, "Template: %s (%s), lock schema %d\n", report.TemplateIdentity.Version, report.TemplateIdentity.SourceRef, report.TemplateIdentity.SchemaVersion)
+	}
+	for _, finding := range report.Findings {
+		subject := finding.Path
+		if subject == "" {
+			subject = finding.Subject
+		}
+		fmt.Fprintf(writer, "%s\t%s\t%s\t%s\n", finding.Severity, finding.Code, subject, finding.Message)
+		fmt.Fprintf(writer, "  remediation: %s\n", finding.Remediation)
+	}
+	fmt.Fprintf(writer, "Result: %d error(s), %d warning(s), %d info\n", report.Summary.Errors, report.Summary.Warnings, report.Summary.Info)
 }
 
 // RunLint executes the lint command. commandName controls only human-readable

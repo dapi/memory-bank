@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "template": {
+    "version": "v1.2.3",
+    "source_ref": "0123456789abcdef0123456789abcdef01234567"
+  },
+  "last_update": {
+    "version": "v1.2.3",
+    "at": "2026-01-01T00:00:00Z"
+  },
+  "files": {
+    "memory-bank/README.md": {
+      "ownership": "adapted",
+      "base_digest": "sha256:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+      "base_mode": "100644"
+    }
+  }
+}

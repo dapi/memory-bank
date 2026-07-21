@@ -122,6 +122,7 @@ go install github.com/dapi/memory-bank/tools/cmd/memory-bank@latest
 
 ```bash
 memory-bank lint
+memory-bank doctor
 ```
 
 Подробности по флагам, migration path и установке: [`memory-bank.md`](memory-bank.md).
@@ -165,7 +166,7 @@ jobs:
         run: go install "github.com/dapi/memory-bank/tools/cmd/memory-bank@${MEMORY_BANK_VERSION}"
 
       - name: Audit Memory Bank
-        run: memory-bank lint
+        run: memory-bank doctor
 ```
 
 Если в проекте уже есть Go toolchain setup, можно переиспользовать существующий шаг `actions/setup-go`. Если Go в проекте не используется, он нужен только для установки CLI через `go install`; после публикации release binaries или Homebrew formula CI можно заменить на установку готового бинарника.
@@ -178,5 +179,5 @@ Memory Bank считается внедрённым, когда:
 - постоянный контекст `product/`, `domain/`, `engineering/` и `ops/` отражает фактические правила проекта или явно помечает пробелы;
 - агентские инструкции указывают читать `memory-bank/README.md` и governance-ядро;
 - первая реальная задача прошла через выбранный flow или `Small Change` routing record;
-- `memory-bank lint` проходит локально;
+- `memory-bank doctor` проходит локально (и включает navigation checks `lint`);
 - CI-проверка подключена, если команда хочет блокировать PR при broken links или нарушенной индексной навигации.

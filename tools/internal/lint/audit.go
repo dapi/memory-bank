@@ -17,7 +17,17 @@ var ignoredDirectories = map[string]bool{
 }
 
 func NormalizeScopeRoot(scopeRoot string) (string, error) {
-	normalized := path.Clean(strings.TrimSpace(scopeRoot))
+	input := strings.TrimSpace(scopeRoot)
+	portableInput := strings.ReplaceAll(input, "\\", "/")
+	if path.IsAbs(portableInput) || filepath.IsAbs(input) {
+		return "", fmt.Errorf("--scope-root must point to a repository-relative directory")
+	}
+	for _, component := range strings.Split(portableInput, "/") {
+		if component == ".." {
+			return "", fmt.Errorf("--scope-root must not contain parent-directory traversal")
+		}
+	}
+	normalized := path.Clean(portableInput)
 	if normalized == "" || normalized == "." {
 		return "", fmt.Errorf("--scope-root must point to a repository-relative directory")
 	}

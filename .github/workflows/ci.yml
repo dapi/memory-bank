@@ -52,6 +52,7 @@ jobs:
           "$RUNNER_TEMP/memory-bank" lint --json > "$RUNNER_TEMP/memory-bank.json"
           "$RUNNER_TEMP/memory-bank-lint" --json > "$RUNNER_TEMP/memory-bank-lint.json"
           cmp "$RUNNER_TEMP/memory-bank.json" "$RUNNER_TEMP/memory-bank-lint.json"
+          "$RUNNER_TEMP/memory-bank" doctor --profile template --json > "$RUNNER_TEMP/memory-bank-doctor.json"
         working-directory: tools
 
   release-config:

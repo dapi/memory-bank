@@ -1,12 +1,12 @@
 # CLI memory-bank
 
-`memory-bank` безопасно устанавливает и обновляет template, а также проверяет навигационную целостность `memory-bank/`.
+`memory-bank` безопасно устанавливает и обновляет template, а также диагностирует его внедрение и целостность.
 
 Ownership-контракт, классы файлов и atomic update policy описаны в [отдельном документе](ownership.md). Основные команды:
 
 - `memory-bank init` создаёт служебный `memory-bank/.lock` и устанавливает только отсутствующие файлы;
 - `memory-bank update` строит ownership-aware mutation plan и применяет его только целиком;
-- `memory-bank doctor` проверяет актуальность managed-блока agent instructions;
+- `memory-bank doctor` выполняет read-only диагностику adoption, governance, managed drift, CI и навигации;
 - `memory-bank lint` проверяет документацию.
 
 `memory-bank lint` обнаруживает:
@@ -16,6 +16,15 @@ Ownership-контракт, классы файлов и atomic update policy о
 - достижимость каждого документа от entrypoint'ов по индексной навигации;
 - документы, которые достижимы только глубже порога навигации;
 - contract ожидаемых `README.md`-индексов.
+
+`memory-bank doctor` переиспользует этот lint engine и добавляет проверки:
+
+- template identity из `memory-bank/.lock` и drift managed/generated payloads;
+- routing из `AGENTS.md` (или выбранного `--agent-file`) и managed-блока;
+- YAML frontmatter, допустимых lifecycle enum, ацикличности `derived_from` и feature stage gates;
+- наличия doctor-gate в GitHub Actions и плавающего `@latest` в downstream CI.
+
+Команды решают разные задачи: `lint` — быстрый аудит навигации, `doctor` — полный read-only health check текущей установки, `update --dry-run` — read-only preview конкретного обновления из явно переданного template source. Только обычный `update` применяет изменения.
 
 ## Установка
 
@@ -47,6 +56,7 @@ command -v memory-bank
 
 ```bash
 memory-bank lint
+memory-bank doctor
 ```
 
 По умолчанию `memory-bank lint` ищет ближайший родительский `.git` и использует найденный каталог как repo root. Если запуск идёт вне Git-репозитория или нужно проверить другой checkout, передайте корень явно:
@@ -70,6 +80,10 @@ memory-bank lint --repo-root /path/to/repository
 - `--json` — печатает только JSON-отчёт;
 - `--version` — печатает версию бинарника и завершает работу;
 - `--help` — печатает справку по запуску и параметрам.
+
+Для `doctor` также доступны `--profile auto|template|downstream` (по умолчанию `auto`) и `--agent-file PATH`. Auto-profile считает репозиторий downstream при наличии `memory-bank/.lock`; исходный репозиторий шаблона распознаётся по локальному Go module. `--scope-root` и `--max-depth` передаются встроенной navigation-проверке.
+
+Exit code `0` означает отсутствие blocking findings уровня `error`; одни warnings не блокируют. `doctor --json` печатает публичный report format `2`: profile, template identity, summary, findings со стабильными `code`, `severity`, `group`, `path/subject`, explanation и remediation, а также исходный lint-report в поле `navigation`. Версия `2` сигнализирует несовместимое изменение схемы aggregate doctor report.
 
 ## Примеры
 
@@ -95,12 +109,12 @@ go run github.com/dapi/memory-bank/tools/cmd/memory-bank@latest lint
 ## Общий command contract
 
 - `memory-bank --help` и `memory-bank --version` относятся ко всему CLI;
-- `memory-bank lint [flags]` — read-only команда: она не изменяет проверяемый репозиторий;
+- `memory-bank lint [flags]` и `memory-bank doctor [flags]` — read-only команды: они не изменяют файлы, Git index или внешние системы;
 - результат и `--json` записываются в stdout, diagnostics и ошибки использования — в stderr;
-- exit code `0` означает успешную команду без lint errors, `1` — lint errors или operational failure, `2` — неверный вызов CLI;
+- exit code `0` означает успешную команду без blocking errors, `1` — lint/doctor errors или operational failure, `2` — неверный вызов CLI;
 - repo root находится по ближайшему родительскому `.git`, а `--repo-root` переопределяет discovery.
 
-`init` и `update` принимают `--source`, `--template-version`, `--source-ref`, `--repo-root`, `--agent-file`, `--dry-run` и `--json`. Они также управляют коротким versioned routing-блоком в `AGENTS.md`; `--agent-file` выбирает один alternative target. `doctor` принимает `--repo-root`, `--agent-file` и `--json` и проверяет этот блок без мутаций. Подробности: [managed-блок инструкций агента](agent-instructions.md). Автоматическая brownfield-адаптация не входит в CLI.
+`init` и `update` принимают `--source`, `--template-version`, `--source-ref`, `--repo-root`, `--agent-file`, `--dry-run` и `--json`. Они также управляют коротким versioned routing-блоком в `AGENTS.md`; `--agent-file` выбирает один alternative target. `doctor` проверяет блок как часть агрегированной диагностики без мутаций. Подробности: [managed-блок инструкций агента](agent-instructions.md). Автоматическая brownfield-адаптация не входит в CLI.
 
 ## Переход с memory-bank-lint
 

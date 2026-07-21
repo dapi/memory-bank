@@ -29,7 +29,7 @@ memory-bank doctor
 memory-bank doctor --json
 ```
 
-`doctor` проверяет блок без мутаций. Missing и outdated block дают planned `create/update`, ambiguous markers — `conflict`, актуальный блок — `preserve`. Любой drift возвращает exit code `1`; актуальное состояние — `0`. JSON дополнительно содержит `drift_count` и `conflict_count`.
+`doctor` проверяет блок без мутаций как часть общего adoption-аудита. Missing, outdated или ambiguous managed block становятся finding `agent.managed_block_drift` уровня `error`; актуальный блок finding не создаёт. Полный versioned JSON contract и остальные диагностические группы описаны в [`memory-bank.md`](memory-bank.md).
 
 ## Альтернативный target
 

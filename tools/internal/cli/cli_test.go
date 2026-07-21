@@ -9,6 +9,7 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/dapi/memory-bank/tools/internal/doctor"
 	"github.com/dapi/memory-bank/tools/internal/lint"
 )
 
@@ -157,7 +158,8 @@ func TestDoctorAndAlternativeAgentTarget(t *testing.T) {
 	if err := os.MkdirAll(filepath.Join(source, "memory-bank"), 0o755); err != nil {
 		t.Fatal(err)
 	}
-	if err := os.WriteFile(filepath.Join(source, "memory-bank", "README.md"), []byte("template\n"), 0o644); err != nil {
+	readme := "---\ndoc_function: index\npurpose: Test index for doctor.\nstatus: active\n---\n# Memory Bank\n"
+	if err := os.WriteFile(filepath.Join(source, "memory-bank", "README.md"), []byte(readme), 0o644); err != nil {
 		t.Fatal(err)
 	}
 	if err := os.WriteFile(filepath.Join(repo, "CLAUDE.md"), []byte("project rules\n"), 0o644); err != nil {
@@ -182,9 +184,12 @@ func TestDoctorAndAlternativeAgentTarget(t *testing.T) {
 		t.Fatalf("doctor failed with %d: %s", exitCode, stderr.String())
 	}
 	var report struct {
-		DriftCount int `json:"drift_count"`
+		FormatVersion int `json:"format_version"`
+		Summary       struct {
+			Errors int `json:"errors"`
+		} `json:"summary"`
 	}
-	if err := json.Unmarshal(stdout.Bytes(), &report); err != nil || report.DriftCount != 0 {
+	if err := json.Unmarshal(stdout.Bytes(), &report); err != nil || report.FormatVersion != doctor.ReportFormatVersion || report.Summary.Errors != 0 {
 		t.Fatalf("unexpected doctor report: %s, %v", stdout.String(), err)
 	}
 	lockBefore, err := os.ReadFile(filepath.Join(repo, "memory-bank", ".lock"))
@@ -221,46 +226,23 @@ func TestDoctorAndAlternativeAgentTarget(t *testing.T) {
 	}
 }
 
-func TestDoctorDetectsManagedBlockStates(t *testing.T) {
-	for _, test := range []struct {
-		name          string
-		content       string
-		wantExit      int
-		wantAction    string
-		wantConflicts int
-	}{
-		{name: "missing", content: "project rules\n", wantExit: 1, wantAction: "update"},
-		{name: "outdated", content: "<!-- MEMORY BANK START -->\nold\n<!-- MEMORY BANK END -->\n", wantExit: 1, wantAction: "update"},
-		{name: "ambiguous", content: "<!-- MEMORY BANK START -->\n<!-- MEMORY BANK START -->\n<!-- MEMORY BANK END -->\n", wantExit: 1, wantAction: "conflict", wantConflicts: 1},
-	} {
-		t.Run(test.name, func(t *testing.T) {
-			repo := t.TempDir()
-			if err := os.WriteFile(filepath.Join(repo, "AGENTS.md"), []byte(test.content), 0o644); err != nil {
-				t.Fatal(err)
-			}
-			var stdout, stderr bytes.Buffer
-			exitCode := Run([]string{"doctor", "--repo-root", repo, "--json"}, "test", &stdout, &stderr)
-			if exitCode != test.wantExit {
-				t.Fatalf("unexpected exit %d: %s", exitCode, stderr.String())
-			}
-			var report struct {
-				ConflictCount int `json:"conflict_count"`
-				DriftCount    int `json:"drift_count"`
-				Decisions     []struct {
-					Action string `json:"action"`
-					Diff   string `json:"diff"`
-				} `json:"decisions"`
-			}
-			if err := json.Unmarshal(stdout.Bytes(), &report); err != nil {
-				t.Fatal(err)
-			}
-			if report.DriftCount != 1 || report.ConflictCount != test.wantConflicts || len(report.Decisions) != 1 || report.Decisions[0].Action != test.wantAction {
-				t.Fatalf("unexpected report: %#v", report)
-			}
-			if test.wantAction == "update" && report.Decisions[0].Diff == "" {
-				t.Fatal("doctor did not report the planned block diff")
-			}
-		})
+func TestDoctorRejectsUnknownProfile(t *testing.T) {
+	var stdout, stderr bytes.Buffer
+	if exitCode := Run([]string{"doctor", "--profile", "mystery"}, "test", &stdout, &stderr); exitCode != 2 {
+		t.Fatalf("unexpected exit %d", exitCode)
+	}
+	if !strings.Contains(stderr.String(), "auto, template, or downstream") {
+		t.Fatalf("unexpected stderr: %s", stderr.String())
+	}
+}
+
+func TestDoctorRejectsScopeRootOutsideRepository(t *testing.T) {
+	var stdout, stderr bytes.Buffer
+	if exitCode := Run([]string{"doctor", "--scope-root", "../sibling"}, "test", &stdout, &stderr); exitCode != 1 {
+		t.Fatalf("unexpected exit %d: %s", exitCode, stderr.String())
+	}
+	if !strings.Contains(stderr.String(), "must not contain parent-directory traversal") {
+		t.Fatalf("unexpected stderr: %s", stderr.String())
 	}
 }
 

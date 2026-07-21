@@ -57,6 +57,7 @@ func parseFrontmatterListItem(item string) any {
 }
 
 func parseFrontmatter(text string) map[string]any {
+	text = strings.ReplaceAll(text, "\r\n", "\n")
 	match := frontmatterRE.FindStringSubmatch(text)
 	if match == nil {
 		return map[string]any{}
