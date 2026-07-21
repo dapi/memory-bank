@@ -4,7 +4,7 @@ package ownership
 import "time"
 
 const (
-	LockFileName         = ".memory-bank.lock.json"
+	LockFileName         = "memory-bank/.lock"
 	CurrentSchemaVersion = 1
 	ReportFormatVersion  = 1
 )

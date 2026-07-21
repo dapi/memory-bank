@@ -27,7 +27,7 @@
     },
     "files": {
       "type": "object",
-      "propertyNames": { "pattern": "^memory-bank/(?!\\.\\.(?:/|$))(?!.*\\/\\.\\.(?:/|$))[^\\\\]+$" },
+      "propertyNames": { "pattern": "^memory-bank/(?!\\.lock$)(?!\\.\\.(?:/|$))(?!.*\\/\\.\\.(?:/|$))[^\\\\]+$" },
       "additionalProperties": { "$ref": "#/$defs/file" }
     }
   },

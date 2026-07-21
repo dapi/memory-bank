@@ -1,6 +1,6 @@
 # Ownership и безопасные обновления
 
-`.memory-bank.lock.json` — repo-local контракт между downstream-проектом и версией шаблона. Файл коммитится вместе с `memory-bank/`. Формальная схема: [`schema/memory-bank-lock-v1.schema.json`](schema/memory-bank-lock-v1.schema.json).
+`memory-bank/.lock` — служебный контракт между downstream-проектом и версией шаблона. Файл создаётся командой `memory-bank init` внутри установленного `memory-bank/` и коммитится вместе с ним; из upstream template он не копируется. Формальная схема: [`schema/memory-bank-lock-v1.schema.json`](schema/memory-bank-lock-v1.schema.json).
 
 ## Классы владения
 

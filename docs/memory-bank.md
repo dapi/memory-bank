@@ -4,7 +4,7 @@
 
 Ownership-контракт, классы файлов и atomic update policy описаны в [отдельном документе](ownership.md). Основные команды:
 
-- `memory-bank init` создаёт `.memory-bank.lock.json` и устанавливает только отсутствующие файлы;
+- `memory-bank init` создаёт служебный `memory-bank/.lock` и устанавливает только отсутствующие файлы;
 - `memory-bank update` строит ownership-aware mutation plan и применяет его только целиком;
 - `memory-bank lint` проверяет документацию.
 

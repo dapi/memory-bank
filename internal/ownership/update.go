@@ -265,6 +265,9 @@ func buildPlan(repo pinnedRepo, source map[string]payload, old Lock, hasLock boo
 	if _, err := inspectRepoRoot(repo.root, repo.info); err != nil {
 		return nil, nil, Lock{}, err
 	}
+	if _, exists := source[LockFileName]; exists {
+		return nil, nil, Lock{}, fmt.Errorf("template source contains reserved metadata path: %s", LockFileName)
+	}
 	next := Lock{Files: make(map[string]File)}
 	var removalMutations []mutation
 	var removalDecisions []Decision

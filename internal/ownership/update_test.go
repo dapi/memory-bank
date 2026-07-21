@@ -83,6 +83,20 @@ func TestCleanUpdateAndRepeatedUpdateAreIdempotent(t *testing.T) {
 	}
 }
 
+func TestInitRejectsReservedLockPathInTemplate(t *testing.T) {
+	repo, source := t.TempDir(), t.TempDir()
+	write(t, source, "memory-bank/dna/rule.md", "template\n")
+	write(t, source, LockFileName, "not runtime metadata\n")
+
+	report, err := Init(opts(repo, source, "a"))
+	if err == nil || !strings.Contains(err.Error(), "reserved metadata path") {
+		t.Fatalf("expected reserved-path error, got report=%#v err=%v", report, err)
+	}
+	if _, statErr := os.Lstat(filepath.Join(repo, LockFileName)); !os.IsNotExist(statErr) {
+		t.Fatalf("failed init created a lock: %v", statErr)
+	}
+}
+
 func TestExecutableModeIsInstalledAndUpdated(t *testing.T) {
 	if runtime.GOOS == "windows" {
 		t.Skip("Windows does not expose Unix executable permission bits")

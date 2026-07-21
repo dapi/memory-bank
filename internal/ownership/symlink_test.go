@@ -41,6 +41,9 @@ func TestReadLockRejectsSymlinkLeaf(t *testing.T) {
 	write(t, source, "memory-bank/dna/rule.md", "template\n")
 	initialize(t, lockOwner, source)
 	outsideLock := filepath.Join(lockOwner, LockFileName)
+	if err := os.MkdirAll(filepath.Join(repo, "memory-bank"), 0o755); err != nil {
+		t.Fatal(err)
+	}
 	symlinkForTest(t, outsideLock, filepath.Join(repo, LockFileName))
 
 	_, exists, err := ReadLock(repo)
