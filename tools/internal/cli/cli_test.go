@@ -80,7 +80,7 @@ func TestRootHelpAndVersion(t *testing.T) {
 }
 
 func TestRootRejectsMissingAndUnknownCommands(t *testing.T) {
-	for _, arguments := range [][]string{nil, {"doctor"}} {
+	for _, arguments := range [][]string{nil, {"unknown"}} {
 		var stdout, stderr bytes.Buffer
 		if exitCode := Run(arguments, "test", &stdout, &stderr); exitCode != 2 {
 			t.Fatalf("unexpected exit code %d for %v", exitCode, arguments)
@@ -144,11 +144,153 @@ func TestOwnershipDryRunJSONReportsPlanWithoutMutation(t *testing.T) {
 	if err := json.Unmarshal(stdout.Bytes(), &report); err != nil {
 		t.Fatalf("invalid report: %v\n%s", err, stdout.String())
 	}
-	if report.FormatVersion != 1 || !report.DryRun || len(report.Decisions) != 1 || report.Decisions[0].Action != "create" {
+	if report.FormatVersion != 1 || !report.DryRun || len(report.Decisions) != 2 || report.Decisions[0].Action != "create" || report.Decisions[1].Action != "create" {
 		t.Fatalf("unexpected report: %#v", report)
 	}
 	if _, err := os.Stat(filepath.Join(repo, "memory-bank", "dna", "rule.md")); !os.IsNotExist(err) {
 		t.Fatalf("dry-run mutated repository: %v", err)
+	}
+}
+
+func TestDoctorAndAlternativeAgentTarget(t *testing.T) {
+	repo, source := t.TempDir(), t.TempDir()
+	if err := os.MkdirAll(filepath.Join(source, "memory-bank"), 0o755); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(filepath.Join(source, "memory-bank", "README.md"), []byte("template\n"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(filepath.Join(repo, "CLAUDE.md"), []byte("project rules\n"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	sourceRef := commitCLISource(t, source, "source")
+	args := []string{"init", "--repo-root", repo, "--source", source, "--template-version", "v1", "--source-ref", sourceRef, "--agent-file", "CLAUDE.md"}
+	var stdout, stderr bytes.Buffer
+	if exitCode := Run(args, "test", &stdout, &stderr); exitCode != 0 {
+		t.Fatalf("init failed with %d: %s", exitCode, stderr.String())
+	}
+	claude, err := os.ReadFile(filepath.Join(repo, "CLAUDE.md"))
+	if err != nil || !strings.HasPrefix(string(claude), "project rules\n\n<!-- MEMORY BANK START -->") {
+		t.Fatalf("alternative target did not preserve content: %q, %v", claude, err)
+	}
+	if _, err := os.Stat(filepath.Join(repo, "AGENTS.md")); !os.IsNotExist(err) {
+		t.Fatalf("default target was also created: %v", err)
+	}
+	stdout.Reset()
+	stderr.Reset()
+	if exitCode := Run([]string{"doctor", "--repo-root", repo, "--agent-file", "CLAUDE.md", "--json"}, "test", &stdout, &stderr); exitCode != 0 {
+		t.Fatalf("doctor failed with %d: %s", exitCode, stderr.String())
+	}
+	var report struct {
+		DriftCount int `json:"drift_count"`
+	}
+	if err := json.Unmarshal(stdout.Bytes(), &report); err != nil || report.DriftCount != 0 {
+		t.Fatalf("unexpected doctor report: %s, %v", stdout.String(), err)
+	}
+	lockBefore, err := os.ReadFile(filepath.Join(repo, "memory-bank", ".lock"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	outdated := []byte("project rules\n\n<!-- MEMORY BANK START -->\nold\n<!-- MEMORY BANK END -->\n")
+	if err := os.WriteFile(filepath.Join(repo, "CLAUDE.md"), outdated, 0o644); err != nil {
+		t.Fatal(err)
+	}
+	stdout.Reset()
+	stderr.Reset()
+	updateArgs := append([]string{"update"}, args[1:]...)
+	if exitCode := Run(updateArgs, "test", &stdout, &stderr); exitCode != 0 {
+		t.Fatalf("managed-block update failed with %d: %s", exitCode, stderr.String())
+	}
+	after, _ := os.ReadFile(filepath.Join(repo, "CLAUDE.md"))
+	if !bytes.Equal(after, claude) {
+		t.Fatalf("managed-block update did not restore current payload: %q", after)
+	}
+	lockAfter, err := os.ReadFile(filepath.Join(repo, "memory-bank", ".lock"))
+	if err != nil || !bytes.Equal(lockBefore, lockAfter) {
+		t.Fatalf("agent-only update changed template lock: %v", err)
+	}
+	before := append([]byte(nil), after...)
+	stdout.Reset()
+	stderr.Reset()
+	if exitCode := Run(updateArgs, "test", &stdout, &stderr); exitCode != 0 {
+		t.Fatalf("idempotent update failed with %d: %s", exitCode, stderr.String())
+	}
+	after, _ = os.ReadFile(filepath.Join(repo, "CLAUDE.md"))
+	if !bytes.Equal(before, after) {
+		t.Fatalf("idempotent update changed target")
+	}
+}
+
+func TestDoctorDetectsManagedBlockStates(t *testing.T) {
+	for _, test := range []struct {
+		name          string
+		content       string
+		wantExit      int
+		wantAction    string
+		wantConflicts int
+	}{
+		{name: "missing", content: "project rules\n", wantExit: 1, wantAction: "update"},
+		{name: "outdated", content: "<!-- MEMORY BANK START -->\nold\n<!-- MEMORY BANK END -->\n", wantExit: 1, wantAction: "update"},
+		{name: "ambiguous", content: "<!-- MEMORY BANK START -->\n<!-- MEMORY BANK START -->\n<!-- MEMORY BANK END -->\n", wantExit: 1, wantAction: "conflict", wantConflicts: 1},
+	} {
+		t.Run(test.name, func(t *testing.T) {
+			repo := t.TempDir()
+			if err := os.WriteFile(filepath.Join(repo, "AGENTS.md"), []byte(test.content), 0o644); err != nil {
+				t.Fatal(err)
+			}
+			var stdout, stderr bytes.Buffer
+			exitCode := Run([]string{"doctor", "--repo-root", repo, "--json"}, "test", &stdout, &stderr)
+			if exitCode != test.wantExit {
+				t.Fatalf("unexpected exit %d: %s", exitCode, stderr.String())
+			}
+			var report struct {
+				ConflictCount int `json:"conflict_count"`
+				DriftCount    int `json:"drift_count"`
+				Decisions     []struct {
+					Action string `json:"action"`
+					Diff   string `json:"diff"`
+				} `json:"decisions"`
+			}
+			if err := json.Unmarshal(stdout.Bytes(), &report); err != nil {
+				t.Fatal(err)
+			}
+			if report.DriftCount != 1 || report.ConflictCount != test.wantConflicts || len(report.Decisions) != 1 || report.Decisions[0].Action != test.wantAction {
+				t.Fatalf("unexpected report: %#v", report)
+			}
+			if test.wantAction == "update" && report.Decisions[0].Diff == "" {
+				t.Fatal("doctor did not report the planned block diff")
+			}
+		})
+	}
+}
+
+func TestInitRejectsAmbiguousMarkersWithoutMutation(t *testing.T) {
+	repo, source := t.TempDir(), t.TempDir()
+	if err := os.MkdirAll(filepath.Join(source, "memory-bank"), 0o755); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(filepath.Join(source, "memory-bank", "README.md"), []byte("template\n"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	original := []byte("rules\n<!-- MEMORY BANK START -->\n<!-- MEMORY BANK START -->\n<!-- MEMORY BANK END -->\n")
+	if err := os.WriteFile(filepath.Join(repo, "AGENTS.md"), original, 0o644); err != nil {
+		t.Fatal(err)
+	}
+	sourceRef := commitCLISource(t, source, "source")
+	arguments := []string{"init", "--repo-root", repo, "--source", source, "--template-version", "v1", "--source-ref", sourceRef}
+	var stdout, stderr bytes.Buffer
+	if exitCode := Run(arguments, "test", &stdout, &stderr); exitCode != 1 {
+		t.Fatalf("unexpected exit %d: %s", exitCode, stderr.String())
+	}
+	current, err := os.ReadFile(filepath.Join(repo, "AGENTS.md"))
+	if err != nil || !bytes.Equal(current, original) {
+		t.Fatalf("conflict changed user content: %q, %v", current, err)
+	}
+	if _, err := os.Stat(filepath.Join(repo, "memory-bank", "README.md")); !os.IsNotExist(err) {
+		t.Fatalf("conflict partially installed template: %v", err)
+	}
+	if _, err := os.Stat(filepath.Join(repo, "memory-bank", ".lock")); !os.IsNotExist(err) {
+		t.Fatalf("conflict created lock: %v", err)
 	}
 }
 

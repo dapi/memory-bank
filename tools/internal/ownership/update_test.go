@@ -59,6 +59,17 @@ func decisionFor(t *testing.T, report Report, path string) Decision {
 	return Decision{}
 }
 
+func TestAgentFileRejectsCaseAliasesOfMemoryBank(t *testing.T) {
+	repo := t.TempDir()
+	for _, target := range []string{"memory-bank", "Memory-Bank/README.md", "MEMORY-BANK/dna/README.md"} {
+		t.Run(target, func(t *testing.T) {
+			if _, err := Doctor(repo, target); err == nil || !strings.Contains(err.Error(), "outside memory-bank") {
+				t.Fatalf("target %q was not rejected: %v", target, err)
+			}
+		})
+	}
+}
+
 func TestCleanUpdateAndRepeatedUpdateAreIdempotent(t *testing.T) {
 	repo, source := t.TempDir(), t.TempDir()
 	path := "memory-bank/dna/rule.md"

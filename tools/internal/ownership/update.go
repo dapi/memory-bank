@@ -14,6 +14,8 @@ import (
 	"sort"
 	"strings"
 	"time"
+
+	"github.com/dapi/memory-bank/tools/internal/agentinstructions"
 )
 
 type payload struct {
@@ -112,6 +114,15 @@ func run(options Options, old Lock, hasLock bool, repo pinnedRepo, lockDigest st
 	if err != nil {
 		return Report{}, err
 	}
+	templateMutationCount := len(mutations)
+	agentMutation, agentDecision, err := buildAgentPlan(repo, options.AgentFile)
+	if err != nil {
+		return Report{}, err
+	}
+	decisions = append(decisions, agentDecision)
+	if agentMutation != nil {
+		mutations = append(mutations, *agentMutation)
+	}
 	report := Report{FormatVersion: ReportFormatVersion, DryRun: options.DryRun, Decisions: decisions}
 	for _, decision := range decisions {
 		if decision.Action == Conflict {
@@ -122,8 +133,20 @@ func run(options Options, old Lock, hasLock bool, repo pinnedRepo, lockDigest st
 		return report, nil
 	}
 	template := Template{Version: options.TemplateVersion, SourceRef: options.SourceRef}
-	needsLockWrite := !hasLock || len(mutations) > 0 || old.SchemaVersion != CurrentSchemaVersion || old.Template != template
+	needsLockWrite := !hasLock || templateMutationCount > 0 || old.SchemaVersion != CurrentSchemaVersion || old.Template != template
 	if !needsLockWrite {
+		if len(mutations) == 0 {
+			return report, nil
+		}
+		if err := applyAtomicallyPinned(options, mutations, repo); err != nil {
+			var committed *committedError
+			if errors.As(err, &committed) {
+				report.Applied = true
+				return report, err
+			}
+			return Report{}, err
+		}
+		report.Applied = true
 		return report, nil
 	}
 	now := time.Now
@@ -153,6 +176,81 @@ func run(options Options, old Lock, hasLock bool, repo pinnedRepo, lockDigest st
 		return Report{}, err
 	}
 	report.Applied = true
+	return report, nil
+}
+
+func buildAgentPlan(repo pinnedRepo, target string) (*mutation, Decision, error) {
+	return buildAgentPlanWithReader(repo, target, secureReadDestination)
+}
+
+func buildAgentPlanWithReader(repo pinnedRepo, target string, readDestination func(pinnedRepo, string) (os.FileInfo, []byte, error)) (*mutation, Decision, error) {
+	if target == "" {
+		target = agentinstructions.DefaultTarget
+	}
+	firstComponent := strings.SplitN(target, "/", 2)[0]
+	if strings.EqualFold(firstComponent, "memory-bank") {
+		return nil, Decision{}, fmt.Errorf("agent instruction file must be outside memory-bank/: %q", target)
+	}
+	_, info, exists, err := inspectDestination(repo, target)
+	if err != nil {
+		return nil, Decision{}, err
+	}
+	var original []byte
+	currentDigest, currentMode := "", ""
+	if exists {
+		var readInfo os.FileInfo
+		readInfo, original, err = readDestination(repo, target)
+		if err != nil {
+			return nil, Decision{}, fmt.Errorf("read agent instruction file %q: %w", target, err)
+		}
+		if !os.SameFile(info, readInfo) {
+			return nil, Decision{}, fmt.Errorf("read agent instruction file %q: destination changed while it was being planned", target)
+		}
+		currentDigest = digest(original)
+		currentMode = observedMode(info.Mode().Perm())
+	}
+	plan := agentinstructions.BuildPlan(original)
+	decision := Decision{Path: target, Ownership: Managed, Diff: plan.Diff}
+	switch plan.Status {
+	case agentinstructions.Current:
+		decision.Action, decision.Reason = Preserve, "managed Memory Bank block is current"
+		return nil, decision, nil
+	case agentinstructions.Missing:
+		if exists {
+			decision.Action, decision.Reason = UpdateFile, "add missing managed Memory Bank block"
+		} else {
+			decision.Action, decision.Reason = Create, "create agent instructions with managed Memory Bank block"
+		}
+	case agentinstructions.Outdated:
+		decision.Action, decision.Reason = UpdateFile, "replace outdated managed Memory Bank block"
+	case agentinstructions.Ambiguous:
+		decision.Action, decision.Reason = Conflict, "managed Memory Bank markers are damaged or ambiguous"
+		return nil, decision, nil
+	}
+	mode := fs.FileMode(0o644)
+	if exists {
+		mode = info.Mode().Perm()
+	}
+	return &mutation{decision: decision, data: plan.Data, mode: mode, expectedExists: exists, expectedDigest: currentDigest, expectedMode: currentMode}, decision, nil
+}
+
+// Doctor checks only the managed agent-instruction contract without mutation.
+func Doctor(repoRoot, target string) (Report, error) {
+	repo, err := pinRepoRoot(repoRoot)
+	if err != nil {
+		return Report{}, err
+	}
+	_, decision, err := buildAgentPlan(repo, target)
+	if err != nil {
+		return Report{}, err
+	}
+	report := Report{FormatVersion: ReportFormatVersion, DryRun: true, Decisions: []Decision{decision}}
+	if decision.Action == Conflict {
+		report.ConflictCount = 1
+	}
+	if decision.Action != Preserve {
+		report.DriftCount = 1
+	}
 	return report, nil
 }
 

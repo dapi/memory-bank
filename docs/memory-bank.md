@@ -6,6 +6,7 @@ Ownership-контракт, классы файлов и atomic update policy о
 
 - `memory-bank init` создаёт служебный `memory-bank/.lock` и устанавливает только отсутствующие файлы;
 - `memory-bank update` строит ownership-aware mutation plan и применяет его только целиком;
+- `memory-bank doctor` проверяет актуальность managed-блока agent instructions;
 - `memory-bank lint` проверяет документацию.
 
 `memory-bank lint` обнаруживает:
@@ -99,7 +100,7 @@ go run github.com/dapi/memory-bank/tools/cmd/memory-bank@latest lint
 - exit code `0` означает успешную команду без lint errors, `1` — lint errors или operational failure, `2` — неверный вызов CLI;
 - repo root находится по ближайшему родительскому `.git`, а `--repo-root` переопределяет discovery.
 
-`init` и `update` принимают `--source`, `--template-version`, `--source-ref`, `--repo-root`, `--dry-run` и `--json`. Команда `doctor` и автоматическая brownfield-адаптация остаются отдельными будущими возможностями и не входят в `memory-bank lint`.
+`init` и `update` принимают `--source`, `--template-version`, `--source-ref`, `--repo-root`, `--agent-file`, `--dry-run` и `--json`. Они также управляют коротким versioned routing-блоком в `AGENTS.md`; `--agent-file` выбирает один alternative target. `doctor` принимает `--repo-root`, `--agent-file` и `--json` и проверяет этот блок без мутаций. Подробности: [managed-блок инструкций агента](agent-instructions.md). Автоматическая brownfield-адаптация не входит в CLI.
 
 ## Переход с memory-bank-lint
 

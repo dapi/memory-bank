@@ -22,12 +22,7 @@ memory-bank init \
 
 Команда не перезаписывает адаптированные и пользовательские документы. Для уже скопированного template она создаст lock поверх совпадающих файлов. Если managed-файл отличается от выбранного source, сначала разберите conflict. Подробный ownership-контракт и процедура обновления: [`ownership.md`](ownership.md).
 
-Опционально добавьте в downstream-проект собственный `AGENTS.md`, `CLAUDE.md` или аналогичный файл с правилом начинать работу с:
-
-```text
-memory-bank/README.md
-memory-bank/dna/README.md
-```
+`init` также безопасно создаёт или обновляет [managed-блок agent instructions](agent-instructions.md) в корневом `AGENTS.md`. Существующий текст вне markers сохраняется. Если проект использует другой файл, передайте единственный явный target, например `--agent-file CLAUDE.md`; CLI не создаёт конкурирующие блоки автоматически.
 
 Не копируйте весь репозиторий `dapi/memory-bank` как основу продукта, если вам не нужна разработка самого шаблона и CLI. Иначе в downstream-проект попадут CI/release-файлы шаблона, Go-модуль и исходники `memory-bank`.
 
@@ -38,7 +33,7 @@ memory-bank/dna/README.md
 Цель brownfield-внедрения — сделать текущий контекст проекта видимым и проверяемым для людей и агентов. Не начинайте с идеального описания будущей архитектуры. Сначала зафиксируйте то, что уже влияет на разработку: реальные пользователи, термины, ограничения, интеграции, принятые решения, неочевидные правила и known gaps.
 
 1. Установите каталог `memory-bank/` и lock через `memory-bank init`.
-2. Добавьте в `AGENTS.md`, `CLAUDE.md` или аналогичный файл инструкцию начинать работу с `memory-bank/README.md`.
+2. Проверьте созданный `init` managed-блок в `AGENTS.md` или укажите alternative target через `--agent-file`.
 3. Проведите inventory существующего кода, документации, терминов, архитектурных решений и процессов.
 4. Адаптируйте `product/`, `domain/`, `engineering/` и `ops/`. В `engineering/ui-design-guide/` заполните draft-заготовки для реальных UI surfaces и удалите неприменимые файлы вместе со ссылками из index. Не выдумывайте отсутствующие знания: отмечайте пробелы и вопросы явно.
 5. Перенесите устойчивые сценарии в `use-cases/`, а значимые принятые решения — в ADR.
@@ -103,7 +98,7 @@ codex --search \
 
 ## Подключить агента
 
-Добавьте в `AGENTS.md`, `CLAUDE.md` или аналогичный файл правило начинать работу с `memory-bank/README.md` и `memory-bank/dna/README.md`. Если файл уже содержит project-specific инструкции, дополните их маршрутизацией в Memory Bank, не заменяя существующие правила проекта.
+Используйте managed-блок, который устанавливает `memory-bank init`: он направляет агента к `memory-bank/README.md`, `memory-bank/dna/README.md` и `memory-bank/flows/routing.md`, не копируя governance. Не редактируйте содержимое между markers вручную; project-specific инструкции размещайте снаружи. Полный marker, update, doctor и alternative-target contract описан в [managed-блоках agent instructions](agent-instructions.md).
 
 Для первой адаптации можно использовать запрос:
 
