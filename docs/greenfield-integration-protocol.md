@@ -8,6 +8,18 @@ Memory Bank становится версионируемым project-specific s
 
 Протокол не применяется без адаптации: generic template задаёт структуру и governance, а downstream-репозиторий владеет фактами конкретного проекта.
 
+## Как запустить протокол
+
+Откройте Codex в корне downstream-репозитория и отправьте короткий prompt:
+
+```text
+Прочитай протокол адаптации Memory Bank по адресу
+https://github.com/dapi/memory-bank/blob/main/docs/greenfield-integration-protocol.md
+и выполни его в текущем репозитории.
+```
+
+Для воспроизводимого запуска замените `main` в URL на immutable commit SHA. Дополнительные инструкции в prompt не требуются: scope, порядок фаз, gates, остановка при blocking ambiguity и Definition of Done принадлежат самому протоколу.
+
 ## Инварианты
 
 1. Каждый устойчивый факт имеет одного canonical owner; код продолжает владеть implementation details.
