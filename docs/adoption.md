@@ -93,11 +93,11 @@ Brownfield-внедрение достаточно для первого раб�
 Для запуска выполните в корне downstream-репозитория:
 
 ```bash
-codex --search --sandbox workspace-write --ask-for-approval on-request \
+codex --search \
   "Прочитай протокол адаптации Memory Bank по адресу https://github.com/dapi/memory-bank/blob/main/docs/greenfield-integration-protocol.md и выполни его в текущем репозитории."
 ```
 
-Команда передаёт prompt при запуске интерактивной Codex-сессии. Codex может изменять файлы внутри workspace и запрашивает подтверждение для действий, которым нужны дополнительные разрешения. Для воспроизводимого запуска замените `main` в URL на immutable commit SHA.
+Команда передаёт prompt при запуске интерактивной Codex-сессии и использует sandbox и approval policy из пользовательской конфигурации. Для воспроизводимого запуска замените `main` в URL на immutable commit SHA.
 
 ## Подключить агента
 
