@@ -47,8 +47,9 @@ type markerLine struct {
 func BuildPlan(original []byte) Plan {
 	rawStarts := bytes.Count(original, []byte(StartMarker))
 	rawEnds := bytes.Count(original, []byte(EndMarker))
-	markerLikeStarts := bytes.Count(original, []byte("<!-- MEMORY BANK START"))
-	markerLikeEnds := bytes.Count(original, []byte("<!-- MEMORY BANK END"))
+	upper := bytes.ToUpper(original)
+	markerLikeStarts := bytes.Count(upper, []byte("<!-- MEMORY BANK START"))
+	markerLikeEnds := bytes.Count(upper, []byte("<!-- MEMORY BANK END"))
 	starts, ends := standaloneMarkers(original)
 	if markerLikeStarts != rawStarts || markerLikeEnds != rawEnds || rawStarts != len(starts) || rawEnds != len(ends) {
 		return Plan{Status: Ambiguous}

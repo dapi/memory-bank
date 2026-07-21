@@ -20,6 +20,8 @@ func TestBuildPlan(t *testing.T) {
 		{name: "duplicate markers", input: []byte(StartMarker + "\n" + EndMarker + "\n" + StartMarker + "\n" + EndMarker), status: Ambiguous},
 		{name: "missing end marker", input: []byte(StartMarker + "\ntext"), status: Ambiguous},
 		{name: "damaged start marker", input: []byte("<!-- MEMORY BANK START v0 -->\ntext\n" + EndMarker), status: Ambiguous},
+		{name: "lowercase damaged markers", input: []byte("<!-- memory bank start -->\nold\n<!-- memory bank end -->\n"), status: Ambiguous},
+		{name: "mixed case damaged markers", input: []byte("<!-- Memory Bank Start -->\nold\n<!-- Memory Bank End -->\n"), status: Ambiguous},
 		{name: "inline marker references", input: []byte("Document " + StartMarker + " and later " + EndMarker + " in prose.\n"), status: Ambiguous},
 		{name: "indented markers", input: []byte("  " + StartMarker + "\ntext\n  " + EndMarker + "\n"), status: Ambiguous},
 		{name: "trailing marker whitespace", input: []byte(StartMarker + " \ntext\n" + EndMarker + "\n"), status: Ambiguous},
