@@ -7,8 +7,11 @@ import (
 	"flag"
 	"fmt"
 	"io"
+	"path/filepath"
+	"sort"
 
 	"github.com/dapi/memory-bank/internal/lint"
+	"github.com/dapi/memory-bank/internal/ownership"
 	"github.com/dapi/memory-bank/internal/repository"
 )
 
@@ -41,6 +44,10 @@ func Run(arguments []string, version string, stdout, stderr io.Writer) int {
 	switch arguments[0] {
 	case "lint":
 		return RunLint(arguments[1:], "memory-bank lint", version, stdout, stderr)
+	case "init":
+		return runOwnership(arguments[1:], "init", stdout, stderr)
+	case "update":
+		return runOwnership(arguments[1:], "update", stdout, stderr)
 	case "--version", "-version":
 		if len(arguments) != 1 {
 			fmt.Fprintf(stderr, "memory-bank: unexpected arguments: %v\n", arguments[1:])
@@ -68,11 +75,99 @@ func printRootUsage(writer io.Writer) {
 	fmt.Fprintln(writer, "Usage: memory-bank <command> [options]")
 	fmt.Fprintln(writer)
 	fmt.Fprintln(writer, "Commands:")
+	fmt.Fprintln(writer, "  init    Adopt or install a template and create its ownership lock")
+	fmt.Fprintln(writer, "  update  Safely update a template using its ownership lock")
 	fmt.Fprintln(writer, "  lint    Audit markdown navigation integrity")
 	fmt.Fprintln(writer)
 	fmt.Fprintln(writer, "Options:")
 	fmt.Fprintln(writer, "  --help       Show this help")
 	fmt.Fprintln(writer, "  --version    Print the version and exit")
+}
+
+func runOwnership(arguments []string, command string, stdout, stderr io.Writer) int {
+	flags := flag.NewFlagSet("memory-bank "+command, flag.ContinueOnError)
+	flags.SetOutput(stderr)
+	flags.Usage = func() {
+		fmt.Fprintf(stderr, "Usage: memory-bank %s --source DIR --template-version VERSION --source-ref REF [options]\n", command)
+		flags.PrintDefaults()
+	}
+	repoRootArgument := addRepoRootFlag(flags)
+	sourceRootArgument := flags.String("source", "", "clean template Git checkout containing memory-bank/")
+	templateVersion := flags.String("template-version", "", "human-readable template version")
+	sourceRef := flags.String("source-ref", "", "full commit SHA matching the source checkout HEAD")
+	dryRun := flags.Bool("dry-run", false, "print the complete mutation plan without applying it")
+	jsonOutput := addJSONOutputFlag(flags)
+	if err := flags.Parse(arguments); err != nil {
+		if errors.Is(err, flag.ErrHelp) {
+			return exitSuccess
+		}
+		return exitUsage
+	}
+	if flags.NArg() > 0 {
+		fmt.Fprintf(stderr, "memory-bank %s: unexpected arguments: %v\n", command, flags.Args())
+		return exitUsage
+	}
+	if *sourceRootArgument == "" || *templateVersion == "" || *sourceRef == "" {
+		fmt.Fprintf(stderr, "memory-bank %s: --source, --template-version, and --source-ref are required\n", command)
+		return exitUsage
+	}
+	repoRoot, err := repository.ResolveRoot(*repoRootArgument)
+	if err != nil {
+		fmt.Fprintln(stderr, err)
+		return exitFailure
+	}
+	sourceRoot, err := filepath.Abs(*sourceRootArgument)
+	if err != nil {
+		fmt.Fprintln(stderr, err)
+		return exitFailure
+	}
+	options := ownership.Options{
+		RepoRoot: repoRoot, SourceRoot: sourceRoot, TemplateVersion: *templateVersion,
+		SourceRef: *sourceRef, DryRun: *dryRun,
+	}
+	var report ownership.Report
+	if command == "init" {
+		report, err = ownership.Init(options)
+	} else {
+		report, err = ownership.Update(options)
+	}
+	if err != nil {
+		if report.Applied {
+			if outputErr := writeResult(stdout, *jsonOutput, report, func(writer io.Writer) {
+				printOwnershipReport(writer, report)
+			}); outputErr != nil {
+				fmt.Fprintln(stderr, outputErr)
+			}
+		}
+		fmt.Fprintln(stderr, err)
+		return exitFailure
+	}
+	if err := writeResult(stdout, *jsonOutput, report, func(writer io.Writer) {
+		printOwnershipReport(writer, report)
+	}); err != nil {
+		fmt.Fprintln(stderr, err)
+		return exitFailure
+	}
+	if report.ConflictCount > 0 {
+		return exitFailure
+	}
+	return exitSuccess
+}
+
+func printOwnershipReport(writer io.Writer, report ownership.Report) {
+	decisions := append([]ownership.Decision(nil), report.Decisions...)
+	sort.Slice(decisions, func(i, j int) bool { return decisions[i].Path < decisions[j].Path })
+	for _, decision := range decisions {
+		fmt.Fprintf(writer, "%s\t%s\t%s\t%s\n", decision.Action, decision.Ownership, decision.Path, decision.Reason)
+	}
+	switch {
+	case report.ConflictCount > 0:
+		fmt.Fprintf(writer, "update not applied: %d conflict(s)\n", report.ConflictCount)
+	case report.DryRun:
+		fmt.Fprintln(writer, "dry run: no files changed")
+	case report.Applied:
+		fmt.Fprintln(writer, "update applied atomically")
+	}
 }
 
 // RunLint executes the lint command. commandName controls only human-readable

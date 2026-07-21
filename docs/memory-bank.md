@@ -1,6 +1,14 @@
 # CLI memory-bank
 
-`memory-bank lint` проверяет навигационную целостность `memory-bank/`:
+`memory-bank` безопасно устанавливает и обновляет template, а также проверяет навигационную целостность `memory-bank/`.
+
+Ownership-контракт, классы файлов и atomic update policy описаны в [отдельном документе](ownership.md). Основные команды:
+
+- `memory-bank init` создаёт служебный `memory-bank/.lock` и устанавливает только отсутствующие файлы;
+- `memory-bank update` строит ownership-aware mutation plan и применяет его только целиком;
+- `memory-bank lint` проверяет документацию.
+
+`memory-bank lint` обнаруживает:
 
 - broken relative markdown links внутри audit scope;
 - orphan-документы, на которые никто не ссылается внутри scope;
@@ -91,7 +99,7 @@ go run github.com/dapi/memory-bank/cmd/memory-bank@latest lint
 - exit code `0` означает успешную команду без lint errors, `1` — lint errors или operational failure, `2` — неверный вызов CLI;
 - repo root находится по ближайшему родительскому `.git`, а `--repo-root` переопределяет discovery.
 
-CLI спроектирован для расширения командами `init`, `update`, `doctor` и `adapt brownfield`. Они не реализованы в текущем релизе; в частности, автоматическая brownfield-адаптация не входит в `memory-bank lint`.
+`init` и `update` принимают `--source`, `--template-version`, `--source-ref`, `--repo-root`, `--dry-run` и `--json`. Команда `doctor` и автоматическая brownfield-адаптация остаются отдельными будущими возможностями и не входят в `memory-bank lint`.
 
 ## Переход с memory-bank-lint
 

@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/dapi/memory-bank/blob/main/docs/schema/memory-bank-lock-v1.schema.json",
+  "title": "Memory Bank ownership lock v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "template", "last_update", "files"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "template": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["version", "source_ref"],
+      "properties": {
+        "version": { "type": "string", "minLength": 1 },
+        "source_ref": { "type": "string", "pattern": "^[0-9a-fA-F]{40}([0-9a-fA-F]{24})?$" }
+      }
+    },
+    "last_update": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["version", "at"],
+      "properties": {
+        "version": { "type": "string", "minLength": 1 },
+        "at": { "type": "string", "format": "date-time" }
+      }
+    },
+    "files": {
+      "type": "object",
+      "propertyNames": { "pattern": "^memory-bank/(?!\\.lock$)(?!\\.\\.(?:/|$))(?!.*\\/\\.\\.(?:/|$))[^\\\\]+$" },
+      "additionalProperties": { "$ref": "#/$defs/file" }
+    }
+  },
+  "$defs": {
+    "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "file": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ownership"],
+      "properties": {
+        "ownership": { "enum": ["managed", "adapted", "user-owned", "generated"] },
+        "base_digest": { "$ref": "#/$defs/digest" },
+        "payload_digest": { "$ref": "#/$defs/digest" },
+        "base_mode": { "$ref": "#/$defs/mode" },
+        "payload_mode": { "$ref": "#/$defs/mode" }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "ownership": { "enum": ["managed", "generated"] } } },
+          "then": { "required": ["base_digest", "payload_digest", "base_mode", "payload_mode"] }
+        },
+        {
+          "if": { "properties": { "ownership": { "const": "adapted" } } },
+          "then": { "required": ["base_digest", "base_mode"] }
+        }
+      ]
+    },
+    "mode": { "enum": ["100644", "100755"] }
+  }
+}

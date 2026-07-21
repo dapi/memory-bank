@@ -52,7 +52,7 @@ problem space            solution space             execution space
 
 ## Внедрение в проект
 
-В downstream-проект обычно копируется только каталог `memory-bank/`. Исходники CLI, Go-модуль, CI и release-конфигурация этого репозитория не являются частью шаблона приложения.
+В downstream-проект устанавливается каталог `memory-bank/` и создаётся ownership lock рядом с ним. Исходники CLI, Go-модуль, CI и release-конфигурация этого репозитория не являются частью шаблона приложения.
 
 Инструкция по внедрению охватывает:
 
@@ -77,6 +77,7 @@ problem space            solution space             execution space
 | [Greenfield adaptation protocol](docs/greenfield-integration-protocol.md) | Для копирования шаблона, извлечения project facts из README и docs, адаптации Memory Bank и создания initial PRD |
 | [Использование Memory Bank](docs/usage.md) | Для повседневной работы с задачами и AI-агентами после внедрения |
 | [Установка и использование `memory-bank`](docs/memory-bank.md) | Для пользователей CLI и downstream CI |
+| [Ownership и безопасные обновления](docs/ownership.md) | Для понимания lock schema, границ владения и conflict policy |
 | [Разработка репозитория](docs/development.md) | Для разработчиков шаблона и CLI |
 
 `memory-bank lint` проверяет broken links, orphan-документы, достижимость через индексную навигацию и contract ожидаемых `README.md`-индексов. Прежний `memory-bank-lint` временно остаётся совместимым entrypoint для существующей автоматизации.
