@@ -90,15 +90,14 @@ Brownfield-внедрение достаточно для первого раб�
 
 Для нового GitHub-проекта используйте [универсальный greenfield integration protocol](greenfield-integration-protocol.md). Он задаёт phases, gates, evidence, CI, practical validation, update и rollback без привязки к языку приложения или конкретному продукту.
 
-Для запуска откройте Codex в корне downstream-репозитория и отправьте:
+Для запуска выполните в корне downstream-репозитория:
 
-```text
-Прочитай протокол адаптации Memory Bank по адресу
-https://github.com/dapi/memory-bank/blob/main/docs/greenfield-integration-protocol.md
-и выполни его в текущем репозитории.
+```bash
+codex --search --sandbox workspace-write --ask-for-approval on-request \
+  "Прочитай протокол адаптации Memory Bank по адресу https://github.com/dapi/memory-bank/blob/main/docs/greenfield-integration-protocol.md и выполни его в текущем репозитории."
 ```
 
-Для воспроизводимого запуска замените `main` в URL на immutable commit SHA.
+Команда передаёт prompt при запуске интерактивной Codex-сессии. Codex может изменять файлы внутри workspace и запрашивает подтверждение для действий, которым нужны дополнительные разрешения. Для воспроизводимого запуска замените `main` в URL на immutable commit SHA.
 
 Коротко: зафиксируйте provenance шаблона, подключите agent entrypoint, адаптируйте минимальный `product/`, `domain/`, `engineering/` и `ops/` context, проведите первую реальную задачу через Task Routing, затем подтвердите интеграцию локальным lint и GitHub CI. Не создавайте feature package автоматически: initial delivery route определяется самой задачей.
 
