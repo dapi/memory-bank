@@ -20,8 +20,8 @@
 
 - `rg --files memory-bank` для проверки структуры и имён файлов;
 - `memory-bank lint` для аудита ссылок, reachability и expected README-индексов внутри `memory-bank/`;
-- `go test -count=1 -race ./...` для проверки валидатора и его JSON-контракта без test cache;
-- `go vet ./...` для статической проверки Go-кода;
+- `go test -count=1 -race ./...` из `tools/` для проверки валидатора и его JSON-контракта без test cache;
+- `go vet ./...` из `tools/` для статической проверки Go-кода;
 - `git diff --check` для поиска лишних пробелов и conflict markers;
 - `sed -n '1,120p' path/to/doc.md` для быстрой проверки frontmatter и заголовков;
 - `rg -n "PROJECT_SPECIFIC_TERM" memory-bank` с реальными терминами downstream-проекта, чтобы убедиться, что project-specific детали не протекли обратно в шаблон.

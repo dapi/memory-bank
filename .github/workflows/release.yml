@@ -29,6 +29,14 @@ jobs:
           distribution: goreleaser
           version: "~> v2"
           args: release --clean
+          workdir: tools
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           HOMEBREW_TAP_GITHUB_TOKEN: ${{ secrets.HOMEBREW_TAP_GITHUB_TOKEN }}
+
+      - name: Publish Go module tag
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          git tag "tools/${RELEASE_TAG}"
+          git push origin "tools/${RELEASE_TAG}"

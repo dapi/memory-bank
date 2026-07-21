@@ -24,9 +24,11 @@ jobs:
 
       - name: Run tests
         run: go test -count=1 -race ./...
+        working-directory: tools
 
       - name: Run vet
         run: go vet ./...
+        working-directory: tools
 
       - name: Check formatting
         run: |
@@ -37,6 +39,7 @@ jobs:
             gofmt -d .
             exit 1
           fi
+        working-directory: tools
 
       - name: Build and run validator
         env:
@@ -49,6 +52,7 @@ jobs:
           "$RUNNER_TEMP/memory-bank" lint --json > "$RUNNER_TEMP/memory-bank.json"
           "$RUNNER_TEMP/memory-bank-lint" --json > "$RUNNER_TEMP/memory-bank-lint.json"
           cmp "$RUNNER_TEMP/memory-bank.json" "$RUNNER_TEMP/memory-bank-lint.json"
+        working-directory: tools
 
   release-config:
     runs-on: ubuntu-latest
@@ -68,3 +72,4 @@ jobs:
           distribution: goreleaser
           version: "~> v2"
           args: check
+          workdir: tools

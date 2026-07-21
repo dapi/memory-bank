@@ -10,9 +10,9 @@ import (
 	"path/filepath"
 	"sort"
 
-	"github.com/dapi/memory-bank/internal/lint"
-	"github.com/dapi/memory-bank/internal/ownership"
-	"github.com/dapi/memory-bank/internal/repository"
+	"github.com/dapi/memory-bank/tools/internal/lint"
+	"github.com/dapi/memory-bank/tools/internal/ownership"
+	"github.com/dapi/memory-bank/tools/internal/repository"
 )
 
 const (

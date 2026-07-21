@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	"github.com/dapi/memory-bank/internal/cli"
+	"github.com/dapi/memory-bank/tools/internal/cli"
 )
 
 var version = "dev"

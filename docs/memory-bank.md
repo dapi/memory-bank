@@ -21,7 +21,7 @@ Ownership-контракт, классы файлов и atomic update policy о
 Для регулярных проверок установите CLI один раз. Требуется Go версии `1.21` или новее:
 
 ```bash
-go install github.com/dapi/memory-bank/cmd/memory-bank@latest
+go install github.com/dapi/memory-bank/tools/cmd/memory-bank@latest
 ```
 
 `go install` помещает бинарник в `GOBIN` или `GOPATH/bin`; этот каталог должен находиться в `PATH`. Повторите ту же команду, чтобы обновить CLI до актуальной версии.
@@ -37,7 +37,7 @@ command -v memory-bank
 Если репозиторий уже клонирован и нужно установить версию из текущего checkout:
 
 ```bash
-go install ./cmd/memory-bank
+(cd tools && go install ./cmd/memory-bank)
 ```
 
 ## Запуск
@@ -86,7 +86,7 @@ memory-bank lint \
 Для разовой проверки без установки CLI:
 
 ```bash
-go run github.com/dapi/memory-bank/cmd/memory-bank@latest lint
+go run github.com/dapi/memory-bank/tools/cmd/memory-bank@latest lint
 ```
 
 Установку из GitHub Releases или через Homebrew используйте только после фактической публикации соответствующих release assets и Cask; если их ещё нет, используйте `go install`.

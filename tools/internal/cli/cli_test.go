@@ -9,7 +9,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/dapi/memory-bank/internal/lint"
+	"github.com/dapi/memory-bank/tools/internal/lint"
 )
 
 func testRepository(t *testing.T) string {
