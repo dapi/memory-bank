@@ -11,6 +11,7 @@ import (
 	"sort"
 	"strings"
 
+	"github.com/dapi/memory-bank/tools/internal/lint"
 	"gopkg.in/yaml.v3"
 )
 
@@ -20,11 +21,19 @@ type governedDocument struct {
 	content     string
 }
 
-var designNotRequired = regexp.MustCompile(`(?im)^\s*(?:[-*]\s+|\d+\.\s+|\|\s*)?design\s+required\s*:\s*no\b`)
+var (
+	designRequirementSectionHeading = regexp.MustCompile(`(?i)^\s*(#{1,6})\s+Design Requirement Decision\s*#*\s*$`)
+	designRequirementHeading        = regexp.MustCompile(`^\s*(#{1,6})\s+`)
+	designRequirementDecision       = regexp.MustCompile("(?im)^\\s*(?:(?:[-+*]|\\d+[.)])\\s+)?(?:\\|\\s*)?`?design\\s+required\\s*:\\s*`?(yes|no)`?(?:\\s*`)?(?:\\s*\\|.*|\\s*[.,;:]?\\s*)$")
+)
+
+var governanceDocKinds = []string{"governance", "project", "product", "domain", "prd", "use_case", "epic", "feature", "feature-support", "engineering", "ops", "adr", "prompt", "process"}
+var governanceDocFunctions = []string{"canonical", "index", "template", "derived", "reference", "convention", "roadmap", "decision_log", "subissue_registry", "risk_register"}
 
 func (report *Report) checkGovernance(scopeRoot string) {
 	documents := map[string]governedDocument{}
 	root := filepath.Join(report.RepoRoot, filepath.FromSlash(scopeRoot))
+	dnaRootExists := fileExists(filepath.Join(root, "dna", "principles.md"))
 	err := filepath.WalkDir(root, func(fullPath string, entry fs.DirEntry, walkErr error) error {
 		if walkErr != nil {
 			return walkErr
@@ -55,7 +64,7 @@ func (report *Report) checkGovernance(scopeRoot string) {
 			return nil
 		}
 		documents[documentPath] = governedDocument{path: documentPath, frontmatter: frontmatter, content: string(data)}
-		validateGovernedDocument(report, documents[documentPath])
+		validateGovernedDocument(report, documents[documentPath], scopeRoot, dnaRootExists)
 		return nil
 	})
 	if err != nil {
@@ -102,17 +111,33 @@ func parseFrontmatter(data []byte) (map[string]any, bool, error) {
 	return frontmatter, true, nil
 }
 
-func validateGovernedDocument(report *Report, document governedDocument) {
+func validateGovernedDocument(report *Report, document governedDocument, scopeRoot string, dnaRootExists bool) {
 	status, ok := document.frontmatter["status"].(string)
 	if !ok || !oneOf(status, "draft", "active", "archived") {
 		report.add(Finding{Code: "governance.status_invalid", Severity: Error, Group: "frontmatter_governance", Path: document.path, Subject: fmt.Sprint(document.frontmatter["status"]), Message: "status is missing or outside the governed enum.", Remediation: "Set status to draft, active, or archived."})
+	}
+	if isGovernanceLayerDocument(document.path, scopeRoot) {
+		for _, field := range []string{"doc_kind", "doc_function"} {
+			value, present := document.frontmatter[field].(string)
+			if !present || strings.TrimSpace(value) == "" {
+				report.add(Finding{Code: "governance." + field + "_missing", Severity: Error, Group: "frontmatter_governance", Path: document.path, Message: field + " is required for DNA and flow documents.", Remediation: "Add the required " + field + " frontmatter field according to memory-bank/dna/governance.md."})
+				continue
+			}
+			allowed := governanceDocKinds
+			if field == "doc_function" {
+				allowed = governanceDocFunctions
+			}
+			if !oneOf(value, allowed...) {
+				report.add(Finding{Code: "governance." + field + "_invalid", Severity: Error, Group: "frontmatter_governance", Path: document.path, Subject: value, Message: field + " is outside the governed enum.", Remediation: "Use one of the values documented in memory-bank/dna/governance.md."})
+			}
+		}
 	}
 	if delivery, exists := document.frontmatter["delivery_status"]; exists {
 		value, valid := delivery.(string)
 		if !valid || !oneOf(value, "planned", "in_progress", "done", "cancelled") {
 			report.add(Finding{Code: "governance.delivery_status_invalid", Severity: Error, Group: "frontmatter_governance", Path: document.path, Subject: fmt.Sprint(delivery), Message: "delivery_status is outside the governed enum.", Remediation: "Use planned, in_progress, done, or cancelled."})
 		}
-		if path.Base(document.path) != "brief.md" {
+		if !isCanonicalFeatureBrief(document) {
 			report.add(Finding{Code: "lifecycle.delivery_status_wrong_owner", Severity: Error, Group: "lifecycle_consistency", Path: document.path, Message: "delivery_status is owned only by a canonical brief.md.", Remediation: "Move lifecycle state to the package brief.md and remove the duplicate field."})
 		}
 	}
@@ -126,6 +151,11 @@ func validateGovernedDocument(report *Report, document governedDocument) {
 			report.add(Finding{Code: "lifecycle.decision_status_wrong_owner", Severity: Error, Group: "lifecycle_consistency", Path: document.path, Message: "decision_status is owned only by ADR documents.", Remediation: "Move decision lifecycle state to an ADR and remove the field here."})
 		}
 	}
+	if status == "active" && !isGovernanceRoot(document.path, scopeRoot, dnaRootExists) {
+		if _, exists := document.frontmatter["derived_from"]; !exists {
+			report.add(Finding{Code: "governance.derived_from_missing", Severity: Error, Group: "frontmatter_governance", Path: document.path, Message: "Active non-root document must declare derived_from.", Remediation: "Add at least one upstream path in derived_from, or archive the document if it is no longer governed."})
+		}
+	}
 	if _, exists := document.frontmatter["derived_from"]; exists && len(derivedFromTargets(document)) == 0 {
 		report.add(Finding{Code: "governance.derived_from_invalid", Severity: Error, Group: "frontmatter_governance", Path: document.path, Message: "derived_from is present but contains no usable path.", Remediation: "Use a path string or an object with a non-empty path field."})
 	}
@@ -134,6 +164,36 @@ func validateGovernedDocument(report *Report, document governedDocument) {
 			report.add(Finding{Code: "lifecycle.adr_decision_status_missing", Severity: Error, Group: "lifecycle_consistency", Path: document.path, Message: "Instantiated ADR does not declare decision_status.", Remediation: "Add the ADR decision lifecycle state."})
 		}
 	}
+}
+
+func isGovernanceLayerDocument(documentPath, scopeRoot string) bool {
+	scopePrefix := path.Clean(scopeRoot) + "/"
+	relative, found := strings.CutPrefix(path.Clean(documentPath), scopePrefix)
+	if !found {
+		return false
+	}
+	topLevel := strings.SplitN(relative, "/", 2)[0]
+	return topLevel == "dna" || topLevel == "flows"
+}
+
+func isGovernanceRoot(documentPath, scopeRoot string, dnaRootExists bool) bool {
+	// The repository entrypoint is also a dependency-tree root in minimal
+	// installations that do not carry the DNA layer.
+	return path.Clean(documentPath) == path.Join(path.Clean(scopeRoot), "dna", "principles.md") || (!dnaRootExists && documentPath == path.Join(scopeRoot, "README.md"))
+}
+
+func fileExists(filePath string) bool {
+	info, err := os.Stat(filePath)
+	return err == nil && !info.IsDir()
+}
+
+func isCanonicalFeatureBrief(document governedDocument) bool {
+	parts := strings.Split(document.path, "/")
+	if len(parts) < 4 || parts[len(parts)-1] != "brief.md" {
+		return false
+	}
+	featureIndex := len(parts) - 3
+	return parts[featureIndex] == "features" && strings.HasPrefix(parts[featureIndex+1], "FT-")
 }
 
 func isADR(documentPath string) bool {
@@ -171,10 +231,8 @@ func derivedFromTargets(document governedDocument) []string {
 		if rawPath == "" {
 			continue
 		}
-		if strings.HasPrefix(rawPath, "/") {
-			targets = append(targets, path.Clean(strings.TrimPrefix(rawPath, "/")))
-		} else {
-			targets = append(targets, path.Clean(path.Join(path.Dir(document.path), rawPath)))
+		if target, ok := lint.NormalizeInternalMarkdownTarget(document.path, rawPath); ok {
+			targets = append(targets, target)
 		}
 	}
 	return targets
@@ -252,16 +310,23 @@ func (report *Report) checkFeatureLifecycle(documents map[string]governedDocumen
 		if delivery == "" {
 			report.add(Finding{Code: "lifecycle.delivery_status_missing", Severity: Error, Group: "lifecycle_consistency", Path: brief.path, Message: "Canonical feature brief does not own delivery_status.", Remediation: "Add the package lifecycle state to brief.md."})
 		}
-		if hasPlan {
+		if hasDesign || hasPlan {
 			briefStatus, _ := brief.frontmatter["status"].(string)
 			if briefStatus != "active" {
-				report.add(Finding{Code: "lifecycle.plan_brief_not_active", Severity: Error, Group: "lifecycle_consistency", Path: brief.path, Message: "An implementation plan requires an active feature brief.", Remediation: "Complete the Problem Ready gate and set brief.md status to active before creating the implementation plan."})
+				report.add(Finding{Code: "lifecycle.plan_brief_not_active", Severity: Error, Group: "lifecycle_consistency", Path: brief.path, Message: "Design and implementation-plan artifacts require an active feature brief.", Remediation: "Complete the Problem Ready gate and set brief.md status to active before creating later-stage artifacts."})
 			}
 		}
-		if hasPlan && !hasDesign && !designNotRequired.MatchString(brief.content) {
-			report.add(Finding{Code: "lifecycle.plan_without_design", Severity: Warning, Group: "lifecycle_consistency", Path: plan.path, Message: "Implementation plan exists without a design stage artifact.", Remediation: "Document why design is not required, or add design.md before execution planning."})
+		designDecision, validDesignDecision := featureDesignDecision(brief.content)
+		if (hasDesign || hasPlan) && !validDesignDecision {
+			report.add(Finding{Code: "lifecycle.design_requirement_decision_invalid", Severity: Error, Group: "lifecycle_consistency", Path: brief.path, Message: "Later-stage feature artifacts require an explicit Design required: yes or Design required: no decision.", Remediation: "Record exactly Design required: yes or Design required: no in brief.md before creating design.md or implementation-plan.md."})
 		}
-		if hasPlan && hasDesign && !designNotRequired.MatchString(brief.content) {
+		if hasDesign && validDesignDecision && designDecision == "no" {
+			report.add(Finding{Code: "lifecycle.design_present_when_not_required", Severity: Error, Group: "lifecycle_consistency", Path: files["design.md"].path, Message: "design.md exists although brief.md explicitly declares Design required: no.", Remediation: "Remove design.md, or change the brief decision to Design required: yes and complete the Solution Ready gate."})
+		}
+		if hasPlan && validDesignDecision && designDecision == "yes" && !hasDesign {
+			report.add(Finding{Code: "lifecycle.plan_without_design", Severity: Error, Group: "lifecycle_consistency", Path: plan.path, Message: "Implementation plan exists without the required design stage artifact.", Remediation: "Add an active design.md before execution planning, or explicitly record Design required: no in brief.md."})
+		}
+		if hasPlan && hasDesign && validDesignDecision && designDecision == "yes" {
 			design := files["design.md"]
 			designStatus, _ := design.frontmatter["status"].(string)
 			if designStatus != "active" {
@@ -279,6 +344,54 @@ func (report *Report) checkFeatureLifecycle(documents map[string]governedDocumen
 			report.add(Finding{Code: "lifecycle.cancelled_plan_not_archived", Severity: Error, Group: "lifecycle_consistency", Path: packagePath, Message: "A cancelled feature requires implementation-plan.md to be absent or archived.", Remediation: "Archive the implementation plan, or remove it if it was never used."})
 		}
 	}
+}
+
+func featureDesignDecision(content string) (string, bool) {
+	section := designRequirementSection(content)
+	matches := designRequirementDecision.FindAllStringSubmatch(section, -1)
+	if len(matches) == 0 {
+		return "", false
+	}
+	decision := matches[0][1]
+	if decision != "yes" && decision != "no" {
+		return "", false
+	}
+	for _, match := range matches[1:] {
+		if match[1] != decision {
+			return "", false
+		}
+	}
+	return decision, true
+}
+
+func designRequirementSection(content string) string {
+	lines := strings.Split(strings.ReplaceAll(content, "\r\n", "\n"), "\n")
+	sectionLines := []string{}
+	inSection := false
+	inFence := false
+	sectionDepth := 0
+	for _, line := range lines {
+		trimmed := strings.TrimSpace(line)
+		if strings.HasPrefix(trimmed, "```") || strings.HasPrefix(trimmed, "~~~") {
+			inFence = !inFence
+			continue
+		}
+		if inFence {
+			continue
+		}
+		if matches := designRequirementSectionHeading.FindStringSubmatch(line); len(matches) > 0 {
+			inSection = true
+			sectionDepth = len(matches[1])
+			continue
+		}
+		if inSection {
+			if matches := designRequirementHeading.FindStringSubmatch(line); len(matches) > 0 && len(matches[1]) <= sectionDepth {
+				return strings.Join(sectionLines, "\n")
+			}
+			sectionLines = append(sectionLines, line)
+		}
+	}
+	return strings.Join(sectionLines, "\n")
 }
 
 func (report *Report) addNavigationFindings() {

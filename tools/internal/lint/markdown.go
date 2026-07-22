@@ -96,7 +96,10 @@ func parseFrontmatter(text string) map[string]any {
 	return frontmatter
 }
 
-func normalizeInternalMarkdownTarget(sourcePath, rawURL string) (string, bool) {
+// NormalizeInternalMarkdownTarget resolves a repository-relative Markdown
+// reference using the same fragment, query, and extensionless-path rules used
+// by navigation lint.
+func NormalizeInternalMarkdownTarget(sourcePath, rawURL string) (string, bool) {
 	url := extractMarkdownLinkDestination(rawURL)
 	if url == "" || strings.HasPrefix(url, "http://") || strings.HasPrefix(url, "https://") ||
 		strings.HasPrefix(url, "mailto:") || strings.HasPrefix(url, "#") {
@@ -168,7 +171,7 @@ func extractInternalMarkdownLinks(sourcePath, text string) []string {
 		if isImageLink(strippedText, match[0]) {
 			continue
 		}
-		target, ok := normalizeInternalMarkdownTarget(sourcePath, strippedText[match[4]:match[5]])
+		target, ok := NormalizeInternalMarkdownTarget(sourcePath, strippedText[match[4]:match[5]])
 		if ok {
 			links = append(links, target)
 		}

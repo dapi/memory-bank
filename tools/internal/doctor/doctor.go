@@ -18,7 +18,14 @@ import (
 // doctorCommandPattern accepts a memory-bank invocation at the start of a shell
 // command, including after common shell command separators. It intentionally
 // does not match arbitrary text in a run block (for example, echo commands).
-var doctorCommandPattern = regexp.MustCompile(`(?m)(?:^|[;&|]\s*|\bthen\s+|\bdo\s+)(?:[A-Za-z_][A-Za-z0-9_]*=[^\s]+\s+)*(?:\S*/)?memory-bank["']?\s+doctor(?:\s|$)`)
+var doctorCommandPattern = regexp.MustCompile(`(?m)(?:^|[;&|]\s*|\bthen\s+|\bdo\s+)(?:[A-Za-z_][A-Za-z0-9_]*=[^\s]+\s+)*(?:\S*/)?memory-bank["']?\s+doctor(?:[ \t]|$|[;&|])`)
+
+var shellErrexitStatePattern = regexp.MustCompile(`(?m)(?:^|[;\n])\s*set\s+([+-])(?:e|o\s+(?:errexit|e))(?:\s|;|$)`)
+var shellSuccessfulExitPattern = regexp.MustCompile(`(?m)(?:^|[;\n])\s*exit\s+0(?:\s*#.*)?\s*$`)
+var shellGuaranteedFailurePattern = regexp.MustCompile(`^(?:false|exit\s+[1-9][0-9]*)(?:\s*#.*)?$`)
+var shellStatusPropagationPattern = regexp.MustCompile(`^exit\s+\$\?(?:\s*#.*)?$`)
+var shellErrexitPattern = regexp.MustCompile(`(?:^|\s)-[A-Za-z]*e[A-Za-z]*(?:\s|$)|(?:^|\s)-o\s+errexit(?:\s|$)`)
+var shellPipefailPattern = regexp.MustCompile(`(?:^|\s)-o\s+pipefail(?:\s|$)|(?:^|\s)pipefail(?:\s|$)`)
 
 func NormalizeProfile(value string) (Profile, error) {
 	profile := Profile(strings.ToLower(strings.TrimSpace(value)))
@@ -225,26 +232,369 @@ func workflowRunsDoctor(data []byte) bool {
 	if err := yaml.Unmarshal(data, &document); err != nil {
 		return false
 	}
-	return yamlNodeRunsDoctor(&document)
-}
-
-func yamlNodeRunsDoctor(node *yaml.Node) bool {
-	if node.Kind == yaml.MappingNode {
-		for index := 0; index+1 < len(node.Content); index += 2 {
-			key, value := node.Content[index], node.Content[index+1]
-			if key.Value == "run" && value.Kind == yaml.ScalarNode && doctorCommandPattern.MatchString(value.Value) {
-				return true
+	if len(document.Content) != 1 {
+		return false
+	}
+	jobs := yamlMappingValue(document.Content[0], "jobs")
+	if jobs == nil || jobs.Kind != yaml.MappingNode {
+		return false
+	}
+	for index := 1; index < len(jobs.Content); index += 2 {
+		job := jobs.Content[index]
+		if workflowJobAllowsFailure(job) {
+			continue
+		}
+		steps := yamlMappingValue(job, "steps")
+		if steps == nil || steps.Kind != yaml.SequenceNode {
+			continue
+		}
+		for _, step := range steps.Content {
+			if workflowStepAllowsFailure(step) {
+				continue
 			}
-			if yamlNodeRunsDoctor(value) {
+			run := yamlMappingValue(step, "run")
+			shell := effectiveWorkflowShell(document.Content[0], job, step)
+			if run != nil && run.Kind == yaml.ScalarNode && runHasBlockingDoctor(run.Value, workflowShellHasErrexit(shell), workflowShellHasPipefail(shell)) {
 				return true
 			}
 		}
+	}
+	return false
+}
+
+func effectiveWorkflowShell(workflow, job, step *yaml.Node) *yaml.Node {
+	if shell := yamlMappingValue(step, "shell"); shell != nil {
+		return shell
+	}
+	if defaults := yamlMappingValue(job, "defaults"); defaults != nil {
+		if runDefaults := yamlMappingValue(defaults, "run"); runDefaults != nil {
+			if shell := yamlMappingValue(runDefaults, "shell"); shell != nil {
+				return shell
+			}
+		}
+	}
+	if defaults := yamlMappingValue(workflow, "defaults"); defaults != nil {
+		if runDefaults := yamlMappingValue(defaults, "run"); runDefaults != nil {
+			if shell := yamlMappingValue(runDefaults, "shell"); shell != nil {
+				return shell
+			}
+		}
+	}
+	return nil
+}
+
+func workflowJobAllowsFailure(job *yaml.Node) bool {
+	return workflowContinueOnErrorAllowsFailure(yamlMappingValue(job, "continue-on-error"))
+}
+
+func workflowStepAllowsFailure(step *yaml.Node) bool {
+	return workflowContinueOnErrorAllowsFailure(yamlMappingValue(step, "continue-on-error"))
+}
+
+func workflowContinueOnErrorAllowsFailure(policy *yaml.Node) bool {
+	if policy == nil {
 		return false
 	}
-	for _, child := range node.Content {
-		if yamlNodeRunsDoctor(child) {
+	// GitHub parses literal boolean expressions as strings in YAML, but the
+	// expression is still statically guaranteed to disable continue-on-error.
+	if policy.Kind == yaml.ScalarNode && strings.TrimSpace(policy.Value) == "${{ false }}" {
+		return false
+	}
+	// Only an explicit YAML boolean false guarantees that doctor can fail the
+	// job. Expressions and other scalar forms may evaluate to a non-blocking
+	// policy at runtime.
+	if policy.Kind != yaml.ScalarNode || policy.Tag != "!!bool" {
+		return true
+	}
+	var allowsFailure bool
+	if err := policy.Decode(&allowsFailure); err != nil {
+		return true
+	}
+	return allowsFailure
+}
+
+func runHasBlockingDoctor(run string, shellHasErrexit, shellHasPipefail bool) bool {
+	for _, match := range doctorCommandPattern.FindAllStringIndex(run, -1) {
+		if !doctorFailureSuppressionAt(run, match[1], shellHasErrexit, shellHasPipefail) {
 			return true
 		}
 	}
 	return false
+}
+
+func doctorFailureSuppressionAt(run string, start int, shellHasErrexit, shellHasPipefail bool) bool {
+	if start > 0 && strings.ContainsRune(";&|", rune(run[start-1])) {
+		start--
+	}
+	operator := shellOperatorIndex(run, start)
+	if operator < 0 {
+		return false
+	}
+	if run[operator] == ';' || run[operator] == '\n' {
+		if !shellErrexitEnabledAt(run[:start], shellHasErrexit) {
+			remainder := strings.TrimSpace(run[operator+1:])
+			if shellImmediatelyExitsSuccessfully(run, operator) || shellSuccessfulExitPattern.MatchString(remainder) || shellStatusPropagationPattern.MatchString(remainder) {
+				return true
+			}
+			// Without errexit, any subsequent command can successfully replace
+			// doctor's exit status (for example, `doctor; cleanup`).
+			return shellFollowingCommandSuppresses(remainder)
+		}
+		return false
+	}
+
+	// A doctor command can be followed by several AND/OR operators.  In
+	// `doctor && upload || true`, the final true masks doctor failures; looking
+	// only at the first && incorrectly treats this as a blocking gate.
+	listEnd := shellListEnd(run, operator)
+	if run[operator] == '|' && (operator+1 >= len(run) || run[operator+1] != '|') && !shellHasPipefail {
+		// A custom shell without pipefail can still make the pipeline blocking
+		// by checking the doctor's PIPESTATUS entry afterward.
+		return !pipelineStatusCheckBlocks(run, operator, pipelineDoctorIndex(run, start))
+	}
+	lastOperator := operator
+	for next := shellOperatorIndex(run, operator+shellOperatorLength(run, operator)); next >= 0 && next < listEnd; next = shellOperatorIndex(run, next+shellOperatorLength(run, next)) {
+		if run[next] == ';' {
+			break
+		}
+		lastOperator = next
+	}
+	if !strings.HasPrefix(run[lastOperator:], "||") {
+		return !shellErrexitEnabledAt(run[:start], shellHasErrexit) && shellFollowingCommandSuppresses(strings.TrimSpace(run[listEnd+1:]))
+	}
+	// Any recovery command after `||` can turn a failed doctor invocation into
+	// a successful step; restricting this to a small allowlist misses commands
+	// such as `notify-team` or `pwd`.
+	recovery := strings.TrimSpace(run[lastOperator+2 : listEnd])
+	if recovery != "" && !strings.HasPrefix(recovery, "#") && !shellGuaranteedFailurePattern.MatchString(recovery) {
+		return true
+	}
+	return !shellErrexitEnabledAt(run[:start], shellHasErrexit) && shellFollowingCommandSuppresses(strings.TrimSpace(run[listEnd+1:]))
+}
+
+func shellFollowingCommandSuppresses(remainder string) bool {
+	if remainder == "" || strings.HasPrefix(remainder, "#") {
+		return false
+	}
+	return !shellStatusPropagationPattern.MatchString(remainder) && !shellGuaranteedFailurePattern.MatchString(remainder)
+}
+
+// pipelineStatusCheckBlocks recognizes the common explicit Bash check used
+// after piping doctor's output through tee, for example:
+// `memory-bank doctor | tee report.txt; test ${PIPESTATUS[0]} -eq 0`.
+func pipelineStatusCheckBlocks(run string, pipelineOperator, doctorIndex int) bool {
+	if pipelineOperator < 0 || pipelineOperator >= len(run) {
+		return false
+	}
+	pattern := regexp.MustCompile(fmt.Sprintf(`(?m)\b(?:test|\[)\s+\$\{?PIPESTATUS\[%d\]\}?\s+(?:-eq|==|=)\s+0\b`, doctorIndex))
+	return pattern.MatchString(run[pipelineOperator+1:])
+}
+
+func pipelineDoctorIndex(run string, doctorStart int) int {
+	prefix := run[:doctorStart]
+	boundary := -1
+	for _, marker := range []string{";", "\n", "&&", "||"} {
+		if index := strings.LastIndex(prefix, marker); index+len(marker)-1 > boundary {
+			boundary = index + len(marker) - 1
+		}
+	}
+	prefix = prefix[boundary+1:]
+	index := 0
+	for position := 0; position < len(prefix); position++ {
+		if prefix[position] == '|' && (position+1 >= len(prefix) || prefix[position+1] != '|') && (position == 0 || prefix[position-1] != '|') {
+			index++
+		}
+	}
+	return index
+}
+
+func shellErrexitEnabledAt(run string, defaultEnabled bool) bool {
+	enabled := defaultEnabled
+	for _, match := range shellErrexitStatePattern.FindAllStringSubmatch(run, -1) {
+		enabled = match[1] == "-"
+	}
+	return enabled
+}
+
+// workflowShellHasErrexit reports whether the shell used by a step is known
+// to stop on a failed command. GitHub adds -e only for its default shell;
+// custom shells must opt into errexit themselves.
+func workflowShellHasErrexit(shell *yaml.Node) bool {
+	if shell == nil {
+		return true
+	}
+	if shell.Kind != yaml.ScalarNode {
+		return false
+	}
+	value := shell.Value
+	if value == "bash" || value == "sh" {
+		return true
+	}
+	return shellErrexitPattern.MatchString(value)
+}
+
+// workflowShellHasPipefail reports whether a custom shell propagates a failed
+// command from inside a pipeline. GitHub's default shell enables pipefail.
+func workflowShellHasPipefail(shell *yaml.Node) bool {
+	if shell == nil {
+		return true
+	}
+	if shell.Kind != yaml.ScalarNode {
+		return false
+	}
+	if shell.Value == "bash" {
+		return true
+	}
+	return shellPipefailPattern.MatchString(shell.Value)
+}
+
+// shellImmediatelyExitsSuccessfully recognizes an exit 0 command that
+// directly follows the doctor command. Delayed terminal exits are handled by
+// shellSuccessfulExitPattern in doctorFailureSuppressionAt.
+func shellImmediatelyExitsSuccessfully(run string, separator int) bool {
+	position := separator + 1
+	for position < len(run) && (run[position] == ' ' || run[position] == '\t' || run[position] == '\r' || run[position] == '\n') {
+		position++
+	}
+	if !strings.HasPrefix(run[position:], "exit") {
+		return false
+	}
+	position += len("exit")
+	if position >= len(run) || (run[position] != ' ' && run[position] != '\t') {
+		return false
+	}
+	for position < len(run) && (run[position] == ' ' || run[position] == '\t') {
+		position++
+	}
+	if !strings.HasPrefix(run[position:], "0") {
+		return false
+	}
+	position++
+	return position == len(run) || run[position] == ' ' || run[position] == '\t' || run[position] == '\r' || run[position] == '\n' || run[position] == '#'
+}
+
+// shellListEnd returns the end of the current AND/OR list. A semicolon starts
+// a separate shell list, so a later `exit 0` cannot mask a failed command when
+// GitHub Actions runs the script with errexit enabled.
+func shellListEnd(run string, start int) int {
+	var quote byte
+	escaped := false
+	inComment := false
+	for index := start; index < len(run); index++ {
+		character := run[index]
+		if inComment {
+			if character == '\n' {
+				inComment = false
+				if shellNewlineSeparates(run, index) {
+					return index
+				}
+			}
+			continue
+		}
+		if escaped {
+			escaped = false
+			continue
+		}
+		if character == '\\' && quote != '\'' {
+			escaped = true
+			continue
+		}
+		if quote != 0 {
+			if character == quote {
+				quote = 0
+			}
+			continue
+		}
+		if character == '\'' || character == '"' {
+			quote = character
+			continue
+		}
+		if character == '#' && (index == 0 || run[index-1] == ' ' || run[index-1] == '\t') {
+			inComment = true
+			continue
+		}
+		if character == ';' {
+			return index
+		}
+		if character == '\n' {
+			linePrefix := strings.TrimSpace(run[start:index])
+			if !strings.HasSuffix(linePrefix, "&&") && !strings.HasSuffix(linePrefix, "||") {
+				return index
+			}
+		}
+	}
+	return len(run)
+}
+
+func shellOperatorLength(run string, index int) int {
+	if index+1 < len(run) && run[index] == run[index+1] && (run[index] == '&' || run[index] == '|') {
+		return 2
+	}
+	return 1
+}
+
+// shellOperatorIndex finds the first command separator after the doctor
+// invocation. Quoted separators are arguments, not shell control operators.
+func shellOperatorIndex(run string, start int) int {
+	var quote byte
+	escaped := false
+	inComment := false
+	for index := start; index < len(run); index++ {
+		character := run[index]
+		if inComment {
+			if character == '\n' {
+				inComment = false
+				if shellNewlineSeparates(run, index) {
+					return index
+				}
+			}
+			continue
+		}
+		if escaped {
+			escaped = false
+			continue
+		}
+		if character == '\\' && quote != '\'' {
+			escaped = true
+			continue
+		}
+		if quote != 0 {
+			if character == quote {
+				quote = 0
+			}
+			continue
+		}
+		if character == '\'' || character == '"' {
+			quote = character
+			continue
+		}
+		if character == '#' && (index == 0 || run[index-1] == ' ' || run[index-1] == '\t') {
+			inComment = true
+			continue
+		}
+		if character == ';' || character == '|' || character == '&' {
+			return index
+		}
+		if character == '\n' && shellNewlineSeparates(run, index) {
+			return index
+		}
+	}
+	return -1
+}
+
+func shellNewlineSeparates(run string, index int) bool {
+	linePrefix := strings.TrimSpace(run[:index])
+	return !strings.HasSuffix(linePrefix, "&&") && !strings.HasSuffix(linePrefix, "||")
+}
+
+func yamlMappingValue(node *yaml.Node, key string) *yaml.Node {
+	if node == nil || node.Kind != yaml.MappingNode {
+		return nil
+	}
+	for index := 0; index+1 < len(node.Content); index += 2 {
+		if node.Content[index].Value == key {
+			return node.Content[index+1]
+		}
+	}
+	return nil
 }

@@ -177,7 +177,7 @@ func validateFrontmatterDependencies(documents map[string]document, scopeRoot st
 			continue
 		}
 		for _, rawPath := range extractDerivedFromPaths(documents[sourcePath].frontmatter) {
-			target, ok := normalizeInternalMarkdownTarget(sourcePath, rawPath)
+			target, ok := NormalizeInternalMarkdownTarget(sourcePath, rawPath)
 			if ok {
 				if _, exists := documents[target]; !exists {
 					issues = append(issues, FrontmatterDependency{
@@ -255,7 +255,7 @@ func annotationTextForChildLinks(indexPath, text string) []childAnnotation {
 		if !found {
 			continue
 		}
-		target, ok := normalizeInternalMarkdownTarget(indexPath, rawDestination)
+		target, ok := NormalizeInternalMarkdownTarget(indexPath, rawDestination)
 		if !ok {
 			continue
 		}
