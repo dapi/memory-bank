@@ -30,7 +30,7 @@ Prompt-документ нужен, когда prompt прошел путь от
 
 ## Порядок выполнения prompt-ов
 
-Промпты указаны в порядке SDLC-процесса. Обычно используется `PROMPT-002` на старте, когда создаем `brief.md` и conditional `design.md`, после чего, как правило, делаем human gate; `PROMPT-003` используется, когда приступаем к имплементации.
+Промпты указаны в порядке SDLC-процесса. `PROMPT-005` используется на старте новой issue: он читает source context, выбирает flow и оркестрирует delivery. Обычно `PROMPT-002` используется для bounded review-improve feature package, а `PROMPT-003` — когда после routing и entry gates приступают к имплементации.
 
 Промпт 001-issue-requrements-review используем для того чтобы убедиться что feature-pack соответствует требованиям изложенных в issue в случае если эта issue большая.
 
@@ -43,6 +43,8 @@ Prompt-документ нужен, когда prompt прошел путь от
 | [`PROMPT-002`](PROMPT-002-feature-pack-review-improve.md) | Feature Pack Review Improve | `draft` | `drafted` | `review` | Run bounded review-improve cycles for feature packages | 2026-05-19 |
 | [`PROMPT-003`](PROMPT-003-implement-and-test.md) | Implement And Test | `draft` | `drafted` | `coding` | Implement a coding task end-to-end through PR, review/fix and CI | 2026-05-19 |
 | [`PROMPT-004`](PROMPT-004-pr-review-finish.md) | PR Review Finish | `draft` | `drafted` | `coding` | Finish an active branch into a ready PR with review-improve and CI gates | 2026-05-19 |
+| [`PROMPT-005`](PROMPT-005-route-and-deliver-issue.md) | Route And Deliver Issue | `draft` | `drafted` | `agent` | Route a new issue and orchestrate delivery through its terminal flow gate | 2026-07-22 |
+| [`start-issue`](start-issue.md) | Start Issue | `draft` | `drafted` | `agent` | Rendered entry prompt for dapi/start-issue and Codex Human Gate | 2026-07-22 |
 
 ## Naming
 
