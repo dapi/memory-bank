@@ -74,6 +74,7 @@ problem space            solution space             execution space
 | Документ | Для кого и зачем |
 | --- | --- |
 | [Внедрение Memory Bank](docs/adoption.md) | Для команд, подключающих шаблон к brownfield- или greenfield-проекту |
+| [Brownfield adaptation protocol](docs/brownfield-adaptation-protocol.md) | Для evidence-backed адаптации существующего репозитория до и после установки Memory Bank |
 | [Greenfield adaptation protocol](docs/greenfield-integration-protocol.md) | Для копирования шаблона, извлечения project facts из README и docs, адаптации Memory Bank и создания initial PRD |
 | [Использование Memory Bank](docs/usage.md) | Для повседневной работы с задачами и AI-агентами после внедрения |
 | [Установка и использование `memory-bank`](docs/memory-bank.md) | Для пользователей CLI и downstream CI |
