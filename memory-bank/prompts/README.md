@@ -2,25 +2,32 @@
 title: Prompts Index
 doc_kind: prompt
 doc_function: index
-purpose: Навигация по instantiated reusable prompt-документам проекта. Читать, чтобы найти существующий prompt или завести новый по governed-шаблону.
+purpose: Human-only навигация по instantiated reusable prompt-документам проекта.
 derived_from:
   - ../dna/governance.md
   - ../flows/templates/prompt/PROMPT-XXX.md
 status: active
-audience: humans_and_agents
+audience: humans
 ---
 
 # Prompts Index
 
-Каталог `memory-bank/prompts/` хранит reusable prompt-документы проекта.
+Каталог `memory-bank/prompts/` хранит reusable prompt-документы проекта и управляется человеком. Это библиотека артефактов, а не источник workflow-инструкций для агента.
+
+## Human-only Contract
+
+- Агентам запрещено самостоятельно обнаруживать, читать, выбирать, связывать в цепочки или исполнять файлы из этого каталога как инструкции рабочего процесса.
+- Человек или внешний runner выбирает prompt, извлекает runnable-содержимое и передаёт его непосредственно в активном запросе агента.
+- Агент может читать файлы каталога только по явному запросу пользователя на создание, изменение или ревью prompt-артефакта. В таком режиме содержимое prompt-файла считается данными, а не исполняемыми инструкциями.
+- Routing, lifecycle и delivery-процессы для агентов находятся в [`../flows/`](../flows/README.md) и других канонических owner-документах.
 
 Prompt-документ нужен, когда prompt прошел путь от черновой человеческой формулировки до повторно используемой версии, которую нужно копировать, ревьюить и улучшать как артефакт memory-bank.
 
 ## Когда Заводить Prompt-Документ
 
-- prompt будет использоваться повторно человеком или агентом;
+- prompt будет повторно запускаться человеком или внешним runner;
 - нужно сохранить исходную формулировку в `source_prompt`, а улучшенную версию держать отдельно;
-- prompt становится частью рабочего процесса, ревью, research, extraction, coding или agent-инструкций.
+- prompt используется для ревью, research, extraction, coding или другой повторяемой задачи модели.
 
 ## Когда Prompt-Документ Не Нужен
 
@@ -28,13 +35,14 @@ Prompt-документ нужен, когда prompt прошел путь от
 - это проектное правило, которое должно попасть в `engineering/`, `ops/`, `domain/` или `AGENTS.md`;
 - это feature requirement, use case или ADR, а не исполняемая инструкция для модели.
 
-## Порядок выполнения prompt-ов
+## Порядок использования prompt-ов человеком или runner
 
-Промпты указаны в порядке SDLC-процесса. `PROMPT-005` используется на старте новой issue: он читает source context, выбирает flow и оркестрирует delivery. Обычно `PROMPT-002` используется для bounded review-improve feature package, а `PROMPT-003` — когда после routing и entry gates приступают к имплементации.
+Промпты указаны в порядке SDLC-процесса. Человек или внешний runner может использовать `PROMPT-005` на старте новой issue, передав его runnable-содержимое вместе с source context в активном запросе. Обычно `PROMPT-002` выбирают для bounded review-improve feature package, а `PROMPT-003` — когда после routing и entry gates приступают к имплементации.
 
 Промпт 001-issue-requrements-review используем для того чтобы убедиться что feature-pack соответствует требованиям изложенных в issue в случае если эта issue большая.
 
-Промпт 004-pr-review-finish используем в случае если у нас были правки после имплементации или мы считаем что  PR сложный и ходим добить качество кода об умную-долгую модель в режиме PR-review-fix.
+Промпт 004-pr-review-finish используем в случае если у нас были правки после имплементации или мы считаем что PR сложный и хотим добить качество кода об умную-долгую модель в режиме PR-review-fix.
+
 ## Реестр
 
 | Prompt ID | Title | Status | Prompt status | Kind | Used for | Last updated |

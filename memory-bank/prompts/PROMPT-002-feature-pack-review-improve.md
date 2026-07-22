@@ -6,7 +6,7 @@ purpose: Проводит ограниченный цикл review-improve дл�
 derived_from:
   - ../dna/governance.md
 status: draft
-audience: humans_and_agents
+audience: humans
 prompt_kind: review
 prompt_status: drafted
 source_prompt: |-

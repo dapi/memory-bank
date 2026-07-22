@@ -9,7 +9,7 @@ derived_from:
   - ../engineering/autonomy-boundaries.md
   - ../engineering/validation-profiles.md
 status: draft
-audience: humans_and_agents
+audience: humans
 prompt_kind: agent
 prompt_status: drafted
 source_prompt: |

@@ -6,7 +6,7 @@ purpose: "Завершает текущую feature branch: commit/push, PR, CI,
 derived_from:
   - ../dna/governance.md
 status: draft
-audience: humans_and_agents
+audience: humans
 prompt_kind: coding
 prompt_status: drafted
 source_prompt: |-
