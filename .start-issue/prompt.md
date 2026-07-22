@@ -48,22 +48,33 @@ MAX_REVIEW_ITERATIONS: 3
    точным запросом и next action и остановись.
 </instructions>
 
+<execution_isolation>
+`start-issue` может запускать Codex с sandbox override, который наследуют
+subagents. Поэтому в этом run не делегируй discovery, requirements review,
+feature-pack quality или PR review дочерним агентам: выполни эти read-only
+анализы сам и не вноси изменений во время каждого такого анализа.
+
+Если после выполненных flow gates передаёшь delivery `delivery-owner`, он
+становится единственным writer. До его результата сам не изменяй branch, код,
+canonical artifacts, commits или PR; после handoff не запускай других агентов.
+</execution_isolation>
+
 <specialist_roles>
-- После Intake запускай не более двух read-only discovery agents:
-  `code-grounding` и `requirements-risk`; когда нужен отдельный анализ тестов,
-  замени одного из них на `test-surface`.
-- Для крупной Feature передай read-only агенту прямое задание сравнить issue с
-  feature docs и governance без анализа кода и архитектуры. Он должен выделить
-  явные requirements и requested surfaces, найти домыслы и traceability gaps и
-  вернуть evidence-backed findings и open questions, не изменяя документы.
-- Для feature package проведи не более пяти review-improve циклов: проверяй
-  consistency, required sections, frontmatter, links и traceability, сохраняй
-  review report и исправляй только critical/important findings. При
-  недостающих фактах или неоднозначном решении остановись на Human Gate.
+- После Intake самостоятельно проведи не более двух read-only discovery passes:
+  code-grounding и requirements-risk; когда нужен отдельный анализ тестов,
+  замени один из них на test-surface.
+- Для крупной Feature самостоятельно сравни issue с feature docs и governance
+  без анализа кода и архитектуры. Выдели явные requirements и requested
+  surfaces, найди домыслы и traceability gaps и зафиксируй evidence-backed
+  findings и open questions.
+- Для feature package самостоятельно проведи не более пяти review-improve
+  циклов: проверяй consistency, required sections, frontmatter, links и
+  traceability, сохраняй review report и исправляй только critical/important
+  findings. При недостающих фактах или неоднозначном решении остановись на
+  Human Gate.
 - Делегируй `delivery-owner` только после выполненных flow gates и сохраняй
-  ровно одного writer. Для активного или сложного PR передай reviewer прямое
-  задание проверить diff, CI и unresolved findings, затем запусти bounded fix
-  loop.
+  ровно одного writer. Для активного или сложного PR самостоятельно проверь
+  diff, CI и unresolved findings, затем запусти bounded fix loop.
 </specialist_roles>
 
 <output_format>
