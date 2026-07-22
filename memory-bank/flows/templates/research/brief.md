@@ -2,7 +2,7 @@
 title: R-XXX Research Brief Template
 doc_kind: governance
 doc_function: template
-purpose: Wrapper-шаблон canonical research brief: decision question, hypotheses, boundaries and lifecycle state without findings or delivery design.
+purpose: "Wrapper-шаблон canonical research brief: decision question, hypotheses, boundaries and lifecycle state without findings or delivery design."
 derived_from:
   - ../../research.md
   - ../../../dna/frontmatter.md
@@ -66,7 +66,7 @@ audience: humans_and_agents
 | ID | Statement | Type | Source / confidence |
 | --- | --- | --- | --- |
 | `ASM-01` | `<working assumption>` | Assumption | `<why it is currently reasonable>` |
-| `<none or source>` | `<known fact>` | Evidence | `<link or reference>` |
+| `<none or source>` | `<known fact>` | Evidence | `[SRC-XX](<source URL or stable internal link>)` |
 
 ## Stopping Condition
 
@@ -80,6 +80,7 @@ audience: humans_and_agents
 ## Boundary Check
 
 - [ ] This brief contains a question and hypotheses, not findings presented as facts.
+- [ ] Every known fact has a clickable source link; unsupported statements remain assumptions or open questions.
 - [ ] No committed delivery scope, selected solution, ADR decision or implementation sequence is defined here.
 - [ ] Required privacy, consent, legal, security or access constraints are named or explicitly `none`.
 ```

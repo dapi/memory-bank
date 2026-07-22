@@ -31,7 +31,7 @@ Governed-документы могут содержать дополнитель
 
 Для `doc_kind: feature-support` документ является reference / companion внутри feature package и не владеет `delivery_status`, canonical requirements, selected solution или execution sequencing.
 
-Для `doc_kind: research` lifecycle owner-ом остается canonical `brief.md` research package. Его `research_status` описывает состояние исследования, а не delivery. `plan.md`, `evidence.md`, `synthesis.md` и `decision.md` являются отдельными owner-ами метода, наблюдений, выводов и disposition; ни один из них не заменяет canonical downstream PRD, epic, feature, ADR или product document после handoff.
+Для `doc_kind: research` lifecycle owner-ом остается canonical `brief.md` research package. Его `research_status` описывает состояние исследования, включая terminal disposition, а не delivery. `plan.md`, `evidence.md`, `synthesis.md` и `decision.md` являются отдельными owner-ами метода, наблюдений, выводов, decision rationale и handoff; ни один из них не создаёт второй lifecycle state и не заменяет canonical downstream PRD, epic, feature, ADR или product document после handoff.
 
 ## Примеры
 

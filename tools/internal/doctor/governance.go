@@ -27,7 +27,7 @@ var (
 	designRequirementDecision       = regexp.MustCompile("(?im)^\\s*(?:(?:[-+*]|\\d+[.)])\\s+)?(?:\\|\\s*)?`?design\\s+required\\s*:\\s*`?(yes|no)`?(?:\\s*`)?(?:\\s*\\|.*|\\s*[.,;:]?\\s*)$")
 )
 
-var governanceDocKinds = []string{"governance", "project", "product", "domain", "prd", "use_case", "epic", "feature", "feature-support", "engineering", "ops", "adr", "prompt", "process"}
+var governanceDocKinds = []string{"governance", "project", "product", "domain", "prd", "research", "use_case", "epic", "feature", "feature-support", "engineering", "ops", "adr", "prompt", "process"}
 var governanceDocFunctions = []string{"canonical", "index", "template", "derived", "reference", "convention", "roadmap", "decision_log", "subissue_registry", "risk_register"}
 
 func (report *Report) checkGovernance(scopeRoot string) {
@@ -73,6 +73,7 @@ func (report *Report) checkGovernance(scopeRoot string) {
 	}
 	report.checkDerivedFromCycles(documents)
 	report.checkFeatureLifecycle(documents, scopeRoot)
+	report.checkResearchLifecycle(documents, scopeRoot)
 }
 
 func parseFrontmatter(data []byte) (map[string]any, bool, error) {
@@ -151,6 +152,15 @@ func validateGovernedDocument(report *Report, document governedDocument, scopeRo
 			report.add(Finding{Code: "lifecycle.decision_status_wrong_owner", Severity: Error, Group: "lifecycle_consistency", Path: document.path, Message: "decision_status is owned only by ADR documents.", Remediation: "Move decision lifecycle state to an ADR and remove the field here."})
 		}
 	}
+	if research, exists := document.frontmatter["research_status"]; exists {
+		value, valid := research.(string)
+		if !valid || !oneOf(value, "intake", "framed", "collecting", "synthesizing", "decision_ready", "validated", "invalidated", "inconclusive", "parked", "cancelled", "rerouted") {
+			report.add(Finding{Code: "governance.research_status_invalid", Severity: Error, Group: "frontmatter_governance", Path: document.path, Subject: fmt.Sprint(research), Message: "research_status is outside the governed enum.", Remediation: "Use intake, framed, collecting, synthesizing, decision_ready, validated, invalidated, inconclusive, parked, cancelled, or rerouted."})
+		}
+		if !isCanonicalResearchBrief(document, scopeRoot) {
+			report.add(Finding{Code: "lifecycle.research_status_wrong_owner", Severity: Error, Group: "lifecycle_consistency", Path: document.path, Message: "research_status is owned only by a canonical research brief.md.", Remediation: "Move lifecycle state to research/R-XXX/brief.md and remove the duplicate field."})
+		}
+	}
 	if status == "active" && !isGovernanceRoot(document.path, scopeRoot, dnaRootExists) {
 		if _, exists := document.frontmatter["derived_from"]; !exists {
 			report.add(Finding{Code: "governance.derived_from_missing", Severity: Error, Group: "frontmatter_governance", Path: document.path, Message: "Active non-root document must declare derived_from.", Remediation: "Add at least one upstream path in derived_from, or archive the document if it is no longer governed."})
@@ -194,6 +204,16 @@ func isCanonicalFeatureBrief(document governedDocument) bool {
 	}
 	featureIndex := len(parts) - 3
 	return parts[featureIndex] == "features" && strings.HasPrefix(parts[featureIndex+1], "FT-")
+}
+
+func isCanonicalResearchBrief(document governedDocument, scopeRoot string) bool {
+	prefix := path.Join(path.Clean(scopeRoot), "research") + "/"
+	relative, found := strings.CutPrefix(path.Clean(document.path), prefix)
+	if !found {
+		return false
+	}
+	parts := strings.Split(relative, "/")
+	return len(parts) == 2 && strings.HasPrefix(parts[0], "R-") && parts[1] == "brief.md"
 }
 
 func isADR(documentPath string) bool {
@@ -342,6 +362,36 @@ func (report *Report) checkFeatureLifecycle(documents map[string]governedDocumen
 		}
 		if delivery == "cancelled" && hasPlan && planStatus != "archived" {
 			report.add(Finding{Code: "lifecycle.cancelled_plan_not_archived", Severity: Error, Group: "lifecycle_consistency", Path: packagePath, Message: "A cancelled feature requires implementation-plan.md to be absent or archived.", Remediation: "Archive the implementation plan, or remove it if it was never used."})
+		}
+	}
+}
+
+func (report *Report) checkResearchLifecycle(documents map[string]governedDocument, scopeRoot string) {
+	prefix := strings.TrimSuffix(scopeRoot, "/") + "/research/"
+	packages := map[string]map[string]governedDocument{}
+	for documentPath, document := range documents {
+		if !strings.HasPrefix(documentPath, prefix) {
+			continue
+		}
+		relative := strings.TrimPrefix(documentPath, prefix)
+		parts := strings.Split(relative, "/")
+		if len(parts) < 2 || !strings.HasPrefix(parts[0], "R-") {
+			continue
+		}
+		if packages[parts[0]] == nil {
+			packages[parts[0]] = map[string]governedDocument{}
+		}
+		packages[parts[0]][strings.Join(parts[1:], "/")] = document
+	}
+	for packageName, files := range packages {
+		brief, hasBrief := files["brief.md"]
+		packagePath := path.Join(prefix, packageName)
+		if !hasBrief {
+			report.add(Finding{Code: "lifecycle.research_brief_missing", Severity: Error, Group: "lifecycle_consistency", Path: packagePath, Message: "Research package contains artifacts without canonical brief.md.", Remediation: "Create brief.md from the governed research template before adding research artifacts."})
+			continue
+		}
+		if _, exists := brief.frontmatter["research_status"]; !exists {
+			report.add(Finding{Code: "lifecycle.research_status_missing", Severity: Error, Group: "lifecycle_consistency", Path: brief.path, Message: "Canonical research brief does not own research_status.", Remediation: "Add the package research lifecycle state to brief.md."})
 		}
 	}
 }

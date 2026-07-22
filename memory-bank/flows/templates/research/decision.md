@@ -2,7 +2,7 @@
 title: R-XXX Research Decision Template
 doc_kind: governance
 doc_function: template
-purpose: Wrapper-шаблон research disposition, recommendation and downstream promotion map.
+purpose: Wrapper-шаблон research decision rationale, recommendation and downstream promotion map.
 derived_from:
   - ../../research.md
 status: active
@@ -20,13 +20,12 @@ template_target_path: ../../../research/R-XXX/decision.md
 title: "R-XXX: Research Decision"
 doc_kind: research
 doc_function: canonical
-purpose: "Decision disposition and promotion map for research R-XXX."
+purpose: "Decision rationale and promotion map for research R-XXX."
 derived_from:
   - brief.md
   - synthesis.md
   - ../../flows/research.md
 status: draft
-research_disposition: pending
 audience: humans_and_agents
 ---
 ```
@@ -42,8 +41,9 @@ audience: humans_and_agents
 | --- | --- |
 | Decision owner | `<person or role>` |
 | Decision date | `<YYYY-MM-DD>` |
-| Disposition | `pending / validated / invalidated / inconclusive / parked / cancelled / rerouted` |
 | Decision reference | `<issue comment, meeting note or approval>` |
+
+Terminal disposition is recorded only in sibling `brief.md` as `research_status`. When finalizing this decision, set `brief.md` to the matching terminal state: `validated`, `invalidated`, `inconclusive`, `parked`, `cancelled` or `rerouted`.
 
 ## Recommendation
 
@@ -64,7 +64,8 @@ For `validated` delivery proposals, create or link the target owner and repeat T
 
 ## Closure Check
 
-- [ ] Disposition answers `RQ-01` or explicitly records why it cannot.
+- [ ] Sibling `brief.md` records the matching terminal `research_status`.
+- [ ] `synthesis.md` answers `RQ-01` or explicitly records why it cannot; this decision links that answer through its recommendation and rationale.
 - [ ] Recommendation is traceable to `FND-*` and `LIM-*`.
 - [ ] Handoff does not create delivery scope, implementation steps or an accepted architecture decision by implication.
 ```

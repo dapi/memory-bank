@@ -25,12 +25,12 @@ Research & Discovery Flow управляет задачей, чьим первы
 ## Package Rules
 
 1. Все документы одного исследования живут в `memory-bank/research/R-XXX/`.
-2. `README.md` создаётся первым, владеет package index и `research_stage`.
+2. `README.md` создаётся первым и владеет только package index. Текущий lifecycle state не дублируется в index: его единственный owner — `research_status` в `brief.md`.
 3. `brief.md` — canonical owner decision question, mode, scope, assumptions, stopping condition и `research_status`.
 4. `plan.md` — conditional owner method: sample/source strategy, collection protocol, timebox, bias/ethics/privacy controls. Не создавай его для очевидного, compact desk research, если method уже достаточно прозрачен в `brief.md`.
-5. `evidence.md` — owner evidence log и provenance. Raw sources могут жить в `sources/`, но должны быть linked и иметь контекст получения.
+5. `evidence.md` — owner evidence log и provenance. Каждый material fact или observation обязан сослаться через `SRC-*` на clickable original-source link или stable access-controlled source record; raw sources могут жить в `sources/`, но должны быть linked и иметь контекст получения.
 6. `synthesis.md` — owner findings, confidence, limitations, disconfirming evidence и remaining uncertainty.
-7. `decision.md` — owner recommendation, disposition и promotion map. Он не становится вторым active owner фактов, переданных downstream.
+7. `decision.md` — owner decision rationale, recommendation и promotion map. Terminal disposition записывается только как `research_status` в `brief.md`; этот документ не создаёт второго lifecycle state или active owner фактов, переданных downstream.
 8. Используй templates из `memory-bank/flows/templates/research/`.
 
 ## Research Modes
@@ -87,7 +87,7 @@ Create `plan.md` when research involves participants, a survey, prototype/experi
 
 ### Evidence Collection → Synthesis Ready
 
-- [ ] every material observation in `evidence.md` has source/provenance, date or freshness, collection context and quality note.
+- [ ] every material observation and factual claim in `evidence.md` has a linked `SRC-*`, source/provenance, date or freshness, collection context and quality note.
 - [ ] evidence distinguishes observations, source claims and analyst interpretation.
 - [ ] collection stopped by the stated condition or an explicitly recorded justified change.
 - [ ] `synthesis.md` is `active`, includes findings, confidence, limitations and disconfirming/absent evidence.
@@ -125,8 +125,8 @@ When a durable fact is accepted, promote it before closing the research package:
 
 1. Research asks and answers a question; it does not silently commit implementation.
 2. `brief.md` does not own findings, selected solution, delivery scope, implementation sequence or acceptance test contract.
-3. `evidence.md` preserves provenance and does not turn correlation, a source claim or a participant quote into a conclusion without synthesis.
-4. `synthesis.md` may state confidence and recommendation inputs, but the decision owner records final disposition in `decision.md`.
+3. `evidence.md` preserves provenance: every material fact links to `SRC-*`, and each `SRC-*` links to its original source or stable access-controlled record. It does not turn correlation, a source claim or a participant quote into a conclusion without synthesis.
+4. `synthesis.md` may state confidence and recommendation inputs, but the decision owner records final terminal disposition only as `research_status` in `brief.md`; `decision.md` records its rationale and handoff.
 5. Research evidence is not automatically representative, causal or current. Record sampling limits, freshness and material conflicts.
 6. Do not copy private participant data, credentials, customer data or restricted source content into the repository. Store a minimal reference, access boundary and derived observation instead.
 7. A technical spike may contain disposable code or benchmark commands, but production implementation requires a new routed delivery flow.

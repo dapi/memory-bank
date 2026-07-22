@@ -302,6 +302,46 @@ func TestFeatureBriefOwnsDeliveryStatusWithoutOptionalClassification(t *testing.
 	}
 }
 
+func TestResearchLifecycleMetadataIsValidatedAndOwnedByBrief(t *testing.T) {
+	repo := t.TempDir()
+	write := func(relative, contents string) {
+		t.Helper()
+		fullPath := filepath.Join(repo, filepath.FromSlash(relative))
+		if err := os.MkdirAll(filepath.Dir(fullPath), 0o755); err != nil {
+			t.Fatal(err)
+		}
+		if err := os.WriteFile(fullPath, []byte(contents), 0o644); err != nil {
+			t.Fatal(err)
+		}
+	}
+	write("memory-bank/research/R-001/brief.md", "---\nstatus: active\nresearch_status: unknown\n---\n# Brief\n")
+	write("memory-bank/research/R-001/evidence.md", "---\nstatus: draft\nresearch_status: collecting\n---\n# Evidence\n")
+	write("memory-bank/research/R-002/evidence.md", "---\nstatus: draft\n---\n# Evidence\n")
+	write("memory-bank/archive/research/R-003/brief.md", "---\nstatus: active\nresearch_status: framed\n---\n# Archived brief\n")
+
+	report, err := Run(Options{RepoRoot: repo, ScopeRoot: "memory-bank", Profile: ProfileTemplate, MaxDepth: 3})
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, code := range []string{"governance.research_status_invalid", "lifecycle.research_status_wrong_owner", "lifecycle.research_brief_missing"} {
+		if !hasFinding(report, code) {
+			t.Fatalf("missing %s in %#v", code, report.Findings)
+		}
+	}
+}
+
+func TestResearchBriefOwnsResearchStatusWithoutOptionalClassification(t *testing.T) {
+	if !isCanonicalResearchBrief(governedDocument{
+		path:        "memory-bank/research/R-001/brief.md",
+		frontmatter: map[string]any{"status": "active", "research_status": "framed"},
+	}, "memory-bank") {
+		t.Fatal("canonical research brief path should own research_status without optional classification")
+	}
+	if isCanonicalResearchBrief(governedDocument{path: "memory-bank/archive/research/R-001/brief.md"}, "memory-bank") {
+		t.Fatal("archived research brief path must not own research_status")
+	}
+}
+
 func TestWorkflowRunsDoctorOnlyForExecutableRunCommands(t *testing.T) {
 	for _, test := range []struct {
 		name     string

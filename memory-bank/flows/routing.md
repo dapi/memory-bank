@@ -101,7 +101,7 @@ Issue / Task
 
 - Не начинай выбранный flow, пока не выполнены его entry gates.
 - Если в `Small Change` понадобились design, execution plan или новый устойчивый project fact, останови реализацию и повтори routing.
-- Если Research Flow сформировал delivery proposal, architecture decision, product initiative или change request, не начинай delivery внутри research package: зафиксируй disposition и повтори routing в PRD, Epic, Feature, ADR или другой применимый owner.
+- Если Research Flow сформировал delivery proposal, architecture decision, product initiative или change request, не начинай delivery внутри research package: зафиксируй terminal disposition в `brief.md: research_status` и повтори routing в PRD, Epic, Feature, ADR или другой применимый owner.
 - Если в Feature Flow выяснилось, что работа крупнее одной delivery-feature и требует общего roadmap, cross-feature risk register или нескольких delivery units, останови feature package и повтори routing в [`Epic Flow`](epic.md).
 - Не создавай delivery feature packages из Epic Intake. До `Roadmap Ready` proposal может называть только candidate delivery slices; accepted subissues и `FT-*` появляются после соответствующих epic gates.
 - Если report оказался изменением ожидаемого поведения, а не дефектом, выйди из Bug Fix Flow и повтори routing.

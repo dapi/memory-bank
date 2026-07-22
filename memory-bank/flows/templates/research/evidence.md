@@ -23,12 +23,13 @@ doc_function: canonical
 purpose: "Traceable evidence and observations collected for research R-XXX."
 derived_from:
   - brief.md
-  - plan.md
   - ../../flows/research.md
 status: draft
 audience: humans_and_agents
 ---
 ```
+
+Если в package существует `plan.md`, добавь его в `derived_from`. Для compact desk research без плана оставь frontmatter выше без этой зависимости.
 
 ## Instantiated Body
 
@@ -41,13 +42,13 @@ Do not copy restricted source material, personal data or credentials here. Recor
 
 | ID | Source / provenance | Date / freshness | Collection context | Access / quality note |
 | --- | --- | --- | --- | --- |
-| `SRC-01` | `<URL, internal record, interview code, benchmark run or file path>` | `<date>` | `<how obtained>` | `<primary/secondary, limitation, access boundary>` |
+| `SRC-01` | `[<source title>](<source URL or stable access-controlled record>)` | `<date>` | `<how obtained>` | `<primary/secondary, limitation, access boundary>` |
 
 ## Observations
 
 | ID | Observation | Supporting `SRC-*` | Applies to | Interpretation boundary |
 | --- | --- | --- | --- | --- |
-| `OBS-01` | `<directly observed/measured claim>` | `SRC-01` | `RQ-01 / HYP-01` | `<what this does not establish>` |
+| `OBS-01` | `<directly observed/measured claim>` | `[SRC-01](<source URL or stable access-controlled record>)` | `RQ-01 / HYP-01` | `<what this does not establish>` |
 
 ## Collection Log
 
@@ -57,6 +58,7 @@ Do not copy restricted source material, personal data or credentials here. Recor
 ## Evidence Quality Check
 
 - [ ] Each material observation traces to one or more `SRC-*`.
+- [ ] Every `SRC-*` contains a clickable link to its original source or a stable access-controlled source record; an interview code alone is insufficient.
 - [ ] Observations are separated from source claims and analyst interpretation.
 - [ ] Freshness, sample/source limitations and conflicts are recorded.
 ```

@@ -2,7 +2,7 @@
 title: R-XXX Research Package README Template
 doc_kind: governance
 doc_function: template
-purpose: Wrapper-шаблон индекса и lifecycle stage для research package.
+purpose: Wrapper-шаблон индекса research package без дублирования lifecycle state из canonical brief.
 derived_from:
   - ../../research.md
 status: active
@@ -20,12 +20,11 @@ template_target_path: ../../../research/R-XXX/README.md
 title: "R-XXX: <Research Name>"
 doc_kind: research
 doc_function: index
-purpose: "Навигация и текущая stage evidence-backed research R-XXX."
+purpose: "Навигация по evidence-backed research package R-XXX."
 derived_from:
   - ../../flows/research.md
   - brief.md
 status: active
-research_stage: intake
 audience: humans_and_agents
 ---
 ```
@@ -35,13 +34,9 @@ audience: humans_and_agents
 ```markdown
 # R-XXX: <Research Name>
 
-## Current Stage
+## Lifecycle Owner
 
-- Stage: `intake`
-- Research owner: `<person or role>`
-- Decision owner: `<person or role>`
-- Source / trigger: `<issue, request, metric, interview or other evidence>`
-- Next gate: `Bootstrap → Question Framed`
+Текущий lifecycle state хранится только в поле `research_status` документа [Research Brief](brief.md). Не копируй status или current stage в этот index.
 
 ## Annotated Index
 

@@ -38,7 +38,7 @@ audience: humans_and_agents
 
 | ID | Finding | Evidence | Confidence | Implication for `RQ-*` / `HYP-*` |
 | --- | --- | --- | --- | --- |
-| `FND-01` | `<synthesized conclusion>` | `OBS-01, SRC-01` | `high / medium / low` | `<supports, contradicts or leaves unresolved>` |
+| `FND-01` | `<synthesized conclusion>` | `[OBS-01](evidence.md#observations), [SRC-01](evidence.md#sources)` | `high / medium / low` | `<supports, contradicts or leaves unresolved>` |
 
 ## Limitations and Disconfirming Evidence
 
@@ -52,7 +52,7 @@ Answer `RQ-01` in direct language. If evidence is insufficient, say so; do not c
 
 ## Review Check
 
-- [ ] Every finding traces to evidence.
+- [ ] Every finding and factual claim traces through linked `OBS-*` to linked `SRC-*`; do not state uncited facts as findings.
 - [ ] Confidence reflects evidence quality rather than desired outcome.
 - [ ] Alternative explanations and remaining uncertainty are visible.
 ```

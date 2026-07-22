@@ -2,7 +2,7 @@
 title: R-XXX Research Plan Template
 doc_kind: governance
 doc_function: template
-purpose: Wrapper-шаблон conditional research plan: method, collection protocol, quality controls and stopping rules.
+purpose: "Wrapper-шаблон conditional research plan: method, collection protocol, quality controls and stopping rules."
 derived_from:
   - ../../research.md
 status: active

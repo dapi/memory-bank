@@ -10,6 +10,8 @@ func TestCurrentTemplateBoundary(t *testing.T) {
 		"memory-bank/domain/model.md":             Adapted,
 		"memory-bank/engineering/architecture.md": Adapted,
 		"memory-bank/README.md":                   Adapted,
+		"memory-bank/research/README.md":          Managed,
+		"memory-bank/research/R-001/README.md":    UserOwned,
 		"memory-bank/features/README.md":          Managed,
 		"memory-bank/features/FT-001/brief.md":    UserOwned,
 		"memory-bank/features/FT-001/README.md":   UserOwned,
@@ -24,7 +26,7 @@ func TestCurrentTemplateBoundary(t *testing.T) {
 }
 
 func TestOnlyTopLevelArtifactIndexesAreManaged(t *testing.T) {
-	for _, directory := range []string{"prd", "epics", "use-cases", "features", "adr"} {
+	for _, directory := range []string{"prd", "research", "epics", "use-cases", "features", "adr"} {
 		t.Run(directory, func(t *testing.T) {
 			if got := Classify("memory-bank/" + directory + "/README.md"); got != Managed {
 				t.Fatalf("top-level index classified as %q, want %q", got, Managed)
