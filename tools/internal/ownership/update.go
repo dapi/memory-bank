@@ -235,8 +235,9 @@ func buildAgentPlanWithReader(repo pinnedRepo, target string, readDestination fu
 	return &mutation{decision: decision, data: plan.Data, mode: mode, modeSet: true, expectedExists: exists, expectedDigest: currentDigest, expectedMode: currentMode}, decision, nil
 }
 
-// Doctor checks only the managed agent-instruction contract without mutation.
-func Doctor(repoRoot, target string) (Report, error) {
+// InspectAgentInstructions checks only the managed agent-instruction contract
+// without mutation. It is used by the aggregate doctor command.
+func InspectAgentInstructions(repoRoot, target string) (Report, error) {
 	repo, err := pinRepoRoot(repoRoot)
 	if err != nil {
 		return Report{}, err
@@ -253,6 +254,12 @@ func Doctor(repoRoot, target string) (Report, error) {
 		report.DriftCount = 1
 	}
 	return report, nil
+}
+
+// Doctor is kept as the internal compatibility name for the focused ownership
+// check. The public CLI doctor is the aggregate diagnostic in internal/doctor.
+func Doctor(repoRoot, target string) (Report, error) {
+	return InspectAgentInstructions(repoRoot, target)
 }
 
 func readSource(source pinnedSource) (map[string]payload, error) {

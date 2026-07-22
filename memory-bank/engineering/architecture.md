@@ -2,7 +2,7 @@
 title: Engineering Architecture Patterns
 doc_kind: engineering
 doc_function: canonical
-purpose: Каноничное место для архитектурных правил реализации: code/module boundaries, runtime patterns, concurrency, error handling и configuration ownership.
+purpose: "Каноничное место для архитектурных правил реализации: code/module boundaries, runtime patterns, concurrency, error handling и configuration ownership."
 derived_from:
   - ../dna/governance.md
   - ../domain/context-map.md

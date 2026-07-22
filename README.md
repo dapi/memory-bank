@@ -81,7 +81,7 @@ problem space            solution space             execution space
 | [Managed-блок инструкций агента](docs/agent-instructions.md) | Для marker contract, doctor и выбора единственного agent instruction target |
 | [Разработка репозитория](docs/development.md) | Для разработчиков шаблона и CLI |
 
-`memory-bank lint` проверяет broken links, orphan-документы, достижимость через индексную навигацию и contract ожидаемых `README.md`-индексов. Прежний `memory-bank-lint` временно остаётся совместимым entrypoint для существующей автоматизации.
+`memory-bank lint` проверяет broken links, orphan-документы, достижимость через индексную навигацию и contract ожидаемых `README.md`-индексов. `memory-bank doctor` добавляет read-only диагностику внедрения, governance, managed drift и CI. Прежний `memory-bank-lint` временно остаётся совместимым entrypoint для существующей автоматизации.
 
 ## Развитие шаблона
 

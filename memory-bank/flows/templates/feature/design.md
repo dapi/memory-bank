@@ -2,7 +2,7 @@
 title: "FT-XXX: Design Template"
 doc_kind: feature
 doc_function: template
-purpose: Governed wrapper-шаблон для feature-local `design.md`. Фиксирует solution-space слой: выбранный подход, architecture coverage, contracts, design verification и design-pack routing без смешения с problem space или execution contract.
+purpose: "Governed wrapper-шаблон для feature-local `design.md`. Фиксирует solution-space слой: выбранный подход, architecture coverage, contracts, design verification и design-pack routing без смешения с problem space или execution contract."
 derived_from:
   - ../../feature.md
   - ../../feature-artifact-catalog.md

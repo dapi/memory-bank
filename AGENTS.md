@@ -3,6 +3,7 @@
 ## Структура проекта и организация модулей
 
 Корневой `README.md` объясняет устройство репозитория и правила использования шаблона.
+Перед substantial delivery work начните с [`memory-bank/README.md`](memory-bank/README.md), затем прочитайте governance-ядро и подходящий flow.
 
 - `memory-bank/` — переносимый шаблон, который должен оставаться generic.
 - `memory-bank/dna/` — governance-ядро шаблона.

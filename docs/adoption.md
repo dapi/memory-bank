@@ -80,6 +80,37 @@ codex --search \
 
 Команда передаёт prompt при запуске интерактивной Codex-сессии и использует sandbox и approval policy из пользовательской конфигурации. Для воспроизводимого запуска замените `main` в URL на immutable commit SHA.
 
+## Подключить агента
+
+Используйте managed-блок, который устанавливает `memory-bank init`: он направляет агента к `memory-bank/README.md`, `memory-bank/dna/README.md` и `memory-bank/flows/routing.md`, не копируя governance. Не редактируйте содержимое между markers вручную; project-specific инструкции размещайте снаружи. Полный marker, update, doctor и alternative-target contract описан в [managed-блоках agent instructions](agent-instructions.md).
+
+Для первой адаптации можно использовать запрос:
+
+```text
+Прочитай ./memory-bank/README.md и governance-ядро в ./memory-bank/dna/.
+Помоги адаптировать product, domain, engineering и ops под этот проект.
+Не переноси project-specific детали обратно в generic-шаблон.
+```
+
+После внедрения используйте [инструкцию по повседневной работе](usage.md): она описывает связь Memory Bank с task tracker и agent runner, рабочий цикл и стартовые запросы.
+
+## Установить локальную проверку
+
+Для локального аудита установите `memory-bank` как внешний бинарник:
+
+```bash
+go install github.com/dapi/memory-bank/tools/cmd/memory-bank@latest
+```
+
+После этого из любого места внутри downstream Git-репозитория:
+
+```bash
+memory-bank lint
+memory-bank doctor
+```
+
+Подробности по флагам, migration path и установке: [`memory-bank.md`](memory-bank.md).
+
 ## Подключить CI
 
 CI-проверка Memory Bank должна быть opt-in в downstream-проекте. Не копируйте `.github/workflows/ci.yml` из этого репозитория: он предназначен для разработки самого шаблона и собирает локальный Go CLI из `tools/cmd/memory-bank`.
@@ -119,7 +150,7 @@ jobs:
         run: go install "github.com/dapi/memory-bank/tools/cmd/memory-bank@${MEMORY_BANK_VERSION}"
 
       - name: Audit Memory Bank
-        run: memory-bank lint
+        run: memory-bank doctor
 ```
 
 Если в проекте уже есть Go toolchain setup, можно переиспользовать существующий шаг `actions/setup-go`. Если Go в проекте не используется, он нужен только для установки CLI через `go install`; после публикации release binaries или Homebrew formula CI можно заменить на установку готового бинарника.
@@ -132,4 +163,5 @@ Memory Bank считается внедрённым, когда:
 - постоянный контекст `product/`, `domain/`, `engineering/` и `ops/` отражает фактические правила проекта или явно помечает пробелы;
 - агентские инструкции указывают читать `memory-bank/README.md` и governance-ядро;
 - первая реальная задача прошла через выбранный flow или `Small Change` routing record;
+- `memory-bank doctor` проходит локально (и включает navigation checks `lint`);
 - CI-проверка подключена, если команда хочет блокировать PR при broken links или нарушенной индексной навигации.

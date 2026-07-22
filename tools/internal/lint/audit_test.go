@@ -86,3 +86,13 @@ func TestNormalizeScopeRootRejectsCurrentDirectory(t *testing.T) {
 		t.Fatal("expected an error for current-directory scope")
 	}
 }
+
+func TestNormalizeScopeRootRejectsEscapingRepository(t *testing.T) {
+	for _, scopeRoot := range []string{"../sibling", "memory-bank/../sibling", "/tmp/sibling", `..\\sibling`} {
+		t.Run(scopeRoot, func(t *testing.T) {
+			if _, err := NormalizeScopeRoot(scopeRoot); err == nil {
+				t.Fatalf("expected an error for scope root %q", scopeRoot)
+			}
+		})
+	}
+}

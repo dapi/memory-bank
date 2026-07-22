@@ -1,0 +1,4 @@
+jobs:
+  doctor:
+    steps:
+      - run: memory-bank doctor
