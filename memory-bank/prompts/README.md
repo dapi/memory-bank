@@ -43,8 +43,7 @@ Prompt-документ нужен, когда prompt прошел путь от
 | [`PROMPT-002`](PROMPT-002-feature-pack-review-improve.md) | Feature Pack Review Improve | `draft` | `drafted` | `review` | Run bounded review-improve cycles for feature packages | 2026-05-19 |
 | [`PROMPT-003`](PROMPT-003-implement-and-test.md) | Implement And Test | `draft` | `drafted` | `coding` | Implement a coding task end-to-end through PR, review/fix and CI | 2026-05-19 |
 | [`PROMPT-004`](PROMPT-004-pr-review-finish.md) | PR Review Finish | `draft` | `drafted` | `coding` | Finish an active branch into a ready PR with review-improve and CI gates | 2026-05-19 |
-| [`PROMPT-005`](PROMPT-005-route-and-deliver-issue.md) | Route And Deliver Issue | `draft` | `drafted` | `agent` | Route a new issue and orchestrate delivery through its terminal flow gate | 2026-07-22 |
-| [`start-issue`](start-issue.md) | Start Issue | `draft` | `drafted` | `agent` | Rendered entry prompt for dapi/start-issue and Codex Human Gate | 2026-07-22 |
+| [`PROMPT-005`](PROMPT-005-route-and-deliver-issue.md) | Route And Deliver Issue | `draft` | `drafted` | `agent` | Route a new issue and orchestrate delivery through its terminal flow gate | 2026-07-23 |
 
 ## Naming
 

@@ -186,12 +186,24 @@ blockers.
   дизайну или route.
 </stop_conditions>
 
-<definition_of_done>
-Готовность означает одновременно:
-- выбранный flow имеет выполненный допустимый terminal или closure gate либо
-  корректно зафиксированный обязательный human gate;
+<completion_contract>
+Заверши текущий run ровно в одном из двух взаимоисключающих состояний.
+
+`STATUS: HUMAN_GATE` допустим, когда:
+- для безопасного продолжения требуется обязательное решение, approval,
+  недостающий source/input или иное действие человека;
+- persisted state фиксирует route или фазу, собранное evidence, blocker или
+  risk, точный запрос к человеку, требуемое решение, input или approval и
+  exact next action;
+- вся работа, зависящая от этого решения, остановлена.
+
+Этот статус завершает только текущий run. Он не утверждает, что acceptance
+criteria, validation profile, tests, CI или PR readiness выполнены.
+
+`STATUS: DONE` допустим, только когда одновременно:
+- выбранный flow имеет выполненный допустимый terminal или closure gate;
 - acceptance criteria issue доказуемо выполнены;
-- выполнены requirements validation profile;
+- если validation profile применим, его requirements выполнены;
 - delivery artifacts содержат traceability и evidence;
 - релевантные тесты и обязательный CI зелёные либо есть явно одобренное
   документированное исключение;
@@ -199,13 +211,14 @@ blockers.
   с git workflow.
 
 Route-specific boundaries:
-- Human Routing: создай record и остановись; не реализуй изменение.
+- Human Routing: создай record, заверши run с `STATUS: HUMAN_GATE` и
+  остановись; не реализуй изменение.
 - Epic Intake: заверши Proposal Ready/disposition gate; после approval веди
   roadmap, а каждую delivery-unit передавай в отдельный Task Routing. Не создавай
   feature package до Epic Roadmap Ready.
 - Incident: containment, recovery, PIR и prevention follow-ups имеют приоритет;
   repository PR не обязателен, а каждый follow-up маршрутизируется отдельно.
-</definition_of_done>
+</completion_contract>
 
 <final_report>
 Верни кратко:
@@ -216,6 +229,8 @@ Route-specific boundaries:
 - запущенные проверки и статус CI;
 - результат review/fix;
 - оставшиеся blockers, approvals или риски.
+После отчёта добавь ровно одну отдельную terminal строку: `STATUS: DONE` или
+`STATUS: HUMAN_GATE`.
 </final_report>
 ```
 
@@ -232,10 +247,10 @@ Route-specific boundaries:
 
 | Check | Expected Result | Status |
 | --- | --- | --- |
-| Dry run: Small Change | Route выбран до implementation; выполнены его execution gates. | not_run |
-| Dry run: Feature | Созданы нужные feature artifacts, validation profile и traceability. | not_run |
-| Dry run: ambiguous issue | Создан Human Routing record; implementation не начинается. | not_run |
-| Dry run: Bug without expected-behavior source | Создан Human Gate; analysis/fix не начинается. | not_run |
+| Dry run: Small Change | `STATUS: DONE` только после execution gates и полного Done contract. | not_run |
+| Dry run: Feature | `STATUS: DONE` только после artifacts, validation profile, traceability и полного Done contract. | not_run |
+| Dry run: ambiguous issue | `STATUS: HUMAN_GATE`; record содержит вопрос и next action, implementation не начинается, Done не заявлен. | not_run |
+| Dry run: Bug without expected-behavior source | `STATUS: HUMAN_GATE`; record содержит вопрос и next action, analysis/fix не начинается, Done не заявлен. | not_run |
 | Dry run: Incident | Выполнены containment/PIR gates; PR не требуется. | not_run |
 | Dry run: Epic Intake | Нет `FT-*` до Epic Roadmap Ready. | not_run |
 | Dry run: Standard Feature | Independent review и final convergence подтверждены. | not_run |
@@ -243,4 +258,5 @@ Route-specific boundaries:
 
 ## Change Notes
 
+- 2026-07-23: Separated Human Gate completion from the Done delivery contract.
 - 2026-07-22: Created as the top-level issue routing and delivery orchestrator.
