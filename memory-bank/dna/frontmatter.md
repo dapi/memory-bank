@@ -20,6 +20,7 @@ status: active
 |---|---|---|
 | `derived_from` | Есть upstream-документ | Прямые upstream-зависимости. Каждый элемент — строка (путь) или объект `{path, fit}`, где `fit` объясняет scope зависимости |
 | `delivery_status` | Lifecycle-owning canonical `brief.md` | `planned` / `in_progress` / `done` / `cancelled` |
+| `research_status` | Lifecycle-owning canonical research `brief.md` | `intake` / `framed` / `collecting` / `synthesizing` / `decision_ready` / `validated` / `invalidated` / `inconclusive` / `parked` / `cancelled` / `rerouted` |
 | `decision_status` | ADR-документы | `proposed` / `accepted` / `superseded` / `rejected` |
 
 ## Дополнительные поля
@@ -29,6 +30,8 @@ Governed-документы могут содержать дополнитель
 Для `doc_kind: feature` lifecycle owner-ом остается canonical `brief.md` problem-space документа. Feature-level `README.md`, conditional `design.md` и `implementation-plan.md` используют тот же `doc_kind`, но не обязаны иметь `delivery_status`, если сами не владеют delivery lifecycle.
 
 Для `doc_kind: feature-support` документ является reference / companion внутри feature package и не владеет `delivery_status`, canonical requirements, selected solution или execution sequencing.
+
+Для `doc_kind: research` lifecycle owner-ом остается canonical `brief.md` research package. Его `research_status` описывает состояние исследования, а не delivery. `plan.md`, `evidence.md`, `synthesis.md` и `decision.md` являются отдельными owner-ами метода, наблюдений, выводов и disposition; ни один из них не заменяет canonical downstream PRD, epic, feature, ADR или product document после handoff.
 
 ## Примеры
 

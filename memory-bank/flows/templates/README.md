@@ -7,6 +7,13 @@ derived_from:
   - ../../dna/governance.md
   - prd/PRD-XXX.md
   - use-case/UC-XXX.md
+  - research/README.md
+  - research/package-README.md
+  - research/brief.md
+  - research/plan.md
+  - research/evidence.md
+  - research/synthesis.md
+  - research/decision.md
   - epic/README.md
   - epic/package-README.md
   - epic/brief.md
@@ -40,6 +47,13 @@ audience: humans_and_agents
 
 - [PRD-XXX: Product Initiative Name](prd/PRD-XXX.md) — компактный Product Requirements Document для инициативы, которая еще не разложена на один конкретный feature slice.
 - [UC-XXX: Use Case Name](use-case/UC-XXX.md) — канонический use case для устойчивого пользовательского или операционного сценария; selection и lifecycle определяет [Use Case Flow](../use-case.md).
+- [Research Templates](research/README.md) — индекс шаблонов `R-XXX` package для market, product и technical research.
+- [R-XXX Package README Template](research/package-README.md) — routing index и lifecycle stage owner research package.
+- [R-XXX: Research Brief Template](research/brief.md) — canonical decision question, hypotheses, boundaries и stopping condition.
+- [R-XXX: Research Plan Template](research/plan.md) — conditional method, sampling/source strategy и collection controls.
+- [R-XXX: Evidence Log Template](research/evidence.md) — provenance-preserving log источников и observations.
+- [R-XXX: Research Synthesis Template](research/synthesis.md) — findings, confidence, limitations и disconfirming evidence.
+- [R-XXX: Research Decision Template](research/decision.md) — disposition, recommendation и promotion/handoff map.
 - [Epic Templates](epic/README.md) — индекс шаблонов `EP-XXX` package.
 - [EP-XXX Package README Template](epic/package-README.md) — routing index и lifecycle stage owner для epic package, включая intake-only состояние.
 - [EP-XXX: Epic Proposal Template](epic/brief.md) — обязательный при Epic Intake brief с proposal disposition и promotion contract; при прямом Bootstrap Epic не создаётся.
