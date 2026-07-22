@@ -6,7 +6,7 @@ purpose: "Execution plan for the brownfield adaptation protocol without redefini
 derived_from:
   - brief.md
   - decision-log.md
-status: active
+status: archived
 audience: humans_and_agents
 must_not_define:
   - ft_53_scope
