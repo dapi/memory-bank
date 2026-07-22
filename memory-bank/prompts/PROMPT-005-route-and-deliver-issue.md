@@ -101,15 +101,23 @@ blockers.
 </orchestration>
 
 <specialist_roles>
-- Requirements review: для крупных Feature используй `PROMPT-001`.
-- Feature-pack quality: после создания Feature package используй `PROMPT-002`,
-  когда нужен bounded review-improve документов.
+- Requirements review: для крупных Feature передай read-only агенту прямое
+  задание сравнить issue с feature docs и governance без анализа кода и
+  архитектуры. Он должен выделить явные requirements и requested surfaces,
+  найти домыслы и traceability gaps и вернуть evidence-backed findings и open
+  questions, не изменяя документы.
+- Feature-pack quality: проведи не более пяти review-improve циклов. Проверяй
+  consistency, required sections, frontmatter, links и traceability между brief,
+  conditional design, plan, ADR и evidence; сохраняй review report и исправляй
+  только critical/important findings. Если не хватает фактов или решение
+  неоднозначно, остановись на Human Gate.
 - Discovery: делегируй custom agents `code-grounding` и `requirements-risk`;
   используй `test-surface` вместо одного из них, когда нужен отдельный анализ
   test surfaces.
 - Delivery owner: после выполненных flow gates делегируй `delivery-owner` или
-  используй `PROMPT-003`, если работа остается в одном агенте.
-- PR follow-through: используй `PROMPT-004` только для активного или сложного PR.
+  оставь работу у себя, если не нужна отдельная передача writer ownership.
+- PR follow-through: для активного или сложного PR передай reviewer прямое
+  задание проверить diff, CI и unresolved findings, затем запусти bounded fix loop.
 </specialist_roles>
 
 <workflow>
@@ -258,5 +266,6 @@ Route-specific boundaries:
 
 ## Change Notes
 
+- 2026-07-23: Replaced agent-side prompt chaining with direct role contracts.
 - 2026-07-23: Separated Human Gate completion from the Done delivery contract.
 - 2026-07-22: Created as the top-level issue routing and delivery orchestrator.
