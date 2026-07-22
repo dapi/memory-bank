@@ -2,14 +2,14 @@
 title: "PROMPT-002: Feature Pack Review Improve"
 doc_kind: prompt
 doc_function: canonical
-purpose: "Проводит ограниченный цикл review-improve для комплекта feature-документов и останавливается на human gate при существенной неизвестности."
+purpose: Проводит ограниченный цикл review-improve для комплекта feature-документов и останавливается на human gate при существенной неизвестности.
 derived_from:
   - ../dna/governance.md
 status: draft
 audience: humans_and_agents
 prompt_kind: review
 prompt_status: drafted
-source_prompt: |
+source_prompt: |-
   Проделай не более 5-и циклов улучшения качества комплекта документов по feature
   (review-improve): сделай ревью комплекта документов на целостность и
   непротиворечивость, сохрани отчет, закрой открытые вопросы через FPF с
@@ -19,19 +19,19 @@ source_prompt: |
 variables:
   - name: FEATURE_PATH
     required: true
-    description: "Путь к feature package."
+    description: Путь к feature package.
   - name: MAX_CYCLES
     required: false
-    description: "Максимальное число review-improve циклов."
+    description: Максимальное число review-improve циклов.
   - name: REVIEW_REPORT_PATH
     required: false
-    description: "Путь для временного отчета ревью."
+    description: Путь для временного отчета ревью.
   - name: FINAL_REPORT_PATH
     required: false
-    description: "Путь для финального отчета внутри feature package."
+    description: Путь для финального отчета внутри feature package.
 model_notes:
-  reasoning: "high"
-  tools: "repo"
+  reasoning: high
+  tools: repo
 ---
 
 # PROMPT-002: Feature Pack Review Improve
