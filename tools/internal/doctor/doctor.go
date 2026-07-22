@@ -26,6 +26,7 @@ var shellGuaranteedFailurePattern = regexp.MustCompile(`^(?:false|exit\s+[1-9][0
 var shellStatusPropagationPattern = regexp.MustCompile(`^exit\s+\$\?(?:\s*#.*)?$`)
 var shellErrexitPattern = regexp.MustCompile(`(?:^|\s)-[A-Za-z]*e[A-Za-z]*(?:\s|$)|(?:^|\s)-o\s+errexit(?:\s|$)`)
 var shellPipefailPattern = regexp.MustCompile(`(?:^|\s)-o\s+pipefail(?:\s|$)|(?:^|\s)pipefail(?:\s|$)`)
+var workflowFalseExpressionPattern = regexp.MustCompile(`^\$\{\{\s*false\s*\}\}$`)
 
 func NormalizeProfile(value string) (Profile, error) {
 	profile := Profile(strings.ToLower(strings.TrimSpace(value)))
@@ -241,7 +242,7 @@ func workflowRunsDoctor(data []byte) bool {
 	}
 	for index := 1; index < len(jobs.Content); index += 2 {
 		job := jobs.Content[index]
-		if workflowJobAllowsFailure(job) {
+		if workflowConditionStaticallyFalse(yamlMappingValue(job, "if")) || workflowJobAllowsFailure(job) {
 			continue
 		}
 		steps := yamlMappingValue(job, "steps")
@@ -249,12 +250,12 @@ func workflowRunsDoctor(data []byte) bool {
 			continue
 		}
 		for _, step := range steps.Content {
-			if workflowStepAllowsFailure(step) {
+			if workflowConditionStaticallyFalse(yamlMappingValue(step, "if")) || workflowStepAllowsFailure(step) {
 				continue
 			}
 			run := yamlMappingValue(step, "run")
 			shell := effectiveWorkflowShell(document.Content[0], job, step)
-			if run != nil && run.Kind == yaml.ScalarNode && runHasBlockingDoctor(run.Value, workflowShellHasErrexit(shell), workflowShellHasPipefail(shell)) {
+			if run != nil && run.Kind == yaml.ScalarNode && runHasBlockingDoctor(run.Value, workflowShellHasErrexit(shell), workflowShellHasPipefail(shell, job)) {
 				return true
 			}
 		}
@@ -291,13 +292,25 @@ func workflowStepAllowsFailure(step *yaml.Node) bool {
 	return workflowContinueOnErrorAllowsFailure(yamlMappingValue(step, "continue-on-error"))
 }
 
+func workflowConditionStaticallyFalse(condition *yaml.Node) bool {
+	if condition == nil || condition.Kind != yaml.ScalarNode {
+		return false
+	}
+	if condition.Tag == "!!bool" {
+		var value bool
+		return condition.Decode(&value) == nil && !value
+	}
+	value := strings.TrimSpace(condition.Value)
+	return value == "false" || workflowFalseExpressionPattern.MatchString(value)
+}
+
 func workflowContinueOnErrorAllowsFailure(policy *yaml.Node) bool {
 	if policy == nil {
 		return false
 	}
 	// GitHub parses literal boolean expressions as strings in YAML, but the
 	// expression is still statically guaranteed to disable continue-on-error.
-	if policy.Kind == yaml.ScalarNode && strings.TrimSpace(policy.Value) == "${{ false }}" {
+	if policy.Kind == yaml.ScalarNode && workflowFalseExpressionPattern.MatchString(strings.TrimSpace(policy.Value)) {
 		return false
 	}
 	// Only an explicit YAML boolean false guarantees that doctor can fail the
@@ -433,11 +446,13 @@ func workflowShellHasErrexit(shell *yaml.Node) bool {
 	return shellErrexitPattern.MatchString(value)
 }
 
-// workflowShellHasPipefail reports whether a custom shell propagates a failed
-// command from inside a pipeline. GitHub's default shell enables pipefail.
-func workflowShellHasPipefail(shell *yaml.Node) bool {
+// workflowShellHasPipefail reports whether the shell propagates a failed
+// command from inside a pipeline. An omitted shell uses GitHub's implicit
+// `bash -e {0}` on Linux and PowerShell on Windows. The latter propagates a
+// native command's LASTEXITCODE through the runner wrapper.
+func workflowShellHasPipefail(shell, job *yaml.Node) bool {
 	if shell == nil {
-		return true
+		return workflowJobRunsOnWindows(job)
 	}
 	if shell.Kind != yaml.ScalarNode {
 		return false
@@ -446,6 +461,39 @@ func workflowShellHasPipefail(shell *yaml.Node) bool {
 		return true
 	}
 	return shellPipefailPattern.MatchString(shell.Value)
+}
+
+func workflowJobRunsOnWindows(job *yaml.Node) bool {
+	runsOn := yamlMappingValue(job, "runs-on")
+	if runsOn == nil {
+		return false
+	}
+	if runsOn.Kind == yaml.MappingNode {
+		return workflowRunsOnLabelsIncludeWindows(yamlMappingValue(runsOn, "labels"))
+	}
+	return workflowRunsOnLabelsIncludeWindows(runsOn)
+}
+
+func workflowRunsOnLabelsIncludeWindows(runsOn *yaml.Node) bool {
+	if runsOn == nil {
+		return false
+	}
+	if runsOn.Kind == yaml.ScalarNode {
+		return isWindowsRunnerLabel(runsOn.Value)
+	}
+	if runsOn.Kind == yaml.SequenceNode {
+		for _, label := range runsOn.Content {
+			if label.Kind == yaml.ScalarNode && isWindowsRunnerLabel(label.Value) {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+func isWindowsRunnerLabel(label string) bool {
+	value := strings.ToLower(strings.TrimSpace(label))
+	return value == "windows" || strings.HasPrefix(value, "windows-")
 }
 
 // shellImmediatelyExitsSuccessfully recognizes an exit 0 command that
