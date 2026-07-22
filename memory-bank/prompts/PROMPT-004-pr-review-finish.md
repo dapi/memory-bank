@@ -9,7 +9,7 @@ status: draft
 audience: humans_and_agents
 prompt_kind: coding
 prompt_status: drafted
-source_prompt: |
+source_prompt: |-
   Заверши стадию реализации фичи. Критерии завершенности: все закомичено и
   запушено, есть PR, CI у PR зеленый, в PR нет merge conflicts, проведен и
   завершен процесс review-improve, по результатам review нет критических и
@@ -19,34 +19,34 @@ source_prompt: |
 variables:
   - name: REPO_PATH
     required: false
-    description: "Путь к репозиторию, если prompt запускается не из repo root."
+    description: Путь к репозиторию, если prompt запускается не из repo root.
   - name: ISSUE_ID
     required: false
-    description: "Issue или task id, который должен быть отражен в commit/PR."
+    description: Issue или task id, который должен быть отражен в commit/PR.
   - name: FEATURE_SUMMARY
     required: true
-    description: "Краткое описание завершаемой фичи."
+    description: Краткое описание завершаемой фичи.
   - name: BASE_BRANCH
     required: false
-    description: "Base branch PR."
+    description: Base branch PR.
   - name: CURRENT_BRANCH
     required: false
-    description: "Текущая feature branch, если известна."
+    description: Текущая feature branch, если известна.
   - name: COMMAND_POLICY
     required: false
-    description: "Проектные правила команд, тестов, сервисов и cleanup."
+    description: Проектные правила команд, тестов, сервисов и cleanup.
   - name: COMMIT_POLICY
     required: false
-    description: "Формат commit subject/body и ссылки на issue."
+    description: Формат commit subject/body и ссылки на issue.
   - name: REVIEW_COMMAND
     required: false
-    description: "Команда или процедура review текущей ветки."
+    description: Команда или процедура review текущей ветки.
   - name: CLEANUP_COMMAND
     required: false
-    description: "Команда cleanup после работы, если требуется."
+    description: Команда cleanup после работы, если требуется.
 model_notes:
-  reasoning: "high"
-  tools: "repo, git, ci, issue_tracker"
+  reasoning: high
+  tools: repo, git, ci, issue_tracker
 ---
 
 # PROMPT-004: PR Review Finish
