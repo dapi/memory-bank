@@ -23,8 +23,8 @@ doc_function: canonical
 purpose: "Decision rationale and promotion map for research R-XXX."
 derived_from:
   - brief.md
-  - synthesis.md
   - ../../flows/research.md
+  # Add synthesis.md only after the research reaches synthesis; omit it for an early-terminal decision.
 status: draft
 audience: humans_and_agents
 ---
@@ -44,6 +44,13 @@ audience: humans_and_agents
 | Decision reference | `<issue comment, meeting note or approval>` |
 
 Terminal disposition is recorded only in sibling `brief.md` as `research_status`. When finalizing this decision, set `brief.md` to the matching terminal state: `validated`, `invalidated`, `inconclusive`, `parked`, `cancelled` or `rerouted`.
+
+## Decision Rationale
+
+- `<Why this recommendation or disposition follows from the research; include the decision-relevant trade-offs.>`
+- After synthesis, supporting findings: `FND-01` `<and other relevant FND-* references>`
+- After synthesis, material limitations and residual uncertainty: `LIM-01` `<and other relevant LIM-* references>`
+- For an early-terminal `parked`, `cancelled` or `rerouted` package, record the reason, retained evidence or consequences, and owner/review trigger or target route instead.
 
 ## Recommendation
 
@@ -65,7 +72,7 @@ For `validated` delivery proposals, create or link the target owner and repeat T
 ## Closure Check
 
 - [ ] Sibling `brief.md` records the matching terminal `research_status`.
-- [ ] `synthesis.md` answers `RQ-01` or explicitly records why it cannot; this decision links that answer through its recommendation and rationale.
-- [ ] Recommendation is traceable to `FND-*` and `LIM-*`.
+- [ ] If research reached synthesis, `synthesis.md` answers `RQ-01` or explicitly records why it cannot; this decision links that answer through its recommendation and rationale.
+- [ ] If research reached synthesis, the recommendation is traceable to `FND-*` and `LIM-*`; otherwise, the early-terminal reason or handoff is explicit.
 - [ ] Handoff does not create delivery scope, implementation steps or an accepted architecture decision by implication.
 ```
