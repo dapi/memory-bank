@@ -17,25 +17,24 @@
 
 ## Команды разработки и проверки
 
-У репозитория нет runtime-приложения, но есть Go CLI для проверки документации. Установите `memory-bank` один раз по [инструкции CLI](docs/memory-bank.md). Перед PR запускайте:
+У репозитория нет runtime-приложения и встроенного CLI. Установите закреплённый release `memory-bank-cli` по [инструкции CLI](docs/memory-bank.md). Перед PR запускайте:
 
 - `rg --files memory-bank` для проверки структуры и имён файлов;
-- `memory-bank lint` для аудита ссылок, reachability и expected README-индексов внутри `memory-bank/`;
-- `go test -count=1 -race ./...` из `tools/` для проверки валидатора и его JSON-контракта без test cache;
-- `go vet ./...` из `tools/` для статической проверки Go-кода;
+- `memory-bank-cli lint` для аудита ссылок, reachability и expected README-индексов внутри `memory-bank/`;
+- `memory-bank-cli doctor --profile template` для проверки marker, governance и template CI;
 - `git diff --check` для поиска лишних пробелов и conflict markers;
 - `sed -n '1,120p' path/to/doc.md` для быстрой проверки frontmatter и заголовков;
 - `rg -n "PROJECT_SPECIFIC_TERM" memory-bank` с реальными терминами downstream-проекта, чтобы убедиться, что project-specific детали не протекли обратно в шаблон.
 
 ## Стиль оформления и соглашения по именованию
 
-Пишите в Markdown: короткие секции, понятные заголовки, относительные ссылки. Governed-документы в `memory-bank/` должны начинаться с YAML frontmatter; поле `status` обязательно всегда, а `derived_from`, `delivery_status` и `decision_status` добавляются, когда этого требует тип документа. См. `memory-bank/dna/frontmatter.md`.
+Пишите в Markdown: короткие секции, понятные заголовки, относительные ссылки. Governed-документы в `memory-bank/` должны начинаться с YAML frontmatter; поле `status` обязательно всегда, а `derived_from`, `delivery_status`, `research_status` и `decision_status` добавляются, когда этого требует тип документа. См. `memory-bank/dna/frontmatter.md`.
 
 Для обычных документов используйте lowercase kebab-case, например `testing-policy.md`. Для структурированных артефактов сохраняйте шаблонные naming rules, например `features/FT-XXX/` и `ADR-XXX-short-decision-name.md`.
 
 ## Правила проверки
 
-Документационный шаблон проверяется вручную и через `memory-bank lint`; Go-код покрыт тестами. При изменениях:
+Документационный шаблон проверяется вручную и через `memory-bank-cli lint` и `memory-bank-cli doctor --profile template`. При изменениях:
 
 - убедитесь, что индексы и ссылки соответствуют новой структуре;
 - не дублируйте project-specific детали обратно в `memory-bank/`;

@@ -16,7 +16,7 @@ Memory Bank — переносимый documentation-first шаблон для �
 
 ## Как это работает
 
-`dna/` задаёт governance-ядро: Single Source of Truth, зависимости между документами, lifecycle, frontmatter и правила навигации. Постоянный контекст проекта находится в `product/`, `domain/`, `engineering/` и `ops/`; инициативы, сценарии и решения — в PRD, epic, use case и ADR.
+`dna/` задаёт governance-ядро: Single Source of Truth, зависимости между документами, lifecycle, frontmatter и правила навигации. Постоянный контекст проекта находится в `product/`, `domain/`, `engineering/` и `ops/`; research, инициативы, сценарии и решения — в Research, PRD, epic, use case и ADR.
 
 Для значимой delivery-фичи контекст созревает поэтапно:
 
@@ -41,6 +41,7 @@ problem space            solution space             execution space
 | [`engineering/`](memory-bank/engineering/README.md) | Архитектура, тестирование, coding style, git workflow и границы автономии агента |
 | [`ops/`](memory-bank/ops/README.md) | Локальная разработка, окружения, конфигурация, релизы и runbooks |
 | [`prd/`](memory-bank/prd/README.md) | Продуктовые инициативы между общим product context и отдельными фичами |
+| [`research/`](memory-bank/research/README.md) | Evidence-backed market, product и technical research до решения о delivery |
 | [`epics/`](memory-bank/epics/README.md) | Крупные инициативы с roadmap, рисками, решениями и delivery subissues |
 | [`use-cases/`](memory-bank/use-cases/README.md) | Канонические пользовательские и операционные сценарии |
 | [`features/`](memory-bank/features/README.md) | Пакеты отдельных delivery-фич |
@@ -65,7 +66,7 @@ problem space            solution space             execution space
 
 ## Выбор рабочего процесса
 
-Каждая задача сначала проходит [Task Routing](memory-bank/flows/routing.md). Он направляет работу в Incident, Bug Fix, Small Change, Epic, Refactoring, Feature или на ручное решение.
+Каждая задача сначала проходит [Task Routing](memory-bank/flows/routing.md). Он направляет работу в Incident, Bug Fix, Research & Discovery, Small Change, Epic, Refactoring, Feature или на ручное решение.
 
 Корневой README даёт только обзор. Условия входа, lifecycle, обязательные артефакты и exit contract принадлежат каноническим документам в [`memory-bank/flows/`](memory-bank/flows/README.md) и не дублируются здесь.
 
@@ -77,12 +78,12 @@ problem space            solution space             execution space
 | [Brownfield adaptation protocol](docs/brownfield-adaptation-protocol.md) | Для evidence-backed адаптации существующего репозитория до и после установки Memory Bank |
 | [Greenfield adaptation protocol](docs/greenfield-integration-protocol.md) | Для копирования шаблона, извлечения project facts из README и docs, адаптации Memory Bank и создания initial PRD |
 | [Использование Memory Bank](docs/usage.md) | Для повседневной работы с задачами и AI-агентами после внедрения |
-| [Установка и использование `memory-bank`](docs/memory-bank.md) | Для пользователей CLI и downstream CI |
+| [Использование `memory-bank-cli`](docs/memory-bank.md) | Для пользователей CLI и downstream CI |
 | [Ownership и безопасные обновления](docs/ownership.md) | Для понимания lock schema, границ владения и conflict policy |
 | [Managed-блок инструкций агента](docs/agent-instructions.md) | Для marker contract, doctor и выбора единственного agent instruction target |
-| [Разработка репозитория](docs/development.md) | Для разработчиков шаблона и CLI |
+| [Разработка репозитория](docs/development.md) | Для разработчиков шаблона |
 
-`memory-bank lint` проверяет broken links, orphan-документы, достижимость через индексную навигацию и contract ожидаемых `README.md`-индексов. `memory-bank doctor` добавляет read-only диагностику внедрения, governance, managed drift и CI. Прежний `memory-bank-lint` временно остаётся совместимым entrypoint для существующей автоматизации.
+`memory-bank-cli lint` проверяет broken links, orphan-документы, достижимость через индексную навигацию и contract ожидаемых `README.md`-индексов. `memory-bank-cli doctor` добавляет read-only диагностику внедрения, governance, managed drift и CI. CLI разрабатывается и выпускается отдельно в [`dapi/memory-bank-cli`](https://github.com/dapi/memory-bank-cli).
 
 ## Развитие шаблона
 

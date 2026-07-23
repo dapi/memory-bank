@@ -6,6 +6,7 @@ purpose: Навигация по task routing, lifecycle flows и governed-ша�
 derived_from:
   - ../dna/governance.md
   - routing.md
+  - research.md
   - incident.md
   - bug-fix.md
   - small-change.md
@@ -24,6 +25,7 @@ audience: humans_and_agents
 Каталог `memory-bank/flows/` содержит reusable process-layer для шаблона: lifecycle rules, taxonomy стабильных идентификаторов и governed templates.
 
 - [Task Routing](routing.md) — порядок выбора flow, routing predicates, повторный routing и Human Routing.
+- [Research & Discovery Flow](research.md) — evidence-backed lifecycle research-задач, от question framing до decision и handoff без преждевременного delivery.
 - [Incident And PIR Flow](incident.md) — containment, recovery, timeline, RCA, PIR и prevention work.
 - [Bug Fix Flow](bug-fix.md) — reproduction, analysis, fix, regression coverage и closure.
 - [Small Change Flow](small-change.md) — direct delivery без feature package, design и execution plan, но с обязательным routing record.

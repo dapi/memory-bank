@@ -25,6 +25,9 @@ audience: humans_and_agents
 - [`prd/README.md`](prd/README.md)
   Читать, когда нужно: описать продуктовую инициативу между общим product context и downstream feature packages.
 
+- [`research/README.md`](research/README.md)
+  Читать, когда нужно: провести evidence-backed market, product или technical research до коммита в delivery и передать вывод в подходящий canonical owner.
+
 - [`epics/README.md`](epics/README.md)
   Читать, когда нужно: вести крупную инициативу через roadmap, decision log, risks и набор связанных delivery subissues.
 

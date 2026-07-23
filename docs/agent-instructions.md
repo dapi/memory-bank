@@ -1,6 +1,6 @@
 # Managed-блок инструкций агента
 
-`memory-bank init` и `memory-bank update` управляют только коротким routing-блоком в agent instruction file. По умолчанию target — корневой `AGENTS.md`:
+`memory-bank-cli init` и `memory-bank-cli update` управляют только коротким routing-блоком в agent instruction file. По умолчанию target — корневой `AGENTS.md`:
 
 ```markdown
 <!-- MEMORY BANK START -->
@@ -25,8 +25,8 @@ Markers — стабильная граница ownership только тогд�
 ## Doctor
 
 ```bash
-memory-bank doctor
-memory-bank doctor --json
+memory-bank-cli doctor
+memory-bank-cli doctor --json
 ```
 
 `doctor` проверяет блок без мутаций как часть общего adoption-аудита. Missing, outdated или ambiguous managed block становятся finding `agent.managed_block_drift` уровня `error`; актуальный блок finding не создаёт. Полный versioned JSON contract и остальные диагностические группы описаны в [`memory-bank.md`](memory-bank.md).
@@ -36,9 +36,9 @@ memory-bank doctor --json
 Canonical default — только `AGENTS.md`. Для проекта, который использует другой instruction file, задайте один repo-relative target явно и одинаково во всех командах:
 
 ```bash
-memory-bank init ... --agent-file CLAUDE.md
-memory-bank update ... --agent-file CLAUDE.md
-memory-bank doctor --agent-file CLAUDE.md
+memory-bank-cli init ... --agent-file CLAUDE.md
+memory-bank-cli update ... --agent-file CLAUDE.md
+memory-bank-cli doctor --agent-file CLAUDE.md
 ```
 
 CLI не создаёт блоки одновременно в нескольких файлах и не принимает target внутри `memory-bank/`. Project-specific инструкции должны оставаться вне managed markers; CLI никогда их не переписывает, и они имеют приоритет за пределами минимального routing contract.

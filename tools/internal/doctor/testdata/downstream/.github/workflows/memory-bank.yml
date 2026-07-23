@@ -1,5 +1,0 @@
-jobs:
-  doctor:
-    steps:
-      - run: go install github.com/dapi/memory-bank/tools/cmd/memory-bank@v1.2.3
-      - run: memory-bank doctor
