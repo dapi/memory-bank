@@ -35,7 +35,7 @@ audience: humans_and_agents
   Читать, когда нужно: зарегистрировать устойчивый пользовательский или операционный сценарий проекта.
 
 - [`prompts/README.md`](prompts/README.md)
-  Human-only каталог reusable prompt-артефактов. Агент не читает и не исполняет его как workflow-инструкции; человек или внешний runner передаёт выбранное runnable-содержимое в активном запросе.
+  Human-only каталог reusable prompt-артефактов и его canonical access contract.
 
 - [`ops/README.md`](ops/README.md)
   Читать, когда нужно: описать локальную разработку, окружения, релизы, конфигурацию и runbooks.
