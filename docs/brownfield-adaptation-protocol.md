@@ -117,11 +117,11 @@ historical ADR — только для уже принятых и всё ещё 
 
 ### 7. Validate и trial
 
-Обновите README indexes и `derived_from` links. Запустите `memory-bank lint` и
-`memory-bank doctor`; если команда недоступна, запишите точную verification gap
-и выполните доступную проверку ссылок/структуры. Затем используйте adapted
-context в одной реальной task через подходящий flow до объявления rollout
-complete.
+Обновите README indexes и `derived_from` links. Запустите
+`memory-bank-cli lint` и `memory-bank-cli doctor`; если команда недоступна,
+запишите точную verification gap и выполните доступную проверку
+ссылок/структуры. Затем используйте adapted context в одной реальной task через
+подходящий flow до объявления rollout complete.
 
 ## Product-type considerations
 
@@ -170,8 +170,8 @@ Inventory и owner-документы conditional: не создавайте irr
       если он известен.
 - [ ] Use cases и historical ADRs созданы только при source evidence; лишние
       delivery artifacts не созданы.
-- [ ] `memory-bank lint` и `memory-bank doctor` успешны либо verification gap
-      указан без заявления об успехе.
+- [ ] `memory-bank-cli lint` и `memory-bank-cli doctor` успешны либо
+      verification gap указан без заявления об успехе.
 - [ ] Adapted context испытан на одной real task через выбранный flow.
 - [ ] Reviewable change перечисляет created, changed и intentionally unadapted
       documents, а также follow-up owner/triggers.
@@ -186,5 +186,6 @@ CI/CD, configuration, runbooks и historical ADR. Запиши evidence-backed i
 PRD в ./brownfield-intake-prd.md: facts, sources, confidence, conflicts,
 assumptions, open questions и owner/freshness. Не выдумывай architecture или
 delivery plan. После discovery установи Memory Bank, адаптируй canonical owners
-из того же evidence, конвертируй intake в governed PRD и проверь lint/doctor.
+из того же evidence, конвертируй intake в governed PRD и проверь
+memory-bank-cli lint/doctor.
 ```
