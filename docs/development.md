@@ -1,62 +1,33 @@
 # Разработка репозитория
 
-Этот документ предназначен для разработки самого шаблона и CLI. Инструкция по установке готового бинарника находится в [`memory-bank.md`](memory-bank.md).
+Этот репозиторий содержит только исходный generic-шаблон `memory-bank/` и документацию по его внедрению. Реализация, command contract и релизы CLI принадлежат отдельному репозиторию [`dapi/memory-bank-cli`](https://github.com/dapi/memory-bank-cli).
 
-## Структура CLI
+Корневой файл `.memory-bank-template` — source-repository marker для `memory-bank-cli doctor --profile auto`. Он не входит в копируемый `memory-bank/` payload и не должен появляться в downstream-проектах.
 
-CLI разделён на тонкие entrypoint'ы и переиспользуемые внутренние пакеты:
+## Локальная проверка
 
-```text
-tools/
-  go.mod                   самостоятельный Go-модуль CLI
-  cmd/memory-bank/         основной entrypoint
-  cmd/memory-bank-lint/    compatibility entrypoint
-  internal/cli/            subcommands, flags и общий output/error contract
-  internal/lint/           audit-движок, отчёт и testdata
-  internal/repository/     общий repo root discovery
-```
-
-Оба бинарника вызывают `internal/cli`; lint-семантика и JSON contract принадлежат `internal/lint`. Новые команды добавляются в общий dispatcher `memory-bank`, а не отдельными бинарниками.
-
-CLI публикуется как вложенный Go-модуль `github.com/dapi/memory-bank/tools`. Release workflow запускается по обычному тегу `vX.Y.Z`, а после успешной публикации создаёт соответствующий module tag `tools/vX.Y.Z`, который требуется командам `go install` и `go run`.
-
-## Локальная разработка
-
-Требуется Go версии `1.21` или новее. `rg` используется для быстрой проверки структуры шаблона.
-
-Перед PR запускайте:
+Установите закреплённый release `memory-bank-cli` по [инструкции CLI](memory-bank.md). Перед PR запускайте:
 
 ```bash
 rg --files memory-bank
-cd tools
-gofmt -w $(rg --files cmd internal -g '*.go')
-go test -count=1 -race ./...
-go vet ./...
-go run ./cmd/memory-bank lint
-cd ..
+memory-bank-cli lint
+memory-bank-cli doctor --profile template
 git diff --check
 ```
 
-Если проверка запускается не из Git-репозитория или нужно проверить другой checkout:
+Для явной проверки другого checkout используйте `--repo-root`:
 
 ```bash
-(cd tools && go run ./cmd/memory-bank lint --repo-root /path/to/repository)
+memory-bank-cli lint --repo-root /path/to/repository
+memory-bank-cli doctor --profile template --repo-root /path/to/repository
 ```
 
-## Изменение JSON-контракта
-
-Golden report для CLI лежит в `tools/internal/lint/testdata/expected-report.json`.
-
-Меняйте его только если contract отчёта изменился намеренно. После такого изменения проверьте:
-
-```bash
-(cd tools && go test ./...)
-```
+CI устанавливает закреплённый release CLI, проверяет его checksum и выполняет те же `lint` и template-profile `doctor` gates. Этот репозиторий не публикует CLI releases.
 
 ## Документационный шаблон
 
 При изменении `memory-bank/`:
 
 - убедитесь, что индексы и ссылки соответствуют новой структуре;
-- не переносите project-specific детали обратно в generic-шаблон;
+- не переносите source-repository metadata или project-specific детали обратно в generic-шаблон;
 - при изменении governed template docs проверяйте соседние governed-файлы на противоречия.

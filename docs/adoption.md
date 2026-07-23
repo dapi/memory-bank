@@ -1,6 +1,6 @@
 # Внедрение Memory Bank в проект
 
-Этот документ описывает, как подключить Memory Bank к существующему или новому проекту. В downstream-проект устанавливается каталог `memory-bank/`, а внутри него создаётся служебный `memory-bank/.lock`; dev-инфраструктура этого репозитория (`tools/`, `.github/`, `docs/`) не является частью шаблона приложения. Lock создаёт `memory-bank init`, а не upstream template. Его нужно коммитить: он хранит версию источника и ownership-границу для безопасных обновлений.
+Этот документ описывает, как подключить Memory Bank к существующему или новому проекту. В downstream-проект устанавливается каталог `memory-bank/`, а внутри него создаётся служебный `memory-bank/.lock`; source-repository metadata, `.github/` и `docs/` не являются частью шаблона приложения. Lock создаёт `memory-bank-cli init`, а не upstream template. Его нужно коммитить: он хранит версию источника и ownership-границу для безопасных обновлений.
 
 ## Что копировать
 
@@ -65,7 +65,7 @@ Brownfield-внедрение достаточно для первого раб�
 - минимум `product/`, `domain/`, `engineering/` и `ops/` адаптированы под реальный проект;
 - known gaps явно отмечены;
 - одна реальная задача прошла через `Small Change`, feature package, bug fix или другой выбранный flow;
-- `memory-bank lint` проходит локально.
+- `memory-bank-cli lint` проходит локально.
 
 ## Начать новый проект (greenfield)
 
@@ -82,7 +82,7 @@ codex --search \
 
 ## Подключить агента
 
-Используйте managed-блок, который устанавливает `memory-bank init`: он направляет агента к `memory-bank/README.md`, `memory-bank/dna/README.md` и `memory-bank/flows/routing.md`, не копируя governance. Не редактируйте содержимое между markers вручную; project-specific инструкции размещайте снаружи. Полный marker, update, doctor и alternative-target contract описан в [managed-блоках agent instructions](agent-instructions.md).
+Используйте managed-блок, который устанавливает `memory-bank-cli init`: он направляет агента к `memory-bank/README.md`, `memory-bank/dna/README.md` и `memory-bank/flows/routing.md`, не копируя governance. Не редактируйте содержимое между markers вручную; project-specific инструкции размещайте снаружи. Полный marker, update, doctor и alternative-target contract описан в [managed-блоках agent instructions](agent-instructions.md).
 
 Для первой адаптации можно использовать запрос:
 
@@ -96,26 +96,22 @@ codex --search \
 
 ## Установить локальную проверку
 
-Для локального аудита установите `memory-bank` как внешний бинарник:
-
-```bash
-go install github.com/dapi/memory-bank/tools/cmd/memory-bank@latest
-```
+Для локального аудита установите закреплённый release `memory-bank-cli` из отдельного репозитория [`dapi/memory-bank-cli`](https://github.com/dapi/memory-bank-cli/releases). Выберите asset для своей ОС и архитектуры, проверьте его по опубликованному `checksums.txt` и добавьте бинарник в `PATH`.
 
 После этого из любого места внутри downstream Git-репозитория:
 
 ```bash
-memory-bank lint
-memory-bank doctor
+memory-bank-cli lint
+memory-bank-cli doctor
 ```
 
-Подробности по флагам, migration path и установке: [`memory-bank.md`](memory-bank.md).
+Интеграционный контракт и ссылки на command documentation: [`memory-bank.md`](memory-bank.md).
 
 ## Подключить CI
 
-CI-проверка Memory Bank должна быть opt-in в downstream-проекте. Не копируйте `.github/workflows/ci.yml` из этого репозитория: он предназначен для разработки самого шаблона и собирает локальный Go CLI из `tools/cmd/memory-bank`.
+CI-проверка Memory Bank должна быть opt-in в downstream-проекте. Не копируйте `.github/workflows/ci.yml` из этого репозитория: он проверяет source template в profile `template`, а downstream-проекту нужен auto/downstream profile.
 
-Перед подключением выберите конкретный release tag или commit CLI. Если оставить `@latest`, новая версия `memory-bank` сможет изменить результат проверки без изменений в downstream-репозитории.
+Перед подключением выберите конкретный CLI release и checksum. Плавающая версия может изменить результат проверки без изменений в downstream-репозитории.
 
 Минимальный GitHub Actions workflow для downstream-проекта:
 
@@ -134,26 +130,28 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     env:
-      # Замените значением вида v1.2.3 или полным commit SHA.
-      MEMORY_BANK_VERSION: REPLACE_WITH_RELEASE_TAG_OR_COMMIT
+      MEMORY_BANK_CLI_VERSION: v1.0.0
+      MEMORY_BANK_CLI_SHA256: 35300dd2f713e904a5819a31b064e12809b93921a557fbfb3f2543c45c733c57
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Go
-        uses: actions/setup-go@v5
-        with:
-          go-version: '1.21'
-          cache: false
-
-      - name: Install memory-bank
-        run: go install "github.com/dapi/memory-bank/tools/cmd/memory-bank@${MEMORY_BANK_VERSION}"
+      - name: Install memory-bank-cli
+        run: |
+          asset="memory-bank-cli-linux-amd64"
+          url="https://github.com/dapi/memory-bank-cli/releases/download/${MEMORY_BANK_CLI_VERSION}/${asset}"
+          curl --fail --location --silent --show-error "$url" --output "$RUNNER_TEMP/$asset"
+          echo "${MEMORY_BANK_CLI_SHA256}  $RUNNER_TEMP/$asset" | sha256sum --check
+          chmod +x "$RUNNER_TEMP/$asset"
+          mkdir -p "$RUNNER_TEMP/memory-bank-cli-bin"
+          mv "$RUNNER_TEMP/$asset" "$RUNNER_TEMP/memory-bank-cli-bin/memory-bank-cli"
+          echo "$RUNNER_TEMP/memory-bank-cli-bin" >> "$GITHUB_PATH"
 
       - name: Audit Memory Bank
-        run: memory-bank doctor
+        run: memory-bank-cli doctor
 ```
 
-Если в проекте уже есть Go toolchain setup, можно переиспользовать существующий шаг `actions/setup-go`. Если Go в проекте не используется, он нужен только для установки CLI через `go install`; после публикации release binaries или Homebrew formula CI можно заменить на установку готового бинарника.
+При обновлении версии замените tag и checksum значениями из одного release. Для другой runner architecture выберите соответствующий asset и SHA-256 из того же `checksums.txt`.
 
 ## Definition of Done внедрения
 
@@ -163,5 +161,5 @@ Memory Bank считается внедрённым, когда:
 - постоянный контекст `product/`, `domain/`, `engineering/` и `ops/` отражает фактические правила проекта или явно помечает пробелы;
 - агентские инструкции указывают читать `memory-bank/README.md` и governance-ядро;
 - первая реальная задача прошла через выбранный flow или `Small Change` routing record;
-- `memory-bank doctor` проходит локально (и включает navigation checks `lint`);
+- `memory-bank-cli doctor` проходит локально (и включает navigation checks `lint`);
 - CI-проверка подключена, если команда хочет блокировать PR при broken links или нарушенной индексной навигации.

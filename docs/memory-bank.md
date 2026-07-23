@@ -1,137 +1,76 @@
-# CLI memory-bank
+# Использование memory-bank-cli
 
-`memory-bank` безопасно устанавливает и обновляет template, а также диагностирует его внедрение и целостность.
+`memory-bank-cli` — внешний CLI для установки, обновления, проверки и диагностики Memory Bank. Реализация, releases, installation guide и полный command contract принадлежат отдельному репозиторию [`dapi/memory-bank-cli`](https://github.com/dapi/memory-bank-cli).
 
-Ownership-контракт, классы файлов и atomic update policy описаны в [отдельном документе](ownership.md). Основные команды:
+Ownership-контракт template payload описан в [`ownership.md`](ownership.md). Основные команды интеграции:
 
-- `memory-bank init` создаёт служебный `memory-bank/.lock` и устанавливает только отсутствующие файлы;
-- `memory-bank update` строит ownership-aware mutation plan и применяет его только целиком;
-- `memory-bank doctor` выполняет read-only диагностику adoption, governance, managed drift, CI и навигации;
-- `memory-bank lint` проверяет документацию.
-
-`memory-bank lint` обнаруживает:
-
-- broken relative markdown links внутри audit scope;
-- orphan-документы, на которые никто не ссылается внутри scope;
-- достижимость каждого документа от entrypoint'ов по индексной навигации;
-- документы, которые достижимы только глубже порога навигации;
-- contract ожидаемых `README.md`-индексов.
-
-`memory-bank doctor` переиспользует этот lint engine и добавляет проверки:
-
-- template identity из `memory-bank/.lock` и drift managed/generated payloads;
-- routing из `AGENTS.md` (или выбранного `--agent-file`) и managed-блока;
-- YAML frontmatter, допустимых lifecycle enum, ацикличности `derived_from` и feature stage gates;
-- наличия doctor-gate в GitHub Actions и плавающего `@latest` в downstream CI.
-
-Команды решают разные задачи: `lint` — быстрый аудит навигации, `doctor` — полный read-only health check текущей установки, `update --dry-run` — read-only preview конкретного обновления из явно переданного template source. Только обычный `update` применяет изменения.
+- `memory-bank-cli init` создаёт служебный `memory-bank/.lock` и устанавливает отсутствующие файлы;
+- `memory-bank-cli update` строит ownership-aware mutation plan и применяет его атомарно;
+- `memory-bank-cli lint` проверяет ссылки и индексную навигацию;
+- `memory-bank-cli doctor` выполняет read-only диагностику adoption, governance, managed drift, CI и навигации.
 
 ## Установка
 
-Для регулярных проверок установите CLI один раз. Требуется Go версии `1.21` или новее:
+Используйте закреплённый release со страницы [GitHub Releases](https://github.com/dapi/memory-bank-cli/releases). Выберите asset для своей ОС и архитектуры, проверьте его по `checksums.txt` из того же release и добавьте `memory-bank-cli` в `PATH`.
+
+Для локальной интерактивной работы допустим выбранный командой актуальный release. В блокирующем CI всегда фиксируйте конкретные release tag, asset и checksum, чтобы новая версия CLI не меняла результат проверки без изменений в репозитории. Готовый downstream workflow приведён в [инструкции по внедрению](adoption.md#подключить-ci).
+
+После установки проверьте identity бинарника:
 
 ```bash
-go install github.com/dapi/memory-bank/tools/cmd/memory-bank@latest
-```
-
-`go install` помещает бинарник в `GOBIN` или `GOPATH/bin`; этот каталог должен находиться в `PATH`. Повторите ту же команду, чтобы обновить CLI до актуальной версии.
-
-Для локального использования подходит `@latest`. В блокирующем CI фиксируйте конкретный release tag или commit: иначе новая версия CLI может изменить результат проверки без изменений в downstream-репозитории.
-
-На macOS или Linux проверьте, что установленная команда доступна:
-
-```bash
-command -v memory-bank
-```
-
-Если репозиторий уже клонирован и нужно установить версию из текущего checkout:
-
-```bash
-(cd tools && go install ./cmd/memory-bank)
+memory-bank-cli --version
 ```
 
 ## Запуск
 
-После установки запускайте CLI из любого места внутри Git-репозитория:
+Из любого места внутри Git-репозитория:
 
 ```bash
-memory-bank lint
-memory-bank doctor
+memory-bank-cli lint
+memory-bank-cli doctor
 ```
 
-По умолчанию `memory-bank lint` ищет ближайший родительский `.git` и использует найденный каталог как repo root. Если запуск идёт вне Git-репозитория или нужно проверить другой checkout, передайте корень явно:
+Для проверки другого checkout передайте его явно:
 
 ```bash
-memory-bank lint --repo-root /path/to/repository
+memory-bank-cli lint --repo-root /path/to/repository
+memory-bank-cli doctor --repo-root /path/to/repository
 ```
 
-Что означает результат:
+`lint` выполняет быстрый аудит навигации. `doctor` включает navigation audit и дополнительно проверяет template identity, governance, managed agent instructions, managed drift и CI gate. Обе команды поддерживают machine-readable `--json`; blocking findings возвращают non-zero exit code.
 
-- exit code `0` — errors не найдены; warnings по глубине возможны, но аудит считается пройденным;
-- non-zero exit code — найдены проблемы, которые нужно исправить до PR;
-- `--json` — структурированный отчёт, пригодный для последующей автоматической доиндексации другим агентом или инструментом.
+## Template source profile
 
-## Параметры запуска
+Исходный template repository содержит корневой marker `.memory-bank-template` со значением `memory-bank-template-v1`. Благодаря ему `memory-bank-cli doctor --profile auto` распознаёт source repository без CLI source code или локального Go module.
 
-- `--max-depth N` — порог глубины индексной навигации в прыжках; по умолчанию `3`; документы глубже порога попадают в warning, а не в error;
-- `--entrypoint PATH` — явный entrypoint для аудита; параметр repeatable; принимает repo-relative или scope-relative пути; неоднозначные пути без префикса сначала резолвятся внутри `--scope-root`, а для явного repo-root пути используйте `./PATH` или `/PATH`; если передан, используется вместо дефолтного `memory-bank/README.md`;
-- `--scope-root DIR` — меняет audit scope; по умолчанию `memory-bank`;
-- `--repo-root DIR` — явно задаёт корень репозитория;
-- `--json` — печатает только JSON-отчёт;
-- `--version` — печатает версию бинарника и завершает работу;
-- `--help` — печатает справку по запуску и параметрам.
-
-Для `doctor` также доступны `--profile auto|template|downstream` (по умолчанию `auto`) и `--agent-file PATH`. Auto-profile считает репозиторий downstream при наличии `memory-bank/.lock`; исходный репозиторий шаблона распознаётся по локальному Go module. `--scope-root` и `--max-depth` передаются встроенной navigation-проверке.
-
-Exit code `0` означает отсутствие blocking findings уровня `error`; одни warnings не блокируют. `doctor --json` печатает публичный report format `2`: profile, template identity, summary, findings со стабильными `code`, `severity`, `group`, `path/subject`, explanation и remediation, а также исходный lint-report в поле `navigation`. Версия `2` сигнализирует несовместимое изменение схемы aggregate doctor report.
-
-## Примеры
+Marker является только source-repository metadata. Он находится рядом с `memory-bank/`, не внутри него, и не копируется в downstream payload. Для явной проверки source template используйте:
 
 ```bash
-memory-bank lint --max-depth 4
+memory-bank-cli lint
+memory-bank-cli doctor --profile template
 ```
+
+Downstream repository определяется по `memory-bank/.lock`; при обычном внедрении достаточно `memory-bank-cli doctor` с profile `auto` по умолчанию.
+
+## Init и update
+
+`init` и `update` принимают локальный clean checkout источника, закреплённый immutable commit:
 
 ```bash
-memory-bank lint \
-  --entrypoint README.md \
-  --entrypoint AGENTS.md \
-  --max-depth 4
+memory-bank-cli init \
+  --source /path/to/memory-bank-checkout \
+  --template-version v1.2.3 \
+  --source-ref FULL_COMMIT_SHA
 ```
 
-Для разовой проверки без установки CLI:
+Перед обновлением сначала проверьте план:
 
 ```bash
-go run github.com/dapi/memory-bank/tools/cmd/memory-bank@latest lint
+memory-bank-cli update \
+  --source /path/to/new-memory-bank-checkout \
+  --template-version v1.3.0 \
+  --source-ref FULL_COMMIT_SHA \
+  --dry-run
 ```
 
-Установку из GitHub Releases или через Homebrew используйте только после фактической публикации соответствующих release assets и Cask; если их ещё нет, используйте `go install`.
-
-## Общий command contract
-
-- `memory-bank --help` и `memory-bank --version` относятся ко всему CLI;
-- `memory-bank lint [flags]` и `memory-bank doctor [flags]` — read-only команды: они не изменяют файлы, Git index или внешние системы;
-- результат и `--json` записываются в stdout, diagnostics и ошибки использования — в stderr;
-- exit code `0` означает успешную команду без blocking errors, `1` — lint/doctor errors или operational failure, `2` — неверный вызов CLI;
-- repo root находится по ближайшему родительскому `.git`, а `--repo-root` переопределяет discovery.
-
-`init` и `update` принимают `--source`, `--template-version`, `--source-ref`, `--repo-root`, `--agent-file`, `--dry-run` и `--json`. Они также управляют коротким versioned routing-блоком в `AGENTS.md`; `--agent-file` выбирает один alternative target. `doctor` проверяет блок как часть агрегированной диагностики без мутаций. Подробности: [managed-блок инструкций агента](agent-instructions.md). Автоматическая brownfield-адаптация не входит в CLI.
-
-## Переход с memory-bank-lint
-
-`memory-bank-lint` остаётся compatibility entrypoint на переходный период. Его flags, exit codes, текстовый результат и JSON format version `1` совпадают с `memory-bank lint`:
-
-```bash
-# новый основной интерфейс
-memory-bank lint --json
-
-# совместимый прежний интерфейс
-memory-bank-lint --json
-```
-
-Новые интеграции должны использовать `memory-bank lint`. Существующие интеграции можно мигрировать заменой имени команды; удаление compatibility-бинарника потребует отдельного объявления и релиза.
-
-## Когда запускать
-
-- после добавления, удаления или переименования `.md`-файлов в `memory-bank/`;
-- после правок `README.md`-индексов и относительных ссылок;
-- перед открытием PR с изменениями в template navigation или document structure.
+Подробные flags, exit codes и JSON schemas документируются в [`dapi/memory-bank-cli`](https://github.com/dapi/memory-bank-cli). Правила владения, conflict policy и atomic update semantics для этого шаблона остаются в [`ownership.md`](ownership.md).
