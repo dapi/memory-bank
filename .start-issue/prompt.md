@@ -177,17 +177,22 @@ stale facts до mutation, не повторяй завершённые фазы
 - Счётчики храни по
   `(route_revision, lifecycle gate, loop kind, convergence_episode_id)`.
   Внутри episode фиксируй baseline и current candidate revisions. Отдельно веди
-  `delivery_review: n/MAX_REVIEW_ITERATIONS` и
-  `feature_pack_review: n/5`.
+  `artifact_review` для governed lifecycle artifacts и
+  `implementation_review: n/MAX_REVIEW_ITERATIONS` для delivered code/diff.
+- Artifact review проверяет requirements/design/plan/process artifacts против
+  их canonical owners, templates и gate predicates. Implementation review
+  проверяет выполненное изменение и repository diff против принятых artifacts.
+  Это разные review objects: сохраняй отдельные candidate revisions, findings,
+  counters, evidence и verdicts; один review не удовлетворяет obligations другого.
 - Один convergence episode переживает fixes, replans внутри того же gate,
   commits, push, PR updates, handoffs и новые candidate revisions; они не
   сбрасывают budget. Новый episode начинается только после clean exit,
   canonical gate transition или genuine reroute с новым `route_revision`.
 - `MAX_REVIEW_ITERATIONS` не ограничивает число lifecycle-фаз, execution
   checkpoints, rerouting или общую длину задачи.
-- Каждый delivery review cycle включает review bundle validation profile,
+- Каждый implementation review cycle включает review bundle validation profile,
   triage findings, fixes текущим writer и повторную validation. Для любого
-  bounded review episode, включая feature package review, если последняя
+  bounded review episode, включая artifact review, если последняя
   разрешённая итерация исправила findings, но clean re-review не выполнен,
   целевой gate не пройден и `DONE` недопустим.
 - Lifecycle или checkpoint cycle без канонического числового лимита продолжай,
@@ -225,6 +230,11 @@ stale facts до mutation, не повторяй завершённые фазы
   material change surface; `test-surface` — после определения affected paths и
   validation profile. Не заменяй один вид evidence другим и не повторяй анализ,
   пока его inputs materially не изменились.
+- Если canonical flow требует artifact review для перехода gate, заморозь
+  artifact candidate revisions, выполни review по predicates этого gate и
+  сохрани внешний review record до перехода. После fixes обязательна clean
+  re-review; verdict не записывай внутрь reviewed artifact так, чтобы он сам
+  изменил candidate revision. Не выдавай artifact review за review реализации.
 - `delivery-owner` можно назначить только после execution-entry gate выбранного
   code-delivery flow; для Feature — после Plan Ready. Epic `Roadmap Ready ->
   Execution` не выдаёт code writer lease: каждый slice сначала получает
@@ -245,19 +255,16 @@ stale facts до mutation, не повторяй завершённые фазы
 </delegation>
 
 <conditional_quality>
-- Для крупной Feature сравни issue с feature docs и governance без анализа кода
-  и архитектуры: выдели explicit requirements/requested surfaces, домыслы,
-  traceability gaps, evidence-backed findings и open questions.
-- Для feature package проведи не более пяти review-improve итераций: проверяй
-  consistency, required sections, frontmatter, links и traceability; сохраняй
-  review report и исправляй critical/important findings. Остальные findings
-  закрой либо явно disposition как допустимые non-blocking/deferred с owner;
-  не оставляй их неучтёнными перед terminal review.
+- Для governed artifact review используй scope, timing, predicates и iteration
+  contract выбранного canonical flow. Проверяй consistency, required sections,
+  ownership/frontmatter, grounding, links и traceability; сохраняй review record,
+  исправляй blocking findings и получай clean re-review текущей revision.
 - Перед closure выполни review, требуемый validation profile. Если применим
   `codex review` и существует reviewable repository diff, используй
   `codex review --uncommitted` до commit или
   `codex review --base "{BASE_BRANCH}"` после commit. Для активного или сложного
-  PR также проверь CI и unresolved findings перед bounded fix loop.
+  PR также проверь CI и unresolved implementation findings перед bounded fix
+  loop. Этот implementation review не заменяет artifact reviews предыдущих gates.
 </conditional_quality>
 
 <final_convergence>

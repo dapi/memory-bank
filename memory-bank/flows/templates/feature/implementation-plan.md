@@ -23,13 +23,15 @@ template_target_path: ../../../features/FT-XXX/implementation-plan.md
 Требования, blocker-state и критерии приемки задаются в sibling `brief.md`. Если `brief.md` фиксирует `Design required: yes`, selected design, accepted local decisions и solution-level contracts задаются в sibling `design.md` или ADR. Этот документ определяет только sequencing работ и checkpoints выполнения.
 В создаваемом feature package sibling `brief.md` всегда инстанцируется из canonical template в `memory-bank/flows/templates/feature/`; `design.md` инстанцируется только когда required.
 
-Создавай этот документ только после того, как upstream owners готовы: sibling `brief.md` имеет `status: active`, а required sibling `design.md` переведен в `status: active`. Пока план только формируется, сам `implementation-plan.md` может оставаться в `status: draft`; до перехода feature в `delivery_status: in_progress` план должен стать `status: active`.
+Создавай этот документ только после того, как upstream owners готовы: sibling `brief.md` имеет `status: active`, а required sibling `design.md` переведен в `status: active`. Пока план формируется и проходит initial Plan Ready artifact review, `implementation-plan.md` остается в `status: draft`; после его clean verdict документ переводится в `status: active`, resulting active revision замораживается и проходит clean re-review. Только clean verdict по этой exact active candidate revision закрывает Plan Ready.
 
 Когда feature переходит в `delivery_status: done` или `delivery_status: cancelled`, `implementation-plan.md` архивируется, если он больше не используется как рабочий execution-документ.
 
 Документ должен быть исполнимым без дополнительного толкования. Если шаг нельзя связать с canonical IDs, существующими solution refs, артефактом, проверкой или явной ручной процедурой, шаг описан недостаточно.
-План должен быть заземлен в текущем состоянии репозитория: сначала зафиксируй релевантные модули, локальные паттерны, открытые вопросы и execution environment, и только после этого расписывай sequencing изменений.
+План должен быть заземлен в текущем состоянии репозитория: сначала зафиксируй immutable full commit SHA repository revision и `GRND-*` evidence по релевантным модулям, локальным паттернам, dependencies, test surfaces, открытым вопросам и execution environment, и только после этого расписывай sequencing изменений. `HEAD`, branch name и tag не являются допустимыми revision references. Placeholder paths, предполагаемые файлы и пересказ intended solution не считаются grounding.
 План обязан явно зафиксировать, какие automated tests будут добавлены или обновлены по change surface, какие suites обязаны быть зелёными локально и в CI, а какие gaps временно остаются manual-only с justification и approval ref. Он исполняет validation profile из sibling `brief.md`, но не выбирает и не дублирует profile. Для designed feature план также показывает refinement каждого применимого `SOL-*`, `C4-*`, `SD-*`, `CTR-*`, `INV-*`, `FM-*`, `RB-*` и accepted ADR ref в realization target, steps, checks и evidence, не принимая новых solution decisions.
+
+Plan Ready artifact review проверяет этот документ как governed artifact до начала execution. Его verdict хранится вне reviewed plan и фиксирует reviewer, grounded repository revision, candidate revisions canonical owners/plan, findings/dispositions и clean verdict. Artifact review не является review реализации и не заменяет последующий implementation/code review.
 
 Для ссылок внутри плана используй стабильные идентификаторы по taxonomy из [../../feature.md#stable-identifiers](../../feature.md#stable-identifiers).
 
@@ -69,6 +71,18 @@ must_not_define:
 
 Какой delivery outcome должен дать этот план с учетом `brief.md` и, если есть, already accepted solution.
 
+## Grounding Evidence
+
+Grounding выполняется до sequencing против конкретного состояния репозитория. Укажи revision и только фактически просмотренные paths/commands. Каждая строка фиксирует наблюдаемый current-state факт и его влияние на plan; intended solution или предполагаемый path не являются evidence.
+
+- Grounded repository revision: `<full immutable commit SHA>`
+- Grounded at: `<timestamp>`
+
+| Grounding ID | Inspected path / command | Observed current-state fact | Plan impact |
+| --- | --- | --- | --- |
+| `GRND-01` | `path/to/existing/module` | Какой существующий implementation pattern или affected surface реально найден | Какие `STEP-*`, `PRE-*` или touchpoints обязаны его учитывать |
+| `GRND-02` | `path/to/existing/tests` / discovery command | Какая test surface существует или evidence-backed почему подходящего покрытия нет | Какие `CHK-*`, suites и planned automated coverage следуют из этого |
+
 ## Grounding / Support References
 
 Какие upstream canonical и support docs используются как execution baseline. Support docs не переопределяют canonical facts: при конфликте обнови owner-документ до продолжения.
@@ -87,9 +101,9 @@ must_not_define:
 
 Какие существующие файлы, модули, команды или документы агент обязан изучить до начала изменений. Этот раздел фиксирует grounding в текущем состоянии репозитория и локальные паттерны, которые нельзя игнорировать.
 
-| Path / module | Current role | Why relevant | Reuse / mirror |
-| --- | --- | --- | --- |
-| `path/to/module` | Что уже делает этот артефакт | Почему без него нельзя планировать корректно | Какой паттерн, helper, command или contract нужно повторить |
+| Path / module | Grounding refs | Current role | Why relevant | Reuse / mirror |
+| --- | --- | --- | --- | --- |
+| `path/to/module` | `GRND-01` | Что уже делает этот артефакт | Почему без него нельзя планировать корректно | Какой паттерн, helper, command или contract нужно повторить |
 
 ## Test Strategy
 
@@ -199,7 +213,7 @@ must_not_define:
 
 | Evidence ID | Artifact | Producer | Path contract | Reused by checkpoints |
 | --- | --- | --- | --- | --- |
-| `EVID-09` | Например simplify-review verdict, discovery note или manual approval note | implementer / reviewer / human approver | Где лежит или чем фиксируется | `CP-01` |
+| `EVID-09` | Например execution checkpoint, discovery note или manual approval note | implementer / reviewer / human approver | Где лежит или чем фиксируется | `CP-01` |
 
 ## Готово для приемки
 
