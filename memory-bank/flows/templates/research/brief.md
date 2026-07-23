@@ -53,6 +53,16 @@ audience: humans_and_agents
 
 - `HYP-01` `<Falsifiable claim; distinguish it from a fact.>`
 
+## Compact Method Record (when `plan.md` is omitted)
+
+- Method and source/sample strategy: `<bounded desk-research method and the sources or sample to collect>`
+- Collection window and context: `<dates, freshness boundary and access context>`
+- Evidence-quality criteria: `<what makes a source or observation sufficiently reliable and relevant>`
+- Applicable privacy, consent, legal, security and vendor-access constraints: `<constraints or none>`
+- Bias risks and disconfirming signal: `<likely bias and at least one result that could contradict the working hypothesis>`
+
+Create `plan.md` instead when the method has a plan trigger in the research flow; keep this record concise and proportionate for compact desk research.
+
 ## Scope
 
 - `RSC-01` `<Included question, audience, system or market boundary.>`
