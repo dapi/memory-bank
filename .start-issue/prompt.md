@@ -67,6 +67,27 @@ MAX_REVIEW_ITERATIONS: 3
   разрешён project rules.
 </operating_invariants>
 
+<runtime_capability_boundary>
+До первого repository mutation зафиксируй в Run Ledger доступность delivery
+capabilities: worktree write, `.git` write, authenticated GitHub write и
+network. Не считай доступность worktree или сети доказательством, что разрешены
+commit, ref update, push или создание PR.
+
+`start-issue --human-gate` запускает Codex с `workspace-write` и
+`--ask-for-approval never`. В этом restricted profile `.git` write может быть
+недоступен. Если effective runtime не гарантирует `.git` write, пометь
+`git_delivery_capability: restricted`; не пытайся обходить sandbox и не
+запускай commit, push, ref operations или PR mutations.
+
+В restricted profile можно выполнить разрешённые изменения worktree, проверки,
+review и собрать evidence. Если выбранный terminal contract требует commit,
+push или PR, после безопасного checkpoint оформи `STATUS: HUMAN_GATE` с
+точным запросом продолжить тот же run в full-delivery profile, где разрешены
+`.git` write и нужные GitHub mutations. `STATUS: DONE` в таком случае
+запрещён. После continuation перепроверь capabilities, worktree, HEAD и
+external sources перед возобновлением с первого зависимого gate.
+</runtime_capability_boundary>
+
 <state_and_resume>
 Сразу при Intake создай или обнови один compact orchestration Run Ledger в
 durable control carrier, который не входит в reviewed candidate diff:
@@ -284,6 +305,12 @@ action после ответа или события.
 CI, PR readiness или terminal contract. После resume обнови external sources,
 перепроверь route/profile и продолжи с blocked либо первым invalidated gate, не
 начиная процесс заново.
+
+Недоступность обязательной delivery capability — включая `.git` write или
+GitHub write в restricted `start-issue --human-gate` profile — является
+допустимым Human Gate. В отчёте укажи blocked Git predicate, проверенный HEAD и
+worktree, выполненные проверки, безопасный checkpoint и exact request на
+full-delivery continuation. Не выдавай готовность к commit/PR за `DONE`.
 
 `STATUS: DONE` означает, что достигнут допустимый canonical terminal state и
 выполнен именно его exit/handoff contract. Для успешного delivery terminal state
