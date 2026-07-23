@@ -228,24 +228,24 @@ flowchart LR
 
 Plan Ready artifact-review convergence допускает не более пяти review-improve итераций. Последняя итерация с исправлениями не считается clean verdict без последующего re-review; исчерпание budget оставляет gate непройденным и требует replan либо Human Gate.
 
-- [ ] агент выполнил grounding до sequencing: прошёлся по текущему состоянию системы против зафиксированной repository revision и сохранил `GRND-*` evidence в `implementation-plan.md`
+- [ ] агент выполнил grounding до sequencing: прошёлся по текущему состоянию системы против зафиксированного immutable commit SHA repository revision и сохранил `GRND-*` evidence в `implementation-plan.md`; `HEAD`, branch name и tag не допускаются
 - [ ] если `brief.md` фиксирует `Design required: yes`, sibling `design.md` имеет `status: active`
 - [ ] если `brief.md` фиксирует `Design required: no`, `implementation-plan.md` не принимает architecture decisions, contracts или invariants
 - [ ] `implementation-plan.md` создан по шаблону `templates/feature/implementation-plan.md`
 - [ ] пока plan формируется и проходит artifact review, `implementation-plan.md` имеет `status: draft`
 - [ ] `implementation-plan.md` содержит ≥ 1 `PRE-*`, ≥ 1 `STEP-*`, ≥ 1 `CHK-*`, ≥ 1 `EVID-*`
 - [ ] grounding evidence содержит inspected paths/commands, наблюдаемые current-state facts и влияние каждого факта на plan; placeholder paths, предполагаемые файлы и пересказ intended solution не считаются grounding
-- [ ] discovery context в `implementation-plan.md` содержит: grounded repository revision, relevant paths, local reference patterns, dependencies, unresolved questions (`OQ-*` или явное `none`, если после discovery их нет), existing/planned test surfaces и execution environment
+- [ ] discovery context в `implementation-plan.md` содержит: grounded immutable commit SHA repository revision, relevant paths, local reference patterns, dependencies, unresolved questions (`OQ-*` или явное `none`, если после discovery их нет), existing/planned test surfaces и execution environment
 - [ ] минимум один `GRND-*` подтверждает существующий implementation pattern или current change surface, а минимум один — существующую test surface либо evidence-backed отсутствие подходящего покрытия
 - [ ] шаги и workstreams в `implementation-plan.md` ссылаются на canonical IDs из `brief.md` и, если design layer существует, solution refs из `design.md` / ADR
 - [ ] для designed feature план содержит явное refinement применимых `SOL-*`, `C4-*`, `SD-*`, `CTR-*`, `INV-*`, `FM-*`, `RB-*` и accepted ADR refs через `realization target -> STEP/CHK/EVID`; каждый применимый ref встречается минимум в одной mapping-строке, а найденный solution gap сначала обновляет canonical owner
 - [ ] `Test Strategy`, approvals и checkpoints покрывают применимые obligations validation profile из `brief.md`, не дублируя решение
-- [ ] candidate revisions `brief.md`, optional `design.md`, `implementation-plan.md` и grounded repository revision заморожены для Plan Ready artifact review
+- [ ] candidate revisions `brief.md`, optional `design.md`, `implementation-plan.md` и grounded immutable commit SHA repository revision заморожены для Plan Ready artifact review
 - [ ] Plan Ready artifact review проверил достаточность grounding, consistency с upstream owners, ownership boundaries, traceability, executability, test strategy, approvals и stop/fallback conditions
 - [ ] все critical/important artifact findings исправлены; остальные findings явно disposition как допустимые non-blocking/deferred с owner; после последнего исправления получен clean re-review текущих candidate revisions
 - [ ] artifact review evidence хранится вне reviewed `implementation-plan.md`, указывает reviewer, candidate revisions, findings/dispositions и verdict; автор plan не считается его reviewer-ом
 - [ ] clean artifact-review verdict существует отдельно от любого implementation/code review и не закрывает его obligations
-- [ ] после clean Plan Ready artifact-review verdict `implementation-plan.md` → `status: active`
+- [ ] после clean Plan Ready artifact-review verdict draft revision `implementation-plan.md` → `status: active`, resulting active revision заморожен как candidate revision и получает clean re-review; только этот verdict закрывает Plan Ready
 
 ### Plan Ready → Execution
 

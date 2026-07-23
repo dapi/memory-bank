@@ -23,12 +23,12 @@ template_target_path: ../../../features/FT-XXX/implementation-plan.md
 Требования, blocker-state и критерии приемки задаются в sibling `brief.md`. Если `brief.md` фиксирует `Design required: yes`, selected design, accepted local decisions и solution-level contracts задаются в sibling `design.md` или ADR. Этот документ определяет только sequencing работ и checkpoints выполнения.
 В создаваемом feature package sibling `brief.md` всегда инстанцируется из canonical template в `memory-bank/flows/templates/feature/`; `design.md` инстанцируется только когда required.
 
-Создавай этот документ только после того, как upstream owners готовы: sibling `brief.md` имеет `status: active`, а required sibling `design.md` переведен в `status: active`. Пока план формируется и проходит Plan Ready artifact review, `implementation-plan.md` остается в `status: draft`; `status: active` допустим только после clean artifact-review verdict по текущим candidate revisions.
+Создавай этот документ только после того, как upstream owners готовы: sibling `brief.md` имеет `status: active`, а required sibling `design.md` переведен в `status: active`. Пока план формируется и проходит initial Plan Ready artifact review, `implementation-plan.md` остается в `status: draft`; после его clean verdict документ переводится в `status: active`, resulting active revision замораживается и проходит clean re-review. Только clean verdict по этой exact active candidate revision закрывает Plan Ready.
 
 Когда feature переходит в `delivery_status: done` или `delivery_status: cancelled`, `implementation-plan.md` архивируется, если он больше не используется как рабочий execution-документ.
 
 Документ должен быть исполнимым без дополнительного толкования. Если шаг нельзя связать с canonical IDs, существующими solution refs, артефактом, проверкой или явной ручной процедурой, шаг описан недостаточно.
-План должен быть заземлен в текущем состоянии репозитория: сначала зафиксируй repository revision и `GRND-*` evidence по релевантным модулям, локальным паттернам, dependencies, test surfaces, открытым вопросам и execution environment, и только после этого расписывай sequencing изменений. Placeholder paths, предполагаемые файлы и пересказ intended solution не считаются grounding.
+План должен быть заземлен в текущем состоянии репозитория: сначала зафиксируй immutable full commit SHA repository revision и `GRND-*` evidence по релевантным модулям, локальным паттернам, dependencies, test surfaces, открытым вопросам и execution environment, и только после этого расписывай sequencing изменений. `HEAD`, branch name и tag не являются допустимыми revision references. Placeholder paths, предполагаемые файлы и пересказ intended solution не считаются grounding.
 План обязан явно зафиксировать, какие automated tests будут добавлены или обновлены по change surface, какие suites обязаны быть зелёными локально и в CI, а какие gaps временно остаются manual-only с justification и approval ref. Он исполняет validation profile из sibling `brief.md`, но не выбирает и не дублирует profile. Для designed feature план также показывает refinement каждого применимого `SOL-*`, `C4-*`, `SD-*`, `CTR-*`, `INV-*`, `FM-*`, `RB-*` и accepted ADR ref в realization target, steps, checks и evidence, не принимая новых solution decisions.
 
 Plan Ready artifact review проверяет этот документ как governed artifact до начала execution. Его verdict хранится вне reviewed plan и фиксирует reviewer, grounded repository revision, candidate revisions canonical owners/plan, findings/dispositions и clean verdict. Artifact review не является review реализации и не заменяет последующий implementation/code review.
@@ -75,7 +75,7 @@ must_not_define:
 
 Grounding выполняется до sequencing против конкретного состояния репозитория. Укажи revision и только фактически просмотренные paths/commands. Каждая строка фиксирует наблюдаемый current-state факт и его влияние на plan; intended solution или предполагаемый path не являются evidence.
 
-- Grounded repository revision: `<HEAD / immutable source revision>`
+- Grounded repository revision: `<full immutable commit SHA>`
 - Grounded at: `<timestamp>`
 
 | Grounding ID | Inspected path / command | Observed current-state fact | Plan impact |
