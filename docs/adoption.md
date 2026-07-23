@@ -14,58 +14,9 @@ memory-bank/
 
 ## Адаптировать существующий проект (brownfield)
 
-В существующем проекте Memory Bank сначала должен отразить реальное состояние продукта и разработки, а не желаемую картину.
+Для существующего проекта следуйте [brownfield adaptation protocol](brownfield-adaptation-protocol.md). Он начинает с evidence-backed discovery **до** установки и чтения `memory-bank/`, затем описывает intake PRD, adaptation canonical owners, governed conversion, validation и real-task trial.
 
-Цель brownfield-внедрения — сделать текущий контекст проекта видимым и проверяемым для людей и агентов. Не начинайте с идеального описания будущей архитектуры. Сначала зафиксируйте то, что уже влияет на разработку: реальные пользователи, термины, ограничения, интеграции, принятые решения, неочевидные правила и known gaps.
-
-1. Скопируйте каталог `memory-bank/`.
-2. Проведите inventory существующего кода, документации, терминов, архитектурных решений и процессов.
-3. Адаптируйте `product/`, `domain/`, `engineering/` и `ops/`. В `engineering/ui-design-guide/` заполните draft-заготовки для реальных UI surfaces и удалите неприменимые файлы вместе со ссылками из index. Не выдумывайте отсутствующие знания: отмечайте пробелы и вопросы явно.
-4. Перенесите устойчивые сценарии в `use-cases/`, а значимые принятые решения — в ADR.
-5. Проверьте подход на одной реальной задаче или фиче, прежде чем описывать весь проект.
-6. Запустите аудит ссылок и индексации.
-
-### Brownfield inventory
-
-Минимальный inventory перед первой адаптацией:
-
-- README, wiki, runbooks, ADR, старые design docs;
-- ключевые директории кода и границы модулей;
-- production/staging/local окружения;
-- внешние интеграции и владение credentials/config;
-- основные пользовательские сценарии и операционные сценарии;
-- термины, которые уже используются в коде, UI, API и команде;
-- текущий CI/CD и обязательные проверки перед merge;
-- известные технические долги, ограничения и опасные зоны.
-
-### Brownfield порядок заполнения
-
-1. `product/` — что продукт уже делает, для кого, какие outcomes и метрики реально важны.
-2. `domain/` — glossary, domain model, states/events/rules из существующей системы.
-3. `engineering/` — текущая архитектура, coding style, testing policy, frontend/backend conventions, git workflow.
-4. `ops/` — локальный запуск, окружения, config, release process, runbooks.
-5. `use-cases/` — только устойчивые сценарии, которые уже проверяются или должны проверяться.
-6. `adr/` — решения, которые уже приняты и продолжают влиять на разработку.
-
-Если факт неизвестен, пишите это явно: `Unknown`, `TBD`, `Needs owner confirmation`. Для агента это безопаснее, чем уверенная выдумка.
-
-### Brownfield типичные ошибки
-
-- описывать желаемую архитектуру как текущую;
-- переносить в Memory Bank все старые документы без нормализации и ownership;
-- создавать PRD/feature packages до описания базового product/domain/engineering context;
-- дублировать один и тот же факт в нескольких местах;
-- блокировать PR из-за устаревшей документации, которую команда ещё не готова исправлять.
-
-### Brownfield готовность
-
-Brownfield-внедрение достаточно для первого рабочего использования, когда:
-
-- агент может понять, как проект устроен, из `memory-bank/README.md` и owner-документов;
-- минимум `product/`, `domain/`, `engineering/` и `ops/` адаптированы под реальный проект;
-- known gaps явно отмечены;
-- одна реальная задача прошла через `Small Change`, feature package, bug fix или другой выбранный flow;
-- `memory-bank-cli lint` проходит локально.
+Не заменяйте protocol кратким inventory: порядок важен, потому что generic template не является источником project facts до завершения discovery.
 
 ## Начать новый проект (greenfield)
 
@@ -84,7 +35,7 @@ codex --search \
 
 Используйте managed-блок, который устанавливает `memory-bank-cli init`: он направляет агента к `memory-bank/README.md`, `memory-bank/dna/README.md` и `memory-bank/flows/routing.md`, не копируя governance. Не редактируйте содержимое между markers вручную; project-specific инструкции размещайте снаружи. Полный marker, update, doctor и alternative-target contract описан в [managed-блоках agent instructions](agent-instructions.md).
 
-Для первой адаптации можно использовать запрос:
+После установки Memory Bank для первой адаптации можно использовать запрос:
 
 ```text
 Прочитай ./memory-bank/README.md и governance-ядро в ./memory-bank/dna/.
