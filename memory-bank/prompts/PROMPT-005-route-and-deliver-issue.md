@@ -82,12 +82,21 @@ permissions or delivery scope.
 </authoritative_sources>
 
 <orchestration>
-Работай фазами. После Intake создай или обнови краткое persisted state в
-canonical carrier выбранного flow (routing record, report, package owner или
-issue, если это допускает flow). Он содержит: issue ref, route и predicate
-evidence, текущую фазу/gate, validation profile и его owner, artifact links,
-scope/non-scope, blockers, approvals и exact next action. При длинной паузе или
-передаче между сессиями используй governed session handoff, а не историю чата.
+Работай фазами. Сразу при Intake создай или обнови один compact orchestration
+Run Ledger в durable control carrier, который не входит в reviewed candidate
+diff: issue/routing progress record, PR progress record либо
+repository-approved ignored runtime state. Не используй tracked governed
+artifact как live control journal.
+
+Run Ledger владеет только control state, leases, counters, source revisions,
+evidence refs и exact next action. После routing он ссылается на canonical flow
+owners; requirements, scope, solution, plan, lifecycle facts и evidence остаются
+у назначенных owners и не копируются в Ledger как второй active SSoT. Ledger
+содержит issue ref, route и predicate evidence, текущую фазу/gate, validation
+profile owner/ref и status, artifact/evidence refs, scope/non-scope refs,
+blockers, approvals и один exact next action. Если flow требует session handoff
+в repository, сохрани его как отдельный candidate artifact, заморозь перед
+review и после freeze записывай control events только в Run Ledger.
 
 Оркестратор владеет routing, validation profile, gate decisions, rerouting,
 scope reconciliation, acceptance verdict и final closure. Он назначает ровно
@@ -97,16 +106,16 @@ scope reconciliation, acceptance verdict и final closure. Он назначае
 
 Только после первичного Intake можно условно запустить не более двух
 read-only discovery агентов: code-grounding (paths, patterns, dependencies) и
-requirements/risk (traceability, route/profile triggers, open questions).
+requirements-risk (traceability, route/profile triggers, open questions).
 Test-surface agent допустим вместо одного из них, когда нужен отдельный анализ.
 После implementation и перед closure выполни независимый code review в shell:
 `codex review --base "{{BASE_BRANCH}}"`. Если изменения ещё не закоммичены,
 выполни вместо этого `codex review --uncommitted`. Не смешивай `--base` или
 `--uncommitted` с custom review prompt: CLI требует выбрать один review target.
 Основной агент сопоставляет findings с flow evidence и запускает fix loop. Каждый
-subagent получает ссылку на persisted state, а не полный чат, и возвращает
-immutable findings: evidence, затронутые пути/IDs, severity, recommendation,
-blockers.
+subagent получает ссылку на Run Ledger и его state revision, а не полный чат, и
+возвращает immutable findings: evidence, затронутые пути/IDs, severity,
+recommendation, blockers.
 </orchestration>
 
 <specialist_roles>
@@ -209,7 +218,7 @@ blockers.
 `STATUS: HUMAN_GATE` допустим, когда:
 - для безопасного продолжения требуется обязательное решение, approval,
   недостающий source/input или иное действие человека;
-- persisted state фиксирует route или фазу, собранное evidence, blocker или
+- Run Ledger фиксирует route или фазу, собранное evidence, blocker или
   risk, точный запрос к человеку, требуемое решение, input или approval и
   exact next action;
 - вся работа, зависящая от этого решения, остановлена.
