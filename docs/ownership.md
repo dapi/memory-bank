@@ -2,6 +2,10 @@
 
 `memory-bank/.lock` — служебный контракт между downstream-проектом и версией шаблона. Файл создаётся командой `memory-bank-cli init` внутри установленного `memory-bank/` и коммитится вместе с ним; из upstream template он не копируется. Формальная схема: [`schema/memory-bank-lock-v1.schema.json`](schema/memory-bank-lock-v1.schema.json).
 
+Upstream payload хранится в source checkout как `memory-bank-template/`.
+Ownership paths и digests в lock относятся к переведённым downstream paths
+внутри `memory-bank/`; source-каталог не становится частью lock schema.
+
 ## Классы владения
 
 | Класс | Текущая граница шаблона | Поведение update |
@@ -24,7 +28,7 @@ memory-bank-cli init \
   --source-ref FULL_COMMIT_SHA
 ```
 
-`--source` должен указывать на корень чистого Git checkout, `--source-ref` — в точности совпадать с его `HEAD`. Незакоммиченные, untracked или ignored payloads внутри `memory-bank/` отклоняются, как и source, совпадающий с downstream repo либо вложенный в него через обычный путь или symlink. Payload и executable modes читаются непосредственно из объектов закреплённого commit, поэтому обычные Git text conversions (`core.autocrlf`, `.gitattributes`) не создают ложный drift и не меняют устанавливаемые байты.
+`--source` должен указывать на корень чистого Git checkout, `--source-ref` — в точности совпадать с его `HEAD`. Незакоммиченные, untracked или ignored payloads внутри upstream `memory-bank-template/` отклоняются, как и source, совпадающий с downstream repo либо вложенный в него через обычный путь или symlink. Payload и executable modes читаются непосредственно из объектов закреплённого commit и устанавливаются под downstream prefix `memory-bank/`, поэтому обычные Git text conversions (`core.autocrlf`, `.gitattributes`) не создают ложный drift и не меняют устанавливаемые байты.
 
 `init` подходит и для пустого проекта, и для ранее скопированного `memory-bank/`: существующие adapted/user-owned файлы принимаются без перезаписи. Несовпадающий существующий managed-файл останавливает инициализацию как conflict.
 

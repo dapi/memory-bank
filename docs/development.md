@@ -1,15 +1,15 @@
 # Разработка репозитория
 
-Этот репозиторий содержит только исходный generic-шаблон `memory-bank/` и документацию по его внедрению. Реализация, command contract и релизы CLI принадлежат отдельному репозиторию [`dapi/memory-bank-cli`](https://github.com/dapi/memory-bank-cli).
+Этот репозиторий содержит upstream payload `memory-bank-template/` и документацию по его внедрению. `memory-bank-cli` устанавливает этот payload в downstream-репозитории под именем `memory-bank/`. Реализация, command contract и релизы CLI принадлежат отдельному репозиторию [`dapi/memory-bank-cli`](https://github.com/dapi/memory-bank-cli).
 
-Корневой файл `.memory-bank-template` — source-repository marker для `memory-bank-cli doctor --profile auto`. Он не входит в копируемый `memory-bank/` payload и не должен появляться в downstream-проектах.
+Корневой файл `.memory-bank-template` — source-repository marker для `memory-bank-cli doctor --profile auto`. Он не входит в `memory-bank-template/` payload и не должен появляться в downstream-проектах.
 
 ## Локальная проверка
 
 Установите закреплённый release `memory-bank-cli` по [инструкции CLI](memory-bank.md). Перед PR запускайте:
 
 ```bash
-rg --files memory-bank
+rg --files memory-bank-template
 memory-bank-cli lint
 memory-bank-cli doctor --profile template
 git diff --check
@@ -26,7 +26,7 @@ CI устанавливает закреплённый release CLI, провер
 
 ## Документационный шаблон
 
-При изменении `memory-bank/`:
+При изменении `memory-bank-template/`:
 
 - убедитесь, что индексы и ссылки соответствуют новой структуре;
 - не переносите source-repository metadata или project-specific детали обратно в generic-шаблон;

@@ -4,7 +4,9 @@
 
 `Durable knowledge layer` — это устойчивый слой знаний проекта: набор versioned документов, который сохраняет важный контекст между сессиями, участниками и изменениями в коде.
 
-В рамках этого репозитория таким слоем выступает `memory-bank`: structured documentation layer с governance-правилами, SSoT и явными связями между документами.
+В рамках этого source-репозитория таким слоем выступает payload
+`memory-bank-template/`; после установки в downstream-проекте он живёт как
+`memory-bank/`.
 
 Ключевая идея слоя — хранить не эфемерные обсуждения, а проверяемое и поддерживаемое знание: что в проекте считается истинным, где находится canonical owner факта и как downstream-документы наследуют этот контекст.
 
@@ -18,7 +20,7 @@
 
 ## Governed Document
 
-`Governed document` — markdown-файл, который подчиняется governance-правилам репозитория. Внутри `memory-bank/` это обычно означает валидный YAML frontmatter, понятную роль документа и явные связи с upstream-источниками.
+`Governed document` — markdown-файл, который подчиняется governance-правилам репозитория. В source payload `memory-bank-template/` и установленном downstream `memory-bank/` это обычно означает валидный YAML frontmatter, понятную роль документа и явные связи с upstream-источниками.
 
 ## Authoritative Document
 
@@ -46,11 +48,11 @@
 
 ## Documentation Layer
 
-`Documentation layer` — не просто папка с markdown-файлами, а структурированный слой знаний с ролями документов, навигацией и границами ответственности. В этом репозитории template layer живет в `memory-bank/`.
+`Documentation layer` — не просто папка с markdown-файлами, а структурированный слой знаний с ролями документов, навигацией и границами ответственности. В этом репозитории source template layer живет в `memory-bank-template/`; его downstream destination — `memory-bank/`.
 
 ## Process Layer
 
-`Process layer` — часть knowledge layer, которая описывает lifecycle, workflows, gates и шаблоны исполнения. В этом шаблоне она в основном сосредоточена в `memory-bank/flows/`.
+`Process layer` — часть knowledge layer, которая описывает lifecycle, workflows, gates и шаблоны исполнения. В source template она в основном сосредоточена в `memory-bank-template/flows/`, а после установки — в `memory-bank/flows/`.
 
 ## Instantiated Document
 

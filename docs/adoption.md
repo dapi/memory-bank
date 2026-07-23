@@ -2,6 +2,11 @@
 
 Этот документ описывает, как подключить Memory Bank к существующему или новому проекту. В downstream-проект устанавливается каталог `memory-bank/`, а внутри него создаётся служебный `memory-bank/.lock`; source-repository metadata, `.github/` и `docs/` не являются частью шаблона приложения. Lock создаёт `memory-bank-cli init`, а не upstream template. Его нужно коммитить: он хранит версию источника и ownership-границу для безопасных обновлений.
 
+В репозитории `dapi/memory-bank` исходный payload называется
+`memory-bank-template/`. Это только upstream-имя: CLI всегда устанавливает его
+как `memory-bank/`, и downstream-инструкции не должны ссылаться на
+`memory-bank-template/`.
+
 ## Что копировать
 
 Минимальный установленный комплект:
