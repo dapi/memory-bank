@@ -29,7 +29,7 @@
 
 ## Стиль оформления и соглашения по именованию
 
-Пишите в Markdown: короткие секции, понятные заголовки, относительные ссылки. Governed-документы в `memory-bank/` должны начинаться с YAML frontmatter; поле `status` обязательно всегда, а `derived_from`, `delivery_status` и `decision_status` добавляются, когда этого требует тип документа. См. `memory-bank/dna/frontmatter.md`.
+Пишите в Markdown: короткие секции, понятные заголовки, относительные ссылки. Governed-документы в `memory-bank/` должны начинаться с YAML frontmatter; поле `status` обязательно всегда, а `derived_from`, `delivery_status`, `research_status` и `decision_status` добавляются, когда этого требует тип документа. См. `memory-bank/dna/frontmatter.md`.
 
 Для обычных документов используйте lowercase kebab-case, например `testing-policy.md`. Для структурированных артефактов сохраняйте шаблонные naming rules, например `features/FT-XXX/` и `ADR-XXX-short-decision-name.md`.
 
