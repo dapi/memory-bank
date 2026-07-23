@@ -91,13 +91,15 @@ Canonical lifecycle gates живут в [../flows/feature.md](../flows/feature.m
 
 ## Verification Context Separation
 
-Разные этапы верификации — отдельные проходы:
+Artifact review и implementation review имеют разные объекты проверки и evidence:
 
-1. **Функциональная верификация** — tests проходят, acceptance scenarios покрыты
-2. **Simplify review** — код минимально сложен
-3. **Acceptance test** — end-to-end по `SC-*`
+1. **Artifact review** — до соответствующего lifecycle gate проверяет governed requirements/design/plan artifacts, их grounding, ownership, completeness и traceability.
+2. **Implementation review** — после execution проверяет delivered code и repository diff против принятых canonical artifacts.
+3. **Функциональная верификация** — tests проходят, acceptance scenarios покрыты.
+4. **Simplify review** — код минимально сложен.
+5. **Acceptance test** — end-to-end по `SC-*`.
 
-Для compact feature packages допустимо в одной сессии, но simplify review не пропускается.
+Artifact review не является доказательством качества реализации, а implementation review не исправляет задним числом непройденный artifact gate. Для compact feature packages проходы допустимы в одной сессии, если их объекты, verdicts и evidence зафиксированы раздельно; обязательный review или simplify review не пропускается.
 
 ## Project-Specific Conventions
 
