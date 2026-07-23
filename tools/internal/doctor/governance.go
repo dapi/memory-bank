@@ -451,7 +451,7 @@ func (report *Report) checkResearchLifecycleStage(packagePath string, brief gove
 	if researchStatus == "synthesizing" && isActiveResearchArtifact(decision, hasDecision) {
 		report.add(Finding{Code: "lifecycle.research_synthesizing_decision_present", Severity: Error, Group: "lifecycle_consistency", Path: decision.path, Message: "A synthesizing research package cannot activate decision.md before the Decision Ready gate.", Remediation: "Keep decision.md in draft, or advance research_status after completing the Decision Ready gate."})
 	}
-	if researchStatus == "synthesizing" || requiresResearchDecisionArtifacts(researchStatus, hasDecision) {
+	if researchStatus == "synthesizing" || requiresFullResearchDecisionArtifacts(researchStatus) {
 		if !hasEvidence {
 			report.add(Finding{Code: "lifecycle.research_evidence_missing", Severity: Error, Group: "lifecycle_consistency", Path: packagePath, Message: "A synthesizing or decided research package requires evidence.md.", Remediation: "Create evidence.md and complete evidence collection before synthesis or decision."})
 		} else if evidenceStatus, _ := evidence.frontmatter["status"].(string); evidenceStatus != "active" {
@@ -463,7 +463,7 @@ func (report *Report) checkResearchLifecycleStage(packagePath string, brief gove
 			report.add(Finding{Code: "lifecycle.research_synthesis_not_active", Severity: Error, Group: "lifecycle_consistency", Path: synthesis.path, Message: "A synthesizing or decided research package requires an active synthesis.md.", Remediation: "Complete the Evidence Collection gate and set synthesis.md status to active."})
 		}
 	}
-	if requiresResearchDecisionArtifacts(researchStatus, hasDecision) {
+	if requiresFullResearchDecisionArtifacts(researchStatus) {
 		if !hasDecision {
 			report.add(Finding{Code: "lifecycle.research_decision_missing", Severity: Error, Group: "lifecycle_consistency", Path: packagePath, Message: "A decision-ready or decided research package requires decision.md.", Remediation: "Create and activate decision.md before setting research_status to decision_ready or a terminal disposition."})
 		} else if decisionStatus, _ := decision.frontmatter["status"].(string); decisionStatus != "active" {
@@ -480,12 +480,8 @@ func isEvidenceBasedResearchOutcome(researchStatus string) bool {
 	return oneOf(researchStatus, "validated", "invalidated", "inconclusive")
 }
 
-func requiresResearchDecisionArtifacts(researchStatus string, hasDecision bool) bool {
-	return researchStatus == "decision_ready" || isEvidenceBasedResearchOutcome(researchStatus) || (isEarlyTerminalResearchStatus(researchStatus) && hasDecision)
-}
-
-func isEarlyTerminalResearchStatus(researchStatus string) bool {
-	return oneOf(researchStatus, "parked", "cancelled", "rerouted")
+func requiresFullResearchDecisionArtifacts(researchStatus string) bool {
+	return researchStatus == "decision_ready" || isEvidenceBasedResearchOutcome(researchStatus)
 }
 
 func allowsDraftResearchPlan(researchStatus string) bool {

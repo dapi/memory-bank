@@ -2,6 +2,7 @@ package doctor
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/fs"
 	"os"
 	"os/exec"
@@ -360,7 +361,7 @@ func TestResearchLifecycleArtifactsMatchStage(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	for _, code := range []string{"lifecycle.research_intake_later_artifact", "lifecycle.research_collecting_evidence_missing", "lifecycle.research_collecting_evidence_unusable", "lifecycle.research_collecting_later_artifact", "lifecycle.research_evidence_missing", "lifecycle.research_evidence_not_active", "lifecycle.research_synthesis_missing", "lifecycle.research_synthesis_not_active", "lifecycle.research_decision_not_active"} {
+	for _, code := range []string{"lifecycle.research_intake_later_artifact", "lifecycle.research_collecting_evidence_missing", "lifecycle.research_collecting_evidence_unusable", "lifecycle.research_collecting_later_artifact", "lifecycle.research_evidence_not_active", "lifecycle.research_synthesis_not_active", "lifecycle.research_decision_not_active"} {
 		if !hasFinding(report, code) {
 			t.Fatalf("missing %s in %#v", code, report.Findings)
 		}
@@ -424,6 +425,36 @@ func TestResearchLifecycleAllowsDraftNextStageArtifacts(t *testing.T) {
 	write("memory-bank/research/R-004/README.md", "---\nstatus: active\n---\n# Research\n")
 	write("memory-bank/research/R-004/brief.md", "---\nstatus: active\nresearch_status: parked\n---\n# Brief\n")
 	write("memory-bank/research/R-004/plan.md", "---\nstatus: draft\n---\n# Plan\n")
+
+	report, err := Run(Options{RepoRoot: repo, ScopeRoot: "memory-bank", Profile: ProfileTemplate, MaxDepth: 3})
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, finding := range report.Findings {
+		if strings.HasPrefix(finding.Code, "lifecycle.research_") {
+			t.Fatalf("unexpected research lifecycle finding %#v", finding)
+		}
+	}
+}
+
+func TestResearchLifecycleAllowsDecisionNotesForEarlyTerminalStates(t *testing.T) {
+	repo := t.TempDir()
+	write := func(relative, contents string) {
+		t.Helper()
+		fullPath := filepath.Join(repo, filepath.FromSlash(relative))
+		if err := os.MkdirAll(filepath.Dir(fullPath), 0o755); err != nil {
+			t.Fatal(err)
+		}
+		if err := os.WriteFile(fullPath, []byte(contents), 0o644); err != nil {
+			t.Fatal(err)
+		}
+	}
+	for index, researchStatus := range []string{"parked", "cancelled", "rerouted"} {
+		packagePath := fmt.Sprintf("memory-bank/research/R-%03d", index+1)
+		write(packagePath+"/README.md", "---\nstatus: active\n---\n# Research\n")
+		write(packagePath+"/brief.md", fmt.Sprintf("---\nstatus: active\nresearch_status: %s\n---\n# Brief\n", researchStatus))
+		write(packagePath+"/decision.md", "---\nstatus: draft\n---\n# Decision note\n")
+	}
 
 	report, err := Run(Options{RepoRoot: repo, ScopeRoot: "memory-bank", Profile: ProfileTemplate, MaxDepth: 3})
 	if err != nil {
