@@ -302,6 +302,171 @@ func TestFeatureBriefOwnsDeliveryStatusWithoutOptionalClassification(t *testing.
 	}
 }
 
+func TestResearchLifecycleMetadataIsValidatedAndOwnedByBrief(t *testing.T) {
+	repo := t.TempDir()
+	write := func(relative, contents string) {
+		t.Helper()
+		fullPath := filepath.Join(repo, filepath.FromSlash(relative))
+		if err := os.MkdirAll(filepath.Dir(fullPath), 0o755); err != nil {
+			t.Fatal(err)
+		}
+		if err := os.WriteFile(fullPath, []byte(contents), 0o644); err != nil {
+			t.Fatal(err)
+		}
+	}
+	write("memory-bank/research/R-001/brief.md", "---\nstatus: active\nresearch_status: unknown\n---\n# Brief\n")
+	write("memory-bank/research/R-001/evidence.md", "---\nstatus: draft\nresearch_status: collecting\n---\n# Evidence\n")
+	write("memory-bank/research/R-002/evidence.md", "---\nstatus: draft\n---\n# Evidence\n")
+	write("memory-bank/archive/research/R-003/brief.md", "---\nstatus: active\nresearch_status: framed\n---\n# Archived brief\n")
+
+	report, err := Run(Options{RepoRoot: repo, ScopeRoot: "memory-bank", Profile: ProfileTemplate, MaxDepth: 3})
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, code := range []string{"governance.research_status_invalid", "lifecycle.research_status_wrong_owner", "lifecycle.research_brief_missing"} {
+		if !hasFinding(report, code) {
+			t.Fatalf("missing %s in %#v", code, report.Findings)
+		}
+	}
+}
+
+func TestResearchLifecycleArtifactsMatchStage(t *testing.T) {
+	repo := t.TempDir()
+	write := func(relative, contents string) {
+		t.Helper()
+		fullPath := filepath.Join(repo, filepath.FromSlash(relative))
+		if err := os.MkdirAll(filepath.Dir(fullPath), 0o755); err != nil {
+			t.Fatal(err)
+		}
+		if err := os.WriteFile(fullPath, []byte(contents), 0o644); err != nil {
+			t.Fatal(err)
+		}
+	}
+	write("memory-bank/research/R-001/brief.md", "---\nstatus: draft\nresearch_status: intake\n---\n# Brief\n")
+	write("memory-bank/research/R-001/synthesis.md", "---\nstatus: active\n---\n# Synthesis\n")
+	write("memory-bank/research/R-001/decision.md", "---\nstatus: active\n---\n# Decision\n")
+	write("memory-bank/research/R-002/brief.md", "---\nstatus: active\nresearch_status: collecting\n---\n# Brief\n")
+	write("memory-bank/research/R-002/decision.md", "---\nstatus: active\n---\n# Decision\n")
+	write("memory-bank/research/R-003/brief.md", "---\nstatus: active\nresearch_status: validated\n---\n# Brief\n")
+	write("memory-bank/research/R-003/evidence.md", "---\nstatus: draft\n---\n# Evidence\n")
+	write("memory-bank/research/R-003/synthesis.md", "---\nstatus: draft\n---\n# Synthesis\n")
+	write("memory-bank/research/R-003/decision.md", "---\nstatus: draft\n---\n# Decision\n")
+	write("memory-bank/research/R-004/brief.md", "---\nstatus: active\nresearch_status: collecting\n---\n# Brief\n")
+	write("memory-bank/research/R-004/evidence.md", "---\nstatus: archived\n---\n# Evidence\n")
+	write("memory-bank/research/R-005/brief.md", "---\nstatus: active\nresearch_status: cancelled\n---\n# Brief\n")
+	write("memory-bank/research/R-005/decision.md", "---\nstatus: draft\n---\n# Decision\n")
+
+	report, err := Run(Options{RepoRoot: repo, ScopeRoot: "memory-bank", Profile: ProfileTemplate, MaxDepth: 3})
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, code := range []string{"lifecycle.research_intake_later_artifact", "lifecycle.research_collecting_evidence_missing", "lifecycle.research_collecting_evidence_unusable", "lifecycle.research_collecting_later_artifact", "lifecycle.research_evidence_missing", "lifecycle.research_evidence_not_active", "lifecycle.research_synthesis_missing", "lifecycle.research_synthesis_not_active", "lifecycle.research_decision_not_active"} {
+		if !hasFinding(report, code) {
+			t.Fatalf("missing %s in %#v", code, report.Findings)
+		}
+	}
+}
+
+func TestResearchLifecycleArtifactsAcceptValidProgression(t *testing.T) {
+	repo := t.TempDir()
+	write := func(relative, contents string) {
+		t.Helper()
+		fullPath := filepath.Join(repo, filepath.FromSlash(relative))
+		if err := os.MkdirAll(filepath.Dir(fullPath), 0o755); err != nil {
+			t.Fatal(err)
+		}
+		if err := os.WriteFile(fullPath, []byte(contents), 0o644); err != nil {
+			t.Fatal(err)
+		}
+	}
+	write("memory-bank/research/R-001/README.md", "---\nstatus: active\n---\n# Research\n")
+	write("memory-bank/research/R-001/brief.md", "---\nstatus: active\nresearch_status: validated\n---\n# Brief\n")
+	write("memory-bank/research/R-001/plan.md", "---\nstatus: active\n---\n# Plan\n")
+	write("memory-bank/research/R-001/evidence.md", "---\nstatus: active\n---\n# Evidence\n")
+	write("memory-bank/research/R-001/synthesis.md", "---\nstatus: active\n---\n# Synthesis\n")
+	write("memory-bank/research/R-001/decision.md", "---\nstatus: active\n---\n# Decision\n")
+
+	report, err := Run(Options{RepoRoot: repo, ScopeRoot: "memory-bank", Profile: ProfileTemplate, MaxDepth: 3})
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, finding := range report.Findings {
+		if strings.HasPrefix(finding.Code, "lifecycle.research_") {
+			t.Fatalf("unexpected research lifecycle finding %#v", finding)
+		}
+	}
+}
+
+func TestResearchLifecycleAllowsDraftNextStageArtifacts(t *testing.T) {
+	repo := t.TempDir()
+	write := func(relative, contents string) {
+		t.Helper()
+		fullPath := filepath.Join(repo, filepath.FromSlash(relative))
+		if err := os.MkdirAll(filepath.Dir(fullPath), 0o755); err != nil {
+			t.Fatal(err)
+		}
+		if err := os.WriteFile(fullPath, []byte(contents), 0o644); err != nil {
+			t.Fatal(err)
+		}
+	}
+	write("memory-bank/research/R-001/README.md", "---\nstatus: active\n---\n# Research\n")
+	write("memory-bank/research/R-001/brief.md", "---\nstatus: active\nresearch_status: framed\n---\n# Brief\n")
+	write("memory-bank/research/R-001/plan.md", "---\nstatus: draft\n---\n# Plan\n")
+	write("memory-bank/research/R-002/README.md", "---\nstatus: active\n---\n# Research\n")
+	write("memory-bank/research/R-002/brief.md", "---\nstatus: active\nresearch_status: collecting\n---\n# Brief\n")
+	write("memory-bank/research/R-002/evidence.md", "---\nstatus: draft\n---\n# Evidence\n")
+	write("memory-bank/research/R-002/synthesis.md", "---\nstatus: draft\n---\n# Synthesis\n")
+	write("memory-bank/research/R-003/README.md", "---\nstatus: active\n---\n# Research\n")
+	write("memory-bank/research/R-003/brief.md", "---\nstatus: active\nresearch_status: synthesizing\n---\n# Brief\n")
+	write("memory-bank/research/R-003/evidence.md", "---\nstatus: active\n---\n# Evidence\n")
+	write("memory-bank/research/R-003/synthesis.md", "---\nstatus: active\n---\n# Synthesis\n")
+	write("memory-bank/research/R-003/decision.md", "---\nstatus: draft\n---\n# Decision\n")
+	write("memory-bank/research/R-004/README.md", "---\nstatus: active\n---\n# Research\n")
+	write("memory-bank/research/R-004/brief.md", "---\nstatus: active\nresearch_status: parked\n---\n# Brief\n")
+	write("memory-bank/research/R-004/plan.md", "---\nstatus: draft\n---\n# Plan\n")
+
+	report, err := Run(Options{RepoRoot: repo, ScopeRoot: "memory-bank", Profile: ProfileTemplate, MaxDepth: 3})
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, finding := range report.Findings {
+		if strings.HasPrefix(finding.Code, "lifecycle.research_") {
+			t.Fatalf("unexpected research lifecycle finding %#v", finding)
+		}
+	}
+}
+
+func TestResearchLifecycleRequiresPackageREADME(t *testing.T) {
+	repo := t.TempDir()
+	path := filepath.Join(repo, "memory-bank", "research", "R-001", "brief.md")
+	if err := os.MkdirAll(filepath.Dir(path), 0o755); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(path, []byte("---\nstatus: active\nresearch_status: framed\n---\n# Brief\n"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+
+	report, err := Run(Options{RepoRoot: repo, ScopeRoot: "memory-bank", Profile: ProfileTemplate, MaxDepth: 3})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !hasFinding(report, "lifecycle.research_package_readme_missing") {
+		t.Fatalf("missing lifecycle.research_package_readme_missing in %#v", report.Findings)
+	}
+}
+
+func TestResearchBriefOwnsResearchStatusWithoutOptionalClassification(t *testing.T) {
+	if !isCanonicalResearchBrief(governedDocument{
+		path:        "memory-bank/research/R-001/brief.md",
+		frontmatter: map[string]any{"status": "active", "research_status": "framed"},
+	}, "memory-bank") {
+		t.Fatal("canonical research brief path should own research_status without optional classification")
+	}
+	if isCanonicalResearchBrief(governedDocument{path: "memory-bank/archive/research/R-001/brief.md"}, "memory-bank") {
+		t.Fatal("archived research brief path must not own research_status")
+	}
+}
+
 func TestWorkflowRunsDoctorOnlyForExecutableRunCommands(t *testing.T) {
 	for _, test := range []struct {
 		name     string

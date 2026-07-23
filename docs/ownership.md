@@ -6,9 +6,9 @@
 
 | Класс | Текущая граница шаблона | Поведение update |
 | --- | --- | --- |
-| `managed` | `memory-bank/dna/`, `flows/`, `prompts/`, а также top-level template-индексы `prd/README.md`, `epics/README.md`, `use-cases/README.md`, `features/README.md`, `adr/README.md` | Проверяет текущий payload по digest. Чистый файл обновляется или удаляется; локальный drift становится conflict. |
+| `managed` | `memory-bank/dna/`, `flows/`, `prompts/`, а также top-level template-индексы `prd/README.md`, `research/README.md`, `epics/README.md`, `use-cases/README.md`, `features/README.md`, `adr/README.md` | Проверяет текущий payload по digest. Чистый файл обновляется или удаляется; локальный drift становится conflict. |
 | `adapted` | `memory-bank/README.md`, `product/`, `domain/`, `engineering/`, `ops/` | Хранит digest исходной template-base, но не требует совпадения текущего файла. Чистый файл может получить новую base; одновременные upstream и downstream изменения становятся conflict. |
-| `user-owned` | Instantiated-документы в `prd/`, `epics/`, `use-cases/`, `features/`, `adr/` и неизвестные downstream paths | Никогда автоматически не перезаписывается и не удаляется. Неизвестный существующий файл получает этот класс по fail-safe правилу. |
+| `user-owned` | Instantiated-документы в `prd/`, `research/`, `epics/`, `use-cases/`, `features/`, `adr/` и неизвестные downstream paths | Никогда автоматически не перезаписывается и не удаляется. Неизвестный существующий файл получает этот класс по fail-safe правилу. |
 | `generated` | `memory-bank/.generated/` зарезервирован для будущих детерминированных генераторов; в текущем template таких файлов нет | Может быть пересоздан или удалён только детерминированным producer. |
 
 `base_digest` и `base_mode` (`100644` или `100755`) описывают файл в зафиксированной template-base. `payload_digest` и `payload_mode` присутствуют только там, где текущий файл является проверяемым managed/generated contract. Поэтому обычная специализация adapted-документа не считается drift, а изменение executable bit managed-файла проверяется так же, как изменение его содержимого.

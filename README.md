@@ -16,7 +16,7 @@ Memory Bank — переносимый documentation-first шаблон для �
 
 ## Как это работает
 
-`dna/` задаёт governance-ядро: Single Source of Truth, зависимости между документами, lifecycle, frontmatter и правила навигации. Постоянный контекст проекта находится в `product/`, `domain/`, `engineering/` и `ops/`; инициативы, сценарии и решения — в PRD, epic, use case и ADR.
+`dna/` задаёт governance-ядро: Single Source of Truth, зависимости между документами, lifecycle, frontmatter и правила навигации. Постоянный контекст проекта находится в `product/`, `domain/`, `engineering/` и `ops/`; research, инициативы, сценарии и решения — в Research, PRD, epic, use case и ADR.
 
 Для значимой delivery-фичи контекст созревает поэтапно:
 
@@ -41,6 +41,7 @@ problem space            solution space             execution space
 | [`engineering/`](memory-bank/engineering/README.md) | Архитектура, тестирование, coding style, git workflow и границы автономии агента |
 | [`ops/`](memory-bank/ops/README.md) | Локальная разработка, окружения, конфигурация, релизы и runbooks |
 | [`prd/`](memory-bank/prd/README.md) | Продуктовые инициативы между общим product context и отдельными фичами |
+| [`research/`](memory-bank/research/README.md) | Evidence-backed market, product и technical research до решения о delivery |
 | [`epics/`](memory-bank/epics/README.md) | Крупные инициативы с roadmap, рисками, решениями и delivery subissues |
 | [`use-cases/`](memory-bank/use-cases/README.md) | Канонические пользовательские и операционные сценарии |
 | [`features/`](memory-bank/features/README.md) | Пакеты отдельных delivery-фич |
@@ -65,7 +66,7 @@ problem space            solution space             execution space
 
 ## Выбор рабочего процесса
 
-Каждая задача сначала проходит [Task Routing](memory-bank/flows/routing.md). Он направляет работу в Incident, Bug Fix, Small Change, Epic, Refactoring, Feature или на ручное решение.
+Каждая задача сначала проходит [Task Routing](memory-bank/flows/routing.md). Он направляет работу в Incident, Bug Fix, Research & Discovery, Small Change, Epic, Refactoring, Feature или на ручное решение.
 
 Корневой README даёт только обзор. Условия входа, lifecycle, обязательные артефакты и exit contract принадлежат каноническим документам в [`memory-bank/flows/`](memory-bank/flows/README.md) и не дублируются здесь.
 

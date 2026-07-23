@@ -20,7 +20,7 @@ func Classify(path string) Class {
 			return Adapted
 		}
 	}
-	for _, prefix := range []string{"memory-bank/prd/", "memory-bank/epics/", "memory-bank/use-cases/", "memory-bank/features/", "memory-bank/adr/"} {
+	for _, prefix := range []string{"memory-bank/prd/", "memory-bank/research/", "memory-bank/epics/", "memory-bank/use-cases/", "memory-bank/features/", "memory-bank/adr/"} {
 		if strings.HasPrefix(path, prefix) {
 			if path == prefix+"README.md" {
 				return Managed
