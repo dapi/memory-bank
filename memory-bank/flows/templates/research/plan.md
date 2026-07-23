@@ -67,7 +67,6 @@ Steps, instrument version, benchmark environment or query strategy sufficient fo
 
 | Field | Value |
 | --- | --- |
-| Status | `draft / active` |
 | Reviewer / decision owner | `<person or role>` |
 | Approval reference | `<issue, comment or meeting>` |
 ```

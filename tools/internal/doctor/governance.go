@@ -384,16 +384,120 @@ func (report *Report) checkResearchLifecycle(documents map[string]governedDocume
 		packages[parts[0]][strings.Join(parts[1:], "/")] = document
 	}
 	for packageName, files := range packages {
+		_, hasPackageREADME := files["README.md"]
 		brief, hasBrief := files["brief.md"]
 		packagePath := path.Join(prefix, packageName)
+		if !hasPackageREADME {
+			report.add(Finding{Code: "lifecycle.research_package_readme_missing", Severity: Error, Group: "lifecycle_consistency", Path: packagePath, Message: "Research package is missing its required README.md index.", Remediation: "Create README.md from the governed research package template before adding research artifacts."})
+		}
 		if !hasBrief {
 			report.add(Finding{Code: "lifecycle.research_brief_missing", Severity: Error, Group: "lifecycle_consistency", Path: packagePath, Message: "Research package contains artifacts without canonical brief.md.", Remediation: "Create brief.md from the governed research template before adding research artifacts."})
 			continue
 		}
 		if _, exists := brief.frontmatter["research_status"]; !exists {
 			report.add(Finding{Code: "lifecycle.research_status_missing", Severity: Error, Group: "lifecycle_consistency", Path: brief.path, Message: "Canonical research brief does not own research_status.", Remediation: "Add the package research lifecycle state to brief.md."})
+			continue
+		}
+		researchStatus, validResearchStatus := brief.frontmatter["research_status"].(string)
+		if !validResearchStatus || !isResearchStatus(researchStatus) {
+			continue
+		}
+		report.checkResearchLifecycleStage(packagePath, brief, researchStatus, files)
+	}
+}
+
+func (report *Report) checkResearchLifecycleStage(packagePath string, brief governedDocument, researchStatus string, files map[string]governedDocument) {
+	plan, hasPlan := files["plan.md"]
+	evidence, hasEvidence := files["evidence.md"]
+	synthesis, hasSynthesis := files["synthesis.md"]
+	decision, hasDecision := files["decision.md"]
+	briefStatus, _ := brief.frontmatter["status"].(string)
+
+	if researchStatus == "intake" {
+		if briefStatus != "draft" {
+			report.add(Finding{Code: "lifecycle.research_intake_brief_not_draft", Severity: Error, Group: "lifecycle_consistency", Path: brief.path, Message: "An intake research package requires a draft brief.md.", Remediation: "Keep brief.md in draft until the Question Framed gate is complete, or update research_status after completing that gate."})
+		}
+		for artifact, document := range map[string]governedDocument{"plan.md": plan, "evidence.md": evidence, "synthesis.md": synthesis, "decision.md": decision} {
+			if document.path != "" {
+				report.add(Finding{Code: "lifecycle.research_intake_later_artifact", Severity: Error, Group: "lifecycle_consistency", Path: document.path, Message: "An intake research package cannot contain " + artifact + ".", Remediation: "Remove the later-stage artifact, or complete the required gates and advance research_status."})
+			}
+		}
+		return
+	}
+
+	if briefStatus != "active" {
+		report.add(Finding{Code: "lifecycle.research_brief_not_active", Severity: Error, Group: "lifecycle_consistency", Path: brief.path, Message: "A non-intake research package requires an active brief.md.", Remediation: "Complete the Question Framed gate and set brief.md status to active."})
+	}
+	if hasPlan && !allowsDraftResearchPlan(researchStatus) {
+		planStatus, _ := plan.frontmatter["status"].(string)
+		if planStatus != "active" {
+			report.add(Finding{Code: "lifecycle.research_plan_not_active", Severity: Error, Group: "lifecycle_consistency", Path: plan.path, Message: "A research plan must be active when present.", Remediation: "Activate plan.md after completing the method gate, or remove it when a plan is not required."})
 		}
 	}
+
+	if researchStatus == "framed" && (isActiveResearchArtifact(evidence, hasEvidence) || isActiveResearchArtifact(synthesis, hasSynthesis) || isActiveResearchArtifact(decision, hasDecision)) {
+		report.add(Finding{Code: "lifecycle.research_framed_later_artifact", Severity: Error, Group: "lifecycle_consistency", Path: packagePath, Message: "A framed research package cannot activate evidence, synthesis, or decision artifacts before Evidence Collection.", Remediation: "Keep later-stage artifacts in draft, or advance research_status after completing the applicable gate."})
+	}
+	if researchStatus == "collecting" {
+		if !hasEvidence {
+			report.add(Finding{Code: "lifecycle.research_collecting_evidence_missing", Severity: Error, Group: "lifecycle_consistency", Path: packagePath, Message: "A collecting research package requires evidence.md.", Remediation: "Create evidence.md before setting research_status to collecting."})
+		} else if evidenceStatus, _ := evidence.frontmatter["status"].(string); !oneOf(evidenceStatus, "draft", "active") {
+			report.add(Finding{Code: "lifecycle.research_collecting_evidence_unusable", Severity: Error, Group: "lifecycle_consistency", Path: evidence.path, Message: "A collecting research package requires evidence.md to be draft or active.", Remediation: "Restore evidence.md to draft or active before continuing collection."})
+		}
+		if isActiveResearchArtifact(synthesis, hasSynthesis) || isActiveResearchArtifact(decision, hasDecision) {
+			report.add(Finding{Code: "lifecycle.research_collecting_later_artifact", Severity: Error, Group: "lifecycle_consistency", Path: packagePath, Message: "A collecting research package cannot activate synthesis or decision artifacts.", Remediation: "Keep later-stage artifacts in draft, or advance research_status after completing the applicable gate."})
+		}
+	}
+	if researchStatus == "synthesizing" && isActiveResearchArtifact(decision, hasDecision) {
+		report.add(Finding{Code: "lifecycle.research_synthesizing_decision_present", Severity: Error, Group: "lifecycle_consistency", Path: decision.path, Message: "A synthesizing research package cannot activate decision.md before the Decision Ready gate.", Remediation: "Keep decision.md in draft, or advance research_status after completing the Decision Ready gate."})
+	}
+	if researchStatus == "synthesizing" || requiresResearchDecisionArtifacts(researchStatus, hasDecision) {
+		if !hasEvidence {
+			report.add(Finding{Code: "lifecycle.research_evidence_missing", Severity: Error, Group: "lifecycle_consistency", Path: packagePath, Message: "A synthesizing or decided research package requires evidence.md.", Remediation: "Create evidence.md and complete evidence collection before synthesis or decision."})
+		} else if evidenceStatus, _ := evidence.frontmatter["status"].(string); evidenceStatus != "active" {
+			report.add(Finding{Code: "lifecycle.research_evidence_not_active", Severity: Error, Group: "lifecycle_consistency", Path: evidence.path, Message: "A synthesizing or decided research package requires an active evidence.md.", Remediation: "Complete evidence collection and set evidence.md status to active before synthesis or decision."})
+		}
+		if !hasSynthesis {
+			report.add(Finding{Code: "lifecycle.research_synthesis_missing", Severity: Error, Group: "lifecycle_consistency", Path: packagePath, Message: "A synthesizing or decided research package requires synthesis.md.", Remediation: "Create and activate synthesis.md before advancing beyond evidence collection."})
+		} else if synthesisStatus, _ := synthesis.frontmatter["status"].(string); synthesisStatus != "active" {
+			report.add(Finding{Code: "lifecycle.research_synthesis_not_active", Severity: Error, Group: "lifecycle_consistency", Path: synthesis.path, Message: "A synthesizing or decided research package requires an active synthesis.md.", Remediation: "Complete the Evidence Collection gate and set synthesis.md status to active."})
+		}
+	}
+	if requiresResearchDecisionArtifacts(researchStatus, hasDecision) {
+		if !hasDecision {
+			report.add(Finding{Code: "lifecycle.research_decision_missing", Severity: Error, Group: "lifecycle_consistency", Path: packagePath, Message: "A decision-ready or decided research package requires decision.md.", Remediation: "Create and activate decision.md before setting research_status to decision_ready or a terminal disposition."})
+		} else if decisionStatus, _ := decision.frontmatter["status"].(string); decisionStatus != "active" {
+			report.add(Finding{Code: "lifecycle.research_decision_not_active", Severity: Error, Group: "lifecycle_consistency", Path: decision.path, Message: "A decision-ready or decided research package requires an active decision.md.", Remediation: "Complete the Decision Ready gate and set decision.md status to active."})
+		}
+	}
+}
+
+func isResearchStatus(researchStatus string) bool {
+	return oneOf(researchStatus, "intake", "framed", "collecting", "synthesizing", "decision_ready", "validated", "invalidated", "inconclusive", "parked", "cancelled", "rerouted")
+}
+
+func isEvidenceBasedResearchOutcome(researchStatus string) bool {
+	return oneOf(researchStatus, "validated", "invalidated", "inconclusive")
+}
+
+func requiresResearchDecisionArtifacts(researchStatus string, hasDecision bool) bool {
+	return researchStatus == "decision_ready" || isEvidenceBasedResearchOutcome(researchStatus) || (isEarlyTerminalResearchStatus(researchStatus) && hasDecision)
+}
+
+func isEarlyTerminalResearchStatus(researchStatus string) bool {
+	return oneOf(researchStatus, "parked", "cancelled", "rerouted")
+}
+
+func allowsDraftResearchPlan(researchStatus string) bool {
+	return oneOf(researchStatus, "framed", "parked", "cancelled", "rerouted")
+}
+
+func isActiveResearchArtifact(document governedDocument, exists bool) bool {
+	if !exists {
+		return false
+	}
+	status, _ := document.frontmatter["status"].(string)
+	return status == "active"
 }
 
 func featureDesignDecision(content string) (string, bool) {
