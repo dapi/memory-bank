@@ -47,7 +47,7 @@ problem space            solution space             execution space
 | [`features/`](memory-bank/features/README.md) | Пакеты отдельных delivery-фич |
 | [`adr/`](memory-bank/adr/README.md) | Архитектурные решения и причины их принятия |
 | [`flows/`](memory-bank/flows/README.md) | Lifecycle-процессы и шаблоны документов |
-| [`prompts/`](memory-bank/prompts/README.md) | Human-only библиотека prompt-артефактов; выбранное содержимое передаёт агенту человек или внешний runner |
+| [`prompts/`](memory-bank/prompts/README.md) | Human-only каталог prompt-артефактов и его access contract |
 
 После установки шаблона [`memory-bank/README.md`](memory-bank/README.md) становится основным индексом downstream-проекта.
 
