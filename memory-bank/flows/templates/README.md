@@ -32,7 +32,6 @@ derived_from:
   - feature/support/ui-reference.md
   - feature/support/use-cases.md
   - adr/ADR-XXX.md
-  - prompt/PROMPT-XXX.md
   - process/README.md
   - process/process-card.md
   - process/session-handoff.md

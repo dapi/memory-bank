@@ -2,12 +2,12 @@
 title: "PROMPT-XXX: Reusable Prompt Name"
 doc_kind: prompt
 doc_function: template
-purpose: Governed wrapper-шаблон reusable prompt-документа. Читать, чтобы зафиксировать исходную формулировку пользователя в frontmatter и хранить улучшенный prompt как copy-surface в body.
+purpose: Human-operated wrapper-шаблон reusable prompt-документа с исходной формулировкой во frontmatter и copyable улучшенной версией в body.
 derived_from:
   - ../../../dna/governance.md
   - ../../../dna/frontmatter.md
 status: active
-audience: humans_and_agents
+audience: humans
 template_for: prompt
 template_target_path: ../../../prompts/PROMPT-XXX-short-name.md
 canonical_for:
@@ -27,7 +27,7 @@ Prompt-документ нужен, когда формулировка долж
 1. Человек формулирует черновую суть prompt в диалоге с агентом.
 2. Агент переносит эту исходную формулировку в `source_prompt` во frontmatter без продуктового переписывания.
 3. Агент генерирует или улучшает prompt и помещает итоговую версию в body, в один fenced-блок с language tag `prompt`.
-4. Человек или агент копирует только содержимое блока `prompt` для исполнения.
+4. Человек или внешний runner копирует только содержимое блока `prompt` и передаёт его непосредственно в активном запросе агента.
 5. Если prompt меняется существенно, обнови `source_prompt`, `prompt_status`, body-блок и `Validation Notes`.
 
 `source_prompt` хранит intent и provenance. Body-блок `prompt` хранит runnable/copyable версию. Не смешивай эти роли: не превращай frontmatter в место для исполняемого prompt, а body не используй как лог диалога.
@@ -44,7 +44,7 @@ purpose: "Хранит исходную формулировку и улучше
 derived_from:
   - ../dna/governance.md
 status: draft
-audience: humans_and_agents
+audience: humans
 prompt_kind: task | system | developer | agent | extraction | review | research | coding
 prompt_status: source_captured | drafted | validated | active | archived
 source_prompt: |

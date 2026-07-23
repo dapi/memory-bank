@@ -6,7 +6,7 @@ purpose: "Ведет coding-задачу end-to-end: реализация, ло�
 derived_from:
   - ../dna/governance.md
 status: draft
-audience: humans_and_agents
+audience: humans
 prompt_kind: coding
 prompt_status: drafted
 source_prompt: Приступай к реализации, создай PR, проведи PR review и исправь все замечания, убедись что все тесты в CI зеленые. Делай по кругу review-fix до тех пор, пока не останется критических и важных замечаний и CI не станут зелеными, но не более 5-и итераций.

@@ -1,6 +1,6 @@
-# Managed-блок инструкций агента
+# Generated runtime projection в agent instructions
 
-`memory-bank-cli init` и `memory-bank-cli update` управляют только коротким routing-блоком в agent instruction file. По умолчанию target — корневой `AGENTS.md`:
+`memory-bank-cli` v1.0.0 управляет коротким блоком routing-инструкций в agent instruction file. По умолчанию target — корневой `AGENTS.md`:
 
 ```markdown
 <!-- MEMORY BANK START -->
@@ -10,7 +10,7 @@ Keep project-specific instructions outside this managed block; they take precede
 <!-- MEMORY BANK END -->
 ```
 
-Markers — стабильная граница ownership только тогда, когда каждый marker занимает отдельную строку без отступов или другого текста. Строка `MEMORY BANK MANAGED BLOCK VERSION` версионирует payload независимо от markers. Governance остаётся в `memory-bank/`; блок только направляет агента к canonical documents и не становится вторым source of truth.
+Markers — стабильная граница ownership только тогда, когда каждый marker занимает отдельную строку без отступов или другого текста. Строка `MEMORY BANK MANAGED BLOCK VERSION` версионирует projection независимо от markers.
 
 ## Правила обновления
 
@@ -41,4 +41,4 @@ memory-bank-cli update ... --agent-file CLAUDE.md
 memory-bank-cli doctor --agent-file CLAUDE.md
 ```
 
-CLI не создаёт блоки одновременно в нескольких файлах и не принимает target внутри `memory-bank/`. Project-specific инструкции должны оставаться вне managed markers; CLI никогда их не переписывает, и они имеют приоритет за пределами минимального routing contract.
+CLI не создаёт блоки одновременно в нескольких файлах и не принимает target внутри `memory-bank/`. Project-specific инструкции должны оставаться вне managed markers; CLI никогда их не переписывает, и они имеют приоритет за пределами routing contract и generated runtime projection.
