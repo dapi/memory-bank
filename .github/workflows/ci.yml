@@ -10,67 +10,34 @@ permissions:
   contents: read
 
 jobs:
-  test:
+  validate-template:
     runs-on: ubuntu-latest
+    env:
+      MEMORY_BANK_CLI_VERSION: v1.0.0
+      MEMORY_BANK_CLI_SHA256: 35300dd2f713e904a5819a31b064e12809b93921a557fbfb3f2543c45c733c57
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Go
-        uses: actions/setup-go@v5
-        with:
-          go-version: '1.21'
-          cache: false
-
-      - name: Run tests
-        run: go test -count=1 -race ./...
-        working-directory: tools
-
-      - name: Run vet
-        run: go vet ./...
-        working-directory: tools
-
-      - name: Check formatting
+      - name: Install memory-bank-cli
         run: |
-          unformatted="$(gofmt -l .)"
-          if [ -n "$unformatted" ]; then
-            echo "Code is not formatted:"
-            echo "$unformatted"
-            gofmt -d .
-            exit 1
-          fi
-        working-directory: tools
+          asset="memory-bank-cli-linux-amd64"
+          url="https://github.com/dapi/memory-bank-cli/releases/download/${MEMORY_BANK_CLI_VERSION}/${asset}"
+          curl --fail --location --silent --show-error "$url" --output "$RUNNER_TEMP/$asset"
+          echo "${MEMORY_BANK_CLI_SHA256}  $RUNNER_TEMP/$asset" | sha256sum --check
+          chmod +x "$RUNNER_TEMP/$asset"
+          mkdir -p "$RUNNER_TEMP/memory-bank-cli-bin"
+          mv "$RUNNER_TEMP/$asset" "$RUNNER_TEMP/memory-bank-cli-bin/memory-bank-cli"
+          echo "$RUNNER_TEMP/memory-bank-cli-bin" >> "$GITHUB_PATH"
 
-      - name: Build and run validator
-        env:
-          CGO_ENABLED: 0
-        run: |
-          go build -ldflags "-s -w -X main.version=ci" -o "$RUNNER_TEMP/memory-bank" ./cmd/memory-bank
-          go build -ldflags "-s -w -X main.version=ci" -o "$RUNNER_TEMP/memory-bank-lint" ./cmd/memory-bank-lint
-          "$RUNNER_TEMP/memory-bank" --version
-          "$RUNNER_TEMP/memory-bank-lint" --version
-          "$RUNNER_TEMP/memory-bank" lint --json > "$RUNNER_TEMP/memory-bank.json"
-          "$RUNNER_TEMP/memory-bank-lint" --json > "$RUNNER_TEMP/memory-bank-lint.json"
-          cmp "$RUNNER_TEMP/memory-bank.json" "$RUNNER_TEMP/memory-bank-lint.json"
-          "$RUNNER_TEMP/memory-bank" doctor --profile template --json > "$RUNNER_TEMP/memory-bank-doctor.json"
-        working-directory: tools
+      - name: Check CLI version
+        run: memory-bank-cli --version
 
-  release-config:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Lint template
+        run: memory-bank-cli lint
 
-      - name: Setup Go
-        uses: actions/setup-go@v5
-        with:
-          go-version: '1.21'
-          cache: false
+      - name: Detect and diagnose template
+        run: memory-bank-cli doctor
 
-      - name: Check GoReleaser configuration
-        uses: goreleaser/goreleaser-action@v6
-        with:
-          distribution: goreleaser
-          version: "~> v2"
-          args: check
-          workdir: tools
+      - name: Diagnose explicit template profile
+        run: memory-bank-cli doctor --profile template

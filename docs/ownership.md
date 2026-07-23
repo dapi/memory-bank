@@ -1,6 +1,6 @@
 # Ownership и безопасные обновления
 
-`memory-bank/.lock` — служебный контракт между downstream-проектом и версией шаблона. Файл создаётся командой `memory-bank init` внутри установленного `memory-bank/` и коммитится вместе с ним; из upstream template он не копируется. Формальная схема: [`schema/memory-bank-lock-v1.schema.json`](schema/memory-bank-lock-v1.schema.json).
+`memory-bank/.lock` — служебный контракт между downstream-проектом и версией шаблона. Файл создаётся командой `memory-bank-cli init` внутри установленного `memory-bank/` и коммитится вместе с ним; из upstream template он не копируется. Формальная схема: [`schema/memory-bank-lock-v1.schema.json`](schema/memory-bank-lock-v1.schema.json).
 
 ## Классы владения
 
@@ -18,7 +18,7 @@
 Команды работают с локальным checkout источника, закреплённым на immutable commit. CLI не делает network fetch и не доверяет moving branch автоматически:
 
 ```bash
-memory-bank init \
+memory-bank-cli init \
   --source /path/to/memory-bank-checkout \
   --template-version v1.2.3 \
   --source-ref FULL_COMMIT_SHA
@@ -31,7 +31,7 @@ memory-bank init \
 Перед обновлением сначала проверьте полный plan:
 
 ```bash
-memory-bank update \
+memory-bank-cli update \
   --source /path/to/new-memory-bank-checkout \
   --template-version v1.3.0 \
   --source-ref FULL_COMMIT_SHA \

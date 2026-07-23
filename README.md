@@ -77,12 +77,12 @@ problem space            solution space             execution space
 | [Внедрение Memory Bank](docs/adoption.md) | Для команд, подключающих шаблон к brownfield- или greenfield-проекту |
 | [Greenfield adaptation protocol](docs/greenfield-integration-protocol.md) | Для копирования шаблона, извлечения project facts из README и docs, адаптации Memory Bank и создания initial PRD |
 | [Использование Memory Bank](docs/usage.md) | Для повседневной работы с задачами и AI-агентами после внедрения |
-| [Установка и использование `memory-bank`](docs/memory-bank.md) | Для пользователей CLI и downstream CI |
+| [Использование `memory-bank-cli`](docs/memory-bank.md) | Для пользователей CLI и downstream CI |
 | [Ownership и безопасные обновления](docs/ownership.md) | Для понимания lock schema, границ владения и conflict policy |
 | [Managed-блок инструкций агента](docs/agent-instructions.md) | Для marker contract, doctor и выбора единственного agent instruction target |
-| [Разработка репозитория](docs/development.md) | Для разработчиков шаблона и CLI |
+| [Разработка репозитория](docs/development.md) | Для разработчиков шаблона |
 
-`memory-bank lint` проверяет broken links, orphan-документы, достижимость через индексную навигацию и contract ожидаемых `README.md`-индексов. `memory-bank doctor` добавляет read-only диагностику внедрения, governance, managed drift и CI. Прежний `memory-bank-lint` временно остаётся совместимым entrypoint для существующей автоматизации.
+`memory-bank-cli lint` проверяет broken links, orphan-документы, достижимость через индексную навигацию и contract ожидаемых `README.md`-индексов. `memory-bank-cli doctor` добавляет read-only диагностику внедрения, governance, managed drift и CI. CLI разрабатывается и выпускается отдельно в [`dapi/memory-bank-cli`](https://github.com/dapi/memory-bank-cli).
 
 ## Развитие шаблона
 

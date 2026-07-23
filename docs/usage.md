@@ -46,7 +46,7 @@ Task Routing → delivery flow → validation profile → план провер�
              → реализация → evidence → review / merge
 ```
 
-Profile не является отдельным flow и не меняет routing order. После выбора flow человек или агент проверяет risk triggers и фиксирует ровно один profile в canonical owner задачи. Сейчас это governance-механизм: `memory-bank lint` проверяет целостность документации, но не вычисляет profile автоматически и не запускает соответствующие test suites.
+Profile не является отдельным flow и не меняет routing order. После выбора flow человек или агент проверяет risk triggers и фиксирует ровно один profile в canonical owner задачи. Сейчас это governance-механизм: `memory-bank-cli lint` проверяет целостность документации, но не вычисляет profile автоматически и не запускает соответствующие test suites.
 
 Canonical taxonomy и minimum contracts определены в [`memory-bank/engineering/validation-profiles.md`](../memory-bank/engineering/validation-profiles.md):
 
