@@ -6,6 +6,8 @@ script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 symphony_home="${SYMPHONY_HOME:-"${script_dir}/../symphony"}"
 symphony_repo="${SYMPHONY_REPOSITORY:-https://github.com/dapi/symphony.git}"
 workspace_root="${script_dir}/.symphony-workspace"
+gitignore_path="${script_dir}/.gitignore"
+workspace_ignore=".symphony-workspace/"
 
 normalize_repo_url() {
   local repo_url="$1"
@@ -24,6 +26,10 @@ fi
 if ! command -v mise >/dev/null 2>&1; then
   echo "mise is required to install Symphony." >&2
   exit 1
+fi
+
+if [[ ! -f "${gitignore_path}" ]] || ! grep -Fqx "${workspace_ignore}" "${gitignore_path}"; then
+  printf '%s\n' "${workspace_ignore}" >> "${gitignore_path}"
 fi
 
 mkdir -p "${workspace_root}"
