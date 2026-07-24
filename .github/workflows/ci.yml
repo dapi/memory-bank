@@ -33,13 +33,16 @@ jobs:
       - name: Check CLI version
         run: memory-bank-cli --version
 
-      - name: Check source payload layout
+      - name: Check dual-role repository layout
         run: |
           test -d template/memory-bank
-          test ! -e memory-bank
+          test -d memory-bank
 
       - name: Lint template
         run: memory-bank-cli lint --scope-root template/memory-bank --entrypoint template/memory-bank/README.md
+
+      - name: Lint project-local Memory Bank
+        run: memory-bank-cli lint --repo-root .
 
       - name: Diagnose template
         run: memory-bank-cli doctor --profile template
