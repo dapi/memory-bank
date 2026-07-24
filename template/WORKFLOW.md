@@ -16,7 +16,7 @@ hooks:
     git clone "git@github.com:${GITHUB_REPO}.git" .
 
 agent:
-  max_concurrent_agents: 1
+  max_concurrent_agents: 3
   max_turns: 8
 
 codex:
