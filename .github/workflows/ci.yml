@@ -36,8 +36,5 @@ jobs:
       - name: Lint template
         run: memory-bank-cli lint
 
-      - name: Detect and diagnose template
-        run: memory-bank-cli doctor
-
-      - name: Diagnose explicit template profile
+      - name: Diagnose template
         run: memory-bank-cli doctor --profile template
