@@ -89,10 +89,20 @@ external sources перед возобновлением с первого за�
 </runtime_capability_boundary>
 
 <state_and_resume>
-Сразу при Intake создай или обнови один compact orchestration Run Ledger в
-durable control carrier, который не входит в reviewed candidate diff:
-issue/routing progress record, PR progress record либо repository-approved
-ignored runtime state. Не используй tracked governed artifact как live control
+Единственный canonical durable control carrier — ignored JSON-файл
+`.start-issue/runs/issue-<ISSUE_NUMBER>.json` в корне текущего worktree. Сразу
+при Intake создай или обнови в нём один compact orchestration Run Ledger.
+`<ISSUE_NUMBER>` подставляй буквально из input; не добавляй timestamp, UUID,
+branch name, route или другие суффиксы и не выбирай иной каталог. Убедись, что
+`.start-issue/runs/` игнорируется Git, до первой записи. Если это не так,
+оформи Human Gate, а не создавай alternative carrier или tracked state file.
+
+Файл содержит ровно один валидный UTF-8 JSON object с `schema_version` и
+описанным ниже state; не используй Markdown, YAML или свободный prose. Пиши
+обновление так, чтобы файл после каждой завершённой записи оставался валидным
+JSON. Issue/routing progress records и PR progress records могут ссылаться на
+состояние или хранить внешнее evidence, но не являются Run Ledger и не
+заменяют этот файл. Не используй tracked governed artifact как live control
 journal. Если flow требует session handoff в repository, сохрани его как
 отдельный candidate artifact, заморозь перед review и после freeze записывай
 control events только в Run Ledger.
