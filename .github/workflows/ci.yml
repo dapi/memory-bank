@@ -49,14 +49,21 @@ jobs:
 
       - name: Smoke-test downstream init
         run: |
+          source="$RUNNER_TEMP/template-source"
           downstream="$RUNNER_TEMP/downstream"
-          mkdir "$downstream"
+          mkdir -p "$source/template" "$downstream"
+          cp -R "$GITHUB_WORKSPACE/template/memory-bank" "$source/template/memory-bank"
+          git -C "$source" init --quiet
+          git -C "$source" config user.name "CI"
+          git -C "$source" config user.email "ci@example.invalid"
+          git -C "$source" add template/memory-bank
+          git -C "$source" commit --quiet -m "ci source payload"
           git -C "$downstream" init
           memory-bank-cli init \
             --repo-root "$downstream" \
-            --source "$GITHUB_WORKSPACE" \
+            --source "$source" \
             --template-version ci \
-            --source-ref "$(git rev-parse HEAD)"
+            --source-ref "$(git -C "$source" rev-parse HEAD)"
           test -d "$downstream/memory-bank"
           test ! -e "$downstream/template/memory-bank"
           memory-bank-cli lint --repo-root "$downstream"
