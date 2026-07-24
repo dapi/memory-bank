@@ -1,0 +1,615 @@
+{
+  "schema_version": 1,
+  "template": {
+    "version": "db55624",
+    "source_ref": "db55624d7119b0d13596b152671db414c7fec733"
+  },
+  "last_update": {
+    "version": "db55624",
+    "at": "2026-07-24T15:12:35.505396Z"
+  },
+  "files": {
+    "memory-bank/README.md": {
+      "ownership": "adapted",
+      "base_digest": "sha256:6655b78fcf2a0a640351d9b86b5c12c34776e40778c9d4edd5555b52932dbfd2",
+      "base_mode": "100644"
+    },
+    "memory-bank/adr/README.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:be71f1308d1b3182264c53670aa8fdf6ebc7c51d328afb1e8ddf3153555f9259",
+      "payload_digest": "sha256:be71f1308d1b3182264c53670aa8fdf6ebc7c51d328afb1e8ddf3153555f9259",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/dna/README.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:9cbbfc75ef6c3bf153b60614a51237c5fdd2f34ab3019dd79f5acde2bb03f177",
+      "payload_digest": "sha256:9cbbfc75ef6c3bf153b60614a51237c5fdd2f34ab3019dd79f5acde2bb03f177",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/dna/cross-references.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:6376a490b7f204162fa5f2e9200404a5fbd5136e716a71f7382e302a7251e10a",
+      "payload_digest": "sha256:6376a490b7f204162fa5f2e9200404a5fbd5136e716a71f7382e302a7251e10a",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/dna/frontmatter.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:d8ba4a922fbb21563a0c33642c1eadf93b203f381479913641ef8bd73ec25300",
+      "payload_digest": "sha256:d8ba4a922fbb21563a0c33642c1eadf93b203f381479913641ef8bd73ec25300",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/dna/governance.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:6324230dd7826db043499e09a7387fce9cd3f72c77dcb02d47ebf89250444091",
+      "payload_digest": "sha256:6324230dd7826db043499e09a7387fce9cd3f72c77dcb02d47ebf89250444091",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/dna/lifecycle.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:b0e1109a04b3666635d0878216f5e8c062471e4aa76e313da2f8a8ca5d1630be",
+      "payload_digest": "sha256:b0e1109a04b3666635d0878216f5e8c062471e4aa76e313da2f8a8ca5d1630be",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/dna/principles.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:85f87f241873797a1bd0101e214a55f257270b0fb7684102985d9b1821e139d4",
+      "payload_digest": "sha256:85f87f241873797a1bd0101e214a55f257270b0fb7684102985d9b1821e139d4",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/domain/README.md": {
+      "ownership": "adapted",
+      "base_digest": "sha256:21df8072fd68215f2ce64e8e72066b1f7b8c040e5383905d58acf319e2a00996",
+      "base_mode": "100644"
+    },
+    "memory-bank/domain/context-map.md": {
+      "ownership": "adapted",
+      "base_digest": "sha256:a0e1e21cf4f0ed4d34d6114e984d2a4591818acaec8868a518a376ee8b2b4e5c",
+      "base_mode": "100644"
+    },
+    "memory-bank/domain/events.md": {
+      "ownership": "adapted",
+      "base_digest": "sha256:6023dcdc3ebc90f3a28acd39e2ada618880d20a3f7ead689af162cafa8d9df43",
+      "base_mode": "100644"
+    },
+    "memory-bank/domain/glossary.md": {
+      "ownership": "adapted",
+      "base_digest": "sha256:61d0dd9fbca7efbf43f6bf59c10f96d33b7293f269840155ff2a17b5ae6c058e",
+      "base_mode": "100644"
+    },
+    "memory-bank/domain/model.md": {
+      "ownership": "adapted",
+      "base_digest": "sha256:5ce93630e9c9dde94c659c5dec5377fda7b70ce8ccae4588378a5491d33a2891",
+      "base_mode": "100644"
+    },
+    "memory-bank/domain/rules.md": {
+      "ownership": "adapted",
+      "base_digest": "sha256:ba103f44b747ed269349be5a9f7ea5cc75911cad00c35b722093b79197444f7b",
+      "base_mode": "100644"
+    },
+    "memory-bank/domain/states.md": {
+      "ownership": "adapted",
+      "base_digest": "sha256:c6ad2e8979b433a4cdc7b9b2510bcb462bec207c41d58942197a75516baef634",
+      "base_mode": "100644"
+    },
+    "memory-bank/engineering/README.md": {
+      "ownership": "adapted",
+      "base_digest": "sha256:2a95c5255f0f424b54769e593bdc2b8a257904d954d70e3e75b64e83f42f2426",
+      "base_mode": "100644"
+    },
+    "memory-bank/engineering/architecture.md": {
+      "ownership": "adapted",
+      "base_digest": "sha256:7750b5fdea87805b006aa2aad638ff96123a178d6b8d7402f27ee1b8851f4ee3",
+      "base_mode": "100644"
+    },
+    "memory-bank/engineering/autonomy-boundaries.md": {
+      "ownership": "adapted",
+      "base_digest": "sha256:a9ba6c7dcd44f33ebafd832e087d1cf2e2772dd501eff149e46fe5bde870052f",
+      "base_mode": "100644"
+    },
+    "memory-bank/engineering/coding-style.md": {
+      "ownership": "adapted",
+      "base_digest": "sha256:006f072659332e5fa76c53243a9c2371837f0644b28066585203fd0236fc9fe6",
+      "base_mode": "100644"
+    },
+    "memory-bank/engineering/frontend.md": {
+      "ownership": "adapted",
+      "base_digest": "sha256:a2889aa327f7f4a5d15aaf320cc24f58a5639e8ce113ef513f7917531a402f5a",
+      "base_mode": "100644"
+    },
+    "memory-bank/engineering/git-workflow.md": {
+      "ownership": "adapted",
+      "base_digest": "sha256:28cfc89f40b1c0e4fe0f047c726a5996a6ecb4c09718b68fe1cdce12b5e5bbbf",
+      "base_mode": "100644"
+    },
+    "memory-bank/engineering/testing-policy.md": {
+      "ownership": "adapted",
+      "base_digest": "sha256:afe21020e3fdf4dea49987474bc411f27d398f91f38fe6430388a778a10de501",
+      "base_mode": "100644"
+    },
+    "memory-bank/engineering/ui-design-guide/README.md": {
+      "ownership": "adapted",
+      "base_digest": "sha256:bc152aafb9bfba7e3846206ef37c03c5c4326cdb932b130967917b350a74ea21",
+      "base_mode": "100644"
+    },
+    "memory-bank/engineering/ui-design-guide/admin.md": {
+      "ownership": "adapted",
+      "base_digest": "sha256:08f32a3b35e71ada617fcc0f21a86628e22060c69c3ef8ddf026bb51ae71f2d5",
+      "base_mode": "100644"
+    },
+    "memory-bank/engineering/ui-design-guide/mobile.md": {
+      "ownership": "adapted",
+      "base_digest": "sha256:5a945247ac429c7c1d71dcf6a60d1f900fb8927c788f77e0d7238525228e810f",
+      "base_mode": "100644"
+    },
+    "memory-bank/engineering/ui-design-guide/public-web.md": {
+      "ownership": "adapted",
+      "base_digest": "sha256:4968d3af76dbf9f795de890bdc4121357db26661595454682c9ff54defca837e",
+      "base_mode": "100644"
+    },
+    "memory-bank/engineering/ui-design-guide/shared-components.md": {
+      "ownership": "adapted",
+      "base_digest": "sha256:7d5de27754649cc0c36ef18be22e34a92e0054c57242a523c1ed8c0efadcc9ad",
+      "base_mode": "100644"
+    },
+    "memory-bank/engineering/validation-profiles.md": {
+      "ownership": "adapted",
+      "base_digest": "sha256:96481c2e8cd4acded5639cbb7e8ffa95331ae192b24c4b5b5077b6f44aa3d7ff",
+      "base_mode": "100644"
+    },
+    "memory-bank/epics/README.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:269237f0ce63ce95f3976f4ee49652fe0be87ebe56173cbe4609e001dfaa655a",
+      "payload_digest": "sha256:269237f0ce63ce95f3976f4ee49652fe0be87ebe56173cbe4609e001dfaa655a",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/features/README.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:b566792f535872b80432e6c5290a618aac32e3970c63d5f50fc8d8f863a3d312",
+      "payload_digest": "sha256:b566792f535872b80432e6c5290a618aac32e3970c63d5f50fc8d8f863a3d312",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/flows/README.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:ea2dbd34bed5e333e28a7c4090573a8f701d4e5e81aebbf6b26be44460f8a103",
+      "payload_digest": "sha256:ea2dbd34bed5e333e28a7c4090573a8f701d4e5e81aebbf6b26be44460f8a103",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/flows/bug-fix.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:5a88f3df124a6a7b0940b181f7da6b1fde081863febb2db325cb3a82b7986534",
+      "payload_digest": "sha256:5a88f3df124a6a7b0940b181f7da6b1fde081863febb2db325cb3a82b7986534",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/flows/epic.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:212b9923bfc1f67f1178c26dbc9a8903abe61d2f5f8f64403e2235383ed8198b",
+      "payload_digest": "sha256:212b9923bfc1f67f1178c26dbc9a8903abe61d2f5f8f64403e2235383ed8198b",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/flows/feature-artifact-catalog.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:1395c3e0dd90befe24d021f42a1f2de76699b0b788b7ebc353cc393ef42359e5",
+      "payload_digest": "sha256:1395c3e0dd90befe24d021f42a1f2de76699b0b788b7ebc353cc393ef42359e5",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/flows/feature.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:0f678ad6ec99381498d17869c0df5499dd78d9e3b457ae124e7d160bc35a9b9d",
+      "payload_digest": "sha256:0f678ad6ec99381498d17869c0df5499dd78d9e3b457ae124e7d160bc35a9b9d",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/flows/incident.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:ab832a40bbd5bd9dd71f8b71472731e8f1356d88a8490665c768953d7020e85a",
+      "payload_digest": "sha256:ab832a40bbd5bd9dd71f8b71472731e8f1356d88a8490665c768953d7020e85a",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/flows/refactoring.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:fa33ad1418db89970c73dab842c6aad88eb32f483aaa046a4470388eca6873d2",
+      "payload_digest": "sha256:fa33ad1418db89970c73dab842c6aad88eb32f483aaa046a4470388eca6873d2",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/flows/research.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:7329514239087a33980a5c97d35400efa994c90b72ce69c590081190c1dadf85",
+      "payload_digest": "sha256:7329514239087a33980a5c97d35400efa994c90b72ce69c590081190c1dadf85",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/flows/routing.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:4e994e6225c7f0b6c89f695ea1cb2869b2115a78d5ab86ee230c50c54c07d459",
+      "payload_digest": "sha256:4e994e6225c7f0b6c89f695ea1cb2869b2115a78d5ab86ee230c50c54c07d459",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/flows/small-change.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:af8e84e27227baad3cb9ee8970554b322281f613ba5633f385b164c7951af13a",
+      "payload_digest": "sha256:af8e84e27227baad3cb9ee8970554b322281f613ba5633f385b164c7951af13a",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/flows/templates/README.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:5cac08a5414fbbd9f0995ae35ed05e482d6081e0581f532bfae7042b919699eb",
+      "payload_digest": "sha256:5cac08a5414fbbd9f0995ae35ed05e482d6081e0581f532bfae7042b919699eb",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/flows/templates/adr/ADR-XXX.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:976aee90d40f844738a9ff0b8a99b5433d65921a470a8f562d1083d2843740c4",
+      "payload_digest": "sha256:976aee90d40f844738a9ff0b8a99b5433d65921a470a8f562d1083d2843740c4",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/flows/templates/epic/README.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:acb83e0c69f4bb6c8dccdc92bacc376cadeea6aa9b979e4a96e1ef97350eb15f",
+      "payload_digest": "sha256:acb83e0c69f4bb6c8dccdc92bacc376cadeea6aa9b979e4a96e1ef97350eb15f",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/flows/templates/epic/brief.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:e3080e366d5e5983eb53701a0373977a9b6abad75f5efd15742fd66f3673f33b",
+      "payload_digest": "sha256:e3080e366d5e5983eb53701a0373977a9b6abad75f5efd15742fd66f3673f33b",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/flows/templates/epic/charter.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:d2ffee9d078cce29f86f66ad56b5dff2465b0508f823f3851e7043e23a519dc5",
+      "payload_digest": "sha256:d2ffee9d078cce29f86f66ad56b5dff2465b0508f823f3851e7043e23a519dc5",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/flows/templates/epic/decision-log.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:cf8fe570b375b8deecbe222f0cc7c0d2c231b2435861fcb29cae4461c15e3478",
+      "payload_digest": "sha256:cf8fe570b375b8deecbe222f0cc7c0d2c231b2435861fcb29cae4461c15e3478",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/flows/templates/epic/package-README.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:e754fa918898592e834f34da643236f49da371c63d2563c6b3cf76833d0d78d7",
+      "payload_digest": "sha256:e754fa918898592e834f34da643236f49da371c63d2563c6b3cf76833d0d78d7",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/flows/templates/epic/risks.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:628b7c839d24253aeae6f91581c137fc5f8d724877b285361001ba9adfe827ad",
+      "payload_digest": "sha256:628b7c839d24253aeae6f91581c137fc5f8d724877b285361001ba9adfe827ad",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/flows/templates/epic/roadmap.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:a1693e2887fc015b3ea2bfeb0c16d13f7bf2049eb61bf33093aeb5c626d40ad4",
+      "payload_digest": "sha256:a1693e2887fc015b3ea2bfeb0c16d13f7bf2049eb61bf33093aeb5c626d40ad4",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/flows/templates/epic/subissues.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:032db071f52324218eab9aaae4b21ae6923f1a994b00226dfbf6d6db96330269",
+      "payload_digest": "sha256:032db071f52324218eab9aaae4b21ae6923f1a994b00226dfbf6d6db96330269",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/flows/templates/feature/README.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:5aafdfe4dd16697bee354e64a708884ef364b1cff742c4ca17182132781a0010",
+      "payload_digest": "sha256:5aafdfe4dd16697bee354e64a708884ef364b1cff742c4ca17182132781a0010",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/flows/templates/feature/api-contract.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:57ac8d09431aacfe9d2b946bbd3c83e8e4b74fa18b435309ef7c61919c3d0059",
+      "payload_digest": "sha256:57ac8d09431aacfe9d2b946bbd3c83e8e4b74fa18b435309ef7c61919c3d0059",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/flows/templates/feature/brief.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:9ad30fffa838380a2de2007c93d78901cf434586431fe9a781dff116c01f4d36",
+      "payload_digest": "sha256:9ad30fffa838380a2de2007c93d78901cf434586431fe9a781dff116c01f4d36",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/flows/templates/feature/design.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:37c9892c428f2125f3aed63ac0bf51784bd54fa2b92b7b96730f2f5fb11c7f85",
+      "payload_digest": "sha256:37c9892c428f2125f3aed63ac0bf51784bd54fa2b92b7b96730f2f5fb11c7f85",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/flows/templates/feature/implementation-plan.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:fe562f9c5a952b4c366141c9d16b20b93335804843febd94fa263c5cc1c14699",
+      "payload_digest": "sha256:fe562f9c5a952b4c366141c9d16b20b93335804843febd94fa263c5cc1c14699",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/flows/templates/feature/support/runtime-surfaces.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:1c7fed3f4a41d44129640f86bbe03d7d75c6573c71dccd8201e5159ca8113962",
+      "payload_digest": "sha256:1c7fed3f4a41d44129640f86bbe03d7d75c6573c71dccd8201e5159ca8113962",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/flows/templates/feature/support/sequence-diagram.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:af13859e0bdbd5f4b7a7c46fceb8aa7a8482d0d84b29b3ba48dc9e226cfdea22",
+      "payload_digest": "sha256:af13859e0bdbd5f4b7a7c46fceb8aa7a8482d0d84b29b3ba48dc9e226cfdea22",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/flows/templates/feature/support/ui-reference.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:b878065b921561c6daea54dcd5b9a2a1d9f7a87742a2c84017aec463c5315b73",
+      "payload_digest": "sha256:b878065b921561c6daea54dcd5b9a2a1d9f7a87742a2c84017aec463c5315b73",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/flows/templates/feature/support/use-cases.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:0ae924a6c13340687ff3ff9533ee696945a95d72dcd459195c9c13255c7a94ba",
+      "payload_digest": "sha256:0ae924a6c13340687ff3ff9533ee696945a95d72dcd459195c9c13255c7a94ba",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/flows/templates/prd/PRD-XXX.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:e951dfcf8c24c1ac0d26ea8e5b5070cf607089cf5c96511316e534900f561735",
+      "payload_digest": "sha256:e951dfcf8c24c1ac0d26ea8e5b5070cf607089cf5c96511316e534900f561735",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/flows/templates/process/README.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:9605a81d55f7d2c3b4cbad6fbd05a3444e93f86abf3e4b3329603237dcfba90b",
+      "payload_digest": "sha256:9605a81d55f7d2c3b4cbad6fbd05a3444e93f86abf3e4b3329603237dcfba90b",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/flows/templates/process/lifecycle-protocol.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:ab1b3172c912fec9988bf8737531c794564701bdcd3a482a26ea004838ee7c42",
+      "payload_digest": "sha256:ab1b3172c912fec9988bf8737531c794564701bdcd3a482a26ea004838ee7c42",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/flows/templates/process/process-card.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:c72d70ed6a558855e5c9ee32a78d4af7f9e43c117d152ee22495dd6f34c297ab",
+      "payload_digest": "sha256:c72d70ed6a558855e5c9ee32a78d4af7f9e43c117d152ee22495dd6f34c297ab",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/flows/templates/process/session-handoff.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:6992379bfa4acc0cf9ffdfd9e19156057323450a1c0347b07102b67d5e05c645",
+      "payload_digest": "sha256:6992379bfa4acc0cf9ffdfd9e19156057323450a1c0347b07102b67d5e05c645",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/flows/templates/prompt/PROMPT-XXX.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:dc344b7ccf8586eefd137c7e9a36e983e4eccb1c83912540f248954d9b554917",
+      "payload_digest": "sha256:dc344b7ccf8586eefd137c7e9a36e983e4eccb1c83912540f248954d9b554917",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/flows/templates/research/README.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:a162c6d6a38dd36d4e30386857a3d50686a4558fcc71d726e891e64238b1c322",
+      "payload_digest": "sha256:a162c6d6a38dd36d4e30386857a3d50686a4558fcc71d726e891e64238b1c322",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/flows/templates/research/brief.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:5b70a4900953f8fdeb2c4ec60e204e28a116e51ad568fff112b98a8c54cc7e0f",
+      "payload_digest": "sha256:5b70a4900953f8fdeb2c4ec60e204e28a116e51ad568fff112b98a8c54cc7e0f",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/flows/templates/research/decision.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:ab1d3eb9ae87c1593f0c4029d8df53d3c229fdd8539d07ce5a3b82d6fda7cee1",
+      "payload_digest": "sha256:ab1d3eb9ae87c1593f0c4029d8df53d3c229fdd8539d07ce5a3b82d6fda7cee1",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/flows/templates/research/evidence.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:4db295fd05617fb950d82f95ebec7454721e9946aa63c96adb33cd0159281293",
+      "payload_digest": "sha256:4db295fd05617fb950d82f95ebec7454721e9946aa63c96adb33cd0159281293",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/flows/templates/research/package-README.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:83296850e12451cabafffabf2c856f4f63025d70e977ca95f3fdb266ddcc29dc",
+      "payload_digest": "sha256:83296850e12451cabafffabf2c856f4f63025d70e977ca95f3fdb266ddcc29dc",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/flows/templates/research/plan.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:5be2aee53bbb5bcc47c7ddb9f720151da87c5842c7a043cd663565e3a61eddd8",
+      "payload_digest": "sha256:5be2aee53bbb5bcc47c7ddb9f720151da87c5842c7a043cd663565e3a61eddd8",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/flows/templates/research/synthesis.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:22708380d3dbd1691cb79d206f112443bcb35c0ac65bc959204c3e15b3838650",
+      "payload_digest": "sha256:22708380d3dbd1691cb79d206f112443bcb35c0ac65bc959204c3e15b3838650",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/flows/templates/use-case/UC-XXX.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:0c0c569f60f1d6ceff4181594993e4c0f8d5bad61a45b2c6f69f14d57543c901",
+      "payload_digest": "sha256:0c0c569f60f1d6ceff4181594993e4c0f8d5bad61a45b2c6f69f14d57543c901",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/flows/use-case.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:b525f6028787e7f15a420a7ba24fc75915a9c1ded71556240fd5df7aafe1f78d",
+      "payload_digest": "sha256:b525f6028787e7f15a420a7ba24fc75915a9c1ded71556240fd5df7aafe1f78d",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/ops/README.md": {
+      "ownership": "adapted",
+      "base_digest": "sha256:e53c8e8bf53ed9b68f15301da4dbb1cb5afc7017eeaac94615ddcd7a08ed6d07",
+      "base_mode": "100644"
+    },
+    "memory-bank/ops/config.md": {
+      "ownership": "adapted",
+      "base_digest": "sha256:b7bd2d250ee571b14711710c1eb0e92d46e416a8ff75707b79b0ca20ca12c213",
+      "base_mode": "100644"
+    },
+    "memory-bank/ops/development.md": {
+      "ownership": "adapted",
+      "base_digest": "sha256:a6f2e7a5b6d3cd0c96c29a338686ca2a47e7a724fa213204d9e5415560d0f312",
+      "base_mode": "100644"
+    },
+    "memory-bank/ops/release.md": {
+      "ownership": "adapted",
+      "base_digest": "sha256:55d1e0daaf17f6a6c8387b400fbd8e3761957d47a3d52ca6bc5390c9f486fb4f",
+      "base_mode": "100644"
+    },
+    "memory-bank/ops/runbooks/README.md": {
+      "ownership": "adapted",
+      "base_digest": "sha256:4722b6413d3fdbfcfe2e0c7066f8a576abc962638182fb1c3f6a2431724fcb81",
+      "base_mode": "100644"
+    },
+    "memory-bank/ops/stages.md": {
+      "ownership": "adapted",
+      "base_digest": "sha256:6159c33d7bd0b6fee6ca322b0cbc5d35df0809feb5316050c6445df160ab0f41",
+      "base_mode": "100644"
+    },
+    "memory-bank/prd/README.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:8d79c2005a2e3c5a75caa613282038586f38114fe44252c84f3de5d997747cfb",
+      "payload_digest": "sha256:8d79c2005a2e3c5a75caa613282038586f38114fe44252c84f3de5d997747cfb",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/product/README.md": {
+      "ownership": "adapted",
+      "base_digest": "sha256:805a3bbc65bd5af328242761c048e964eccea3bb1fb7d26a151ddf086f3e962f",
+      "base_mode": "100644"
+    },
+    "memory-bank/product/context.md": {
+      "ownership": "adapted",
+      "base_digest": "sha256:fadeefb25d88cc69e6b6fb87303bc3f94fdd6c96b8ed2dea258f79e1c2628ad4",
+      "base_mode": "100644"
+    },
+    "memory-bank/product/customers.md": {
+      "ownership": "adapted",
+      "base_digest": "sha256:990b4e2306a872b0b6f3e17482f4a5813b7fd88573c00c7ff0dca1e4cb2fe229",
+      "base_mode": "100644"
+    },
+    "memory-bank/product/marketing.md": {
+      "ownership": "adapted",
+      "base_digest": "sha256:bafb234c5a50fd87edbe8fc89cd8460ff1ad94ac2ae90a7136db3c8f0f4f9f0b",
+      "base_mode": "100644"
+    },
+    "memory-bank/product/metrics.md": {
+      "ownership": "adapted",
+      "base_digest": "sha256:3b8a05766b099307a01dc757b45e15e23140aff715a1df61fd1d397e46731831",
+      "base_mode": "100644"
+    },
+    "memory-bank/product/roadmap.md": {
+      "ownership": "adapted",
+      "base_digest": "sha256:c87b16214b6fdb40a728d1ccce2a1a32f6a34e996ceb9a61b292208da870289d",
+      "base_mode": "100644"
+    },
+    "memory-bank/product/vision.md": {
+      "ownership": "adapted",
+      "base_digest": "sha256:022dddb0b1de9e17df44f36d0ccaf593b8920aec3d9a31b82945fad031eb8336",
+      "base_mode": "100644"
+    },
+    "memory-bank/prompts/PROMPT-001-issue-requirements-review.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:2c8e247a9c21a9f02b9be3bedb3c3be1f2d6749f7bcb6b263fb41bd62f1e7a68",
+      "payload_digest": "sha256:2c8e247a9c21a9f02b9be3bedb3c3be1f2d6749f7bcb6b263fb41bd62f1e7a68",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/prompts/PROMPT-002-feature-pack-review-improve.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:1b7408215b1f2131942a36a488b14e15c5589b0224996a692f6bc743a831b356",
+      "payload_digest": "sha256:1b7408215b1f2131942a36a488b14e15c5589b0224996a692f6bc743a831b356",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/prompts/PROMPT-003-implement-and-test.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:11a6dbdd10a9cceeaaba2f288b11920092d218ea132e9f84c3d4edf983e5224c",
+      "payload_digest": "sha256:11a6dbdd10a9cceeaaba2f288b11920092d218ea132e9f84c3d4edf983e5224c",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/prompts/PROMPT-004-pr-review-finish.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:a43e81c55ba88be722869060eb1348a3347d6da282fc5af755f12ad890994786",
+      "payload_digest": "sha256:a43e81c55ba88be722869060eb1348a3347d6da282fc5af755f12ad890994786",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/prompts/PROMPT-005-route-and-deliver-issue.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:ed829a340c9e812046b5467c3c25b62432ea4c2389615a79c8320648b0779e4d",
+      "payload_digest": "sha256:ed829a340c9e812046b5467c3c25b62432ea4c2389615a79c8320648b0779e4d",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/prompts/README.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:6f3291e2d0845403859edd40ecad4bafdaee69cd0bbc97299c237ce250592233",
+      "payload_digest": "sha256:6f3291e2d0845403859edd40ecad4bafdaee69cd0bbc97299c237ce250592233",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    },
+    "memory-bank/research/README.md": {
+      "ownership": "user-owned",
+      "base_digest": "sha256:a203036f72af796ef7687374b98e8aa6d81ea9d6e8b22b5f2be4286ba4626f96",
+      "base_mode": "100644"
+    },
+    "memory-bank/use-cases/README.md": {
+      "ownership": "managed",
+      "base_digest": "sha256:4238768ff6c2c0a724fe03239480edc2ba4669f6d4098d758e1b76caff1a2bcd",
+      "payload_digest": "sha256:4238768ff6c2c0a724fe03239480edc2ba4669f6d4098d758e1b76caff1a2bcd",
+      "base_mode": "100644",
+      "payload_mode": "100644"
+    }
+  }
+}
