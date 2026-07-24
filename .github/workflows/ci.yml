@@ -13,8 +13,8 @@ jobs:
   validate-template:
     runs-on: ubuntu-latest
     env:
-      MEMORY_BANK_CLI_VERSION: v1.0.0
-      MEMORY_BANK_CLI_SHA256: 35300dd2f713e904a5819a31b064e12809b93921a557fbfb3f2543c45c733c57
+      MEMORY_BANK_CLI_VERSION: v1.2.0
+      MEMORY_BANK_CLI_SHA256: aa9f7cec5fd39bb06327c1f025fddf7273648c55cd180421656656aebdf79677
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -39,7 +39,7 @@ jobs:
           test ! -e memory-bank
 
       - name: Lint template
-        run: memory-bank-cli lint
+        run: memory-bank-cli lint --scope-root memory-bank-template --entrypoint memory-bank-template/README.md
 
       - name: Diagnose template
         run: memory-bank-cli doctor --profile template
