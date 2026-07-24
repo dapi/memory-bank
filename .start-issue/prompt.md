@@ -1,0 +1,1 @@
+../template/.start-issue/prompt.md
