@@ -1,4 +1,6 @@
 .obsidian/
 .mimocode/
+.env.local
+.symphony-workspace/
 tmp/
 .start-issue/runs/
