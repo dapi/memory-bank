@@ -90,10 +90,20 @@ external sources перед возобновлением с первого за�
 </runtime_capability_boundary>
 
 <state_and_resume>
-Сразу при Intake создай или обнови один compact orchestration Run Ledger в
-durable control carrier, который не входит в reviewed candidate diff:
-issue/routing progress record, PR progress record либо repository-approved
-ignored runtime state. Не используй tracked governed artifact как live control
+Единственный canonical durable control carrier — ignored JSON-файл
+`.start-issue/runs/issue-<ISSUE_NUMBER>.json` в корне текущего worktree. Сразу
+при Intake создай или обнови в нём один compact orchestration Run Ledger.
+`<ISSUE_NUMBER>` подставляй буквально из input; не добавляй timestamp, UUID,
+branch name, route или другие суффиксы и не выбирай иной каталог. Убедись, что
+`.start-issue/runs/` игнорируется Git, до первой записи. Если это не так,
+оформи Human Gate, а не создавай alternative carrier или tracked state file.
+
+Файл содержит ровно один валидный UTF-8 JSON object с `schema_version` и
+описанным ниже state; не используй Markdown, YAML или свободный prose. Пиши
+обновление так, чтобы файл после каждой завершённой записи оставался валидным
+JSON. Issue/routing progress records и PR progress records могут ссылаться на
+состояние или хранить внешнее evidence, но не являются Run Ledger и не
+заменяют этот файл. Не используй tracked governed artifact как live control
 journal. Если flow требует session handoff в repository, сохрани его как
 отдельный candidate artifact, заморозь перед review и после freeze записывай
 control events только в Run Ledger.
@@ -178,17 +188,22 @@ stale facts до mutation, не повторяй завершённые фазы
 - Счётчики храни по
   `(route_revision, lifecycle gate, loop kind, convergence_episode_id)`.
   Внутри episode фиксируй baseline и current candidate revisions. Отдельно веди
-  `delivery_review: n/MAX_REVIEW_ITERATIONS` и
-  `feature_pack_review: n/5`.
+  `artifact_review` для governed lifecycle artifacts и
+  `implementation_review: n/MAX_REVIEW_ITERATIONS` для delivered code/diff.
+- Artifact review проверяет requirements/design/plan/process artifacts против
+  их canonical owners, templates и gate predicates. Implementation review
+  проверяет выполненное изменение и repository diff против принятых artifacts.
+  Это разные review objects: сохраняй отдельные candidate revisions, findings,
+  counters, evidence и verdicts; один review не удовлетворяет obligations другого.
 - Один convergence episode переживает fixes, replans внутри того же gate,
   commits, push, PR updates, handoffs и новые candidate revisions; они не
   сбрасывают budget. Новый episode начинается только после clean exit,
   canonical gate transition или genuine reroute с новым `route_revision`.
 - `MAX_REVIEW_ITERATIONS` не ограничивает число lifecycle-фаз, execution
   checkpoints, rerouting или общую длину задачи.
-- Каждый delivery review cycle включает review bundle validation profile,
+- Каждый implementation review cycle включает review bundle validation profile,
   triage findings, fixes текущим writer и повторную validation. Для любого
-  bounded review episode, включая feature package review, если последняя
+  bounded review episode, включая artifact review, если последняя
   разрешённая итерация исправила findings, но clean re-review не выполнен,
   целевой gate не пройден и `DONE` недопустим.
 - Lifecycle или checkpoint cycle без канонического числового лимита продолжай,
@@ -216,7 +231,7 @@ stale facts до mutation, не повторяй завершённые фазы
   гарантируют отсутствие mutation worktree, git/PR state и других применимых
   mutable systems. Declared agent config сам по себе не является гарантией.
   Иначе выполни этот анализ сам без мутаций. Самопроверка не заменяет
-  обязательный independent review.
+  обязательную separate non-authoring review.
 - Одновременно запускай не более двух bounded read-only анализов после Intake.
   Передавай им ссылку и state version persisted carrier, узкий scope, требуемые
   sources и output contract, а не полный чат. На возврате reconcile findings с
@@ -226,6 +241,11 @@ stale facts до mutation, не повторяй завершённые фазы
   material change surface; `test-surface` — после определения affected paths и
   validation profile. Не заменяй один вид evidence другим и не повторяй анализ,
   пока его inputs materially не изменились.
+- Если canonical flow требует artifact review для перехода gate, заморозь
+  artifact candidate revisions, выполни review по predicates этого gate и
+  сохрани внешний review record до перехода. После fixes обязательна clean
+  re-review; verdict не записывай внутрь reviewed artifact так, чтобы он сам
+  изменил candidate revision. Не выдавай artifact review за review реализации.
 - `delivery-owner` можно назначить только после execution-entry gate выбранного
   code-delivery flow; для Feature — после Plan Ready. Epic `Roadmap Ready ->
   Execution` не выдаёт code writer lease: каждый slice сначала получает
@@ -237,28 +257,25 @@ stale facts до mutation, не повторяй завершённые фазы
   последовательный lease. Смена writer допустима только после явного release,
   отсутствия in-flight work и нового checkpoint. Не входи в Human Gate или Done
   с активным child/lease.
-- Если validation profile требует независимый review, используй доступный
-  изолированный actor, который не создавал и не исправлял ни одну mutation во
-  всём reviewed diff/artifact set. Оркестратор может быть reviewer после работы
-  `delivery-owner` только если сам не был автором части candidate. При отсутствии
-  допустимого mechanism зафиксируй validation blocker; не выдавай self-review
-  автора revision за independent evidence.
+- Если validation profile требует separate non-authoring review, используй
+  доступный изолированный actor, который не создавал и не исправлял ни одну
+  mutation во всём reviewed diff/artifact set. Оркестратор может быть reviewer
+  после работы `delivery-owner` только если сам не был автором части candidate.
+  При отсутствии допустимого mechanism зафиксируй validation blocker; не
+  выдавай self-review автора revision за separate-review evidence.
 </delegation>
 
 <conditional_quality>
-- Для крупной Feature сравни issue с feature docs и governance без анализа кода
-  и архитектуры: выдели explicit requirements/requested surfaces, домыслы,
-  traceability gaps, evidence-backed findings и open questions.
-- Для feature package проведи не более пяти review-improve итераций: проверяй
-  consistency, required sections, frontmatter, links и traceability; сохраняй
-  review report и исправляй critical/important findings. Остальные findings
-  закрой либо явно disposition как допустимые non-blocking/deferred с owner;
-  не оставляй их неучтёнными перед terminal review.
+- Для governed artifact review используй scope, timing, predicates и iteration
+  contract выбранного canonical flow. Проверяй consistency, required sections,
+  ownership/frontmatter, grounding, links и traceability; сохраняй review record,
+  исправляй blocking findings и получай clean re-review текущей revision.
 - Перед closure выполни review, требуемый validation profile. Если применим
   `codex review` и существует reviewable repository diff, используй
   `codex review --uncommitted` до commit или
   `codex review --base "{BASE_BRANCH}"` после commit. Для активного или сложного
-  PR также проверь CI и unresolved findings перед bounded fix loop.
+  PR также проверь CI и unresolved implementation findings перед bounded fix
+  loop. Этот implementation review не заменяет artifact reviews предыдущих gates.
 </conditional_quality>
 
 <final_convergence>
@@ -268,14 +285,16 @@ stale facts до mutation, не повторяй завершённые фазы
   contract, затем перепроверь каждый predicate по concrete evidence;
 - сверь HEAD и working tree, убедись в отсутствии незапланированных changes,
   active children и незакрытого writer lease;
-- выполни требуемый independent final review и clean convergence pass.
+- выполни final review и convergence pass, требуемые выбранным validation
+  profile; separate non-authoring review нужен только если profile его требует.
 
-Используй последний clean independent review, только если reviewed HEAD/artifact
-revision, validation profile и material relevant sources не изменились. Иначе
-final review является следующей итерацией того же convergence episode и
-расходует его budget; review до любой последующей candidate mutation больше не
-считается clean. Последующие записи только в Run Ledger не являются candidate
-mutation и не инвалидируют review.
+Используй последний clean separate non-authoring review, только если такой
+review требует profile и reviewed HEAD/artifact revision, validation profile и
+material relevant sources не изменились. Иначе required final review является
+следующей итерацией того же convergence episode и расходует его budget; review
+до любой последующей candidate mutation больше не считается clean. Последующие
+записи только в Run Ledger не являются candidate mutation и не инвалидируют
+review.
 
 Если material source, scope, candidate revision или validation evidence
 изменились, инвалидируй только самый ранний затронутый gate, обнови state и

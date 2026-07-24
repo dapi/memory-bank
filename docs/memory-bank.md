@@ -23,7 +23,7 @@ memory-bank-cli --version
 
 ## Запуск
 
-Из любого места внутри Git-репозитория:
+В downstream-репозитории из любого места внутри Git-репозитория:
 
 ```bash
 memory-bank-cli lint
@@ -41,14 +41,12 @@ memory-bank-cli doctor --repo-root /path/to/repository
 
 ## Template source profile
 
-Исходный template repository содержит корневой marker `.memory-bank-template` со значением `memory-bank-template-v1`. Благодаря ему `memory-bank-cli doctor --profile auto` распознаёт source repository без CLI source code или локального Go module.
-
-В source checkout шаблонный payload находится в `memory-bank-template/`.
-CLI читает его как upstream source и переводит каждый payload path в
-downstream-каталог `memory-bank/`. Команды downstream lint/doctor, lock и
-agent-routing contract продолжают использовать только `memory-bank/`.
-
-Marker является только source-repository metadata. Он находится рядом с `memory-bank-template/`, не внутри него, и не копируется в downstream payload. Для явной проверки source template используйте:
+Исходный template repository проверяется явным profile. В source checkout
+шаблонный payload находится в `memory-bank-template/`; CLI читает его как
+upstream source и переводит каждый payload path в downstream-каталог
+`memory-bank/`. Автоматическое определение предназначено для
+downstream-репозитория по `memory-bank/.lock`. Для проверки source template
+используйте:
 
 ```bash
 memory-bank-cli lint

@@ -2,7 +2,7 @@
 
 Этот репозиторий содержит upstream payload `memory-bank-template/` и документацию по его внедрению. `memory-bank-cli` устанавливает этот payload в downstream-репозитории под именем `memory-bank/`. Реализация, command contract и релизы CLI принадлежат отдельному репозиторию [`dapi/memory-bank-cli`](https://github.com/dapi/memory-bank-cli).
 
-Корневой файл `.memory-bank-template` — source-repository marker для `memory-bank-cli doctor --profile auto`. Он не входит в `memory-bank-template/` payload и не должен появляться в downstream-проектах.
+Исходный template repository проверяется явным профилем `memory-bank-cli doctor --profile template`. Автоматический профиль предназначен для downstream-репозиториев с `memory-bank/.lock`.
 
 ## Локальная проверка
 
@@ -22,7 +22,7 @@ memory-bank-cli lint --repo-root /path/to/repository
 memory-bank-cli doctor --profile template --repo-root /path/to/repository
 ```
 
-CI устанавливает закреплённый release CLI, проверяет его checksum и выполняет те же `lint` и template-profile `doctor` gates. Этот репозиторий не публикует CLI releases.
+CI устанавливает закреплённый release CLI, проверяет его checksum и выполняет те же `lint` и явный template-profile `doctor` gate. Этот репозиторий не публикует CLI releases.
 
 ## Документационный шаблон
 

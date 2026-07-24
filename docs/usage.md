@@ -53,7 +53,7 @@ Canonical taxonomy и minimum contracts определены в [`memory-bank/en
 - `documentation` — только non-runtime documentation/artifact changes;
 - `low-risk` — локальное executable change по известному паттерну без risk triggers;
 - `standard` — default для обычного executable change;
-- `high-risk` — security/trust, financial calculation, persistent data/migration, concurrency/idempotency или material cross-system integration;
+- `high-risk` — текущий run непосредственно изменяет production/live data, production access/security state, выполняет реальную финансовую или другую необратимую внешнюю операцию;
 - `release-deployment` — production config, build/release artifact, deployment или rollback path без отдельного high-risk trigger.
 
 Если одновременно применимы `high-risk` и `release-deployment`, выбирается `high-risk` и дополнительно выполняются release/deployment obligations. Маленький diff или отсутствие готовой test environment не являются основанием снизить profile. Снижение после сработавшего high-risk или release trigger требует rationale и human approval reference.
@@ -91,8 +91,8 @@ Downgrade approval: <human approval ref или none>
 | Задача | Flow | Profile | Практическое следствие |
 | --- | --- | --- | --- |
 | Исправить локальный UI label по существующему i18n pattern | Small Change | `low-risk` | Targeted UI/i18n check, required CI, semantic read-through и обычный review |
-| Добавить локальное пользовательское поведение без contract, data или security changes | Feature | `standard` | Regression и acceptance coverage, affected local suites, полный required CI и independent review |
-| Изменить payment calculation | Feature | `high-risk` | Boundary/failure coverage, explicit human approval, independent domain review, rollout signals и backout plan |
+| Изменить payment calculation | Feature | `standard` | Regression и acceptance coverage, affected local suites, полный required CI, convergence pass и обычный review |
+| Выполнить production backfill, меняющий live customer balances | Feature | `high-risk` | Recovery rehearsal, explicit human approval, separate non-authoring domain review, rollout signals и backout plan |
 
 ## Стартовые запросы
 

@@ -33,7 +33,7 @@ Delivery flow и validation profile отвечают на разные вопр�
 | `documentation` | Меняется только документация или другой non-runtime artifact; executable behavior, contracts, production config и release path не меняются. |
 | `low-risk` | Локальное executable change следует известному паттерну, имеет малый blast radius и не активирует triggers ниже. |
 | `standard` | Default для executable change, которое не доказано как `low-risk` и не активирует более сильный профиль. |
-| `high-risk` | Ошибка может затронуть trust, деньги, persistent data, concurrency semantics или несколько систем; требуются explicit approval и независимая проверка. |
+| `high-risk` | Текущий run непосредственно выполняет рискованное действие над production/live state: изменяет или удаляет production data, production access/security state, совершает реальную финансовую или другую необратимую внешнюю операцию. Требуются explicit approval и отдельная проверка неавтором mutation. |
 | `release-deployment` | Основной change surface — production config, build/release artifact, deployment или rollback path без отдельного `high-risk` trigger. |
 
 Это не количественный risk score. `documentation < low-risk < standard`; `high-risk` и `release-deployment` — усиленные специализированные профили. Если применимы оба, выбери `high-risk` и добавь все release/deployment obligations из соответствующей строки minimum contract.
@@ -44,10 +44,9 @@ Delivery flow и validation profile отвечают на разные вопр�
 
 - `documentation` допустим только при отсутствии executable, contract, config и release impact;
 - `low-risk` допустим, когда change локален, rollback очевиден, affected test surface известен и нет triggers из таблицы;
-- новый или изменённый public API, event, schema либо file format требует как минимум `standard`; breaking/compatibility-sensitive вариант, migration или cross-system consumer повышает до `high-risk`;
-- security/auth/trust boundary, financial calculation, persistent data/migration, concurrency/locking/idempotency semantics повышают до `high-risk`;
-- новая cross-system integration или material change её protocol, failure semantics, data ownership либо authentication повышает до `high-risk`;
-- production config, build/release artifact, deployment или rollback path повышает до `release-deployment`; если одновременно затронут любой `high-risk` trigger, применяется composition rule выше.
+- новый или изменённый public API, event, schema, file format, security/auth boundary, financial calculation, persistent-data model, migration plan, concurrency/locking/idempotency semantics или cross-system integration требует как минимум `standard`; эти code/design triggers сами по себе не повышают profile до `high-risk`;
+- `high-risk` выбирай только когда текущий run должен непосредственно выполнить risk-bearing действие в production/live environment: изменить, удалить, backfill или repair production data; изменить production access/security state; провести реальную финансовую операцию; либо вызвать другую необратимую external effect. Ожидаемая будущая поставка code change не является таким действием;
+- production config, build/release artifact, deployment или rollback path повышает до `release-deployment`; если в том же run выполняется `high-risk` действие, выбери `high-risk` и добавь все release/deployment obligations из соответствующей строки.
 
 Не понижай профиль из-за маленького diff, короткого срока или отсутствия готового test environment.
 
@@ -61,13 +60,20 @@ Delivery flow и validation profile отвечают на разные вопр�
 
 ## Minimum Validation And Evidence Contract
 
-| Profile | Required automated surfaces | Local suites | CI gates | Manual evidence | Approval gates | Rollout / backout | Independent review / convergence |
+`Обычный review` не требует отдельного неавторского reviewer: это convergence
+pass исполнителя и review, предусмотренный project PR process, если он есть.
+`Separate non-authoring review` выполняет отдельный actor, не создававший и не
+исправлявший проверяемые mutations; таким actor может быть агент, если среда
+гарантирует отсутствие mutation worktree, git/PR и других mutable systems.
+Human approval — отдельный gate для risk-bearing action и не заменяется review.
+
+| Profile | Required automated surfaces | Local suites | CI gates | Manual evidence | Approval gates | Rollout / backout | Separate review / convergence |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | `documentation` | Link, schema/frontmatter, example или docs build checks, применимые к changed docs | Targeted documentation lint/build | Все required documentation jobs | Semantic read-through; render evidence, если layout влияет на результат | Обычный review; отдельный approval только по project policy | Не требуется; если меняется published release path, переклассифицировать | Обычный review достаточен |
 | `low-risk` | Targeted regression для changed behavior; существующие nearest tests | Targeted affected suite и repository lint/typecheck, если применимы | Все required jobs для change | Только для непокрываемой automation части с явной процедурой | Обычный review; manual-only gap требует указанного approver | Понятный локальный revert; staged rollout не обязателен | Simplify/convergence pass исполнителя и обычный review |
-| `standard` | Changed behavior, ближайший regression path, изменённые contracts/integration boundaries и material negative cases | Все affected unit/integration/contract suites | Полный required CI set | Acceptance evidence и оформленные manual-only gaps | Approval для manual-only critical gap и внешне-эффективных действий | Rollback path для runtime change; rollout checks, если delivery не атомарна | Отдельный final convergence pass и reviewer, независимый от автора change |
-| `high-risk` | Все affected unit/integration/contract/e2e surfaces; critical failure modes; migration/recovery rehearsal или deterministic substitute | Полный релевантный набор, включая security/data/concurrency checks; невозможное явно блокирует или получает approval | Все required CI плюс доступные specialized gates | Evidence по каждому critical path, failure/recovery case и rehearsal | Human approval профиля, manual-only gaps и risk-bearing execution step | Явные staged rollout, observability signals, stop conditions и проверенный backout/recovery plan | Independent reviewer по затронутому risk domain и финальный convergence pass обязательны |
-| `release-deployment` | Build/package/config validation, deploy/rollback automation и smoke/health checks | Release artifact/config checks и staging rehearsal, где доступно | Required release/deployment jobs | Artifact identity, staging/smoke results и production signals | Human approval перед production или live-data action | Явные rollout units, stop signals, rollback owner и fastest safe rollback | Independent review release plan/config и post-deploy convergence обязательны |
+| `standard` | Changed behavior, ближайший regression path, изменённые contracts/integration boundaries и material negative cases | Все affected unit/integration/contract suites | Полный required CI set | Acceptance evidence и оформленные manual-only gaps | Approval для manual-only critical gap и внешне-эффективных действий | Rollback path для runtime change; rollout checks, если delivery не атомарна | Final convergence pass исполнителя и обычный review |
+| `high-risk` | Все surfaces, необходимые для безопасного direct production/live action; critical failure modes; recovery rehearsal или deterministic substitute | Полный релевантный набор для данного действия; невозможное явно блокирует или получает approval | Все required CI плюс доступные specialized gates | Evidence по действию, critical path, failure/recovery case и rehearsal | Human approval профиля, manual-only gaps и risk-bearing execution step | Явные staged rollout, observability signals, stop conditions и проверенный backout/recovery plan | Separate non-authoring actor проверяет затронутый production-risk domain; финальный convergence pass обязателен |
+| `release-deployment` | Build/package/config validation, deploy/rollback automation и smoke/health checks | Release artifact/config checks и staging rehearsal, где доступно | Required release/deployment jobs | Artifact identity, staging/smoke results и production signals | Human approval перед production или live-data action | Явные rollout units, stop signals, rollback owner и fastest safe rollback | Separate review release plan/config и post-deploy convergence обязательны |
 
 Конкретные frameworks, команды, suites, CI job names и evidence paths не принадлежат taxonomy: их задают project-specific [`testing-policy.md`](testing-policy.md), execution plan или routing record выбранного flow.
 
@@ -98,5 +104,5 @@ Downgrade approval: <human approval ref или none>
 | Path | Flow | Profile decision | Minimum consequence |
 | --- | --- | --- | --- |
 | Исправить локальный UI label по существующему i18n pattern без изменения contract или runtime control flow | Small Change | `low-risk`: локальный surface, известных triggers нет | Targeted UI/i18n check, required CI, semantic read-through и обычный review. |
-| Добавить локальное пользовательское поведение без contract, data или security changes | Feature | `standard`: executable behavior, оснований для снижения нет | Regression + acceptance coverage, affected suites, full required CI и independent review. |
-| Изменить payment calculation с сохранением внешнего API | Feature | `high-risk`: financial calculation trigger | Boundary/failure coverage, explicit human approval, independent domain review, rollout signals и backout plan. |
+| Изменить payment calculation с сохранением внешнего API | Feature | `standard`: code semantics сами по себе не включают direct production action | Regression + acceptance coverage, affected suites, full required CI, convergence pass и обычный review. |
+| Выполнить production backfill, который меняет live customer balances | Feature | `high-risk`: direct risk-bearing production-data action | Recovery rehearsal, explicit human approval, separate non-authoring domain review, rollout signals и backout plan. |
