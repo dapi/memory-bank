@@ -13,7 +13,7 @@ workspace:
 
 hooks:
   after_create: |
-    git clone "git@github.com:${GITHUB_REPO}.git" .
+    git -C ../.. worktree add --detach "$PWD"
 
 agent:
   max_concurrent_agents: 3
