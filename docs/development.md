@@ -1,6 +1,6 @@
 # Разработка репозитория
 
-Этот репозиторий содержит upstream payload `memory-bank-template/` и документацию по его внедрению. `memory-bank-cli` устанавливает этот payload в downstream-репозитории под именем `memory-bank/`. Реализация, command contract и релизы CLI принадлежат отдельному репозиторию [`dapi/memory-bank-cli`](https://github.com/dapi/memory-bank-cli).
+Этот репозиторий содержит upstream payload `template/memory-bank/` и документацию по его внедрению. `memory-bank-cli` устанавливает этот payload в downstream-репозитории под именем `memory-bank/`. Реализация, command contract и релизы CLI принадлежат отдельному репозиторию [`dapi/memory-bank-cli`](https://github.com/dapi/memory-bank-cli).
 
 Исходный template repository проверяется явным профилем `memory-bank-cli doctor --profile template`. Автоматический профиль предназначен для downstream-репозиториев с `memory-bank/.lock`.
 
@@ -9,8 +9,8 @@
 Установите закреплённый release `memory-bank-cli` по [инструкции CLI](memory-bank.md). Перед PR запускайте:
 
 ```bash
-rg --files memory-bank-template
-memory-bank-cli lint
+rg --files template/memory-bank
+memory-bank-cli lint --scope-root template/memory-bank --entrypoint template/memory-bank/README.md
 memory-bank-cli doctor --profile template
 git diff --check
 ```
@@ -18,7 +18,7 @@ git diff --check
 Для явной проверки другого checkout используйте `--repo-root`:
 
 ```bash
-memory-bank-cli lint --repo-root /path/to/repository
+memory-bank-cli lint --repo-root /path/to/repository --scope-root template/memory-bank --entrypoint template/memory-bank/README.md
 memory-bank-cli doctor --profile template --repo-root /path/to/repository
 ```
 
@@ -26,7 +26,7 @@ CI устанавливает закреплённый release CLI, провер
 
 ## Документационный шаблон
 
-При изменении `memory-bank-template/`:
+При изменении `template/memory-bank/`:
 
 - убедитесь, что индексы и ссылки соответствуют новой структуре;
 - не переносите source-repository metadata или project-specific детали обратно в generic-шаблон;

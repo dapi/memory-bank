@@ -13,8 +13,8 @@ jobs:
   validate-template:
     runs-on: ubuntu-latest
     env:
-      MEMORY_BANK_CLI_VERSION: v1.2.0
-      MEMORY_BANK_CLI_SHA256: aa9f7cec5fd39bb06327c1f025fddf7273648c55cd180421656656aebdf79677
+      MEMORY_BANK_CLI_VERSION: v1.3.0
+      MEMORY_BANK_CLI_SHA256: 401927b8504ebb0e2600cee733545f4921e81b33436a9b64106e1367371c5fd5
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -35,11 +35,11 @@ jobs:
 
       - name: Check source payload layout
         run: |
-          test -d memory-bank-template
+          test -d template/memory-bank
           test ! -e memory-bank
 
       - name: Lint template
-        run: memory-bank-cli lint --scope-root memory-bank-template --entrypoint memory-bank-template/README.md
+        run: memory-bank-cli lint --scope-root template/memory-bank --entrypoint template/memory-bank/README.md
 
       - name: Diagnose template
         run: memory-bank-cli doctor --profile template
@@ -55,5 +55,5 @@ jobs:
             --template-version ci \
             --source-ref "$(git rev-parse HEAD)"
           test -d "$downstream/memory-bank"
-          test ! -e "$downstream/memory-bank-template"
+          test ! -e "$downstream/template/memory-bank"
           memory-bank-cli lint --repo-root "$downstream"
