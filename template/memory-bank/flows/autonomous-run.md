@@ -36,7 +36,7 @@ Runner владеет только scheduling state: dispatch, claim, concurrenc
 
 1. Task имеет stable tracker identifier, понятный intent и ссылку на canonical owner выбранного flow.
 2. Task прошёл [Task Routing](routing.md); автономный run не выбирает route заново.
-3. Entry gates выбранного flow выполнены. Для Feature Flow это active `brief.md` и `Problem Ready`; если `Design required: yes`, также active `design.md` и `Solution Ready` до implementation run.
+3. Entry gates выбранного flow выполнены. Для Feature Flow implementation run требует active `brief.md` и `Problem Ready`; если `Design required: yes`, также active `design.md` и `Solution Ready`; во всех случаях active `implementation-plan.md` и пройденный `Plan Ready` с required grounding, approvals и clean artifact-review verdict текущей active revision до перехода в `Execution`.
 4. Canonical owner зафиксировал применимый validation profile по [Validation Profiles](../engineering/validation-profiles.md).
 5. Task не blocked, eligible по project-specific adapter rules и не имеет другого active claim.
 6. Required human approvals уже существуют, если validation profile или project policy требуют их до запуска.
@@ -94,7 +94,7 @@ Credentials и capabilities предоставляются по least-privilege 
 - acceptance evidence, включая required manual proof или approved manual-only gaps;
 - known failures, residual risks, rollback/rollout facts, если применимы;
 - состояние task и следующий owner: review, approval, deployment, closure или blocked;
-- ссылку на [Session Handoff](templates/process/session-handoff.md), если работа должна продолжиться в другой сессии.
+- если работа должна продолжиться в другой сессии, ссылку на run-specific `memory-bank/processes/PROCESS-XXX-session-handoff.md`, созданный или обновлённый по [Session Handoff template](templates/process/session-handoff.md) и зарегистрированный в `memory-bank/processes/README.md`; ссылка только на wrapper-template не является handoff evidence.
 
 Успешный exit agent process без этого пакета означает только завершение attempt; это не delivery completion. Evidence не дублирует canonical requirements, design decisions или lifecycle status: она ссылается на их owners.
 
