@@ -1,9 +1,6 @@
 ---
 tracker:
   kind: github
-  provider:
-    repo: dapi/memory-bank
-    token: $GITHUB_TOKEN
   active_states:
     - open
   terminal_states:
@@ -16,7 +13,7 @@ workspace:
 
 hooks:
   after_create: |
-    git clone git@github.com:dapi/memory-bank.git .
+    git clone "git@github.com:${GITHUB_REPO}.git" .
 
 agent:
   max_concurrent_agents: 1
@@ -32,7 +29,7 @@ codex:
     networkAccess: true
 ---
 
-You are implementing GitHub issue {{ issue.identifier }} in the `dapi/memory-bank`
+You are implementing GitHub issue {{ issue.identifier }} in the configured
 repository.
 
 Issue title: {{ issue.title }}
