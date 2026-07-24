@@ -1,6 +1,6 @@
 # Использование Memory Bank
 
-Этот документ описывает повседневную работу с уже внедрённым Memory Bank. Он остаётся во внешней документации шаблона и не копируется в downstream-проект. Канонические project-side правила находятся в [`memory-bank/README.md`](../memory-bank-template/README.md) и `memory-bank/flows/`; первичная установка и адаптация описаны в [`adoption.md`](adoption.md).
+Этот документ описывает повседневную работу с уже внедрённым Memory Bank. Он остаётся во внешней документации шаблона и не копируется в downstream-проект. Канонические project-side правила находятся в [`memory-bank/README.md`](../template/memory-bank/README.md) и `memory-bank/flows/`; первичная установка и адаптация описаны в [`adoption.md`](adoption.md).
 
 ## Рабочая модель
 
@@ -26,7 +26,7 @@ branch → worktree → agent session
 ## Рабочий цикл
 
 1. Подготовьте issue с ожидаемым результатом и ссылками на применимые PRD, epic, use case, feature package или ADR.
-2. Выберите workflow по [`memory-bank/flows/routing.md`](../memory-bank-template/flows/routing.md).
+2. Выберите workflow по [`memory-bank/flows/routing.md`](../template/memory-bank/flows/routing.md).
 3. Запустите агента в изолированной ветке или worktree.
 4. Агент читает issue и связанные owner-документы, реализует изменение и выполняет предусмотренные проверки.
 5. Завершите работу через PR и приложите требуемые evidence.
@@ -48,7 +48,7 @@ Task Routing → delivery flow → validation profile → план провер�
 
 Profile не является отдельным flow и не меняет routing order. После выбора flow человек или агент проверяет risk triggers и фиксирует ровно один profile в canonical owner задачи. Сейчас это governance-механизм: `memory-bank-cli lint` проверяет целостность документации, но не вычисляет profile автоматически и не запускает соответствующие test suites.
 
-Canonical taxonomy и minimum contracts определены в [`memory-bank/engineering/validation-profiles.md`](../memory-bank-template/engineering/validation-profiles.md):
+Canonical taxonomy и minimum contracts определены в [`memory-bank/engineering/validation-profiles.md`](../template/memory-bank/engineering/validation-profiles.md):
 
 - `documentation` — только non-runtime documentation/artifact changes;
 - `low-risk` — локальное executable change по известному паттерну без risk triggers;
@@ -84,7 +84,7 @@ Downgrade approval: <human approval ref или none>
 - в Bug Fix reproduction и regression coverage должны удовлетворять minimum contract выбранного profile;
 - в Refactoring baseline, characterization coverage и checkpoint verification должны удовлетворять minimum contract выбранного profile.
 
-Если во время работы обнаружен более сильный trigger, сначала обновите profile у canonical owner и только затем продолжайте реализацию. Если новый trigger также нарушает predicates текущего flow — например, в Small Change обнаружились migration или rollout requirements — остановите работу и повторите [Task Routing](../memory-bank-template/flows/routing.md).
+Если во время работы обнаружен более сильный trigger, сначала обновите profile у canonical owner и только затем продолжайте реализацию. Если новый trigger также нарушает predicates текущего flow — например, в Small Change обнаружились migration или rollout requirements — остановите работу и повторите [Task Routing](../template/memory-bank/flows/routing.md).
 
 ### Примеры
 

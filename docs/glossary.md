@@ -2,9 +2,9 @@
 
 Этот глоссарий определяет термины, которыми описаны сам Memory Bank и его
 документационная модель. Для терминов предметной области конкретного продукта
-используй [`memory-bank-template/domain/glossary.md`](../memory-bank-template/domain/glossary.md).
+используй [`template/memory-bank/domain/glossary.md`](../template/memory-bank/domain/glossary.md).
 Нормативные правила и полную schema полей определяют
-[`memory-bank-template/dna/`](../memory-bank-template/dna/README.md).
+[`template/memory-bank/dna/`](../template/memory-bank/dna/README.md).
 
 ## Durable Knowledge Layer
 
@@ -13,7 +13,7 @@
 изменениями в коде.
 
 В этом source-репозитории таким слоем выступает payload
-`memory-bank-template/`; после установки в downstream-проекте он живёт как
+`template/memory-bank/`; после установки в downstream-проекте он живёт как
 `memory-bank/`.
 
 Ключевая идея слоя — хранить не эфемерные обсуждения, а проверяемое и
@@ -36,7 +36,7 @@ canonical owner факта и как downstream-документы наслед�
 
 `Governed document` — Markdown-файл в `memory-bank/`, который подчиняется
 governance-правилам и имеет валидный YAML frontmatter. В source-репозитории
-такой payload находится в `memory-bank-template/`. Документ задаёт свою роль
+такой payload находится в `template/memory-bank/`. Документ задаёт свою роль
 и, когда у него есть semantic upstream, явно указывает связь с ним.
 
 ## Authoritative Document
@@ -89,14 +89,14 @@ SSoT, status и порядок зависимостей.
 
 `Documentation layer` — структурированный слой знаний с ролями документов,
 навигацией и границами ответственности, а не просто папка с Markdown-файлами.
-В этом репозитории source template layer живёт в `memory-bank-template/`; его
+В этом репозитории source template layer живёт в `template/memory-bank/`; его
 downstream destination — `memory-bank/`.
 
 ## Process Layer
 
 `Process layer` — часть knowledge layer, которая описывает lifecycle,
 workflows, gates и шаблоны исполнения. В source template она в основном
-сосредоточена в `memory-bank-template/flows/`, а после установки — в
+сосредоточена в `template/memory-bank/flows/`, а после установки — в
 `memory-bank/flows/`.
 
 ## Task Routing
@@ -104,7 +104,7 @@ workflows, gates и шаблоны исполнения. В source template он
 `Task Routing` — выбор ровно одного минимального flow для входящей задачи по
 её риску и природе работы. Он определяет route, но не lifecycle и не глубину
 validation; при изменении scope route повторно выбирается. Порядок выбора
-задаёт [`routing.md`](../memory-bank-template/flows/routing.md).
+задаёт [`routing.md`](../template/memory-bank/flows/routing.md).
 
 ## Flow
 
