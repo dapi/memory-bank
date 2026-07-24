@@ -33,27 +33,37 @@ jobs:
       - name: Check CLI version
         run: memory-bank-cli --version
 
-      - name: Check source payload layout
+      - name: Check dual-role repository layout
         run: |
           test -d template/memory-bank
-          test ! -e memory-bank
+          test -d memory-bank
 
       - name: Lint template
         run: memory-bank-cli lint --scope-root template/memory-bank --entrypoint template/memory-bank/README.md
+
+      - name: Lint project-local Memory Bank
+        run: memory-bank-cli lint --repo-root .
 
       - name: Diagnose template
         run: memory-bank-cli doctor --profile template
 
       - name: Smoke-test downstream init
         run: |
+          source="$RUNNER_TEMP/template-source"
           downstream="$RUNNER_TEMP/downstream"
-          mkdir "$downstream"
+          mkdir -p "$source/template" "$downstream"
+          cp -R "$GITHUB_WORKSPACE/template/memory-bank" "$source/template/memory-bank"
+          git -C "$source" init --quiet
+          git -C "$source" config user.name "CI"
+          git -C "$source" config user.email "ci@example.invalid"
+          git -C "$source" add template/memory-bank
+          git -C "$source" commit --quiet -m "ci source payload"
           git -C "$downstream" init
           memory-bank-cli init \
             --repo-root "$downstream" \
-            --source "$GITHUB_WORKSPACE" \
+            --source "$source" \
             --template-version ci \
-            --source-ref "$(git rev-parse HEAD)"
+            --source-ref "$(git -C "$source" rev-parse HEAD)"
           test -d "$downstream/memory-bank"
           test ! -e "$downstream/template/memory-bank"
           memory-bank-cli lint --repo-root "$downstream"
