@@ -33,23 +33,28 @@ problem space            solution space             execution space
 
 ## Что находится в шаблоне
 
+В этом source-репозитории payload хранится в `memory-bank-template/`. Команды
+`memory-bank-cli init` и `update` переводят этот upstream path в downstream
+каталог `memory-bank/`; имя `memory-bank-template/` в проект-получатель не
+переносится.
+
 | Каталог | Назначение |
 | --- | --- |
-| [`dna/`](memory-bank/dna/README.md) | Governance-ядро: SSoT, frontmatter, lifecycle и правила связей между документами |
-| [`product/`](memory-bank/product/README.md) | Vision, customers, metrics, marketing и roadmap |
-| [`domain/`](memory-bank/domain/README.md) | Glossary, domain model, business rules, states, events и context map |
-| [`engineering/`](memory-bank/engineering/README.md) | Архитектура, тестирование, coding style, git workflow и границы автономии агента |
-| [`ops/`](memory-bank/ops/README.md) | Локальная разработка, окружения, конфигурация, релизы и runbooks |
-| [`prd/`](memory-bank/prd/README.md) | Продуктовые инициативы между общим product context и отдельными фичами |
-| [`research/`](memory-bank/research/README.md) | Evidence-backed market, product и technical research до решения о delivery |
-| [`epics/`](memory-bank/epics/README.md) | Крупные инициативы с roadmap, рисками, решениями и delivery subissues |
-| [`use-cases/`](memory-bank/use-cases/README.md) | Канонические пользовательские и операционные сценарии |
-| [`features/`](memory-bank/features/README.md) | Пакеты отдельных delivery-фич |
-| [`adr/`](memory-bank/adr/README.md) | Архитектурные решения и причины их принятия |
-| [`flows/`](memory-bank/flows/README.md) | Lifecycle-процессы и шаблоны документов |
-| [`prompts/`](memory-bank/prompts/README.md) | Human-only каталог prompt-артефактов и его access contract |
+| [`dna/`](memory-bank-template/dna/README.md) | Governance-ядро: SSoT, frontmatter, lifecycle и правила связей между документами |
+| [`product/`](memory-bank-template/product/README.md) | Vision, customers, metrics, marketing и roadmap |
+| [`domain/`](memory-bank-template/domain/README.md) | Glossary, domain model, business rules, states, events и context map |
+| [`engineering/`](memory-bank-template/engineering/README.md) | Архитектура, тестирование, coding style, git workflow и границы автономии агента |
+| [`ops/`](memory-bank-template/ops/README.md) | Локальная разработка, окружения, конфигурация, релизы и runbooks |
+| [`prd/`](memory-bank-template/prd/README.md) | Продуктовые инициативы между общим product context и отдельными фичами |
+| [`research/`](memory-bank-template/research/README.md) | Evidence-backed market, product и technical research до решения о delivery |
+| [`epics/`](memory-bank-template/epics/README.md) | Крупные инициативы с roadmap, рисками, решениями и delivery subissues |
+| [`use-cases/`](memory-bank-template/use-cases/README.md) | Канонические пользовательские и операционные сценарии |
+| [`features/`](memory-bank-template/features/README.md) | Пакеты отдельных delivery-фич |
+| [`adr/`](memory-bank-template/adr/README.md) | Архитектурные решения и причины их принятия |
+| [`flows/`](memory-bank-template/flows/README.md) | Lifecycle-процессы и шаблоны документов |
+| [`prompts/`](memory-bank-template/prompts/README.md) | Human-only каталог prompt-артефактов и его access contract |
 
-После установки шаблона [`memory-bank/README.md`](memory-bank/README.md) становится основным индексом downstream-проекта.
+После установки шаблона [`memory-bank/README.md`](memory-bank-template/README.md) становится основным индексом downstream-проекта.
 
 ## Внедрение в проект
 
@@ -66,9 +71,9 @@ problem space            solution space             execution space
 
 ## Выбор рабочего процесса
 
-Каждая задача сначала проходит [Task Routing](memory-bank/flows/routing.md). Он направляет работу в Incident, Bug Fix, Research & Discovery, Small Change, Epic, Refactoring, Feature или на ручное решение.
+Каждая задача сначала проходит [Task Routing](memory-bank-template/flows/routing.md). Он направляет работу в Incident, Bug Fix, Research & Discovery, Small Change, Epic, Refactoring, Feature или на ручное решение.
 
-Корневой README даёт только обзор. Условия входа, lifecycle, обязательные артефакты и exit contract принадлежат каноническим документам в [`memory-bank/flows/`](memory-bank/flows/README.md) и не дублируются здесь.
+Корневой README даёт только обзор. Условия входа, lifecycle, обязательные артефакты и exit contract принадлежат каноническим документам в [`memory-bank/flows/`](memory-bank-template/flows/README.md) и не дублируются здесь.
 
 ## Документация репозитория
 

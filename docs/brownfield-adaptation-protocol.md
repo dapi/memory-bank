@@ -7,6 +7,11 @@ CLI utility так, чтобы он отражал наблюдаемое сос
 картину. Он не заменяет существующие repository instructions, документацию или
 код и не реализует продуктовые изменения.
 
+В source checkout `dapi/memory-bank` payload называется
+`memory-bank-template/`, но `memory-bank-cli init` устанавливает его в
+downstream repository как `memory-bank/`. Все пути ниже относятся к
+downstream-каталогу после установки.
+
 **До шага «Установить и активировать» не открывайте, не копируйте и не
 консультируйте `memory-bank/`, включая generic template, его README, governance
 и templates.** На этой стадии они не являются источником project knowledge:
@@ -72,8 +77,9 @@ packages или epics. Unknown означает `Unknown`/`TBD`/`Needs owner con
 
 ### 3. Установить и активировать Memory Bank
 
-Только после завершения discovery скопируйте или инициализируйте `memory-bank/`
-по [инструкции CLI](memory-bank.md). Затем прочитайте
+Только после завершения discovery инициализируйте downstream `memory-bank/` из
+upstream payload `memory-bank-template/` по [инструкции CLI](memory-bank.md).
+Затем прочитайте
 `memory-bank/README.md`, governance-ядро и применимый flow. Сохраните existing
 repository instructions: managed agent block дополняет их, но не заменяет.
 

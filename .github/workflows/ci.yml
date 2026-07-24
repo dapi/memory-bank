@@ -33,8 +33,27 @@ jobs:
       - name: Check CLI version
         run: memory-bank-cli --version
 
+      - name: Check source payload layout
+        run: |
+          test -d memory-bank-template
+          test ! -e memory-bank
+
       - name: Lint template
         run: memory-bank-cli lint
 
       - name: Diagnose template
         run: memory-bank-cli doctor --profile template
+
+      - name: Smoke-test downstream init
+        run: |
+          downstream="$RUNNER_TEMP/downstream"
+          mkdir "$downstream"
+          git -C "$downstream" init
+          memory-bank-cli init \
+            --repo-root "$downstream" \
+            --source "$GITHUB_WORKSPACE" \
+            --template-version ci \
+            --source-ref "$(git rev-parse HEAD)"
+          test -d "$downstream/memory-bank"
+          test ! -e "$downstream/memory-bank-template"
+          memory-bank-cli lint --repo-root "$downstream"
