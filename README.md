@@ -84,6 +84,7 @@ problem space            solution space             execution space
 | [Greenfield adaptation protocol](docs/greenfield-integration-protocol.md) | Для копирования шаблона, извлечения project facts из README и docs, адаптации Memory Bank и создания initial PRD |
 | [Использование Memory Bank](docs/usage.md) | Для повседневной работы с задачами и AI-агентами после внедрения |
 | [Использование `memory-bank-cli`](docs/memory-bank.md) | Для пользователей CLI и downstream CI |
+| [Глоссарий](docs/glossary.md) | Термины governance и структуры документации, используемые в этом репозитории |
 | [Ownership и безопасные обновления](docs/ownership.md) | Для понимания lock schema, границ владения и conflict policy |
 | [Managed-блок инструкций агента](docs/agent-instructions.md) | Для marker contract, doctor и выбора единственного agent instruction target |
 | [Разработка репозитория](docs/development.md) | Для разработчиков шаблона |
