@@ -15,6 +15,8 @@ audience: humans_and_agents
 
 # Autonomy Boundaries
 
+Автономный runner применяет эти границы совместно с [Autonomous Run Protocol](../flows/autonomous-run.md): наличие task, workspace или активного agent run не расширяет разрешённые действия.
+
 ## Автопилот — делай без подтверждения
 
 - Редактировать код в рамках задачи

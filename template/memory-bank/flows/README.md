@@ -15,6 +15,7 @@ derived_from:
   - use-case.md
   - feature.md
   - feature-artifact-catalog.md
+  - autonomous-run.md
   - templates/README.md
 status: active
 audience: humans_and_agents
@@ -34,4 +35,5 @@ audience: humans_and_agents
 - [Use Case Flow](use-case.md) — критерии, lifecycle и ownership для project-level `UC-*`, включая operational / agentic сценарии.
 - [Feature Flow](feature.md) — lifecycle `brief.md -> optional design.md -> implementation-plan.md`, gates и стабильные ID (`REQ-*`, `SOL-*`, `STEP-*`).
 - [Feature Artifact Catalog](feature-artifact-catalog.md) — optional problem/solution/execution artifacts, selection triggers, ownership, default forms и template availability.
+- [Autonomous Run Protocol](autonomous-run.md) — execution overlay для автономного запуска delivery-задач: dispatch gates, isolated workspaces, scheduler state, evidence и human handoff.
 - [Templates Index](templates/README.md) — эталонные шаблоны governed-документов, включая PRD, use case, epic, feature и ADR.
