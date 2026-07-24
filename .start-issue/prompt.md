@@ -230,7 +230,7 @@ stale facts до mutation, не повторяй завершённые фазы
   гарантируют отсутствие mutation worktree, git/PR state и других применимых
   mutable systems. Declared agent config сам по себе не является гарантией.
   Иначе выполни этот анализ сам без мутаций. Самопроверка не заменяет
-  обязательный independent review.
+  обязательную separate non-authoring review.
 - Одновременно запускай не более двух bounded read-only анализов после Intake.
   Передавай им ссылку и state version persisted carrier, узкий scope, требуемые
   sources и output contract, а не полный чат. На возврате reconcile findings с
@@ -256,12 +256,12 @@ stale facts до mutation, не повторяй завершённые фазы
   последовательный lease. Смена writer допустима только после явного release,
   отсутствия in-flight work и нового checkpoint. Не входи в Human Gate или Done
   с активным child/lease.
-- Если validation profile требует независимый review, используй доступный
-  изолированный actor, который не создавал и не исправлял ни одну mutation во
-  всём reviewed diff/artifact set. Оркестратор может быть reviewer после работы
-  `delivery-owner` только если сам не был автором части candidate. При отсутствии
-  допустимого mechanism зафиксируй validation blocker; не выдавай self-review
-  автора revision за independent evidence.
+- Если validation profile требует separate non-authoring review, используй
+  доступный изолированный actor, который не создавал и не исправлял ни одну
+  mutation во всём reviewed diff/artifact set. Оркестратор может быть reviewer
+  после работы `delivery-owner` только если сам не был автором части candidate.
+  При отсутствии допустимого mechanism зафиксируй validation blocker; не
+  выдавай self-review автора revision за separate-review evidence.
 </delegation>
 
 <conditional_quality>
@@ -284,14 +284,16 @@ stale facts до mutation, не повторяй завершённые фазы
   contract, затем перепроверь каждый predicate по concrete evidence;
 - сверь HEAD и working tree, убедись в отсутствии незапланированных changes,
   active children и незакрытого writer lease;
-- выполни требуемый independent final review и clean convergence pass.
+- выполни final review и convergence pass, требуемые выбранным validation
+  profile; separate non-authoring review нужен только если profile его требует.
 
-Используй последний clean independent review, только если reviewed HEAD/artifact
-revision, validation profile и material relevant sources не изменились. Иначе
-final review является следующей итерацией того же convergence episode и
-расходует его budget; review до любой последующей candidate mutation больше не
-считается clean. Последующие записи только в Run Ledger не являются candidate
-mutation и не инвалидируют review.
+Используй последний clean separate non-authoring review, только если такой
+review требует profile и reviewed HEAD/artifact revision, validation profile и
+material relevant sources не изменились. Иначе required final review является
+следующей итерацией того же convergence episode и расходует его budget; review
+до любой последующей candidate mutation больше не считается clean. Последующие
+записи только в Run Ledger не являются candidate mutation и не инвалидируют
+review.
 
 Если material source, scope, candidate revision или validation evidence
 изменились, инвалидируй только самый ранний затронутый gate, обнови state и
