@@ -7,7 +7,6 @@ derived_from:
   - ../dna/governance.md
   - ../dna/frontmatter.md
   - routing.md
-  - priming.md
 canonical_for:
   - research_directory_structure
   - research_lifecycle
@@ -25,7 +24,7 @@ Research & Discovery Flow управляет задачей, чьим первы
 
 ## Context Priming
 
-До bootstrap выполни [`P1-RES`](priming.md#p1-res-research-and-discovery). После bootstrap его question, known evidence, assumptions, unknowns и stopping condition принадлежат `brief.md` research package.
+До bootstrap прочитай [`P1-RES`](priming/research.md) и only exact inputs из research process/task manifest. После bootstrap его question, known evidence, assumptions, unknowns и stopping condition принадлежат `brief.md` research package.
 
 ## Package Rules
 

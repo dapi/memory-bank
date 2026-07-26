@@ -29,6 +29,11 @@ canonical_for:
 - session handoff для продолжения работы между сессиями;
 - lifecycle protocol для длинных delivery-процессов с gates и verification.
 
+Каждый concrete process document должен содержать `Priming Inputs`: exact
+repo-relative paths или stable external sources, которые агент читает перед
+следующим gate. Это task/process-local manifest, а не просьба самостоятельно
+искать «релевантные» файлы по всему проекту.
+
 Если проекту достаточно одного процесса, всё равно оставь `README.md` как routing-layer: он фиксирует, какие process-documents существуют, что они покрывают и когда их открывать.
 
 ## Instantiated Frontmatter

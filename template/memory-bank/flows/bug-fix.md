@@ -6,7 +6,6 @@ purpose: Delivery flow для воспроизводимого расхожде�
 derived_from:
   - ../dna/governance.md
   - routing.md
-  - priming.md
   - ../engineering/testing-policy.md
   - ../engineering/validation-profiles.md
 canonical_for:
@@ -26,7 +25,7 @@ Bug — наблюдаемое поведение, противоречащее 
 
 ## Context Priming
 
-До Entry Gate выполни [`P1-BUG`](priming.md#p1-bug-bug-fix). Expected/actual behavior, reproduction evidence и unknowns фиксируются в bug report или linked delivery task.
+До Entry Gate прочитай [`P1-BUG`](priming/bug-fix.md) и only exact inputs из bug process/task manifest. Expected/actual behavior, reproduction evidence и unknowns фиксируются в bug report или linked delivery task.
 
 ## Entry Gate
 

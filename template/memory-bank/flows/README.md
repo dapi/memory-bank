@@ -6,7 +6,7 @@ purpose: Навигация по task routing, lifecycle flows и governed-ша�
 derived_from:
   - ../dna/governance.md
   - routing.md
-  - priming.md
+  - priming/README.md
   - research.md
   - incident.md
   - bug-fix.md
@@ -26,7 +26,7 @@ audience: humans_and_agents
 Каталог `memory-bank/flows/` содержит reusable process-layer для шаблона: lifecycle rules, taxonomy стабильных идентификаторов и governed templates.
 
 - [Task Routing](routing.md) — порядок выбора flow, routing predicates, повторный routing и Human Routing.
-- [Task Context Priming](priming.md) — общий P0 перед routing и профильные P1-проверки контекста перед первым gate каждого route.
+- [Task Context Priming](priming/README.md) — общий P0, index отдельных P1-профилей и contract exact input manifest.
 - [Research & Discovery Flow](research.md) — evidence-backed lifecycle research-задач, от question framing до decision и handoff без преждевременного delivery.
 - [Incident And PIR Flow](incident.md) — containment, recovery, timeline, RCA, PIR и prevention work.
 - [Bug Fix Flow](bug-fix.md) — reproduction, analysis, fix, regression coverage и closure.

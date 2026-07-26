@@ -6,6 +6,7 @@ purpose: Governed wrapper-шаблон плана имплементации. Ф
 derived_from:
   - ../../feature.md
   - ../../feature-artifact-catalog.md
+  - ../../priming/context-priming.md
   - ../../../dna/frontmatter.md
   - ../../../engineering/testing-policy.md
 status: active
@@ -82,6 +83,26 @@ Grounding выполняется до sequencing против конкретно
 | --- | --- | --- | --- |
 | `GRND-01` | `path/to/existing/module` | Какой существующий implementation pattern или affected surface реально найден | Какие `STEP-*`, `PRE-*` или touchpoints обязаны его учитывать |
 | `GRND-02` | `path/to/existing/tests` / discovery command | Какая test surface существует или evidence-backed почему подходящего покрытия нет | Какие `CHK-*`, suites и planned automated coverage следуют из этого |
+
+## Implementation Priming
+
+Перед первым write implementing agent читает только этот manifest и проверяет,
+что рабочая tree начинается с grounded repository revision выше. Это
+исполняемая инструкция, а не пересказ `GRND-*` facts: перечисляй concrete
+repo-relative paths или stable external sources, section/symbol и цель чтения.
+Category, glob, `TODO`, предполагаемый path и «изучи релевантное» не
+допускаются.
+
+| Path / source | Section / symbol | Grounding refs | Purpose before editing | Required before steps |
+| --- | --- | --- | --- | --- |
+| `memory-bank/domain/<rule>.md` | `#relevant-rule` | `GRND-01` | Какой domain invariant нельзя нарушить | `STEP-01` |
+| `path/to/existing/module` | `Symbol` / `entire file` | `GRND-01` | Какой local pattern или change surface нужно учесть | `STEP-01` |
+| `path/to/existing/tests` | `TestName` / `entire file` | `GRND-02` | Какой regression/test pattern нужно сохранить или расширить | `STEP-01` |
+
+Перед первым write выполни `git rev-parse HEAD` и сравни с grounded immutable
+revision. Если revision или любой required input расходится с планом, останови
+execution и обнови grounding/plan; не угадывай changed state и не расширяй
+manifest произвольно.
 
 ## Grounding / Support References
 

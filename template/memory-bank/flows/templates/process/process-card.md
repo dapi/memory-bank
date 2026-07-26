@@ -7,6 +7,7 @@ derived_from:
   - ../../../dna/governance.md
   - ../../../dna/frontmatter.md
   - ../../routing.md
+  - ../../priming/context-priming.md
 status: active
 audience: humans_and_agents
 template_for: process
@@ -63,6 +64,19 @@ must_not_define:
 - Что запускает процесс.
 - Кто его инициирует.
 - Какие входные данные нужны перед стартом.
+
+## Priming Inputs
+
+Перед первым шагом агент читает только этот manifest. Перечисляй concrete
+repo-relative paths или stable external sources; category, glob, `TODO` и
+«изучи релевантное» не допускаются.
+
+| Path / source | Section / symbol | Purpose | Required before |
+| --- | --- | --- | --- |
+| `path/to/document.md` | `#section` / `Symbol` / `entire file` | Какой факт нужен процессу | `STEP-01` |
+
+Если input отсутствует, недоступен или устарел, останови процесс и используй
+раздел `Escalation`; не расширяй чтение произвольно.
 
 ## Scope
 

@@ -6,7 +6,6 @@ purpose: Operational flow от обнаружения и containment инцид�
 derived_from:
   - ../dna/governance.md
   - routing.md
-  - priming.md
   - ../engineering/testing-policy.md
   - ../ops/runbooks/README.md
 canonical_for:
@@ -33,7 +32,7 @@ detection → triage → containment → recovery → timeline
 
 ## Context Priming
 
-Сразу после route выполни timeboxed [`P1-INC`](priming.md#p1-inc-incident-and-pir). Его результат фиксируется в incident record/timeline; containment не ждёт broad discovery.
+Сразу после route прочитай timeboxed [`P1-INC`](priming/incident.md) и only exact inputs из incident manifest. Его результат фиксируется в incident record/timeline; containment не ждёт broad discovery.
 
 ## Response Gates
 

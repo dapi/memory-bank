@@ -7,7 +7,6 @@ derived_from:
   - ../dna/governance.md
   - ../dna/frontmatter.md
   - routing.md
-  - priming.md
   - ../engineering/validation-profiles.md
 canonical_for:
   - feature_directory_structure
@@ -43,7 +42,7 @@ audience: humans_and_agents
 
 ## Context Priming
 
-До bootstrap feature package выполни [`P1-FEAT`](priming.md#p1-feat-feature). Он подготавливает problem-space context для draft `brief.md`, но не выбирает solution и не заменяет обязательный execution-grounding с immutable revision и `GRND-*` evidence перед Plan Ready.
+До bootstrap feature package прочитай [`P1-FEAT`](priming/feature.md) и only exact inputs из task/process manifest. Он подготавливает problem-space context для draft `brief.md`, но не выбирает solution и не заменяет обязательный execution-grounding с immutable revision и `GRND-*` evidence перед Plan Ready.
 
 ## Package Rules
 
@@ -278,6 +277,7 @@ flowchart LR
 Plan Ready artifact-review convergence допускает не более пяти review-improve итераций. Последняя итерация с исправлениями не считается clean verdict без последующего re-review; исчерпание budget оставляет gate непройденным и требует replan либо Human Gate.
 
 - [ ] агент выполнил grounding до sequencing: прошёлся по текущему состоянию системы против зафиксированного immutable commit SHA repository revision и сохранил `GRND-*` evidence в `implementation-plan.md`; `HEAD`, branch name и tag не допускаются
+- [ ] `implementation-plan.md` содержит `Implementation Priming`: exact repo-relative paths или stable external sources, section/symbol, `GRND-*` refs, purpose и required `STEP-*`; categories, globs, `TODO` и предполагаемые paths не допускаются
 - [ ] если `brief.md` фиксирует `Design required: yes`, весь design pack по-прежнему удовлетворяет `Solution Ready`, включая publication/lifecycle статусы constituents и external dependencies
 - [ ] если `brief.md` фиксирует `Design required: no`, `implementation-plan.md` не принимает architecture decisions, contracts или invariants
 - [ ] `implementation-plan.md` создан по шаблону `templates/feature/implementation-plan.md`
@@ -301,6 +301,7 @@ Plan Ready artifact-review convergence допускает не более пят
 - [ ] `brief.md` → `delivery_status: in_progress`
 - [ ] если design layer существует, весь design pack и referenced external dependencies сохраняют `Solution Ready`; изменение любой reviewed revision возвращает feature к соответствующему gate
 - [ ] `implementation-plan.md` → `status: active`
+- [ ] implementing agent до первого write прочитал `Implementation Priming` и подтвердил, что стартовая repository revision совпадает с grounded immutable commit SHA; при расхождении execution остановлен для re-grounding/replan
 - [ ] `implementation-plan.md` фиксирует test strategy: automated coverage surfaces, required local/CI suites
 - [ ] каждый manual-only gap имеет причину, ручную процедуру и `AG-*` с approval ref
 

@@ -6,7 +6,6 @@ purpose: Прямой delivery flow для задач, где issue достат
 derived_from:
   - ../dna/governance.md
   - routing.md
-  - priming.md
   - ../engineering/testing-policy.md
   - ../engineering/validation-profiles.md
 canonical_for:
@@ -26,7 +25,7 @@ audience: humans_and_agents
 
 ## Context Priming
 
-До Entry Gate выполни [`P1-SMALL`](priming.md#p1-small-small-change). Routing record ссылается на проверенный existing pattern и конкретные verify actions; если это невозможно, повтори Task Routing.
+До Entry Gate прочитай [`P1-SMALL`](priming/small-change.md) и only exact inputs из task/process manifest. Routing record ссылается на проверенный existing pattern и конкретные verify actions; если это невозможно, повтори Task Routing.
 
 ## Entry Gate
 

@@ -7,7 +7,6 @@ derived_from:
   - ../dna/governance.md
   - ../dna/frontmatter.md
   - routing.md
-  - priming.md
   - feature.md
 canonical_for:
   - epic_directory_structure
@@ -39,7 +38,7 @@ FPF-основание:
 
 ## Context Priming
 
-До Epic Intake или Bootstrap Epic выполни [`P1-EPIC`](priming.md#p1-epic-epic). Intake facts и open questions принадлежат `brief.md`; при прямом bootstrap они фиксируются в `charter.md` или linked issue.
+До Epic Intake или Bootstrap Epic прочитай [`P1-EPIC`](priming/epic.md) и only exact inputs из process/task manifest. Intake facts и open questions принадлежат `brief.md`; при прямом bootstrap они фиксируются в `charter.md` или linked issue.
 
 ## Package Rules
 

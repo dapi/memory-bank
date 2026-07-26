@@ -7,6 +7,7 @@ derived_from:
   - ../../../dna/governance.md
   - ../../../dna/frontmatter.md
   - ../../routing.md
+  - ../../priming/context-priming.md
 status: active
 audience: humans_and_agents
 template_for: process
@@ -62,6 +63,20 @@ must_not_define:
 - Что уже сделано.
 - Где именно остановились.
 - Какой артефакт является актуальным.
+
+## Continuation Priming Inputs
+
+Перед продолжением следующая сессия читает только этот exact input manifest.
+Укажи concrete repo-relative paths или stable external sources, section/symbol,
+цель и freshness/revision. Не используй category, glob, `TODO` или «изучи
+релевантное».
+
+| Path / source | Section / symbol | Purpose | Revision / freshness |
+| --- | --- | --- | --- |
+| `path/to/document.md` | `#section` / `Symbol` / `entire file` | Какой факт нужен для продолжения | commit SHA / date / `current` |
+
+Если любой required input отсутствует или diverges от handoff state, не
+продолжай работу: зафиксируй discrepancy в `Open Risks` и эскалируй.
 
 ## Completed
 

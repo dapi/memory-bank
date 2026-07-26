@@ -43,9 +43,16 @@
   это `GRND-*` evidence против immutable commit SHA перед sequencing.
 
 Подробный contract и profiles определяет
-[`memory-bank/flows/priming.md`](../template/memory-bank/flows/priming.md).
+[`memory-bank/flows/priming/README.md`](../template/memory-bank/flows/priming/README.md).
 Routing и праймеринг различаются: первый выбирает lifecycle, второй снабжает
 следующее решение проверяемым контекстом.
+
+P1-профиль открывается отдельным небольшим файлом. Перед его запуском concrete
+process-file или task owner составляет **exact input manifest**: repo-relative
+paths, section/symbol, цель чтения и required gate. Агент читает только этот
+список; категории вроде «релевантные тесты» или `TODO` не являются входом.
+Для реализации Feature plan содержит отдельный `Implementation Priming`
+manifest и проверку immutable revision перед первым изменением файлов.
 
 ## Progressive disclosure, а не полная загрузка
 

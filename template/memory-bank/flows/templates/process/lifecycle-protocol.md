@@ -7,6 +7,7 @@ derived_from:
   - ../../../dna/governance.md
   - ../../../dna/frontmatter.md
   - ../../routing.md
+  - ../../priming/context-priming.md
   - ../../feature.md
 status: active
 audience: humans_and_agents
@@ -74,6 +75,21 @@ must_not_define:
 
 - Что уже известно.
 - На каких проверенных фактах держится старт процесса.
+
+## Priming Inputs
+
+До первой фазы агент читает только этот exact input manifest. Для каждого
+источника укажи repo-relative path или stable external source, section/symbol,
+цель и первый gate, для которого он обязателен. Не используй категории,
+glob, `TODO` или «изучи релевантное».
+
+| Path / source | Section / symbol | Purpose | Required before | Revision / freshness |
+| --- | --- | --- | --- | --- |
+| `path/to/document.md` | `#section` / `Symbol` / `entire file` | Какой факт нужен lifecycle | `Phase 1` / `H1` | commit SHA / date / `current` |
+
+Если обязательный input недоступен, противоречит trigger или не соответствует
+указанной revision, останови процесс и перейди к соответствующему human gate
+или stop condition.
 
 ## Phases
 
