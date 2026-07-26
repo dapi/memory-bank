@@ -2,7 +2,7 @@
 title: Context Priming Contract
 doc_kind: governance
 doc_function: canonical
-purpose: Общий контракт P0/P1/P2 и exact input manifest для agent context priming.
+purpose: Общий контракт P0/P1/P2 и per-process manifest для agent context priming.
 derived_from:
   - ../../dna/principles.md
   - ../../dna/governance.md
@@ -23,13 +23,13 @@ route или ближайшего gate. Он не создаёт второй ow
 
 ```text
 task → P0: route classification → Task Routing
-     → P1: selected process Priming Inputs → first flow gate
+     → P1: selected process manifest → first flow gate
      → P2: execution grounding, если его требует flow
 ```
 
 Праймеринг использует progressive disclosure. Агент читает этот contract для
-P0, а после routing — `Priming Inputs` выбранного process-file; не весь каталог
-[`flows/`](../README.md).
+P0, а после routing — выбранный process-file и указанный в нём manifest; не
+весь каталог [`flows/`](../README.md).
 
 ## P0 Route Classification
 
@@ -48,28 +48,38 @@ P0 заканчивается сразу после обоснования route
 
 ## P1 Process Priming
 
-После Task Routing открой выбранный canonical process-file и выполни его
-`Priming Inputs` до первого meaningful gate. Этот же process-file владеет
-stage-specific additions, outcomes и stop conditions. Task owner дополняет
-baseline concrete implementation/test paths.
+После Task Routing открой выбранный canonical process-file. В его
+`Priming Inputs` указан один YAML manifest и source sets для стадий процесса.
+До первого meaningful gate выполни стартовый source set; следующие добавляй
+только при переходе к соответствующей стадии. Task owner дополняет baseline
+concrete implementation/test paths.
 
-## Source Sets And Exact Input Manifest
+## Per-Process Manifest
 
-Process-file объявляет обязательные source sets как exact repo-relative paths,
-bounded masks или stable external source references. Перед чтением masks
-разворачиваются лексикографически против одной immutable repository revision.
-`<ID>` заменяется concrete task-owned ID. Zero-match mask, unresolved `<ID>`,
-`TODO`, category или «изучи релевантное» останавливают процесс.
+Каждый процесс хранит source sets в отдельном YAML manifest:
 
-```text
-1. memory-bank/prd/*.md
-2. memory-bank/features/<FT-ID>/*.md
+```yaml
+version: 1
+process: feature
+stages:
+  bootstrap_brief:
+    - memory-bank/prd/*.md
 ```
 
-Результат resolution — упорядоченный exact input manifest без masks и
-placeholders. Агент читает только объединённый process baseline, применимые
-stage additions и task-specific paths. Если обязательный input отсутствует,
-недоступен или противоречит task, агент останавливается.
+Manifest содержит только process ID, stage keys и repo-relative paths, bounded
+masks или stable external source references. Purpose каждого файла в manifest
+не дублируется: он уже содержится в самом файле. Process-file, который указывает
+на manifest, тоже не повторяется: агент уже прочитал его.
+
+Перед чтением выбранные source sets объединяются, а masks разворачиваются
+лексикографически против одной immutable repository revision. `<ID>` заменяется
+concrete task-owned ID. Результат — упорядоченный exact input manifest без masks
+и placeholders. Zero-match mask, unresolved `<ID>`, `TODO`, category или
+«изучи релевантное» останавливают процесс.
+
+Агент читает только exact manifest для текущей стадии и task-specific paths.
+Если обязательный input отсутствует, недоступен или противоречит task, агент
+останавливается.
 
 ## P2 Execution Grounding
 
@@ -82,7 +92,8 @@ Brief priming не заменяет это evidence;
 ## Ownership
 
 - Этот документ владеет P0/P1/P2 model и manifest schema.
-- Process file владеет route- и stage-specific source sets, outcomes и stop
-  conditions.
+- Per-process YAML manifest владеет route- и stage-specific source sets.
+- Process file владеет lifecycle, outcomes и stop conditions и указывает,
+  какой manifest и source set выполнить.
 - Task owner владеет resolved task inputs и evidence. Не создавай отдельный
   universal priming report или central source matrix.

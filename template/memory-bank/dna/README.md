@@ -14,16 +14,8 @@ DNA — конституция проектной документации. Оп
 
 ## Governance Priming Inputs
 
-1. `memory-bank/bootstrap.md`
-2. `memory-bank/dna/README.md`
-3. `memory-bank/dna/principles.md`
-4. `memory-bank/dna/governance.md`
-5. `memory-bank/dna/frontmatter.md`
-6. `memory-bank/dna/lifecycle.md`
-7. `memory-bank/dna/cross-references.md`
-8. `memory-bank/flows/README.md`
-9. `memory-bank/flows/templates/README.md`
-10. `memory-bank/flows/priming/context-priming.md`
+Прочитай [`governance.yaml`](../flows/priming/governance.yaml) и выполни source
+set `memory_bank_governance`.
 
 - [Principles](principles.md) — фундаментальные принципы проекта: SSoT, атомарность, progressive disclosure. Читать первым.
 - [Document Governance](governance.md) — SSoT implementation, dependency tree. Отвечает на вопрос: кто владеет фактом.

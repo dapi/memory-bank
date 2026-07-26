@@ -1,0 +1,24 @@
+version: 1
+process: research
+stages:
+  bootstrap:
+    - memory-bank/research/README.md
+    - memory-bank/flows/templates/research/README.md
+    - memory-bank/flows/templates/research/package-README.md
+    - memory-bank/flows/templates/research/brief.md
+  product_market:
+    - memory-bank/product/*.md
+    - memory-bank/prd/*.md
+    - memory-bank/use-cases/*.md
+  technical:
+    - memory-bank/domain/*.md
+    - memory-bank/engineering/README.md
+    - memory-bank/engineering/architecture.md
+    - memory-bank/engineering/testing-policy.md
+    - memory-bank/ops/*.md
+  evidence_collection:
+    - memory-bank/flows/templates/research/plan.md
+    - memory-bank/flows/templates/research/evidence.md
+  synthesis_decision:
+    - memory-bank/flows/templates/research/synthesis.md
+    - memory-bank/flows/templates/research/decision.md

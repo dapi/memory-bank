@@ -27,11 +27,8 @@ audience: humans_and_agents
 
 ## Priming Inputs
 
-1. `memory-bank/flows/small-change.md`
-2. `memory-bank/engineering/validation-profiles.md`
-3. `memory-bank/engineering/coding-style.md`
-4. `memory-bank/engineering/testing-policy.md`
-5. `memory-bank/ops/development.md`
+Прочитай [`small-change.yaml`](priming/small-change.yaml) и выполни source set
+`entry_execution`.
 
 Task owner добавляет exact issue, reference pattern, implementation и test
 paths. Если routing record не может сослаться на проверенный pattern и

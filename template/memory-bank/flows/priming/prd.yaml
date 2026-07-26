@@ -1,0 +1,7 @@
+version: 1
+process: prd
+stages:
+  create_update:
+    - memory-bank/product/*.md
+    - memory-bank/use-cases/*.md
+    - memory-bank/flows/templates/prd/PRD-XXX.md

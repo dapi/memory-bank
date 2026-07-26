@@ -26,7 +26,7 @@ audience: humans_and_agents
 Каталог `memory-bank/flows/` содержит reusable process-layer для шаблона: lifecycle rules, taxonomy стабильных идентификаторов и governed templates.
 
 - [Task Routing](routing.md) — порядок выбора flow, routing predicates, повторный routing и Human Routing.
-- [Task Context Priming](priming/README.md) — общий P0/P1/P2 contract и навигация к process-owned `Priming Inputs`.
+- [Task Context Priming](priming/README.md) — общий P0/P1/P2 contract и per-process YAML manifests.
 - [Research & Discovery Flow](research.md) — evidence-backed lifecycle research-задач, от question framing до decision и handoff без преждевременного delivery.
 - [Incident And PIR Flow](incident.md) — containment, recovery, timeline, RCA, PIR и prevention work.
 - [Bug Fix Flow](bug-fix.md) — reproduction, analysis, fix, regression coverage и closure.

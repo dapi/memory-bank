@@ -66,15 +66,8 @@ must_not_define:
 
 ## Continuation Priming Inputs
 
-Перед продолжением следующая сессия читает только этот exact input manifest.
-Укажи concrete repo-relative paths или stable external sources в порядке
-чтения. Не используй category, glob, `TODO` или «изучи релевантное».
-
-1. `path/to/document.md`
-2. `path/to/existing/module`
-
-Если любой required input отсутствует или diverges от handoff state, не
-продолжай работу: зафиксируй discrepancy в `Open Risks` и эскалируй.
+Прочитай `memory-bank/processes/<process-name>.priming.yaml` и выполни source
+set `continuation`.
 
 ## Completed
 
@@ -110,5 +103,6 @@ must_not_define:
 
 ## Stop Conditions
 
-- Когда нельзя продолжать без человека.
+- Когда нельзя продолжать без человека, включая divergence между priming input
+  и handoff state.
 ```

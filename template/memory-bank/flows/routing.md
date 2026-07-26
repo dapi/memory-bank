@@ -31,9 +31,7 @@ Flow определяет организацию lifecycle, но не глуби
 
 ### P0 Priming Inputs
 
-1. `memory-bank/README.md`
-2. `memory-bank/flows/routing.md`
-3. `memory-bank/engineering/autonomy-boundaries.md`
+Прочитай [`routing.yaml`](priming/routing.yaml) и выполни source set `p0`.
 
 После выбора route открой `Priming Inputs` соответствующего canonical
 process-file до первого meaningful gate. Не открывай остальные flow-документы.
@@ -131,8 +129,8 @@ Issue / Task
 
 ### Human Routing Priming Inputs
 
-1. `memory-bank/flows/routing.md`
-2. `memory-bank/engineering/autonomy-boundaries.md`
+Прочитай [`routing.yaml`](priming/routing.yaml) и выполни source set
+`human_routing`.
 
 Перед запросом человека зафиксируй competing routes, evidence, unknown или
 approval trigger и точный вопрос. Не продолжай delivery или broad research до

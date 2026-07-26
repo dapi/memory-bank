@@ -1,0 +1,12 @@
+version: 1
+process: incident
+stages:
+  containment:
+    - memory-bank/engineering/autonomy-boundaries.md
+    - memory-bank/ops/runbooks/README.md
+  recovery_pir:
+    - memory-bank/engineering/validation-profiles.md
+    - memory-bank/engineering/testing-policy.md
+    - memory-bank/ops/config.md
+    - memory-bank/ops/release.md
+    - memory-bank/ops/stages.md

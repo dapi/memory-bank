@@ -14,13 +14,8 @@ audience: humans_and_agents
 
 ## Priming Inputs
 
-1. `memory-bank/ops/README.md`
-2. `memory-bank/ops/config.md`
-3. `memory-bank/ops/development.md`
-4. `memory-bank/ops/release.md`
-5. `memory-bank/ops/runbooks/README.md`
-6. `memory-bank/ops/stages.md`
-7. `memory-bank/engineering/autonomy-boundaries.md`
+Прочитай [`ops.yaml`](../flows/priming/ops.yaml) и выполни source set
+`operations_release`.
 
 - [Development Environment](development.md) — локальная разработка, запуск приложения, тестов и вспомогательных сервисов.
 - [Stages And Non-Local Environments](stages.md) — доступ к runtime-окружениям, логи, smoke-checks и права доступа.

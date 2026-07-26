@@ -17,10 +17,8 @@ audience: humans_and_agents
 
 ## Priming Inputs
 
-1. `memory-bank/prd/*.md`
-2. `memory-bank/product/*.md`
-3. `memory-bank/use-cases/*.md`
-4. `memory-bank/flows/templates/prd/PRD-XXX.md`
+Прочитай [`prd.yaml`](../flows/priming/prd.yaml) и выполни source set
+`create_update`.
 
 PRD нужен, когда задача живет на уровне продуктовой инициативы или capability, а не одного vertical slice. Обычно PRD стоит между общим контекстом из [`../product/context.md`](../product/context.md) и downstream feature packages из [`../features/README.md`](../features/README.md).
 

@@ -67,15 +67,8 @@ must_not_define:
 
 ## Priming Inputs
 
-Перечисляй exact repo-relative paths, bounded masks или stable external sources
-в порядке чтения. Перед первым шагом разреши их в exact manifest по Context
-Priming Contract. Category, `TODO` и «изучи релевантное» не допускаются.
-
-1. `path/to/document.md`
-2. `path/to/existing/module`
-
-Если input отсутствует, недоступен или не соответствует задаче, останови
-процесс и используй раздел `Escalation`; не расширяй чтение произвольно.
+Прочитай `memory-bank/processes/<process-name>.priming.yaml` и выполни source
+set `entry`.
 
 ## Scope
 
@@ -103,5 +96,6 @@ Priming Contract. Category, `TODO` и «изучи релевантное» не
 
 ## Escalation
 
-- Когда процесс нужно остановить и поднять к человеку.
+- Когда процесс нужно остановить и поднять к человеку, включая missing или
+  conflicting priming input.
 ```

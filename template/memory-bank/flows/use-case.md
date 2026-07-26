@@ -26,11 +26,8 @@ audience: humans_and_agents
 
 ## Priming Inputs
 
-1. `memory-bank/flows/use-case.md`
-2. `memory-bank/use-cases/*.md`
-3. `memory-bank/product/*.md`
-4. `memory-bank/domain/*.md`
-5. `memory-bank/flows/templates/use-case/UC-XXX.md`
+Прочитай [`use-case.yaml`](priming/use-case.yaml) и выполни source set
+`create_update`.
 
 ## Что Такое Use Case
 

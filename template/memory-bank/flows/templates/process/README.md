@@ -22,13 +22,8 @@ canonical_for:
 
 ## Priming Inputs
 
-1. `memory-bank/flows/templates/process/README.md`
-2. `memory-bank/flows/templates/process/process-card.md`
-3. `memory-bank/flows/templates/process/lifecycle-protocol.md`
-4. `memory-bank/flows/templates/process/session-handoff.md`
-5. `memory-bank/dna/governance.md`
-6. `memory-bank/dna/lifecycle.md`
-7. `memory-bank/dna/frontmatter.md`
+Прочитай [`process.yaml`](../../priming/process.yaml) и выполни source set
+`create_update`.
 
 ## Wrapper Notes
 
@@ -40,9 +35,11 @@ canonical_for:
 - session handoff для продолжения работы между сессиями;
 - lifecycle protocol для длинных delivery-процессов с gates и verification.
 
-Каждый concrete process document должен содержать `Priming Inputs`: exact
-repo-relative paths, bounded masks или stable external sources. Перед чтением
-они разрешаются в упорядоченный exact manifest по
+Для каждого concrete process создай отдельный
+`memory-bank/processes/<process-name>.priming.yaml` из
+[`priming.yaml`](priming.yaml). Process document в `Priming Inputs` указывает
+этот manifest и нужные stage keys. Пути и bounded masks живут только в
+manifest и разрешаются по
 [`Context Priming Contract`](../../priming/context-priming.md).
 
 Если проекту достаточно одного процесса, всё равно оставь `README.md` как routing-layer: он фиксирует, какие process-documents существуют, что они покрывают и когда их открывать.

@@ -40,34 +40,9 @@ FPF-основание:
 
 ## Priming Inputs
 
-### Epic Intake
-
-1. `memory-bank/flows/epic.md`
-2. `memory-bank/epics/README.md`
-3. `memory-bank/product/*.md`
-4. `memory-bank/prd/*.md`
-5. `memory-bank/use-cases/*.md`
-6. `memory-bank/flows/templates/epic/README.md`
-7. `memory-bank/flows/templates/epic/package-README.md`
-8. `memory-bank/flows/templates/epic/brief.md`
-
-### Bootstrap Epic Additions
-
-1. `memory-bank/domain/context-map.md`
-2. `memory-bank/engineering/architecture.md`
-3. `memory-bank/flows/templates/epic/charter.md`
-
-### Roadmap Ready Additions
-
-1. `memory-bank/flows/templates/epic/roadmap.md`
-2. `memory-bank/flows/templates/epic/subissues.md`
-3. `memory-bank/flows/templates/epic/risks.md`
-4. `memory-bank/flows/templates/epic/decision-log.md`
-
-### Execution Handoff Additions
-
-1. `memory-bank/epics/<EP-ID>/*.md`
-2. `memory-bank/flows/feature.md`
+Прочитай [`epic.yaml`](priming/epic.yaml). Выполни `intake`, затем добавляй
+`bootstrap`, `roadmap_ready` и `execution_handoff` перед соответствующими
+стадиями.
 
 Intake facts и open questions принадлежат `brief.md`; при прямом bootstrap они
 фиксируются в `charter.md` или linked issue.

@@ -44,61 +44,11 @@ audience: humans_and_agents
 
 ## Priming Inputs
 
-Каждая следующая стадия добавляет свой список к уже прочитанному baseline.
-Variant-specific additions становятся обязательными, когда соответствующий
-design artifact выбран по triggers этого flow.
-
-### Bootstrap / Brief
-
-1. `memory-bank/flows/feature.md`
-2. `memory-bank/flows/feature-artifact-catalog.md`
-3. `memory-bank/features/README.md`
-4. `memory-bank/prd/*.md`
-5. `memory-bank/product/*.md`
-6. `memory-bank/domain/*.md`
-7. `memory-bank/engineering/validation-profiles.md`
-8. `memory-bank/flows/templates/feature/README.md`
-9. `memory-bank/flows/templates/feature/brief.md`
-
-### Design Additions
-
-1. `memory-bank/adr/*.md`
-2. `memory-bank/engineering/README.md`
-3. `memory-bank/engineering/architecture.md`
-4. `memory-bank/flows/templates/feature/design.md`
-
-### UI Design Additions
-
-1. `memory-bank/engineering/frontend.md`
-2. `memory-bank/engineering/ui-design-guide/README.md`
-3. `memory-bank/engineering/ui-design-guide/admin.md`
-4. `memory-bank/engineering/ui-design-guide/mobile.md`
-5. `memory-bank/engineering/ui-design-guide/public-web.md`
-6. `memory-bank/engineering/ui-design-guide/shared-components.md`
-7. `memory-bank/flows/templates/feature/support/ui-reference.md`
-
-### Interaction / Runtime Design Additions
-
-1. `memory-bank/flows/templates/feature/api-contract.md`
-2. `memory-bank/flows/templates/feature/support/runtime-surfaces.md`
-3. `memory-bank/flows/templates/feature/support/sequence-diagram.md`
-
-### Scenario Design Addition
-
-1. `memory-bank/flows/templates/feature/support/use-cases.md`
-
-### Plan Ready Additions
-
-1. `memory-bank/flows/templates/feature/implementation-plan.md`
-2. `memory-bank/engineering/testing-policy.md`
-3. `memory-bank/engineering/coding-style.md`
-4. `memory-bank/ops/development.md`
-5. `memory-bank/ops/config.md`
-
-### Execution / Continuation Additions
-
-1. `memory-bank/features/<FT-ID>/*.md`
-2. `memory-bank/engineering/git-workflow.md`
+Прочитай [`feature.yaml`](priming/feature.yaml). Выполни `bootstrap_brief`,
+затем добавляй source sets перед соответствующими стадиями. `design` обязателен
+при `Design required: yes`; `ui_design`, `interaction_runtime_design` и
+`scenario_design` обязательны при выборе соответствующего artifact; далее
+выполни `plan_ready` и `execution_continuation`.
 
 Task owner добавляет exact affected implementation and test paths в
 `implementation-plan.md`. Stage priming не заменяет execution grounding с

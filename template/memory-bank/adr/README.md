@@ -17,10 +17,8 @@ audience: humans_and_agents
 
 ## Priming Inputs
 
-1. `memory-bank/adr/*.md`
-2. `memory-bank/domain/*.md`
-3. `memory-bank/engineering/architecture.md`
-4. `memory-bank/flows/templates/adr/ADR-XXX.md`
+Прочитай [`adr.yaml`](../flows/priming/adr.yaml) и выполни source set
+`create_update`.
 
 - Заводи новый ADR из шаблона [`../flows/templates/adr/ADR-XXX.md`](../flows/templates/adr/ADR-XXX.md).
 - Держи в этом каталоге только реальные decision records, а не заметки или черновые исследования.

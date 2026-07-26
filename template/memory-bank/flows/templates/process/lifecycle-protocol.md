@@ -78,15 +78,8 @@ must_not_define:
 
 ## Priming Inputs
 
-Укажи exact repo-relative paths, bounded masks или stable external sources в
-порядке чтения. До первой фазы разреши их в exact manifest по Context Priming
-Contract. Не используй категории, `TODO` или «изучи релевантное».
-
-1. `path/to/document.md`
-2. `path/to/existing/module`
-
-Если input недоступен или противоречит trigger, останови процесс и перейди к
-соответствующему human gate или stop condition.
+Прочитай `memory-bank/processes/<process-name>.priming.yaml`. Выполни source set
+`entry`, затем добавляй source sets перед соответствующими фазами.
 
 ## Phases
 
@@ -136,5 +129,6 @@ Contract. Не используй категории, `TODO` или «изучи
 
 ## Stop Conditions
 
-- Что заставляет немедленно остановиться.
+- Что заставляет немедленно остановиться, включая missing или conflicting
+  priming input.
 ```

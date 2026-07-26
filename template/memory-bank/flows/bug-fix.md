@@ -27,20 +27,8 @@ Bug — наблюдаемое поведение, противоречащее 
 
 ## Priming Inputs
 
-### Entry
-
-1. `memory-bank/flows/bug-fix.md`
-2. `memory-bank/prd/*.md`
-3. `memory-bank/use-cases/*.md`
-4. `memory-bank/domain/*.md`
-5. `memory-bank/engineering/validation-profiles.md`
-6. `memory-bank/engineering/testing-policy.md`
-
-### Analysis / Fix Additions
-
-1. `memory-bank/engineering/architecture.md`
-2. `memory-bank/engineering/coding-style.md`
-3. `memory-bank/ops/development.md`
+Прочитай [`bug-fix.yaml`](priming/bug-fix.yaml). Выполни source set `entry`,
+затем `analysis_fix` перед Analysis / Fix.
 
 Task owner добавляет exact report, affected implementation и test paths.
 Expected/actual behavior, reproduction evidence и unknowns фиксируются в bug

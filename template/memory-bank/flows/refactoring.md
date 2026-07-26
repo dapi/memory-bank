@@ -33,20 +33,8 @@ Refactoring меняет внутреннюю структуру, сохраня
 
 ## Priming Inputs
 
-### Entry
-
-1. `memory-bank/flows/refactoring.md`
-2. `memory-bank/prd/*.md`
-3. `memory-bank/use-cases/*.md`
-4. `memory-bank/domain/*.md`
-5. `memory-bank/engineering/architecture.md`
-6. `memory-bank/engineering/validation-profiles.md`
-7. `memory-bank/engineering/testing-policy.md`
-
-### Execution Additions
-
-1. `memory-bank/engineering/coding-style.md`
-2. `memory-bank/ops/development.md`
+Прочитай [`refactoring.yaml`](priming/refactoring.yaml). Выполни source set
+`entry`, затем `execution` перед structural work.
 
 Task owner добавляет exact preservation boundary, affected implementation и
 characterization test paths.

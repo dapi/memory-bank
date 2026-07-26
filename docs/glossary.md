@@ -88,10 +88,11 @@ SSoT, status и порядок зависимостей.
 контрактах и тестах. Праймеринг следует `progressive disclosure`: он не
 означает загрузить весь репозиторий или весь Memory Bank в один контекст.
 Практическое описание приведено в [статье о праймеринге](context-priming.md).
-В template lifecycle `P0` подготавливает выбор route, `P1` читает обязательный
-process baseline, а flow-specific `P2` выполняется только при необходимости.
-Process-file может объявлять bounded masks; перед чтением они разворачиваются
-в exact input manifest с конкретными путями на одной repository revision.
+В template lifecycle `P0` подготавливает выбор route, `P1` выполняет source set
+из отдельного per-process YAML manifest, а flow-specific `P2` выполняется
+только при необходимости. Process-file указывает manifest и stage key; bounded
+masks из manifest перед чтением разворачиваются в exact input manifest с
+конкретными путями на одной repository revision.
 
 ## Index-First
 

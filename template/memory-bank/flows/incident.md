@@ -34,19 +34,8 @@ detection → triage → containment → recovery → timeline
 
 ## Priming Inputs
 
-### Containment
-
-1. `memory-bank/flows/incident.md`
-2. `memory-bank/engineering/autonomy-boundaries.md`
-3. `memory-bank/ops/runbooks/README.md`
-
-### Recovery / PIR Additions
-
-1. `memory-bank/engineering/validation-profiles.md`
-2. `memory-bank/engineering/testing-policy.md`
-3. `memory-bank/ops/config.md`
-4. `memory-bank/ops/release.md`
-5. `memory-bank/ops/stages.md`
+Прочитай [`incident.yaml`](priming/incident.yaml). Выполни source set
+`containment`, затем `recovery_pir` перед Recovery / PIR.
 
 Containment не ждёт Recovery / PIR priming или broad discovery.
 
