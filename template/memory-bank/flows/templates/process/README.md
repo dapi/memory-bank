@@ -7,6 +7,7 @@ derived_from:
   - ../../../dna/governance.md
   - ../../../dna/frontmatter.md
   - ../../routing.md
+  - ../../priming/context-priming.md
 status: active
 audience: humans_and_agents
 template_for: process
@@ -19,6 +20,16 @@ canonical_for:
 
 Этот файл описывает wrapper-template. Инстанцируемый `processes/README.md` живет ниже как embedded contract и копируется без wrapper frontmatter и history.
 
+## Priming Inputs
+
+1. `memory-bank/flows/templates/process/README.md`
+2. `memory-bank/flows/templates/process/process-card.md`
+3. `memory-bank/flows/templates/process/lifecycle-protocol.md`
+4. `memory-bank/flows/templates/process/session-handoff.md`
+5. `memory-bank/dna/governance.md`
+6. `memory-bank/dna/lifecycle.md`
+7. `memory-bank/dna/frontmatter.md`
+
 ## Wrapper Notes
 
 Каталог `processes/` нужен для reusable process-documents, которые живут между ad-hoc заметкой и feature package. Он помогает держать процесс отдельно от продуктового scope: сюда попадают повторяемые workflows, session handoff, lifecycle protocols и другие управляемые последовательности действий.
@@ -29,10 +40,10 @@ canonical_for:
 - session handoff для продолжения работы между сессиями;
 - lifecycle protocol для длинных delivery-процессов с gates и verification.
 
-Каждый concrete process document должен содержать `Priming Inputs`:
-упорядоченный список exact repo-relative paths или stable external sources,
-которые агент читает перед следующим gate. Это task/process-local manifest, а
-не просьба самостоятельно искать «релевантные» файлы по всему проекту.
+Каждый concrete process document должен содержать `Priming Inputs`: exact
+repo-relative paths, bounded masks или stable external sources. Перед чтением
+они разрешаются в упорядоченный exact manifest по
+[`Context Priming Contract`](../../priming/context-priming.md).
 
 Если проекту достаточно одного процесса, всё равно оставь `README.md` как routing-layer: он фиксирует, какие process-documents существуют, что они покрывают и когда их открывать.
 

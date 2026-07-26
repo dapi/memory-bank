@@ -7,9 +7,11 @@ derived_from:
   - ../dna/governance.md
   - ../dna/frontmatter.md
   - routing.md
+  - priming/context-priming.md
   - ../engineering/validation-profiles.md
 canonical_for:
   - feature_directory_structure
+  - feature_priming_inputs
   - feature_document_boundaries
   - feature_template_selection_rules
   - feature_flow_stages
@@ -40,9 +42,67 @@ audience: humans_and_agents
 
 Этот документ задает порядок появления feature-артефактов. Агент должен вести feature package по стадиям и не создавать downstream-артефакты раньше, чем созрел их upstream-owner.
 
-## Context Priming
+## Priming Inputs
 
-До bootstrap feature package прочитай [`P1-FEAT`](priming/feature.md) и only exact inputs из task/process manifest. Он подготавливает problem-space context для draft `brief.md`, но не выбирает solution и не заменяет обязательный execution-grounding с immutable revision и `GRND-*` evidence перед Plan Ready.
+Каждая следующая стадия добавляет свой список к уже прочитанному baseline.
+Variant-specific additions становятся обязательными, когда соответствующий
+design artifact выбран по triggers этого flow.
+
+### Bootstrap / Brief
+
+1. `memory-bank/flows/feature.md`
+2. `memory-bank/flows/feature-artifact-catalog.md`
+3. `memory-bank/features/README.md`
+4. `memory-bank/prd/*.md`
+5. `memory-bank/product/*.md`
+6. `memory-bank/domain/*.md`
+7. `memory-bank/engineering/validation-profiles.md`
+8. `memory-bank/flows/templates/feature/README.md`
+9. `memory-bank/flows/templates/feature/brief.md`
+
+### Design Additions
+
+1. `memory-bank/adr/*.md`
+2. `memory-bank/engineering/README.md`
+3. `memory-bank/engineering/architecture.md`
+4. `memory-bank/flows/templates/feature/design.md`
+
+### UI Design Additions
+
+1. `memory-bank/engineering/frontend.md`
+2. `memory-bank/engineering/ui-design-guide/README.md`
+3. `memory-bank/engineering/ui-design-guide/admin.md`
+4. `memory-bank/engineering/ui-design-guide/mobile.md`
+5. `memory-bank/engineering/ui-design-guide/public-web.md`
+6. `memory-bank/engineering/ui-design-guide/shared-components.md`
+7. `memory-bank/flows/templates/feature/support/ui-reference.md`
+
+### Interaction / Runtime Design Additions
+
+1. `memory-bank/flows/templates/feature/api-contract.md`
+2. `memory-bank/flows/templates/feature/support/runtime-surfaces.md`
+3. `memory-bank/flows/templates/feature/support/sequence-diagram.md`
+
+### Scenario Design Addition
+
+1. `memory-bank/flows/templates/feature/support/use-cases.md`
+
+### Plan Ready Additions
+
+1. `memory-bank/flows/templates/feature/implementation-plan.md`
+2. `memory-bank/engineering/testing-policy.md`
+3. `memory-bank/engineering/coding-style.md`
+4. `memory-bank/ops/development.md`
+5. `memory-bank/ops/config.md`
+
+### Execution / Continuation Additions
+
+1. `memory-bank/features/<FT-ID>/*.md`
+2. `memory-bank/engineering/git-workflow.md`
+
+Task owner добавляет exact affected implementation and test paths в
+`implementation-plan.md`. Stage priming не заменяет execution grounding с
+immutable revision и `GRND-*` evidence.
 
 ## Package Rules
 
@@ -58,10 +118,10 @@ audience: humans_and_agents
 10. Смысл стабильных идентификаторов (`REQ-*`, `SOL-*`, `SD-*`, `STEP-*` и т.д.) задается в секции «Stable Identifiers» ниже.
 11. Acceptance scenarios (`SC-*`) покрывают delivery-unit end-to-end: для пользовательского slice — от входного события до наблюдаемого результата через все затронутые слои; для infrastructure/engineering/operations change — от system, operator или pipeline trigger до observable operational outcome. Тестирование отдельного слоя в изоляции допустимо как implementation detail плана, но не заменяет end-to-end acceptance.
 12. **Связь с task tracker.** При создании feature package агент обязан добавить в исходную задачу или ticket ссылку на `brief.md`, а после появления downstream-документов — ссылки на существующие `design.md` и `implementation-plan.md`.
-13. Если фича является частью более крупной инициативы, `brief.md` может зависеть от PRD из `memory-bank/prd/`, но PRD не заменяет сам feature package.
+13. До Bootstrap / Brief агент обязан прочитать весь текущий `memory-bank/prd/*.md` corpus. Это обязательный context baseline независимо от того, зависит ли feature от конкретного PRD; PRD не заменяет сам feature package.
 14. Если фича создает новый устойчивый сценарий проекта или materially changes существующий, соответствующий `UC-*` в `memory-bank/use-cases/` должен быть создан или обновлен до closure.
 15. Optional feature-support docs (`runtime-surfaces.md`, `diagrams/<name>-sequence.md`, `ui-reference/README.md`, `use-cases/README.md`) допустимы для сложных фич как grounding / review / traceability aids. Они не становятся canonical owner problem space, solution space, acceptance inventory или execution sequencing.
-16. Если фича зависит от upstream-документа инициативы, `brief.md` импортирует только релевантные upstream-ссылки, а не весь upstream scope.
+16. Полное чтение PRD corpus не создаёт semantic dependency от каждого PRD. `brief.md: derived_from` импортирует только фактические upstream-owner references и не копирует весь upstream scope.
 17. Если работа крупнее одной delivery-feature и требует общего roadmap, cross-feature risk register или нескольких delivery units, не расширяй feature package: повтори [`Task Routing`](routing.md), выбери [`Epic Flow`](epic.md) и после epic handoff веди каждую утвержденную delivery-единицу как отдельный feature package.
 18. Validation profile выбирается в `brief.md` по [`validation-profiles.md`](../engineering/validation-profiles.md). `design.md` может уточнить risk facts, а `implementation-plan.md` разворачивает minimum contract в команды, suites и checkpoints, но ни один из них не дублирует profile decision.
 

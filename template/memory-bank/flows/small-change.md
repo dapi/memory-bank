@@ -6,10 +6,12 @@ purpose: Прямой delivery flow для задач, где issue достат
 derived_from:
   - ../dna/governance.md
   - routing.md
+  - priming/context-priming.md
   - ../engineering/testing-policy.md
   - ../engineering/validation-profiles.md
 canonical_for:
   - small_change_entry_contract
+  - small_change_priming_inputs
   - small_change_routing_record
   - small_change_execution_flow
   - small_change_evidence_rules
@@ -23,9 +25,17 @@ audience: humans_and_agents
 
 `Small Change` — fast path, выбранный по predicates из [`routing.md`](routing.md). Для него не создаются feature package, `brief.md`, `design.md`, `implementation-plan.md` или ADR; issue/task остаётся owner-ом intent, scope и acceptance.
 
-## Context Priming
+## Priming Inputs
 
-До Entry Gate прочитай [`P1-SMALL`](priming/small-change.md) и only exact inputs из task/process manifest. Routing record ссылается на проверенный existing pattern и конкретные verify actions; если это невозможно, повтори Task Routing.
+1. `memory-bank/flows/small-change.md`
+2. `memory-bank/engineering/validation-profiles.md`
+3. `memory-bank/engineering/coding-style.md`
+4. `memory-bank/engineering/testing-policy.md`
+5. `memory-bank/ops/development.md`
+
+Task owner добавляет exact issue, reference pattern, implementation и test
+paths. Если routing record не может сослаться на проверенный pattern и
+конкретные verify actions, повтори Task Routing.
 
 ## Entry Gate
 

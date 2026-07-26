@@ -12,6 +12,8 @@ canonical_for:
   - workflow_type_selection
   - task_rerouting_rules
   - human_routing_rules
+  - task_routing_priming_inputs
+  - human_routing_priming_inputs
   - task_routing_outcome_contract
 status: active
 audience: humans_and_agents
@@ -27,7 +29,16 @@ Flow определяет организацию lifecycle, но не глуби
 
 До применения routing predicates выполни [`P0 Route Classification`](priming/context-priming.md#p0-route-classification): собери минимальные facts, чтобы выбрать flow или сформулировать Human Routing question. P0 не является implementation discovery, design или отдельным lifecycle; он заканчивается, как только route обоснован.
 
-После выбора route открой только соответствующий [`P1` profile](priming/README.md#p1-route-profiles) до первого meaningful gate выбранного flow. Профиль использует exact input manifest из конкретного process/task owner и не разрешает читать весь каталог профилей. Он не заменяет flow-specific execution grounding: например, Feature Flow всё ещё требует `GRND-*` evidence до sequencing.
+### P0 Priming Inputs
+
+1. `memory-bank/README.md`
+2. `memory-bank/flows/routing.md`
+3. `memory-bank/engineering/autonomy-boundaries.md`
+
+После выбора route открой `Priming Inputs` соответствующего canonical
+process-file до первого meaningful gate. Не открывай остальные flow-документы.
+Process priming не заменяет execution grounding: например, Feature Flow всё
+ещё требует `GRND-*` evidence до sequencing.
 
 ## Routing Order
 
@@ -118,7 +129,14 @@ Issue / Task
 
 Следуй canonical triggers из [`../engineering/autonomy-boundaries.md`](../engineering/autonomy-boundaries.md). Для routing дополнительно запрашивай решение человека, когда выбор flow требует продуктового решения, риск нельзя контролировать существующими gates или несколько route остаются одинаково правдоподобными после доступного исследования.
 
-Перед запросом человека выполни [`P1-HUMAN`](priming/human-routing.md): зафиксируй competing routes, evidence, unknown или approval trigger и точный вопрос. Не продолжай delivery или broad research до решения; после него повтори Task Routing.
+### Human Routing Priming Inputs
+
+1. `memory-bank/flows/routing.md`
+2. `memory-bank/engineering/autonomy-boundaries.md`
+
+Перед запросом человека зафиксируй competing routes, evidence, unknown или
+approval trigger и точный вопрос. Не продолжай delivery или broad research до
+решения; после него повтори Task Routing.
 
 ## Outcome / Exit Contract
 

@@ -6,10 +6,12 @@ purpose: Delivery flow для воспроизводимого расхожде�
 derived_from:
   - ../dna/governance.md
   - routing.md
+  - priming/context-priming.md
   - ../engineering/testing-policy.md
   - ../engineering/validation-profiles.md
 canonical_for:
   - bug_fix_entry_contract
+  - bug_fix_priming_inputs
   - bug_reproduction_rules
   - bug_fix_execution_flow
   - bug_regression_evidence_rules
@@ -23,9 +25,26 @@ audience: humans_and_agents
 
 Bug — наблюдаемое поведение, противоречащее уже принятому expected behavior. Источником может быть error tracker, support, QA, пользовательский report или incident analysis.
 
-## Context Priming
+## Priming Inputs
 
-До Entry Gate прочитай [`P1-BUG`](priming/bug-fix.md) и only exact inputs из bug process/task manifest. Expected/actual behavior, reproduction evidence и unknowns фиксируются в bug report или linked delivery task.
+### Entry
+
+1. `memory-bank/flows/bug-fix.md`
+2. `memory-bank/prd/*.md`
+3. `memory-bank/use-cases/*.md`
+4. `memory-bank/domain/*.md`
+5. `memory-bank/engineering/validation-profiles.md`
+6. `memory-bank/engineering/testing-policy.md`
+
+### Analysis / Fix Additions
+
+1. `memory-bank/engineering/architecture.md`
+2. `memory-bank/engineering/coding-style.md`
+3. `memory-bank/ops/development.md`
+
+Task owner добавляет exact report, affected implementation и test paths.
+Expected/actual behavior, reproduction evidence и unknowns фиксируются в bug
+report или linked delivery task.
 
 ## Entry Gate
 

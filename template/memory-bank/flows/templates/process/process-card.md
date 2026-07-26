@@ -67,9 +67,9 @@ must_not_define:
 
 ## Priming Inputs
 
-Перед первым шагом агент читает только этот manifest. Перечисляй concrete
-repo-relative paths или stable external sources в порядке чтения. Category,
-glob, `TODO` и «изучи релевантное» не допускаются.
+Перечисляй exact repo-relative paths, bounded masks или stable external sources
+в порядке чтения. Перед первым шагом разреши их в exact manifest по Context
+Priming Contract. Category, `TODO` и «изучи релевантное» не допускаются.
 
 1. `path/to/document.md`
 2. `path/to/existing/module`

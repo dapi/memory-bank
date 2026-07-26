@@ -78,9 +78,9 @@ must_not_define:
 
 ## Priming Inputs
 
-До первой фазы агент читает только этот exact input manifest. Для каждого
-источника укажи repo-relative path или stable external source в порядке
-чтения. Не используй категории, glob, `TODO` или «изучи релевантное».
+Укажи exact repo-relative paths, bounded masks или stable external sources в
+порядке чтения. До первой фазы разреши их в exact manifest по Context Priming
+Contract. Не используй категории, `TODO` или «изучи релевантное».
 
 1. `path/to/document.md`
 2. `path/to/existing/module`

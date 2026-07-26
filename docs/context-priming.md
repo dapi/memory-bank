@@ -35,31 +35,31 @@
 
 - **P0 — route classification:** перед Task Routing собираются только facts,
   нужные для выбора flow или точного вопроса человеку;
-- **P1 — route profile:** после routing контекст специализируется под первый
-  gate выбранного flow — например, reproduction для bug fix или baseline для
-  refactoring;
+- **P1 — process priming:** после routing агент читает обязательный baseline
+  выбранного canonical process-file;
 - **P2 — execution grounding:** только когда конкретный flow требует
   дополнительной проверки текущего состояния перед execution. В Feature Flow
   это `GRND-*` evidence против immutable commit SHA перед sequencing.
 
-Подробный contract и profiles определяет
+Подробный contract и process-owned lists определяет
 [`memory-bank/flows/priming/README.md`](../template/memory-bank/flows/priming/README.md).
 Routing и праймеринг различаются: первый выбирает lifecycle, второй снабжает
 следующее решение проверяемым контекстом.
 
-P1-профиль открывается отдельным небольшим файлом. Перед его запуском concrete
-process-file или task owner составляет **exact input manifest**: упорядоченный
-список repo-relative paths. Агент читает только этот список; категории,
-маски, «релевантные тесты» или `TODO` не являются входом.
+Canonical process-file объявляет обязательный baseline и stage additions через
+exact paths и bounded masks. Перед чтением masks разворачиваются против одной
+immutable revision в **exact input manifest**. Task owner добавляет concrete
+implementation/test paths; категории, unresolved placeholders, «релевантные
+тесты» и `TODO` не являются входом.
 Для реализации Feature plan содержит отдельный `Implementation Priming`
 manifest и проверку immutable revision перед первым изменением файлов.
 
 ## Progressive disclosure, а не полная загрузка
 
 Праймеринг использует [progressive disclosure](../template/memory-bank/dna/principles.md):
-сначала индекс, затем нужный раздел, затем конкретный документ или фрагмент.
-Полный Memory Bank и весь репозиторий редко нужны для одной задачи; лишний
-контекст затрудняет поиск существенного и делает ответ менее сфокусированным.
+сначала обязательный process baseline, затем stage additions, затем
+task-specific code и test paths. Полный репозиторий не загружается, но
+обязательный corpus процесса не сокращается по субъективной «релевантности».
 
 Хорошая инструкция даёт точный список файлов. Например:
 

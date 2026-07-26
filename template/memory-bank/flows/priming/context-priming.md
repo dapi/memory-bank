@@ -23,13 +23,13 @@ route или ближайшего gate. Он не создаёт второй ow
 
 ```text
 task → P0: route classification → Task Routing
-     → P1: one route-specific profile → first flow gate
+     → P1: selected process Priming Inputs → first flow gate
      → P2: execution grounding, если его требует flow
 ```
 
 Праймеринг использует progressive disclosure. Агент читает этот contract для
-P0, а после routing — только profile выбранного route и его exact input
-manifest; не весь каталог [`priming/`](README.md).
+P0, а после routing — `Priming Inputs` выбранного process-file; не весь каталог
+[`flows/`](../README.md).
 
 ## P0 Route Classification
 
@@ -44,42 +44,45 @@ manifest; не весь каталог [`priming/`](README.md).
 
 P0 заканчивается сразу после обоснования route или формулировки точного
 вопроса для Human Routing. Признак incident прекращает broad discovery:
-сразу выбери Incident Flow и перейди к timeboxed P1-INC.
+сразу выбери Incident Flow и перейди к его timeboxed Containment priming.
 
-## P1 Route Profile
+## P1 Process Priming
 
-После Task Routing прочитай ровно один [P1 profile](README.md) до первого
-meaningful gate. Профиль владеет outcome и stop condition своего route.
-Process file владеет stable exact inputs, а task owner дополняет их current
-implementation/test paths.
+После Task Routing открой выбранный canonical process-file и выполни его
+`Priming Inputs` до первого meaningful gate. Этот же process-file владеет
+stage-specific additions, outcomes и stop conditions. Task owner дополняет
+baseline concrete implementation/test paths.
 
-## Exact Input Manifest
+## Source Sets And Exact Input Manifest
 
-Каждый конкретный process-file и task owner должен дать упорядоченный список
-точных inputs, которые агент прочитает перед следующим gate. Допустимы только
-конкретные repo-relative paths или stable external source references; category,
-glob, `TODO` и «изучи релевантное» не являются input.
+Process-file объявляет обязательные source sets как exact repo-relative paths,
+bounded masks или stable external source references. Перед чтением masks
+разворачиваются лексикографически против одной immutable repository revision.
+`<ID>` заменяется concrete task-owned ID. Zero-match mask, unresolved `<ID>`,
+`TODO`, category или «изучи релевантное» останавливают процесс.
 
 ```text
-1. path/to/document.md
-2. path/to/existing/module
-3. https://stable.example/source
+1. memory-bank/prd/*.md
+2. memory-bank/features/<FT-ID>/*.md
 ```
 
-Агент читает только объединённый process-level и task-specific manifest и
-останавливается, если обязательный input отсутствует, недоступен или
-противоречит task.
+Результат resolution — упорядоченный exact input manifest без masks и
+placeholders. Агент читает только объединённый process baseline, применимые
+stage additions и task-specific paths. Если обязательный input отсутствует,
+недоступен или противоречит task, агент останавливается.
 
 ## P2 Execution Grounding
 
 P2 не является универсальным шагом. Feature Flow сохраняет execution
-grounding с `GRND-*` против immutable commit SHA перед sequencing. P1-FEAT не
-заменяет это evidence; [`implementation-plan.md`](../templates/feature/implementation-plan.md)
+grounding с `GRND-*` против immutable commit SHA перед sequencing. Bootstrap /
+Brief priming не заменяет это evidence;
+[`implementation-plan.md`](../templates/feature/implementation-plan.md)
 содержит отдельный exact implementation manifest для агента перед первым write.
 
 ## Ownership
 
 - Этот документ владеет P0/P1/P2 model и manifest schema.
-- Каждый P1 profile владеет route-specific outcome и stop condition.
-- Process file владеет его stable exact inputs; task owner — текущими task
-  inputs и evidence. Не создавай отдельный universal priming report.
+- Process file владеет route- и stage-specific source sets, outcomes и stop
+  conditions.
+- Task owner владеет resolved task inputs и evidence. Не создавай отдельный
+  universal priming report или central source matrix.

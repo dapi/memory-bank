@@ -6,10 +6,12 @@ purpose: Operational flow от обнаружения и containment инцид�
 derived_from:
   - ../dna/governance.md
   - routing.md
+  - priming/context-priming.md
   - ../engineering/testing-policy.md
   - ../ops/runbooks/README.md
 canonical_for:
   - incident_entry_contract
+  - incident_priming_inputs
   - incident_response_flow
   - incident_human_gates
   - pir_requirements
@@ -30,9 +32,23 @@ detection → triage → containment → recovery → timeline
           → root cause analysis → remediation → PIR → prevention work
 ```
 
-## Context Priming
+## Priming Inputs
 
-Сразу после route прочитай timeboxed [`P1-INC`](priming/incident.md) и only exact inputs из incident manifest. Его результат фиксируется в incident record/timeline; containment не ждёт broad discovery.
+### Containment
+
+1. `memory-bank/flows/incident.md`
+2. `memory-bank/engineering/autonomy-boundaries.md`
+3. `memory-bank/ops/runbooks/README.md`
+
+### Recovery / PIR Additions
+
+1. `memory-bank/engineering/validation-profiles.md`
+2. `memory-bank/engineering/testing-policy.md`
+3. `memory-bank/ops/config.md`
+4. `memory-bank/ops/release.md`
+5. `memory-bank/ops/stages.md`
+
+Containment не ждёт Recovery / PIR priming или broad discovery.
 
 ## Response Gates
 

@@ -7,8 +7,10 @@ derived_from:
   - ../dna/governance.md
   - ../dna/frontmatter.md
   - routing.md
+  - priming/context-priming.md
 canonical_for:
   - research_directory_structure
+  - research_priming_inputs
   - research_lifecycle
   - research_artifact_ownership
   - research_evidence_provenance
@@ -22,9 +24,43 @@ audience: humans_and_agents
 
 Research & Discovery Flow управляет задачей, чьим первым outcome является не delivery, а evidence-backed answer для named decision owner. **Discovery** — подходящее имя product-oriented режима этого flow, но не заменяет общий термин `research`: market research, technical spike и desk research могут не быть product discovery.
 
-## Context Priming
+## Priming Inputs
 
-До bootstrap прочитай [`P1-RES`](priming/research.md) и only exact inputs из research process/task manifest. После bootstrap его question, known evidence, assumptions, unknowns и stopping condition принадлежат `brief.md` research package.
+### Bootstrap
+
+1. `memory-bank/flows/research.md`
+2. `memory-bank/research/README.md`
+3. `memory-bank/flows/templates/research/README.md`
+4. `memory-bank/flows/templates/research/package-README.md`
+5. `memory-bank/flows/templates/research/brief.md`
+
+### Product / Market Mode Additions
+
+1. `memory-bank/product/*.md`
+2. `memory-bank/prd/*.md`
+3. `memory-bank/use-cases/*.md`
+
+### Technical Mode Additions
+
+1. `memory-bank/domain/*.md`
+2. `memory-bank/engineering/README.md`
+3. `memory-bank/engineering/architecture.md`
+4. `memory-bank/engineering/testing-policy.md`
+5. `memory-bank/ops/*.md`
+
+### Evidence Collection Additions
+
+1. `memory-bank/flows/templates/research/plan.md`
+2. `memory-bank/flows/templates/research/evidence.md`
+
+### Synthesis / Decision Additions
+
+1. `memory-bank/flows/templates/research/synthesis.md`
+2. `memory-bank/flows/templates/research/decision.md`
+
+После Bootstrap выбери ровно один mode-specific source set. Task owner добавляет
+exact source records. После bootstrap question, known evidence, assumptions,
+unknowns и stopping condition принадлежат `brief.md` research package.
 
 ## Package Rules
 

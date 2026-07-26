@@ -5,6 +5,7 @@ doc_function: index
 purpose: Навигация по ADR проекта. Читать, чтобы найти уже принятые решения или завести новый ADR по шаблону.
 derived_from:
   - ../dna/governance.md
+  - ../flows/priming/context-priming.md
   - ../flows/templates/adr/ADR-XXX.md
 status: active
 audience: humans_and_agents
@@ -13,6 +14,13 @@ audience: humans_and_agents
 # Architecture Decision Records Index
 
 Каталог `memory-bank/adr/` хранит instantiated ADR проекта.
+
+## Priming Inputs
+
+1. `memory-bank/adr/*.md`
+2. `memory-bank/domain/*.md`
+3. `memory-bank/engineering/architecture.md`
+4. `memory-bank/flows/templates/adr/ADR-XXX.md`
 
 - Заводи новый ADR из шаблона [`../flows/templates/adr/ADR-XXX.md`](../flows/templates/adr/ADR-XXX.md).
 - Держи в этом каталоге только реальные decision records, а не заметки или черновые исследования.

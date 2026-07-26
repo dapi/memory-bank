@@ -7,9 +7,11 @@ derived_from:
   - ../dna/governance.md
   - ../dna/frontmatter.md
   - routing.md
+  - priming/context-priming.md
   - feature.md
 canonical_for:
   - epic_directory_structure
+  - epic_priming_inputs
   - epic_document_boundaries
   - epic_template_selection_rules
   - epic_intake_rules
@@ -36,9 +38,39 @@ FPF-основание:
 - **Evidence Graph**: epic решения должны ссылаться на источники, stakeholder answers, specs, ADR или code facts.
 - **Q-Bundle**: качество epic нельзя свести к одному score; оно проверяется набором отдельных свойств ниже.
 
-## Context Priming
+## Priming Inputs
 
-До Epic Intake или Bootstrap Epic прочитай [`P1-EPIC`](priming/epic.md) и only exact inputs из process/task manifest. Intake facts и open questions принадлежат `brief.md`; при прямом bootstrap они фиксируются в `charter.md` или linked issue.
+### Epic Intake
+
+1. `memory-bank/flows/epic.md`
+2. `memory-bank/epics/README.md`
+3. `memory-bank/product/*.md`
+4. `memory-bank/prd/*.md`
+5. `memory-bank/use-cases/*.md`
+6. `memory-bank/flows/templates/epic/README.md`
+7. `memory-bank/flows/templates/epic/package-README.md`
+8. `memory-bank/flows/templates/epic/brief.md`
+
+### Bootstrap Epic Additions
+
+1. `memory-bank/domain/context-map.md`
+2. `memory-bank/engineering/architecture.md`
+3. `memory-bank/flows/templates/epic/charter.md`
+
+### Roadmap Ready Additions
+
+1. `memory-bank/flows/templates/epic/roadmap.md`
+2. `memory-bank/flows/templates/epic/subissues.md`
+3. `memory-bank/flows/templates/epic/risks.md`
+4. `memory-bank/flows/templates/epic/decision-log.md`
+
+### Execution Handoff Additions
+
+1. `memory-bank/epics/<EP-ID>/*.md`
+2. `memory-bank/flows/feature.md`
+
+Intake facts и open questions принадлежат `brief.md`; при прямом bootstrap они
+фиксируются в `charter.md` или linked issue.
 
 ## Package Rules
 

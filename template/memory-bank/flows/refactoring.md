@@ -6,10 +6,12 @@ purpose: Behavior-preserving flow для локального, исследов�
 derived_from:
   - ../dna/governance.md
   - routing.md
+  - priming/context-priming.md
   - ../engineering/testing-policy.md
   - ../engineering/validation-profiles.md
 canonical_for:
   - refactoring_entry_contract
+  - refactoring_priming_inputs
   - refactoring_classification
   - refactoring_execution_flow
   - behavior_preservation_gates
@@ -29,9 +31,25 @@ Refactoring меняет внутреннюю структуру, сохраня
 - **Research:** исследование структуры и вариантов; результатом может быть proposal, plan или ADR без production change.
 - **Systemic:** большой change surface, несколько компонентов или этапов, обязательные plan и checkpoints.
 
-## Context Priming
+## Priming Inputs
 
-До Entry Gate прочитай [`P1-REF`](priming/refactoring.md) и only exact inputs из task/process manifest. Task фиксирует preservation boundary, baseline/characterization coverage и material unknowns до structural work.
+### Entry
+
+1. `memory-bank/flows/refactoring.md`
+2. `memory-bank/prd/*.md`
+3. `memory-bank/use-cases/*.md`
+4. `memory-bank/domain/*.md`
+5. `memory-bank/engineering/architecture.md`
+6. `memory-bank/engineering/validation-profiles.md`
+7. `memory-bank/engineering/testing-policy.md`
+
+### Execution Additions
+
+1. `memory-bank/engineering/coding-style.md`
+2. `memory-bank/ops/development.md`
+
+Task owner добавляет exact preservation boundary, affected implementation и
+characterization test paths.
 
 ## Entry Gate
 
