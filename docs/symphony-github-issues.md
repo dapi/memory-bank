@@ -9,25 +9,31 @@ upstream GitHub Issues adapter; no tracker extension is required.
 ```text
 open + codex-ready
   -> Symphony dispatches Codex in an isolated workspace
-  -> Codex pushes a branch and opens a pull request
-  -> open + human-review
-  -> maintainer reviews, merges, and closes the issue
+  -> Codex follows the canonical delivery-orchestrator flow
+       -> eligible repository delivery: branch + pull request
+          -> open + human-review
+          -> maintainer reviews, merges, and closes the issue
+       -> non-delivery terminal state or Human Gate: no automatic PR/label change
 ```
 
 Only issues with the `codex-ready` label are eligible. The agent replaces it
-with `human-review` after opening a pull request, which prevents another agent
-run while a maintainer reviews the change. Add `codex-ready` again only to
-explicitly request rework.
+with `human-review` only after opening a pull request, which prevents another
+agent run while a maintainer reviews the change. A Human Gate or non-delivery
+terminal state does not receive that label automatically; the maintainer must
+decide its next routing or label action. Add `codex-ready` again only to
+explicitly request rework after review.
 
 ## Prerequisites
 
 - Install `codex` and authenticate it for the machine running Symphony.
+- Install `gh` and authenticate it for GitHub issue and pull-request operations
+  performed by the agent.
 - Install Git, and configure SSH access that can push to
   `git@github.com:dapi/memory-bank.git`.
 - Install and authorize `direnv` for this repository's `.envrc`.
 - Create a GitHub token with access to this repository's issues and pull
-  requests. Symphony uses it for the host-side `github_api` tool and does not
-  pass it to the Codex subprocess.
+  requests. Symphony uses it to poll the tracker; the agent uses its authenticated
+  `gh` CLI for GitHub reads and updates.
 - Install `mise`; the bootstrap script installs the required Elixir/Erlang
   versions.
 
