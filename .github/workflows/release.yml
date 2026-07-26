@@ -1,0 +1,58 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: read
+
+jobs:
+  validate-and-publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      MEMORY_BANK_CLI_VERSION: v1.3.0
+      MEMORY_BANK_CLI_SHA256: 401927b8504ebb0e2600cee733545f4921e81b33436a9b64106e1367371c5fd5
+    steps:
+      - name: Checkout release tag
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Validate SemVer tag and main ancestry
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          [[ "$RELEASE_TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z]+([.-][0-9A-Za-z]+)*)?(\+[0-9A-Za-z]+([.-][0-9A-Za-z]+)*)?$ ]]
+          git fetch origin main
+          git merge-base --is-ancestor "$GITHUB_SHA" origin/main
+
+      - name: Install memory-bank-cli
+        run: |
+          asset="memory-bank-cli-linux-amd64"
+          url="https://github.com/dapi/memory-bank-cli/releases/download/${MEMORY_BANK_CLI_VERSION}/${asset}"
+          curl --fail --location --silent --show-error "$url" --output "$RUNNER_TEMP/$asset"
+          echo "${MEMORY_BANK_CLI_SHA256}  $RUNNER_TEMP/$asset" | sha256sum --check
+          chmod +x "$RUNNER_TEMP/$asset"
+          mkdir -p "$RUNNER_TEMP/memory-bank-cli-bin"
+          mv "$RUNNER_TEMP/$asset" "$RUNNER_TEMP/memory-bank-cli-bin/memory-bank-cli"
+          echo "$RUNNER_TEMP/memory-bank-cli-bin" >> "$GITHUB_PATH"
+
+      - name: Validate release source
+        run: |
+          memory-bank-cli --version
+          test -d template/memory-bank
+          test -d memory-bank
+          memory-bank-cli lint --scope-root template/memory-bank --entrypoint template/memory-bank/README.md
+          memory-bank-cli lint --repo-root .
+          memory-bank-cli doctor --profile template
+          git diff --check HEAD^ HEAD
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: gh release create "$RELEASE_TAG" --verify-tag --target "$GITHUB_SHA" --generate-notes --title "$RELEASE_TAG"
