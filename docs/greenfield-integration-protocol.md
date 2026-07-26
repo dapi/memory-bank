@@ -2,10 +2,10 @@
 
 ## Цель
 
-Установи generic payload `template/memory-bank/` из source checkout
-`dapi/memory-bank` в каталог `memory-bank/` текущего git-репозитория и
-адаптируй его под описанный в репозитории продукт и проект. Upstream-имя
-`template/memory-bank/` не должно появляться в downstream navigation.
+Установи generic payload `template/` из source checkout
+`dapi/memory-bank` в корень текущего git-репозитория и адаптируй canonical
+документацию в `memory-bank/` под описанный в репозитории продукт и проект. Upstream-имя
+`template/` не должно появляться в downstream navigation.
 
 Результат должен содержать максимально полный набор подтверждённых project facts, разложенных по правильным canonical owners Memory Bank, и initial PRD продукта или первой продуктовой инициативы.
 
@@ -23,7 +23,7 @@
 ## Выполнение
 
 1. Проведи inventory найденных фактов о продукте, пользователях, предметной области, архитектуре, разработке и эксплуатации.
-2. Если `memory-bank/` отсутствует, используй `memory-bank-cli init` с чистым закреплённым checkout `dapi/memory-bank`: CLI прочитает upstream `template/memory-bank/` и установит его как downstream `memory-bank/`. Если CLI недоступен и выбран явный manual fallback, скопируй содержимое source-каталога `template/memory-bank/` в новый downstream-каталог `memory-bank/`, не сохраняя upstream-имя. Если `memory-bank/` уже существует, не перезаписывай его целиком — адаптируй имеющуюся копию.
+2. Если `memory-bank/` отсутствует, используй `memory-bank-cli init` с чистым закреплённым checkout `dapi/memory-bank`: CLI прочитает upstream `template/` и установит его содержимое в корень downstream-репозитория, поэтому `template/memory-bank/` станет `memory-bank/`, а `template/init.sh` — `./init.sh`. Если CLI недоступен и выбран явный manual fallback, скопируй содержимое source-каталога `template/` в корень downstream-репозитория, не сохраняя upstream-префикс. Если `memory-bank/` уже существует, не перезаписывай его целиком — адаптируй имеющуюся копию.
 3. Прочитай `memory-bank/README.md`, `memory-bank/dna/README.md` и правила document governance.
 4. Замени template placeholders подтверждёнными фактами текущего проекта и максимально полно адаптируй:
    - `product/` — problem, vision, users, jobs, outcomes, non-goals, metrics, positioning и roadmap;

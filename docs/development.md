@@ -1,6 +1,6 @@
 # Разработка репозитория
 
-Этот репозиторий содержит upstream payload `template/memory-bank/` и документацию по его внедрению. `memory-bank-cli` устанавливает этот payload в downstream-репозитории под именем `memory-bank/`. Реализация, command contract и релизы CLI принадлежат отдельному репозиторию [`dapi/memory-bank-cli`](https://github.com/dapi/memory-bank-cli).
+Этот репозиторий содержит upstream payload `template/` и документацию по его внедрению. `memory-bank-cli` устанавливает каждый tracked regular file из этого дерева в корень downstream-репозитория: `template/memory-bank/` становится `memory-bank/`, а `template/init.sh` — `./init.sh`. Реализация, command contract и релизы CLI принадлежат отдельному репозиторию [`dapi/memory-bank-cli`](https://github.com/dapi/memory-bank-cli).
 
 Исходный template repository проверяется явным профилем `memory-bank-cli doctor --profile template`. Автоматический профиль предназначен для downstream-репозиториев с `memory-bank/.lock`.
 
@@ -26,8 +26,8 @@ CI устанавливает закреплённый release CLI, провер
 
 ## Документационный шаблон
 
-При изменении `template/memory-bank/`:
+При изменении `template/`:
 
-- убедитесь, что индексы и ссылки соответствуют новой структуре;
+- убедитесь, что индексы, ссылки и root-level executable files соответствуют новой структуре;
 - не переносите source-repository metadata или project-specific детали обратно в generic-шаблон;
 - при изменении governed template docs проверяйте соседние governed-файлы на противоречия.
