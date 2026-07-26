@@ -79,17 +79,14 @@ must_not_define:
 ## Priming Inputs
 
 До первой фазы агент читает только этот exact input manifest. Для каждого
-источника укажи repo-relative path или stable external source, section/symbol,
-цель и первый gate, для которого он обязателен. Не используй категории,
-glob, `TODO` или «изучи релевантное».
+источника укажи repo-relative path или stable external source в порядке
+чтения. Не используй категории, glob, `TODO` или «изучи релевантное».
 
-| Path / source | Section / symbol | Purpose | Required before | Revision / freshness |
-| --- | --- | --- | --- | --- |
-| `path/to/document.md` | `#section` / `Symbol` / `entire file` | Какой факт нужен lifecycle | `Phase 1` / `H1` | commit SHA / date / `current` |
+1. `path/to/document.md`
+2. `path/to/existing/module`
 
-Если обязательный input недоступен, противоречит trigger или не соответствует
-указанной revision, останови процесс и перейди к соответствующему human gate
-или stop condition.
+Если input недоступен или противоречит trigger, останови процесс и перейди к
+соответствующему human gate или stop condition.
 
 ## Phases
 

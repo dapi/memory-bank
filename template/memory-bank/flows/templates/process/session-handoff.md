@@ -67,13 +67,11 @@ must_not_define:
 ## Continuation Priming Inputs
 
 Перед продолжением следующая сессия читает только этот exact input manifest.
-Укажи concrete repo-relative paths или stable external sources, section/symbol,
-цель и freshness/revision. Не используй category, glob, `TODO` или «изучи
-релевантное».
+Укажи concrete repo-relative paths или stable external sources в порядке
+чтения. Не используй category, glob, `TODO` или «изучи релевантное».
 
-| Path / source | Section / symbol | Purpose | Revision / freshness |
-| --- | --- | --- | --- |
-| `path/to/document.md` | `#section` / `Symbol` / `entire file` | Какой факт нужен для продолжения | commit SHA / date / `current` |
+1. `path/to/document.md`
+2. `path/to/existing/module`
 
 Если любой required input отсутствует или diverges от handoff state, не
 продолжай работу: зафиксируй discrepancy в `Open Risks` и эскалируй.

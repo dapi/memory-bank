@@ -68,15 +68,14 @@ must_not_define:
 ## Priming Inputs
 
 Перед первым шагом агент читает только этот manifest. Перечисляй concrete
-repo-relative paths или stable external sources; category, glob, `TODO` и
-«изучи релевантное» не допускаются.
+repo-relative paths или stable external sources в порядке чтения. Category,
+glob, `TODO` и «изучи релевантное» не допускаются.
 
-| Path / source | Section / symbol | Purpose | Required before |
-| --- | --- | --- | --- |
-| `path/to/document.md` | `#section` / `Symbol` / `entire file` | Какой факт нужен процессу | `STEP-01` |
+1. `path/to/document.md`
+2. `path/to/existing/module`
 
-Если input отсутствует, недоступен или устарел, останови процесс и используй
-раздел `Escalation`; не расширяй чтение произвольно.
+Если input отсутствует, недоступен или не соответствует задаче, останови
+процесс и используй раздел `Escalation`; не расширяй чтение произвольно.
 
 ## Scope
 

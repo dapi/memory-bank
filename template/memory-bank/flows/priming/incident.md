@@ -15,10 +15,8 @@ audience: humans_and_agents
 
 # P1-INC Context Priming
 
-Сразу после route прочитай only exact inputs из incident process manifest:
-alert/report, affected runtime surfaces, доступные recovery signals, relevant
-runbook и, если это не задерживает containment, recent deployment/change
-evidence.
+Сразу после route прочитай только упорядоченный exact list из incident process
+manifest. Не добавляй файлы по категориям или маскам.
 
 В incident record/timeline зафиксируй timestamps, observed impact, owner,
 containment options и unknowns. Timebox discovery: containment и human incident

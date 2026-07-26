@@ -15,9 +15,8 @@ audience: humans_and_agents
 
 # P1-REF Context Priming
 
-До Entry Gate прочитай only exact inputs из task/process manifest: observable
-behavior и contracts, которые должны сохраниться, baseline/characterization
-coverage, structural change surface и checkpoint constraints.
+До Entry Gate прочитай только упорядоченный exact list из task/process
+manifest. Не добавляй файлы по категориям или маскам.
 
 Исходная task фиксирует preservation boundary, baseline и material unknowns.
 Intentional behavior/contract change не маскируй как refactoring: верни его в

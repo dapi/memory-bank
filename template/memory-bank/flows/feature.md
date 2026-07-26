@@ -277,7 +277,7 @@ flowchart LR
 Plan Ready artifact-review convergence допускает не более пяти review-improve итераций. Последняя итерация с исправлениями не считается clean verdict без последующего re-review; исчерпание budget оставляет gate непройденным и требует replan либо Human Gate.
 
 - [ ] агент выполнил grounding до sequencing: прошёлся по текущему состоянию системы против зафиксированного immutable commit SHA repository revision и сохранил `GRND-*` evidence в `implementation-plan.md`; `HEAD`, branch name и tag не допускаются
-- [ ] `implementation-plan.md` содержит `Implementation Priming`: exact repo-relative paths или stable external sources, section/symbol, `GRND-*` refs, purpose и required `STEP-*`; categories, globs, `TODO` и предполагаемые paths не допускаются
+- [ ] `implementation-plan.md` содержит упорядоченный `Implementation Priming`: exact repo-relative paths или stable external sources, section/symbol, `GRND-*` refs, purpose и required `STEP-*`; categories, globs, `TODO` и предполагаемые paths не допускаются
 - [ ] если `brief.md` фиксирует `Design required: yes`, весь design pack по-прежнему удовлетворяет `Solution Ready`, включая publication/lifecycle статусы constituents и external dependencies
 - [ ] если `brief.md` фиксирует `Design required: no`, `implementation-plan.md` не принимает architecture decisions, contracts или invariants
 - [ ] `implementation-plan.md` создан по шаблону `templates/feature/implementation-plan.md`

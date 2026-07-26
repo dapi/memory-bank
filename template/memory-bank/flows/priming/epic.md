@@ -15,9 +15,8 @@ audience: humans_and_agents
 
 # P1-EPIC Context Priming
 
-До Epic Intake или Bootstrap прочитай only exact inputs из process/task
-manifest: source/trigger, problem/outcome, rough scope/non-scope, available
-evidence, stakeholders/decision owner, candidate slices и open questions.
+До Epic Intake или Bootstrap прочитай только упорядоченный exact list из
+process/task manifest. Не добавляй файлы по категориям или маскам.
 
 `epics/EP-XXX/brief.md` владеет proposal facts при Intake; при достаточных
 facts `charter.md` получает canonical intent. Не создавай accepted subissues,

@@ -49,20 +49,22 @@ P0 заканчивается сразу после обоснования route
 ## P1 Route Profile
 
 После Task Routing прочитай ровно один [P1 profile](README.md) до первого
-meaningful gate. Профиль владеет only required input classes, outcome и stop
-condition своего route. Process file владеет stable exact inputs, а task owner
-дополняет их current implementation/test paths.
+meaningful gate. Профиль владеет outcome и stop condition своего route.
+Process file владеет stable exact inputs, а task owner дополняет их current
+implementation/test paths.
 
 ## Exact Input Manifest
 
-Каждый конкретный process-file и task owner должен перечислять exact inputs,
-которые агент прочитает перед следующим gate. Допустимы только конкретные
-repo-relative paths или stable external source references; category, glob,
-`TODO` и «изучи релевантное» не являются input.
+Каждый конкретный process-file и task owner должен дать упорядоченный список
+точных inputs, которые агент прочитает перед следующим gate. Допустимы только
+конкретные repo-relative paths или stable external source references; category,
+glob, `TODO` и «изучи релевантное» не являются input.
 
-| Path / source | Section / symbol | Purpose | Required for gate | Revision / freshness |
-| --- | --- | --- | --- | --- |
-| `path/to/document.md` | `#section` / `Symbol` / `entire file` | Какой факт нужно получить | `P1-BUG` / `Plan Ready` | commit SHA / date / `current` |
+```text
+1. path/to/document.md
+2. path/to/existing/module
+3. https://stable.example/source
+```
 
 Агент читает только объединённый process-level и task-specific manifest и
 останавливается, если обязательный input отсутствует, недоступен или
@@ -78,7 +80,6 @@ grounding с `GRND-*` против immutable commit SHA перед sequencing. P
 ## Ownership
 
 - Этот документ владеет P0/P1/P2 model и manifest schema.
-- Каждый P1 profile владеет only route-specific required input classes, outcome
-  и stop condition.
+- Каждый P1 profile владеет route-specific outcome и stop condition.
 - Process file владеет его stable exact inputs; task owner — текущими task
   inputs и evidence. Не создавай отдельный universal priming report.

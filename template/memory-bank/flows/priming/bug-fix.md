@@ -15,13 +15,8 @@ audience: humans_and_agents
 
 # P1-BUG Context Priming
 
-До Bug Fix Entry Gate прочитай only exact inputs из current process/task
-manifest. Он обязан назвать:
-
-- bug report или source trigger;
-- canonical owner already accepted expected behavior;
-- affected implementation path и minimum reproduction inputs/environment;
-- ближайшую existing test surface либо evidence-backed отсутствие покрытия.
+До Bug Fix Entry Gate прочитай только упорядоченный exact list из current
+process/task manifest. Не добавляй файлы по категориям или маскам.
 
 В bug report или linked task зафиксируй expected/actual behavior, reproduction
 evidence, sources и open uncertainty. Не выбирай новый product behavior и не

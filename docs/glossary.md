@@ -91,7 +91,7 @@ SSoT, status и порядок зависимостей.
 В template lifecycle `P0` подготавливает выбор route, `P1` специализируется
 под первый gate flow, а flow-specific `P2` выполняется только при необходимости.
 Каждый P1/P2 запуск использует exact input manifest с конкретными путями,
-purpose и актуальностью источников, а не category-based указаниями.
+перечисленными в порядке чтения, а не category-based указаниями.
 
 ## Index-First
 

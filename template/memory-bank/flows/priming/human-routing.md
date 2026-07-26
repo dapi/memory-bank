@@ -15,9 +15,8 @@ audience: humans_and_agents
 
 # P1-HUMAN Context Priming
 
-Перед Human Gate прочитай only exact inputs из task/process manifest: competing
-routes, known risk/approval trigger, missing fact или product decision и
-minimal evidence references.
+Перед Human Gate прочитай только упорядоченный exact list из task/process
+manifest. Не добавляй файлы по категориям или маскам.
 
 Task/routing record формулирует точный вопрос человеку и последствия каждого
 допустимого route. Не проводи broad research и не продолжай delivery до

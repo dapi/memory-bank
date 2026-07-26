@@ -15,9 +15,8 @@ audience: humans_and_agents
 
 # P1-FEAT Context Priming
 
-До bootstrap прочитай only exact inputs из task/process manifest: relevant
-upstream PRD/epic/use case/ADR, applicable domain and engineering rules,
-affected contracts и bounded current repository surfaces.
+До bootstrap прочитай только упорядоченный exact list из task/process manifest.
+Не добавляй файлы по категориям или маскам.
 
 Draft `features/FT-XXX/brief.md` фиксирует problem-space facts, assumptions,
 constraints и unresolved decisions, но не selected solution. Перед Plan Ready

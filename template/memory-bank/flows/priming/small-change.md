@@ -15,9 +15,8 @@ audience: humans_and_agents
 
 # P1-SMALL Context Priming
 
-До Entry Gate прочитай only exact inputs из task/process manifest: declared
-intent/scope/acceptance, реально существующий reference pattern, local change
-surface и known test/verify surface.
+До Entry Gate прочитай только упорядоченный exact list из task/process
+manifest. Не добавляй файлы по категориям или маскам.
 
 Routing record ссылается на проверенный pattern и concrete verify actions. Если
 pattern не подходит, surface не локален или нужны design/plan/contract
