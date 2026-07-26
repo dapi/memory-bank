@@ -6,6 +6,7 @@ purpose: Delivery flow для воспроизводимого расхожде�
 derived_from:
   - ../dna/governance.md
   - routing.md
+  - priming.md
   - ../engineering/testing-policy.md
   - ../engineering/validation-profiles.md
 canonical_for:
@@ -22,6 +23,10 @@ audience: humans_and_agents
 # Bug Fix Flow
 
 Bug — наблюдаемое поведение, противоречащее уже принятому expected behavior. Источником может быть error tracker, support, QA, пользовательский report или incident analysis.
+
+## Context Priming
+
+До Entry Gate выполни [`P1-BUG`](priming.md#p1-bug-bug-fix). Expected/actual behavior, reproduction evidence и unknowns фиксируются в bug report или linked delivery task.
 
 ## Entry Gate
 

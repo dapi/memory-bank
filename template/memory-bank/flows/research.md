@@ -7,6 +7,7 @@ derived_from:
   - ../dna/governance.md
   - ../dna/frontmatter.md
   - routing.md
+  - priming.md
 canonical_for:
   - research_directory_structure
   - research_lifecycle
@@ -21,6 +22,10 @@ audience: humans_and_agents
 # Research And Discovery Flow
 
 Research & Discovery Flow управляет задачей, чьим первым outcome является не delivery, а evidence-backed answer для named decision owner. **Discovery** — подходящее имя product-oriented режима этого flow, но не заменяет общий термин `research`: market research, technical spike и desk research могут не быть product discovery.
+
+## Context Priming
+
+До bootstrap выполни [`P1-RES`](priming.md#p1-res-research-and-discovery). После bootstrap его question, known evidence, assumptions, unknowns и stopping condition принадлежат `brief.md` research package.
 
 ## Package Rules
 
