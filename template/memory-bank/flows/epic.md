@@ -7,6 +7,7 @@ derived_from:
   - ../dna/governance.md
   - ../dna/frontmatter.md
   - routing.md
+  - priming.md
   - feature.md
 canonical_for:
   - epic_directory_structure
@@ -35,6 +36,10 @@ FPF-основание:
 - **Strict Distinction**: epic, feature, PRD, use case, ADR и implementation plan имеют разные owners и не должны подменять друг друга.
 - **Evidence Graph**: epic решения должны ссылаться на источники, stakeholder answers, specs, ADR или code facts.
 - **Q-Bundle**: качество epic нельзя свести к одному score; оно проверяется набором отдельных свойств ниже.
+
+## Context Priming
+
+До Epic Intake или Bootstrap Epic выполни [`P1-EPIC`](priming.md#p1-epic-epic). Intake facts и open questions принадлежат `brief.md`; при прямом bootstrap они фиксируются в `charter.md` или linked issue.
 
 ## Package Rules
 

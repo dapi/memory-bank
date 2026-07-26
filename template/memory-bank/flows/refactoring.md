@@ -6,6 +6,7 @@ purpose: Behavior-preserving flow для локального, исследов�
 derived_from:
   - ../dna/governance.md
   - routing.md
+  - priming.md
   - ../engineering/testing-policy.md
   - ../engineering/validation-profiles.md
 canonical_for:
@@ -28,6 +29,10 @@ Refactoring меняет внутреннюю структуру, сохраня
 - **Local:** небольшой behavior-preserving change, который может пройти [`Small Change Flow`](small-change.md).
 - **Research:** исследование структуры и вариантов; результатом может быть proposal, plan или ADR без production change.
 - **Systemic:** большой change surface, несколько компонентов или этапов, обязательные plan и checkpoints.
+
+## Context Priming
+
+До Entry Gate выполни [`P1-REF`](priming.md#p1-ref-refactoring). Task фиксирует preservation boundary, baseline/characterization coverage и material unknowns до structural work.
 
 ## Entry Gate
 

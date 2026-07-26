@@ -7,6 +7,7 @@ derived_from:
   - ../dna/governance.md
   - ../dna/frontmatter.md
   - routing.md
+  - priming.md
   - ../engineering/validation-profiles.md
 canonical_for:
   - feature_directory_structure
@@ -39,6 +40,10 @@ audience: humans_and_agents
 # Feature Flow
 
 Этот документ задает порядок появления feature-артефактов. Агент должен вести feature package по стадиям и не создавать downstream-артефакты раньше, чем созрел их upstream-owner.
+
+## Context Priming
+
+До bootstrap feature package выполни [`P1-FEAT`](priming.md#p1-feat-feature). Он подготавливает problem-space context для draft `brief.md`, но не выбирает solution и не заменяет обязательный execution-grounding с immutable revision и `GRND-*` evidence перед Plan Ready.
 
 ## Package Rules
 

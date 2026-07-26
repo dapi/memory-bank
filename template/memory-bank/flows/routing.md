@@ -23,6 +23,12 @@ audience: humans_and_agents
 
 Flow определяет организацию lifecycle, но не глубину проверки. После выбора route отдельно выбери один [`validation profile`](../engineering/validation-profiles.md) в canonical owner выбранного delivery flow. Profile не участвует в routing order и не заменяет flow; если его triggers выявили contract, rollout или другой scope, несовместимый с текущим route, примени обычные rerouting rules.
 
+## Context Priming Before Routing
+
+До применения routing predicates выполни [`P0 Route Classification`](priming.md#p0-route-classification): собери минимальные facts, чтобы выбрать flow или сформулировать Human Routing question. P0 не является implementation discovery, design или отдельным lifecycle; он заканчивается, как только route обоснован.
+
+После выбора route выполни соответствующий [`P1` profile](priming.md#route-profiles) до первого meaningful gate выбранного flow. Профиль собирает только context, необходимый этому gate, и сохраняет результаты в уже существующем canonical owner. Он не заменяет flow-specific execution grounding: например, Feature Flow всё ещё требует `GRND-*` evidence до sequencing.
+
 ## Routing Order
 
 Проверяй маршруты именно в этом порядке. `Small Change` — fast path перед ветками Epic, Refactoring и Feature, а не semantic type задачи. После него сначала отделяй multi-feature Epic и behavior-preserving Refactoring, затем направляй оставшуюся single-delivery работу в Feature Flow.
@@ -112,6 +118,8 @@ Issue / Task
 
 Следуй canonical triggers из [`../engineering/autonomy-boundaries.md`](../engineering/autonomy-boundaries.md). Для routing дополнительно запрашивай решение человека, когда выбор flow требует продуктового решения, риск нельзя контролировать существующими gates или несколько route остаются одинаково правдоподобными после доступного исследования.
 
+Перед запросом человека выполни [`P1-HUMAN`](priming.md#p1-human-human-routing): зафиксируй competing routes, evidence, unknown или approval trigger и точный вопрос. Не продолжай delivery или broad research до решения; после него повтори Task Routing.
+
 ## Outcome / Exit Contract
 
 ### Observable Outcome
@@ -121,6 +129,7 @@ Issue / Task
 ### Required Evidence
 
 - issue/task или draft PR называет выбранный flow; для active incident достаточно alert или incident-management record, подтверждающего operational impact или необходимость containment;
+- P0 evidence обосновывает выбранный flow; после routing P1 result находится в canonical owner выбранного flow, а не в отдельном priming report;
 - запись показывает, какие entry predicates сделали route допустимым; provisional incident record может быть дополнен полным routing record после containment;
 - для Epic route запись дополнительно указывает `Epic Intake`, когда facts ещё недостаточны для прямого `Bootstrap Epic`;
 - для Research route запись указывает decision question, decision owner и stopping condition;
