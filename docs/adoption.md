@@ -1,18 +1,19 @@
 # Внедрение Memory Bank в проект
 
-Этот документ описывает, как подключить Memory Bank к существующему или новому проекту. В downstream-проект устанавливается каталог `memory-bank/`, а внутри него создаётся служебный `memory-bank/.lock`; source-repository metadata, `.github/` и `docs/` не являются частью шаблона приложения. Lock создаёт `memory-bank-cli init`, а не upstream template. Его нужно коммитить: он хранит версию источника и ownership-границу для безопасных обновлений.
+Этот документ описывает, как подключить Memory Bank к существующему или новому проекту. `memory-bank-cli` устанавливает tracked regular files из source `template/` в корень downstream-проекта: в частности, `template/memory-bank/` становится `memory-bank/`, а `template/init.sh` — `./init.sh`. Внутри `memory-bank/` создаётся служебный `memory-bank/.lock`. Source-repository metadata, `.github/` и `docs/` вне `template/` не являются частью шаблона приложения. Lock создаёт `memory-bank-cli init`, а не upstream template. Его нужно коммитить: он хранит версию источника и ownership-границу для безопасных обновлений.
 
-В репозитории `dapi/memory-bank` исходный payload называется
-`template/memory-bank/`. Это только upstream-имя: CLI всегда устанавливает его
-как `memory-bank/`, и downstream-инструкции не должны ссылаться на
-`template/memory-bank/`.
+В репозитории `dapi/memory-bank` исходный payload находится в `template/`.
+Это только upstream-префикс: CLI его удаляет при установке. Downstream
+инструкции должны ссылаться на реальные пути, например `memory-bank/` и
+`./init.sh`, но не на `template/...`.
 
 ## Что копировать
 
-Минимальный установленный комплект:
+Минимальный установленный комплект включает:
 
 ```text
 memory-bank/
+init.sh
 ```
 
 Подробный ownership-контракт и процедура обновления: [`ownership.md`](ownership.md).

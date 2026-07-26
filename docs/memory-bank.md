@@ -42,11 +42,11 @@ memory-bank-cli doctor --repo-root /path/to/repository
 ## Template source profile
 
 Исходный template repository проверяется явным profile. В source checkout
-шаблонный payload находится в `template/memory-bank/`; CLI читает его как
-upstream source и переводит каждый payload path в downstream-каталог
-`memory-bank/`. Автоматическое определение предназначено для
-downstream-репозитория по `memory-bank/.lock`. Для проверки source template
-используйте:
+canonical payload находится в `template/`; CLI удаляет этот префикс для
+каждого tracked regular file, поэтому `template/memory-bank/...` становится
+`memory-bank/...`, а `template/init.sh` — `init.sh`. Автоматическое
+определение предназначено для downstream-репозитория по `memory-bank/.lock`.
+Для проверки source template используйте:
 
 ```bash
 memory-bank-cli lint --scope-root template/memory-bank --entrypoint template/memory-bank/README.md

@@ -33,10 +33,11 @@ problem space            solution space             execution space
 
 ## Что находится в шаблоне
 
-В этом source-репозитории payload хранится в `template/memory-bank/`. Команды
-`memory-bank-cli init` и `update` переводят этот upstream path в downstream
-каталог `memory-bank/`; имя `template/memory-bank/` в проект-получатель не
-переносится.
+В этом source-репозитории payload хранится в `template/`. Команды
+`memory-bank-cli init` и `update` переносят в корень downstream-репозитория
+все tracked regular files из этого каталога: например,
+`template/memory-bank/` становится `memory-bank/`, а `template/init.sh` —
+`./init.sh`. Имя `template/` в проект-получатель не переносится.
 
 | Каталог | Назначение |
 | --- | --- |
@@ -55,6 +56,11 @@ problem space            solution space             execution space
 | [`prompts/`](template/memory-bank/prompts/README.md) | Human-only каталог prompt-артефактов и его access contract |
 
 После установки шаблона [`memory-bank/README.md`](template/memory-bank/README.md) становится основным индексом downstream-проекта.
+
+Корневой [`template/init.sh`](template/init.sh) — portable bootstrap для
+`mise`, Git submodules и `direnv`, если соответствующие файлы есть в проекте.
+После установки адаптируй `./init.sh` под реальные dependency, database и
+service setup-команды проекта; он намеренно не переносит `.env`-файлы.
 
 ## Внедрение в проект
 

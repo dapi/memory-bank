@@ -2,20 +2,21 @@
 
 `memory-bank/.lock` — служебный контракт между downstream-проектом и версией шаблона. Файл создаётся командой `memory-bank-cli init` внутри установленного `memory-bank/` и коммитится вместе с ним; из upstream template он не копируется. Формальная схема: [`schema/memory-bank-lock-v1.schema.json`](schema/memory-bank-lock-v1.schema.json).
 
-Upstream payload хранится в source checkout как `template/memory-bank/`.
-Ownership paths и digests в lock относятся к переведённым downstream paths
-внутри `memory-bank/`; source-каталог не становится частью lock schema.
+Upstream payload хранится в source checkout как `template/`. Ownership paths
+и digests в lock относятся к downstream paths после удаления этого префикса:
+`template/memory-bank/...` становится `memory-bank/...`, а
+`template/init.sh` становится `init.sh`. Source-каталог не становится частью
+lock schema.
 
 ## Классы владения
 
 | Класс | Текущая граница шаблона | Поведение update |
 | --- | --- | --- |
-| `managed` | `memory-bank/dna/`, `flows/`, `prompts/`, а также top-level template-индексы `prd/README.md`, `research/README.md`, `epics/README.md`, `use-cases/README.md`, `features/README.md`, `adr/README.md` | Проверяет текущий payload по digest. Чистый файл обновляется или удаляется; локальный drift становится conflict. |
-| `adapted` | `memory-bank/README.md`, `product/`, `domain/`, `engineering/`, `ops/` | Хранит digest исходной template-base, но не требует совпадения текущего файла. Чистый файл может получить новую base; одновременные upstream и downstream изменения становятся conflict. |
-| `user-owned` | Instantiated-документы в `prd/`, `research/`, `epics/`, `use-cases/`, `features/`, `adr/` и неизвестные downstream paths | Никогда автоматически не перезаписывается и не удаляется. Неизвестный существующий файл получает этот класс по fail-safe правилу. |
+| `managed` | Каждый tracked regular file из canonical `template/`, включая `init.sh` и `memory-bank/` | Проверяет текущий payload по digest. Чистый файл обновляется или удаляется; локальный drift становится conflict. |
+| `user-owned` | Неизвестные downstream paths | Никогда автоматически не перезаписывается и не удаляется. Неизвестный существующий файл получает этот класс по fail-safe правилу. |
 | `generated` | `memory-bank/.generated/` зарезервирован для будущих детерминированных генераторов; в текущем template таких файлов нет | Может быть пересоздан или удалён только детерминированным producer. |
 
-`base_digest` и `base_mode` (`100644` или `100755`) описывают файл в зафиксированной template-base. `payload_digest` и `payload_mode` присутствуют только там, где текущий файл является проверяемым managed/generated contract. Поэтому обычная специализация adapted-документа не считается drift, а изменение executable bit managed-файла проверяется так же, как изменение его содержимого.
+`base_digest` и `base_mode` (`100644` или `100755`) описывают файл в зафиксированной template-base. `payload_digest` и `payload_mode` присутствуют только там, где текущий файл является проверяемым managed/generated contract. Изменение executable bit managed-файла проверяется так же, как изменение его содержимого.
 
 ## Init и update
 
@@ -28,9 +29,9 @@ memory-bank-cli init \
   --source-ref FULL_COMMIT_SHA
 ```
 
-`--source` должен указывать на корень чистого Git checkout, `--source-ref` — в точности совпадать с его `HEAD`. Незакоммиченные, untracked или ignored payloads внутри upstream `template/memory-bank/` отклоняются, как и source, совпадающий с downstream repo либо вложенный в него через обычный путь или symlink. Payload и executable modes читаются непосредственно из объектов закреплённого commit и устанавливаются под downstream prefix `memory-bank/`, поэтому обычные Git text conversions (`core.autocrlf`, `.gitattributes`) не создают ложный drift и не меняют устанавливаемые байты.
+`--source` должен указывать на корень чистого Git checkout, `--source-ref` — в точности совпадать с его `HEAD`. Незакоммиченные, untracked или ignored payloads внутри upstream `template/` отклоняются, как и source, совпадающий с downstream repo либо вложенный в него через обычный путь или symlink. Payload и executable modes читаются непосредственно из объектов закреплённого commit и устанавливаются в downstream после удаления префикса `template/`, поэтому обычные Git text conversions (`core.autocrlf`, `.gitattributes`) не создают ложный drift и не меняют устанавливаемые байты.
 
-`init` подходит и для пустого проекта, и для ранее скопированного `memory-bank/`: существующие adapted/user-owned файлы принимаются без перезаписи. Несовпадающий существующий managed-файл останавливает инициализацию как conflict.
+`init` подходит и для пустого проекта, и для ранее скопированного payload: совпадающие existing files принимаются как managed, а несовпадающие сохраняются как downstream-owned для явного разрешения при следующем update.
 
 Перед обновлением сначала проверьте полный plan:
 
