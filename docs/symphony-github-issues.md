@@ -31,9 +31,10 @@ explicitly request rework after review.
 - Install Git, and configure SSH access that can push to
   `git@github.com:dapi/memory-bank.git`.
 - Install and authorize `direnv` for this repository's `.envrc`.
-- Create a GitHub token with access to this repository's issues and pull
-  requests. Symphony uses it to poll the tracker; the agent uses its authenticated
-  `gh` CLI for GitHub reads and updates.
+- Provide a GitHub token for Symphony's tracker as `SYMPHONY_GITHUB_TOKEN`.
+  If it is absent, `.envrc` uses `gh auth token` for the tracker. The agent
+  continues to use its authenticated `gh` CLI for GitHub reads and updates;
+  Symphony never exports its tracker token as `GITHUB_TOKEN`.
 - Install `mise`; the bootstrap script installs the required Elixir/Erlang
   versions.
 
@@ -45,9 +46,10 @@ cp .env.local.example .env.local
 direnv allow
 ```
 
-It expects the GitHub token at `pass:github/homebrew-token`. If the local
-password-store layout differs, change only the ignored `.env.local`; never add
-the literal token to a tracked file.
+For a dedicated token, set `SYMPHONY_GITHUB_TOKEN` in `.env.local`, for example
+from `pass:github/homebrew-token`. If the local password-store layout differs,
+change only the ignored `.env.local`; never add the literal token to a tracked
+file.
 
 ## Run
 

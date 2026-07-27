@@ -1,6 +1,8 @@
 ---
 tracker:
   kind: github
+  provider:
+    token: $SYMPHONY_GITHUB_TOKEN
   active_states:
     - open
   terminal_states:
