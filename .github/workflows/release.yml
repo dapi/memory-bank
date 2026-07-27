@@ -46,6 +46,7 @@ jobs:
           memory-bank-cli --version
           test -d template/memory-bank
           test -d memory-bank
+          ruby tools/validate-priming-manifests.rb template/memory-bank
           memory-bank-cli lint --scope-root template/memory-bank --entrypoint template/memory-bank/README.md
           memory-bank-cli lint --repo-root .
           memory-bank-cli doctor --profile template

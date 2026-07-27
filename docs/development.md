@@ -10,6 +10,7 @@
 
 ```bash
 rg --files template/memory-bank
+ruby tools/validate-priming-manifests.rb template/memory-bank
 memory-bank-cli lint --scope-root template/memory-bank --entrypoint template/memory-bank/README.md
 memory-bank-cli doctor --profile template
 git diff --check
@@ -22,7 +23,9 @@ memory-bank-cli lint --repo-root /path/to/repository --scope-root template/memor
 memory-bank-cli doctor --profile template --repo-root /path/to/repository
 ```
 
-CI устанавливает закреплённый release CLI, проверяет его checksum и выполняет те же `lint` и явный template-profile `doctor` gate. Этот репозиторий не публикует CLI releases.
+CI проверяет schema и paths priming manifests, устанавливает закреплённый
+release CLI, проверяет его checksum и выполняет те же `lint` и явный
+template-profile `doctor` gate. Этот репозиторий не публикует CLI releases.
 
 ## Документационный шаблон
 
