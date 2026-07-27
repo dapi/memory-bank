@@ -45,10 +45,8 @@ cp .env.local.example .env.local
 direnv allow
 ```
 
-For a dedicated token, set `SYMPHONY_GITHUB_TOKEN` in `.env.local`, for example
-from `pass:github/homebrew-token`. If the local password-store layout differs,
-change only the ignored `.env.local`; never add the literal token to a tracked
-file.
+Set `SYMPHONY_GITHUB_TOKEN` in the ignored `.env.local`; never add the literal
+token to a tracked file.
 
 ## Run
 
