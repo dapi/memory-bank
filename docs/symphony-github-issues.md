@@ -33,8 +33,7 @@ explicitly request rework after review.
 - Install and authorize `direnv` for this repository's `.envrc`.
 - Provide a GitHub token for Symphony's tracker as `SYMPHONY_GITHUB_TOKEN`.
   If it is absent, `.envrc` uses `gh auth token` for the tracker. The agent
-  continues to use its authenticated `gh` CLI for GitHub reads and updates;
-  Symphony never exports its tracker token as `GITHUB_TOKEN`.
+  continues to use its authenticated `gh` CLI for GitHub reads and updates.
 - Install `mise`; the bootstrap script installs the required Elixir/Erlang
   versions.
 
