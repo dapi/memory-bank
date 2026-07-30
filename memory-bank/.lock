@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
   "template": {
-    "version": "60127c7",
-    "source_ref": "60127c7ec5a4285bccc361e139fb30f4677b9e5f"
+    "version": "fd956e0",
+    "source_ref": "fd956e0b173a3fbb66928161f1e7d167b319742f"
   },
   "last_update": {
-    "version": "60127c7",
-    "at": "2026-07-30T07:44:32Z"
+    "version": "fd956e0",
+    "at": "2026-07-30T08:54:36Z"
   },
   "files": {
     "memory-bank/README.md": {
@@ -16,7 +16,7 @@
     },
     "memory-bank/adr/README.md": {
       "ownership": "adapted",
-      "base_digest": "sha256:be71f1308d1b3182264c53670aa8fdf6ebc7c51d328afb1e8ddf3153555f9259",
+      "base_digest": "sha256:587d3f370617157e2099202fe9fe682a9dd0b232c99f5e36acb571175e3a7910",
       "base_mode": "100644"
     },
     "memory-bank/dna/README.md": {
@@ -254,8 +254,8 @@
     },
     "memory-bank/flows/templates/adr/ADR-XXX.md": {
       "ownership": "managed",
-      "base_digest": "sha256:d61dd6e77a1f58e0bd260037607b4638fc8168b3c3dedd59044d78bc2548c232",
-      "payload_digest": "sha256:d61dd6e77a1f58e0bd260037607b4638fc8168b3c3dedd59044d78bc2548c232",
+      "base_digest": "sha256:b0fd49b1bd1ec4bf2b184b88d9df4340b85f27c95c5782758dded9798a6556cf",
+      "payload_digest": "sha256:b0fd49b1bd1ec4bf2b184b88d9df4340b85f27c95c5782758dded9798a6556cf",
       "base_mode": "100644",
       "payload_mode": "100644"
     },
