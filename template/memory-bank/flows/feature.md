@@ -273,7 +273,7 @@ flowchart LR
 Plan Ready artifact-review convergence допускает не более пяти review-improve итераций. Последняя итерация с исправлениями не считается clean verdict без последующего re-review; исчерпание budget оставляет gate непройденным и требует replan либо Human Gate.
 
 - [ ] агент выполнил grounding до sequencing: прошёлся по текущему состоянию системы против зафиксированного immutable commit SHA repository revision и сохранил `GRND-*` evidence в `implementation-plan.md`; `HEAD`, branch name и tag не допускаются
-- [ ] если `brief.md` фиксирует `Design required: yes`, sibling `design.md` имеет `status: active`
+- [ ] если `brief.md` фиксирует `Design required: yes`, весь design pack по-прежнему удовлетворяет `Solution Ready`, включая publication/lifecycle статусы constituents и external dependencies
 - [ ] если `brief.md` фиксирует `Design required: no`, `implementation-plan.md` не принимает architecture decisions, contracts или invariants
 - [ ] `implementation-plan.md` создан по шаблону `templates/feature/implementation-plan.md`
 - [ ] пока plan формируется и проходит artifact review, `implementation-plan.md` имеет `status: draft`
@@ -281,10 +281,10 @@ Plan Ready artifact-review convergence допускает не более пят
 - [ ] grounding evidence содержит inspected paths/commands, наблюдаемые current-state facts и влияние каждого факта на plan; placeholder paths, предполагаемые файлы и пересказ intended solution не считаются grounding
 - [ ] discovery context в `implementation-plan.md` содержит: grounded immutable commit SHA repository revision, relevant paths, local reference patterns, dependencies, unresolved questions (`OQ-*` или явное `none`, если после discovery их нет), existing/planned test surfaces и execution environment
 - [ ] минимум один `GRND-*` подтверждает существующий implementation pattern или current change surface, а минимум один — существующую test surface либо evidence-backed отсутствие подходящего покрытия
-- [ ] шаги и workstreams в `implementation-plan.md` ссылаются на canonical IDs из `brief.md` и, если design layer существует, solution refs из `design.md` / ADR
+- [ ] шаги и workstreams в `implementation-plan.md` ссылаются на canonical IDs из `brief.md` и, если design layer существует, solution refs из их непосредственных design-pack owners / external dependencies
 - [ ] для designed feature план содержит явное refinement применимых `SOL-*`, `C4-*`, `SD-*`, `CTR-*`, `INV-*`, `FM-*`, `RB-*` и accepted ADR refs через `realization target -> STEP/CHK/EVID`; каждый применимый ref встречается минимум в одной mapping-строке, а найденный solution gap сначала обновляет canonical owner
 - [ ] `Test Strategy`, approvals и checkpoints покрывают применимые obligations validation profile из `brief.md`, не дублируя решение
-- [ ] candidate revisions `brief.md`, optional `design.md`, `implementation-plan.md` и grounded immutable commit SHA repository revision заморожены для Plan Ready artifact review
+- [ ] candidate revisions `brief.md`, полного optional design pack, всех referenced external dependencies, `implementation-plan.md` и grounded immutable commit SHA repository revision заморожены для Plan Ready artifact review
 - [ ] Plan Ready artifact review проверил достаточность grounding, consistency с upstream owners, ownership boundaries, traceability, executability, test strategy, approvals и stop/fallback conditions
 - [ ] все critical/important artifact findings исправлены; остальные findings явно disposition как допустимые non-blocking/deferred с owner; после последнего исправления получен clean re-review текущих candidate revisions
 - [ ] artifact review evidence хранится вне reviewed `implementation-plan.md`, указывает reviewer, candidate revisions, findings/dispositions и verdict; автор plan не считается его reviewer-ом
@@ -294,7 +294,7 @@ Plan Ready artifact-review convergence допускает не более пят
 ### Plan Ready → Execution
 
 - [ ] `brief.md` → `delivery_status: in_progress`
-- [ ] если `design.md` существует, он имеет `status: active`
+- [ ] если design layer существует, весь design pack и referenced external dependencies сохраняют `Solution Ready`; изменение любой reviewed revision возвращает feature к соответствующему gate
 - [ ] `implementation-plan.md` → `status: active`
 - [ ] `implementation-plan.md` фиксирует test strategy: automated coverage surfaces, required local/CI suites
 - [ ] каждый manual-only gap имеет причину, ручную процедуру и `AG-*` с approval ref
@@ -308,7 +308,7 @@ Plan Ready artifact-review convergence допускает не более пят
 - [ ] required test suites зелёные локально и в CI
 - [ ] minimum validation/evidence contract выбранного profile закрыт concrete evidence
 - [ ] каждый manual-only gap явно approved человеком (approval ref в `AG-*`)
-- [ ] required implementation/code review проверил delivered repository diff против active `brief.md`, optional active `design.md`, accepted ADR и execution plan; его verdict/evidence не подменяются Plan Ready artifact review
+- [ ] required implementation/code review проверил delivered repository diff против active `brief.md`, полного optional design pack, referenced finalized external dependencies и execution plan; его verdict/evidence не подменяются Plan Ready artifact review
 - [ ] simplify review выполнен: код минимально сложен или complexity обоснована ссылкой на `CON-*`, `FM-*`, `SD-*` или accepted ADR
 - [ ] если feature добавляет новый stable flow или materially changes существующий project-level scenario, соответствующий `UC-*` создан или обновлен и зарегистрирован в `memory-bank/use-cases/README.md`
 - [ ] `brief.md` → `delivery_status: done`
