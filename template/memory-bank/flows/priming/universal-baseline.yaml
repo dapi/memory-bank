@@ -1,0 +1,9 @@
+version: 1
+process: universal_baseline
+stages:
+  governed_artifact:
+    - memory-bank/dna/principles.md
+    - memory-bank/dna/governance.md
+    - memory-bank/dna/frontmatter.md
+    - memory-bank/dna/lifecycle.md
+    - memory-bank/dna/cross-references.md

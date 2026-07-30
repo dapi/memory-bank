@@ -2,7 +2,7 @@
 title: Context Priming Index
 doc_kind: governance
 doc_function: index
-purpose: Навигация по общему context priming contract и per-process YAML manifests.
+purpose: Навигация по общему context priming contract, universal baseline и per-process YAML manifests.
 derived_from:
   - context-priming.md
   - ../incident.md
@@ -20,6 +20,8 @@ audience: humans_and_agents
 # Context Priming
 
 - [Context Priming Contract](context-priming.md) — P0/P1/P2 contract.
+- [Universal governance baseline](universal-baseline.yaml) — DNA inputs перед
+  созданием или обновлением любого governed-артефакта.
 - [Routing manifest](routing.yaml) — P0 и Human Routing.
 - [Incident manifest](incident.yaml) — Incident / PIR.
 - [Bug Fix manifest](bug-fix.yaml) — Bug Fix.

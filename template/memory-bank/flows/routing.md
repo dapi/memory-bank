@@ -33,8 +33,12 @@ Flow определяет организацию lifecycle, но не глуби
 
 Прочитай [`routing.yaml`](priming/routing.yaml) и выполни source set `p0`.
 
-После выбора route открой `Priming Inputs` соответствующего canonical
-process-file до первого meaningful gate. Не открывай остальные flow-документы.
+После выбора route и до `Priming Inputs` соответствующего canonical
+process-file выполни universal baseline, если задача создаёт или обновляет
+governed-артефакт. Затем открой `Priming Inputs` process-file до первого
+meaningful gate. Не открывай остальные flow-документы. Incident containment не
+ждёт baseline; выполни его до создания или обновления governed
+incident-артефакта.
 Process priming не заменяет execution grounding: например, Feature Flow всё
 ещё требует `GRND-*` evidence до sequencing.
 

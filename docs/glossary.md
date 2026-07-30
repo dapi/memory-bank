@@ -88,7 +88,8 @@ SSoT, status и порядок зависимостей.
 контрактах и тестах. Праймеринг следует `progressive disclosure`: он не
 означает загрузить весь репозиторий или весь Memory Bank в один контекст.
 Практическое описание приведено в [статье о праймеринге](context-priming.md).
-В template lifecycle `P0` подготавливает выбор route, `P1` выполняет source set
+В template lifecycle `P0` подготавливает выбор route, `P1` перед созданием или
+обновлением governed-артефакта выполняет общий DNA baseline, затем source set
 из отдельного per-process YAML manifest, а flow-specific `P2` выполняется
 только при необходимости. Process-file указывает manifest и stage key; bounded
 masks из manifest перед чтением разворачиваются в exact input manifest с

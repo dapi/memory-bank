@@ -2,11 +2,6 @@ version: 1
 process: governance
 stages:
   memory_bank_governance:
-    - memory-bank/dna/principles.md
-    - memory-bank/dna/governance.md
-    - memory-bank/dna/frontmatter.md
-    - memory-bank/dna/lifecycle.md
-    - memory-bank/dna/cross-references.md
     - memory-bank/flows/README.md
     - memory-bank/flows/templates/README.md
     - memory-bank/flows/priming/context-priming.md

@@ -35,8 +35,10 @@
 
 - **P0 — route classification:** перед Task Routing собираются только facts,
   нужные для выбора flow или точного вопроса человеку;
-- **P1 — process priming:** после routing агент читает выбранный canonical
-  process-file и выполняет стартовый source set из его YAML manifest;
+- **P1 — universal baseline и process priming:** при создании или обновлении
+  governed-артефакта после routing агент сначала выполняет общий DNA baseline,
+  затем читает выбранный canonical process-file и выполняет стартовый source
+  set из его YAML manifest;
 - **P2 — execution grounding:** только когда конкретный flow требует
   дополнительной проверки текущего состояния перед execution. В Feature Flow
   это `GRND-*` evidence против immutable commit SHA перед sequencing.
@@ -45,6 +47,13 @@
 [`memory-bank/flows/priming/README.md`](../template/memory-bank/flows/priming/README.md).
 Routing и праймеринг различаются: первый выбирает lifecycle, второй снабжает
 следующее решение проверяемым контекстом.
+
+Перед process-specific manifest агент, который создаёт или обновляет
+governed-артефакт, выполняет shared
+[`universal-baseline.yaml`](../template/memory-bank/flows/priming/universal-baseline.yaml):
+`principles.md`, `governance.md`, `frontmatter.md`, `lifecycle.md` и
+`cross-references.md`. Incident containment не ждёт этот baseline, но он
+обязателен до создания или изменения governed incident-артефакта.
 
 Canonical process-file указывает один YAML manifest и source sets для своих
 стадий. Сам manifest содержит только exact paths и bounded masks. Перед чтением
@@ -57,9 +66,10 @@ manifest и проверку immutable revision перед первым изме
 ## Progressive disclosure, а не полная загрузка
 
 Праймеринг использует [progressive disclosure](../template/memory-bank/dna/principles.md):
-сначала обязательный process baseline, затем stage additions, затем
-task-specific code и test paths. Полный репозиторий не загружается, но
-обязательный corpus процесса не сокращается по субъективной «релевантности».
+сначала universal DNA baseline для governed-артефакта, затем обязательный
+process baseline, stage additions и task-specific code/test paths. Полный
+репозиторий не загружается, но обязательный corpus процесса не сокращается по
+субъективной «релевантности».
 
 Список процесса хранится отдельно от его lifecycle:
 
@@ -76,7 +86,8 @@ Process-file указывает нужный stage key. Так список не
 инструкции, а следующий stage не попадает в контекст раньше времени.
 Уже прочитанные paths удаляются из resolved списка без повторного чтения.
 `Priming Inputs` внутри загруженного документа не запускают вложенный manifest:
-исполняется только manifest процесса, выбранного текущим routing.
+после обязательного universal baseline исполняется только manifest процесса,
+выбранного текущим routing.
 
 ## Как сохранить чистый рабочий контекст
 
