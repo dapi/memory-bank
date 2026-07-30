@@ -150,7 +150,7 @@ Grounding выполняется до sequencing против конкретно
 | `CTR-01` | `contracts/<name>.md` | Interface or interaction boundary | `STEP-02` | `CHK-02` | `EVID-02` |
 | `C4-01`, `INV-01`, `FM-01` | `design.md` | Runtime topology | `STEP-03` | `CHK-03` | `EVID-03` |
 | `RB-01` | `design.md` | Migration, config or operational surface | `STEP-04` | `CHK-04` | `EVID-04` |
-| `../../adr/ADR-XXX.md` | `../../adr/ADR-XXX.md` (`accepted`) | Decision realization target | `STEP-05` | `CHK-05` | `EVID-05` |
+| `../../adr/ADR-XXX-short-decision-name.md` | `../../adr/ADR-XXX-short-decision-name.md` (`accepted`) | Decision realization target | `STEP-05` | `CHK-05` | `EVID-05` |
 
 ## Workstreams
 

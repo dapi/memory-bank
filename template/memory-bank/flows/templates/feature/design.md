@@ -69,7 +69,7 @@ canonical owner — `external-dependency` и не входит в состав p
 | `design.md` | `root` | Manifest, selected design и все неделегированные `SOL-*`, `ALT-*`, `TRD-*`, `C4-*`, `SD-*`, `CTR-*`, `INV-*`, `FM-*`, `RB-*` | `status: active` |
 | `contracts/<name>.md` | `constituent` | Только явно делегированные `CTR-*`; selected solution остаётся в root | `status: active`; `Contract Status: accepted` |
 | `diagrams/<name>-sequence.md` | `derived-view` | None; `SEQ-*` проецирует canonical solution/contract facts | Separate governed doc `active` или indexed asset подтверждён root |
-| `../../adr/ADR-XXX.md` | `external-dependency` | Architecture decision остаётся у ADR | `status: active`; `decision_status: accepted` |
+| `../../adr/ADR-XXX-short-decision-name.md` | `external-dependency` | Architecture decision остаётся у ADR | `status: active`; `decision_status: accepted` |
 | `<canonical-c4-asset>` | `external-dependency` | None in this pack | Canonical source и version/revision; актуальность подтверждена root |
 
 ## Context
@@ -173,7 +173,7 @@ version/revision, когда применимо, и результат пров�
 
 | Artifact | Publication status | Lifecycle status | Canonical source / version | Used for |
 | --- | --- | --- | --- | --- |
-| `../../adr/ADR-XXX.md` | `active` | `decision_status: accepted` | ADR revision | Какой выбор или baseline задаёт |
+| `../../adr/ADR-XXX-short-decision-name.md` | `active` | `decision_status: accepted` | ADR revision | Какой выбор или baseline задаёт |
 | `<canonical-c4-asset>` | `not applicable` | Source-specific / `not applicable` | Source path and version/revision | Какую boundary покрывает |
 
 ## Traceability
