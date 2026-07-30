@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
   "template": {
-    "version": "db55624",
-    "source_ref": "db55624d7119b0d13596b152671db414c7fec733"
+    "version": "60127c7",
+    "source_ref": "60127c7ec5a4285bccc361e139fb30f4677b9e5f"
   },
   "last_update": {
-    "version": "db55624",
-    "at": "2026-07-24T15:12:35.505396Z"
+    "version": "60127c7",
+    "at": "2026-07-30T07:44:32Z"
   },
   "files": {
     "memory-bank/README.md": {
@@ -254,8 +254,8 @@
     },
     "memory-bank/flows/templates/adr/ADR-XXX.md": {
       "ownership": "managed",
-      "base_digest": "sha256:976aee90d40f844738a9ff0b8a99b5433d65921a470a8f562d1083d2843740c4",
-      "payload_digest": "sha256:976aee90d40f844738a9ff0b8a99b5433d65921a470a8f562d1083d2843740c4",
+      "base_digest": "sha256:d61dd6e77a1f58e0bd260037607b4638fc8168b3c3dedd59044d78bc2548c232",
+      "payload_digest": "sha256:d61dd6e77a1f58e0bd260037607b4638fc8168b3c3dedd59044d78bc2548c232",
       "base_mode": "100644",
       "payload_mode": "100644"
     },

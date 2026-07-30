@@ -222,4 +222,3 @@ ADR следует пересмотреть, если:
 - [`../flows/templates/feature/api-contract.md`](../flows/templates/feature/api-contract.md)
 - [`../engineering/testing-policy.md`](../engineering/testing-policy.md)
 - [`../dna/governance.md`](../dna/governance.md)
-
