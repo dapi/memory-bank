@@ -15,11 +15,9 @@
       "base_mode": "100644"
     },
     "memory-bank/adr/README.md": {
-      "ownership": "managed",
+      "ownership": "adapted",
       "base_digest": "sha256:be71f1308d1b3182264c53670aa8fdf6ebc7c51d328afb1e8ddf3153555f9259",
-      "payload_digest": "sha256:be71f1308d1b3182264c53670aa8fdf6ebc7c51d328afb1e8ddf3153555f9259",
-      "base_mode": "100644",
-      "payload_mode": "100644"
+      "base_mode": "100644"
     },
     "memory-bank/dna/README.md": {
       "ownership": "managed",

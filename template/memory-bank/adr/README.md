@@ -26,7 +26,25 @@ audience: humans_and_agents
 
 ## Statuses
 
-- `proposed` — решение сформулировано, но еще не принято
-- `accepted` — решение принято и считается canonical input для downstream-документов
-- `superseded` — решение заменено другим ADR
-- `rejected` — решение рассмотрено и отклонено
+Публикационный `status` и lifecycle решения `decision_status` независимы:
+
+- документ в работе: `status: draft`, `decision_status: proposed`;
+- предложение готово к review: `status: active`, `decision_status: proposed`;
+- принятое решение: `status: active`, `decision_status: accepted`;
+- отклонённое решение: `status: active`, `decision_status: rejected`;
+- заменённое решение: `status: active`, `decision_status: superseded`.
+
+Только `active` + `accepted` является принятым canonical input для downstream
+owners. `active` + `proposed` публикует reviewable предложение, но не делает его
+принятым решением.
+
+## Completeness
+
+Перед переводом ADR в `active` убедись, что:
+
+- указаны decision makers и реальные semantic upstream;
+- рассмотрены минимум два жизнеспособных варианта, включая status quo, если он допустим;
+- решение связано с драйверами и имеет явные scope/non-scope;
+- зафиксированы положительные, отрицательные и организационные последствия;
+- определены Confirmation evidence и условия пересмотра;
+- Follow-up называет downstream canonical owners, которым принадлежат living facts и operational rules.
