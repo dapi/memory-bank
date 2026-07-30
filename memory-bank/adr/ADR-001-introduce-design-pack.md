@@ -71,6 +71,7 @@ artifacts, их ownership и `Solution Ready` gate.
 | Вариант | Плюсы | Минусы | Почему рассматривается как основной кандидат / не основной кандидат |
 | --- | --- | --- | --- |
 | Сохранить `design.md` единственным владельцем solution space | Простая модель и один очевидный файл | Не описывает delegated contracts и другие canonical design artifacts; стимулирует разрастание одного файла или ложное ownership | Не основной: противоречит уже поддерживаемому многофайловому design |
+| Использовать design pack только как неформальную группу файлов вокруг `design.md` | Даёт краткое название существующему многофайловому layout без нового lifecycle concept | Не задаёт identity, membership, aggregate ownership, direct ownership или readiness semantics; разные документы продолжат определять пакет по-разному | Не основной: улучшает лексику, но не устраняет governance drift |
 | Считать `design layer` и `design pack` синонимами, а `design.md` — их manifest | Вводит имя для многофайлового design и сохраняет root entry point | Смешивает semantic lifecycle layer с его документальным представлением; остаётся неясным непосредственный owner конкретного факта | Не основной: уменьшает файловую неоднозначность, но сохраняет категориальную |
 | Разделить `design layer`, `design pack` и root `design.md`; использовать aggregate и direct ownership | Масштабируется от одного файла до нескольких, сохраняет SSoT и позволяет точно маршрутизировать изменения | Требует явного manifest и обновления нескольких governance/template формулировок | Предлагаемый: единственный вариант, закрывающий все драйверы без запрета delegated ownership |
 
@@ -174,7 +175,11 @@ canonical facts.
 
 ## Confirmation
 
-После реализации compliance подтверждается следующими evidence:
+Confirmation owner — maintainer, выполняющий downstream governance update.
+Evidence сначала фиксируются в implementation PR, а после реализации ссылки на
+них добавляются в эту секцию ADR.
+
+Compliance подтверждается следующими evidence:
 
 - `flows/feature.md` содержит единые определения design layer и design pack;
 - Design Pack manifest различает `root`, `constituent`, `derived-view` и

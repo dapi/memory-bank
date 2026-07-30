@@ -23,6 +23,16 @@ audience: humans_and_agents
   Proposal: разделить semantic design layer, documentary design pack и root
   `design.md`, а также закрепить aggregate и direct ownership solution facts.
 
+## Authoring And Review
+
+Локальный ADR template адаптирует MADR 4.0.0, но остается canonical contract
+Memory Bank. Если в agent environment доступен skill `adr-writing`, используй
+его для authoring и review. Перед переводом ADR в `status: active` проверь его
+по локальному Definition of Done **E.C.A.D.R.**: explicit problem,
+comprehensive options, actionable decision, documented consequences и
+reviewability. Полное определение критериев находится в
+[`ADR-XXX.md#authoring-method-and-quality-gate`](../flows/templates/adr/ADR-XXX.md#authoring-method-and-quality-gate).
+
 ## Naming
 
 - Формат файла: `ADR-XXX-short-decision-name.md`
@@ -41,15 +51,20 @@ audience: humans_and_agents
 
 Только `active` + `accepted` является принятым canonical input для downstream
 owners. `active` + `proposed` публикует reviewable предложение, но не делает его
-принятым решением.
+принятым решением. Перевод в `accepted` требует завершённого decision review,
+необходимого согласования и исполнимого Confirmation plan. Уже полученное
+implementation/compliance evidence не является prerequisite: его добавляют в
+ADR после acceptance по мере выполнения downstream work.
 
 ## Completeness
 
-Перед переводом ADR в `active` убедись, что:
+Перед переводом ADR в `active` примени E.C.A.D.R. и убедись, что:
 
 - указаны decision makers и реальные semantic upstream;
 - рассмотрены минимум два жизнеспособных варианта, включая status quo, если он допустим;
 - решение связано с драйверами и имеет явные scope/non-scope;
 - зафиксированы положительные, отрицательные и организационные последствия;
-- определены Confirmation evidence и условия пересмотра;
+- определён Confirmation plan с проверками, ожидаемыми evidence, owner и местом
+  фиксации; сами implementation/compliance evidence могут появиться после acceptance;
+- определены условия пересмотра;
 - Follow-up называет downstream canonical owners, которым принадлежат living facts и operational rules.
