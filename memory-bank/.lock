@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
   "template": {
-    "version": "fd956e0",
-    "source_ref": "fd956e0b173a3fbb66928161f1e7d167b319742f"
+    "version": "7ce8f8b",
+    "source_ref": "7ce8f8b96996c82281cf01765c2862b068a8b093"
   },
   "last_update": {
-    "version": "fd956e0",
-    "at": "2026-07-30T08:54:36Z"
+    "version": "7ce8f8b",
+    "at": "2026-07-30T14:37:08.742765Z"
   },
   "files": {
     "memory-bank/README.md": {
@@ -128,7 +128,7 @@
     },
     "memory-bank/engineering/testing-policy.md": {
       "ownership": "adapted",
-      "base_digest": "sha256:afe21020e3fdf4dea49987474bc411f27d398f91f38fe6430388a778a10de501",
+      "base_digest": "sha256:62f6487f01a74cd567259a86aa5462d358da7301b8113f9046bfaa982bb7b7b1",
       "base_mode": "100644"
     },
     "memory-bank/engineering/ui-design-guide/README.md": {
@@ -198,15 +198,15 @@
     },
     "memory-bank/flows/feature-artifact-catalog.md": {
       "ownership": "managed",
-      "base_digest": "sha256:1395c3e0dd90befe24d021f42a1f2de76699b0b788b7ebc353cc393ef42359e5",
-      "payload_digest": "sha256:1395c3e0dd90befe24d021f42a1f2de76699b0b788b7ebc353cc393ef42359e5",
+      "base_digest": "sha256:4c9370992f6b958c8c0a20e2e3d23fcc275a0a467c32cc5f5a21127a53378f9f",
+      "payload_digest": "sha256:4c9370992f6b958c8c0a20e2e3d23fcc275a0a467c32cc5f5a21127a53378f9f",
       "base_mode": "100644",
       "payload_mode": "100644"
     },
     "memory-bank/flows/feature.md": {
       "ownership": "managed",
-      "base_digest": "sha256:0f678ad6ec99381498d17869c0df5499dd78d9e3b457ae124e7d160bc35a9b9d",
-      "payload_digest": "sha256:0f678ad6ec99381498d17869c0df5499dd78d9e3b457ae124e7d160bc35a9b9d",
+      "base_digest": "sha256:096e6655bd227aa5484192c8c2581c33b15caacb2b55cc0e31db0fced3600636",
+      "payload_digest": "sha256:096e6655bd227aa5484192c8c2581c33b15caacb2b55cc0e31db0fced3600636",
       "base_mode": "100644",
       "payload_mode": "100644"
     },
@@ -317,43 +317,43 @@
     },
     "memory-bank/flows/templates/feature/README.md": {
       "ownership": "managed",
-      "base_digest": "sha256:5aafdfe4dd16697bee354e64a708884ef364b1cff742c4ca17182132781a0010",
-      "payload_digest": "sha256:5aafdfe4dd16697bee354e64a708884ef364b1cff742c4ca17182132781a0010",
+      "base_digest": "sha256:cdf6811455fd423a545249849fc06799dcece9b73e3e071297b7639185a96182",
+      "payload_digest": "sha256:cdf6811455fd423a545249849fc06799dcece9b73e3e071297b7639185a96182",
       "base_mode": "100644",
       "payload_mode": "100644"
     },
     "memory-bank/flows/templates/feature/api-contract.md": {
       "ownership": "managed",
-      "base_digest": "sha256:57ac8d09431aacfe9d2b946bbd3c83e8e4b74fa18b435309ef7c61919c3d0059",
-      "payload_digest": "sha256:57ac8d09431aacfe9d2b946bbd3c83e8e4b74fa18b435309ef7c61919c3d0059",
+      "base_digest": "sha256:e8199cadee7ab9047175ce33c7215e25aafc0616e11589634bdf5ab059d64d90",
+      "payload_digest": "sha256:e8199cadee7ab9047175ce33c7215e25aafc0616e11589634bdf5ab059d64d90",
       "base_mode": "100644",
       "payload_mode": "100644"
     },
     "memory-bank/flows/templates/feature/brief.md": {
       "ownership": "managed",
-      "base_digest": "sha256:9ad30fffa838380a2de2007c93d78901cf434586431fe9a781dff116c01f4d36",
-      "payload_digest": "sha256:9ad30fffa838380a2de2007c93d78901cf434586431fe9a781dff116c01f4d36",
+      "base_digest": "sha256:67e7b81ac3528cf07a7ba9f3707743bc2b02256c6cbb3041333bc0822b78b1a5",
+      "payload_digest": "sha256:67e7b81ac3528cf07a7ba9f3707743bc2b02256c6cbb3041333bc0822b78b1a5",
       "base_mode": "100644",
       "payload_mode": "100644"
     },
     "memory-bank/flows/templates/feature/design.md": {
       "ownership": "managed",
-      "base_digest": "sha256:37c9892c428f2125f3aed63ac0bf51784bd54fa2b92b7b96730f2f5fb11c7f85",
-      "payload_digest": "sha256:37c9892c428f2125f3aed63ac0bf51784bd54fa2b92b7b96730f2f5fb11c7f85",
+      "base_digest": "sha256:690e879cdcf96e45c890828f69fe1ef981f405e32dc92b471ef5fcb950b16f3e",
+      "payload_digest": "sha256:690e879cdcf96e45c890828f69fe1ef981f405e32dc92b471ef5fcb950b16f3e",
       "base_mode": "100644",
       "payload_mode": "100644"
     },
     "memory-bank/flows/templates/feature/implementation-plan.md": {
       "ownership": "managed",
-      "base_digest": "sha256:fe562f9c5a952b4c366141c9d16b20b93335804843febd94fa263c5cc1c14699",
-      "payload_digest": "sha256:fe562f9c5a952b4c366141c9d16b20b93335804843febd94fa263c5cc1c14699",
+      "base_digest": "sha256:a472018a26a7e1c9a30dbdaea7409eb738b0ac38a904b9bb77fc4f196010e44c",
+      "payload_digest": "sha256:a472018a26a7e1c9a30dbdaea7409eb738b0ac38a904b9bb77fc4f196010e44c",
       "base_mode": "100644",
       "payload_mode": "100644"
     },
     "memory-bank/flows/templates/feature/support/runtime-surfaces.md": {
       "ownership": "managed",
-      "base_digest": "sha256:1c7fed3f4a41d44129640f86bbe03d7d75c6573c71dccd8201e5159ca8113962",
-      "payload_digest": "sha256:1c7fed3f4a41d44129640f86bbe03d7d75c6573c71dccd8201e5159ca8113962",
+      "base_digest": "sha256:2a2e510df29ff246d51e3f707366ac636a824014d74ac74d0fa69d0da07724eb",
+      "payload_digest": "sha256:2a2e510df29ff246d51e3f707366ac636a824014d74ac74d0fa69d0da07724eb",
       "base_mode": "100644",
       "payload_mode": "100644"
     },
@@ -366,8 +366,8 @@
     },
     "memory-bank/flows/templates/feature/support/ui-reference.md": {
       "ownership": "managed",
-      "base_digest": "sha256:b878065b921561c6daea54dcd5b9a2a1d9f7a87742a2c84017aec463c5315b73",
-      "payload_digest": "sha256:b878065b921561c6daea54dcd5b9a2a1d9f7a87742a2c84017aec463c5315b73",
+      "base_digest": "sha256:3abfad746945ef5bf7484a1e20eec345913a44e53625b364807e8c1227474133",
+      "payload_digest": "sha256:3abfad746945ef5bf7484a1e20eec345913a44e53625b364807e8c1227474133",
       "base_mode": "100644",
       "payload_mode": "100644"
     },
