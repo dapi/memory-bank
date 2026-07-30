@@ -9,7 +9,7 @@ derived_from:
 status: active
 audience: humans_and_agents
 template_for: adr
-template_target_path: ../../../adr/ADR-XXX.md
+template_target_path: ../../../adr/ADR-XXX-short-decision-name.md
 ---
 
 # ADR-XXX: Short Decision Name
