@@ -106,7 +106,7 @@ audience: humans_and_agents
 2. **Problem analysis:** выбери только нужные problem/support companions и реши, нужен ли `design.md`; если есть selected companions или material omissions, зафиксируй их в optional Artifact Routing Decision из `brief.md`.
 3. **Problem Ready:** если `Design required: no`, не создавай design-pack и не позволяй плану принимать solution decisions.
 4. **Solution analysis:** если design required, начни с `design.md`; добавляй contract, diagram, migration/security/observability artifacts только по trigger.
-5. **Routing:** после создания каждого artifact добавь аннотированную ссылку в feature `README.md`; solution artifact также добавь в `design.md#design-pack`.
+5. **Routing:** после создания каждого artifact добавь аннотированную ссылку в feature `README.md`; solution artifact также добавь в `design.md#design-pack` с `Relation`, `Direct canonical ownership` и `Readiness / source`.
 6. **Plan Ready:** `implementation-plan.md` потребляет canonical IDs из готовых owners и не изобретает новые requirements/contracts/decisions.
 7. **Change control:** сначала обновляй canonical owner, затем dependent views и план.
 
@@ -117,7 +117,7 @@ Feature-local artifact, которого нет в каталоге, допус�
 1. использовать lowercase kebab-case path;
 2. иметь governed frontmatter и явные `purpose`, `derived_from`, `status`;
 3. быть проиндексирован из `README.md`, а для solution-space artifact — также из `design.md`;
-4. явно фиксировать `Role`, `Owns` и `Must not define`;
+4. явно фиксировать document role, direct canonical ownership и границы `Must not define`;
 5. ссылаться на canonical IDs вместо копирования facts;
 6. не создавать второго active owner для problem space, selected solution или execution sequencing.
 

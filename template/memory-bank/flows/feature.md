@@ -71,7 +71,7 @@ audience: humans_and_agents
 2. Любой дополнительный artifact создается только когда снимает реальную неоднозначность задачи.
 3. Компактный материал остается секцией canonical owner; отдельный файл появляется при самостоятельной review boundary или заметном росте объема.
 4. Feature `README.md` индексирует только существующие artifacts и не содержит placeholder links.
-5. Любой solution artifact индексируется также из `design.md#design-pack` с явными `Role` и `Owns`.
+5. Любой solution artifact индексируется также из `design.md#design-pack`; manifest row явно фиксирует `Relation`, `Direct canonical ownership` и `Readiness / source` по relation contract ниже.
 6. Reference/support artifacts не вводят новые requirements, selected solution, canonical contracts или execution sequence.
 7. `implementation-plan.md` создается только для feature, которая действительно переходит к execution.
 
