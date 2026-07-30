@@ -60,7 +60,8 @@ must_not_define:
 Этот документ раскрывает interface expectations для implementation и review. Canonical owners:
 
 - `brief.md` владеет requirements и acceptance.
-- `design.md`, если есть, владеет selected design и contracts.
+- Design pack, если есть, aggregate-владеет selected design и contracts;
+  непосредственный owner определяется root manifest.
 - `implementation-plan.md` владеет execution sequencing.
 
 ## Project UI Guide

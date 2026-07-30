@@ -55,7 +55,8 @@ must_not_define:
 Этот документ фиксирует grounding. Canonical owners:
 
 - `brief.md` владеет problem space и verify inventory.
-- `design.md`, если есть, владеет selected design, target architecture и contracts.
+- Design pack, если есть, aggregate-владеет selected design, target architecture
+  и contracts; непосредственный owner определяется root manifest.
 - `implementation-plan.md` владеет execution sequencing.
 
 ## Current Surface Inventory

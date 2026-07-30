@@ -20,10 +20,10 @@ template_target_path: ../../../features/FT-XXX/implementation-plan.md
 
 ## Wrapper Notes
 
-Требования, blocker-state и критерии приемки задаются в sibling `brief.md`. Если `brief.md` фиксирует `Design required: yes`, selected design, accepted local decisions и solution-level contracts задаются в sibling `design.md` или ADR. Этот документ определяет только sequencing работ и checkpoints выполнения.
+Требования, blocker-state и критерии приемки задаются в sibling `brief.md`. Если `brief.md` фиксирует `Design required: yes`, selected design, accepted local decisions и solution-level contracts задаются design pack или external ADR согласно ownership index в root `design.md`. Этот документ определяет только sequencing работ и checkpoints выполнения.
 В создаваемом feature package sibling `brief.md` всегда инстанцируется из canonical template в `memory-bank/flows/templates/feature/`; `design.md` инстанцируется только когда required.
 
-Создавай этот документ только после того, как upstream owners готовы: sibling `brief.md` имеет `status: active`, а required sibling `design.md` переведен в `status: active`. Пока план формируется и проходит initial Plan Ready artifact review, `implementation-plan.md` остается в `status: draft`; после его clean verdict документ переводится в `status: active`, resulting active revision замораживается и проходит clean re-review. Только clean verdict по этой exact active candidate revision закрывает Plan Ready.
+Создавай этот документ только после того, как upstream owners готовы: sibling `brief.md` имеет `status: active`, а required design pack прошёл `Solution Ready` gate из `feature.md`. Пока план формируется и проходит initial Plan Ready artifact review, `implementation-plan.md` остается в `status: draft`; после его clean verdict документ переводится в `status: active`, resulting active revision замораживается и проходит clean re-review. Только clean verdict по этой exact active candidate revision закрывает Plan Ready.
 
 Когда feature переходит в `delivery_status: done` или `delivery_status: cancelled`, `implementation-plan.md` архивируется, если он больше не используется как рабочий execution-документ.
 
@@ -90,7 +90,7 @@ Grounding выполняется до sequencing против конкретно
 | Document | Role in this plan | Facts reused | Conflict action |
 | --- | --- | --- | --- |
 | `brief.md` | canonical problem / validation profile / verify owner | profile decision, `REQ-*`, `SC-*`, `CHK-*`, `EVID-*` | Update `brief.md` first |
-| `design.md` / `none` | conditional solution owner | `SOL-*`, `C4-*`, `SD-*`, `CTR-*`, `INV-*`, `FM-*`, `RB-*` | Update `design.md` or ADR first; if design is absent, promote new design facts before planning |
+| `design.md` / `none` | conditional design-pack root, manifest and default solution owner | `SOL-*`, `C4-*`, `SD-*` и неделегированные `CTR-*`, `INV-*`, `FM-*`, `RB-*`; routing к другим owners | Update непосредственный owner из manifest first; if design is absent, promote new design facts before planning |
 | `runtime-surfaces.md` / `none` | optional grounding | `SURF-*`, `MAP-*`, context matrix | Promote changed design facts to `design.md` if design is required |
 | `ui-reference/README.md` / `none` | optional interface reference | `UI-*`, mockups, states | Promote changed requirements to `brief.md` or design facts to `design.md` if required |
 | `use-cases/README.md` / `none` | optional scenario companion | `FUC-*`, `TC-*` candidates | Keep canonical acceptance in `brief.md` |
