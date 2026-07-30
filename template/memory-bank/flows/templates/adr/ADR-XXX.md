@@ -32,7 +32,9 @@ lifecycle самого решения. Эти поля не заменяют д�
 `decision_status: proposed` означает, что текст ADR является предложением и не
 считается принятым решением. До `status: active` документ также не входит в
 authoritative set. Не переводи ADR в `accepted`, пока не завершены review,
-Confirmation и требуемое согласование.
+требуемое согласование и не определён исполнимый Confirmation plan. Evidence
+реализации или compliance не является prerequisite для acceptance: собирай и
+добавляй его после принятия ADR по мере выполнения downstream work.
 
 `derived_from` перечисляет реальные semantic upstream конкретного решения. ADR
 может исходить из feature, epic, research, governance, engineering или другого
@@ -44,6 +46,34 @@ owner своим semantic upstream.
 ADR фиксирует выбор, rationale, границы и последствия. После принятия living
 project facts и operational rules должны перейти соответствующим canonical
 owners; ADR не становится current-state inventory или implementation plan.
+
+## Authoring Method And Quality Gate
+
+Этот шаблон адаптирует
+[MADR 4.0.0](https://github.com/adr/madr/tree/4.0.0/template)
+([Markdown Architectural Decision Records](https://adr.github.io/madr/)), но не
+копирует его дословно. MADR используется как внешний источник проверенных
+структурных приемов: explicit problem statement, decision drivers, options с
+trade-offs, decision outcome, consequences, Confirmation и review metadata.
+Canonical contract для Memory Bank задает этот локальный шаблон; новая версия
+MADR не меняет его автоматически.
+
+Если в agent environment доступен skill `adr-writing`, используй его при
+создании и проверке ADR. Наличие skill не является скрытой runtime-зависимостью:
+локальный quality gate определен здесь через мнемонику **E.C.A.D.R.**
+
+| Критерий | Что должно быть доказано в ADR |
+| --- | --- |
+| **E — Explicit problem statement** | Контекст называет конкретную проблему, scope, ограничения и причину необходимости решения |
+| **C — Comprehensive options analysis** | Рассмотрены минимум два жизнеспособных варианта с плюсами и минусами; status quo включен, когда он реалистичен |
+| **A — Actionable decision** | Предлагаемое или принятое решение сформулировано однозначно, связано с drivers и достаточно конкретно для downstream work |
+| **D — Documented consequences** | Зафиксированы положительные, отрицательные и организационные последствия, включая будущие издержки |
+| **R — Reviewable by stakeholders** | Статусы, участники, язык, ссылки и контекст позволяют провести независимый review |
+
+Перед переводом ADR в `status: active` каждый критерий должен быть выполнен, а
+все `[INVESTIGATE: ...]` markers — закрыты. Пока остаются gaps, ADR сохраняет
+`status: draft` и `decision_status: proposed`. E.C.A.D.R. является локальным
+Definition of Done, а не частью MADR.
 
 ## Instantiated Frontmatter
 
@@ -135,9 +165,13 @@ must_not_define:
 
 ## Confirmation
 
-Как review, tests, lint, policy checks, telemetry или другие observable evidence
-подтвердят, что решение реализовано и продолжает соблюдаться. Confirmation
-проверяет compliance с ADR, а не заменяет acceptance конкретной delivery-задачи.
+До acceptance определи исполнимый Confirmation plan: какие review, tests, lint,
+policy checks, telemetry или другие observable evidence подтвердят реализацию и
+продолжающийся compliance, кто их получает и где фиксирует. Не требуй уже
+полученного implementation evidence для перевода ADR в `accepted`. После
+downstream implementation дополняй эту секцию ссылками на полученные evidence и
+результатами проверок. Confirmation проверяет compliance с ADR, а не заменяет
+acceptance конкретной delivery-задачи.
 
 ## Условия пересмотра
 
