@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
   "template": {
-    "version": "7ce8f8b",
-    "source_ref": "7ce8f8b96996c82281cf01765c2862b068a8b093"
+    "version": "f7da7f6",
+    "source_ref": "f7da7f601039ad7bcdd7bbee163a7456cd3b44ec"
   },
   "last_update": {
-    "version": "7ce8f8b",
-    "at": "2026-07-30T14:37:08.742765Z"
+    "version": "f7da7f6",
+    "at": "2026-07-30T14:42:57.276337Z"
   },
   "files": {
     "memory-bank/README.md": {
@@ -205,8 +205,8 @@
     },
     "memory-bank/flows/feature.md": {
       "ownership": "managed",
-      "base_digest": "sha256:096e6655bd227aa5484192c8c2581c33b15caacb2b55cc0e31db0fced3600636",
-      "payload_digest": "sha256:096e6655bd227aa5484192c8c2581c33b15caacb2b55cc0e31db0fced3600636",
+      "base_digest": "sha256:140e055df863363e6b54f6892321186266a425c2b447063a3344c053bfc4e528",
+      "payload_digest": "sha256:140e055df863363e6b54f6892321186266a425c2b447063a3344c053bfc4e528",
       "base_mode": "100644",
       "payload_mode": "100644"
     },
