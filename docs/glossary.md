@@ -167,12 +167,24 @@ conditional `design.md`, derived `implementation-plan.md`, связанные AD
 intent, scope/non-scope, requirements, acceptance, verify contract и
 `delivery_status`. Он не принимает выбранное solution или execution sequence.
 
+## Design Layer
+
+`Design layer` — conditional semantic layer Feature Flow, который владеет
+feature-local solution space. Он существует, когда canonical `brief.md`
+фиксирует `Design required: yes`. Это lifecycle- и ownership-концепция, а не
+конкретный файл или каталог.
+
 ## Design Pack
 
-`Design pack` — минимальный набор solution-space artifacts feature: обязательный
-`design.md` и только нужные companion views — например ADR, C4/data-flow view,
-interaction contract или sequence diagram. `design.md` остаётся owner selected
-solution; reference views не создают новые решения.
+`Design pack` — документальное представление design layer для одной feature:
+ровно один root `design.md` и ноль или более проиндексированных design
+artifacts. `design.md` служит manifest, entry point и default owner
+неделегированных solution facts; constituent может владеть явно делегированными
+canonical facts, а derived view только проецирует их.
+
+В отличие от semantic `design layer`, design pack описывает состав и отношения
+документов. Связанный ADR или другой внешний canonical owner является
+`external-dependency`, а не constituent пакета.
 
 ## Reference View
 
