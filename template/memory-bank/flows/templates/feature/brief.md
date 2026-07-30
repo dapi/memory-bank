@@ -111,11 +111,13 @@ must_not_define:
 
 ## Design Requirement Decision
 
-Зафиксируй, нужен ли отдельный solution-space owner. Это gate decision, а не выбранное решение: не пересказывай selected solution, contracts, failure modes или rollout/backout в `brief.md`.
+Зафиксируй, нужен ли design layer и его documentary design pack. Это gate
+decision, а не выбранное решение: не пересказывай selected solution, contracts,
+failure modes или rollout/backout в `brief.md`.
 
 | Decision | Reason | Downstream owner |
 | --- | --- | --- |
-| `Design required: yes/no` | Почему solution-space document нужен или не нужен | `design.md` / `none` |
+| `Design required: yes/no` | Почему design layer нужен или не нужен | Design pack с root `design.md` / `none` |
 
 ## Artifact Routing Decision
 

@@ -27,7 +27,12 @@ canonical_for:
 
 `design.md` не заменяет `brief.md`: требования, acceptance criteria и evidence contract остаются в `brief.md`. `design.md` также не является execution plan: file-level touchpoints, атомарные шаги, команды тестов и checkpoints принадлежат `implementation-plan.md`.
 
-Если solution-space разбит на несколько артефактов, `design.md` становится индексом design-pack и фиксирует owner-а каждого design fact. Не дублируй canonical факты из ADR, C4, data-flow или других design docs; ссылайся на них.
+`design.md` всегда является root manifest design pack и default owner
+неделегированных feature-local solution facts. Для каждого artifact укажи
+отношение `root`, `constituent`, `derived-view` или `external-dependency` и
+ровно одного непосредственного owner для каждого canonical stable ID. Не
+дублируй canonical facts из constituents или external dependencies; derived
+views не принимают новых решений.
 
 ## Instantiated Frontmatter
 
@@ -54,14 +59,18 @@ must_not_define:
 
 ## Design Pack
 
-Если design-pack состоит только из этого файла, оставь одну строку `design.md`. Если есть ADR, C4, data-flow, interaction contract, sequence diagram, migration design или другая полезная companion view, добавь ее в таблицу и укажи ownership. Не создавай дополнительные artifacts только ради заполнения таблицы.
+Оставь ровно одну строку `root` для этого файла. Добавляй только реально нужные
+artifacts и удаляй неприменимые example rows. Feature-local canonical owner
+использует `constituent`; проекция без новых facts — `derived-view`; внешний
+canonical owner — `external-dependency` и не входит в состав pack.
 
-| Artifact | Role | Owns |
-| --- | --- | --- |
-| `design.md` | Feature-local solution owner | `SOL-*`, `ALT-*`, `TRD-*`, `C4-*`, architecture coverage, design verification, feature-local `CTR-*`, `INV-*`, `FM-*`, `RB-*` |
-| `contracts/<name>.md` | Optional delegated contract owner | Только явно перечисленные `CTR-*`; selected solution остается здесь |
-| `diagrams/<name>-sequence.md` | Optional temporal reference view | `SEQ-*` projection canonical solution / contract facts; новых решений не принимает |
-| `../../adr/ADR-XXX.md` | Architecture decision | Какой design choice принадлежит ADR |
+| Artifact | Relation | Direct canonical ownership | Readiness / source |
+| --- | --- | --- | --- |
+| `design.md` | `root` | Manifest, selected design и все неделегированные `SOL-*`, `ALT-*`, `TRD-*`, `C4-*`, `SD-*`, `CTR-*`, `INV-*`, `FM-*`, `RB-*` | `status: active` |
+| `contracts/<name>.md` | `constituent` | Только явно делегированные `CTR-*`; selected solution остаётся в root | `status: active`; `Contract Status: accepted` |
+| `diagrams/<name>-sequence.md` | `derived-view` | None; `SEQ-*` проецирует canonical solution/contract facts | Separate governed doc `active` или indexed asset подтверждён root |
+| `../../adr/ADR-XXX.md` | `external-dependency` | Architecture decision остаётся у ADR | `status: active`; `decision_status: accepted` |
+| `<canonical-c4-asset>` | `external-dependency` | None in this pack | Canonical source и version/revision; актуальность подтверждена root |
 
 ## Context
 
@@ -86,7 +95,7 @@ must_not_define:
 
 ## Architecture Coverage Decision
 
-Для каждого аспекта выбери `covered` или обоснованный `N/A`. Analysis обязателен; дополнительные artifacts создавай только по trigger. В `Canonical owner / refs` укажи документ-владелец и stable IDs, а supporting view не считай canonical owner. Отдельный solution-space artifact должен входить в Design Pack.
+Для каждого аспекта выбери `covered` или обоснованный `N/A`. Analysis обязателен; дополнительные artifacts создавай только по trigger. В `Canonical owner / refs` укажи документ-владелец и stable IDs, а supporting view не считай canonical owner. Каждый отдельный artifact должен быть проиндексирован в Design Pack; external dependency индексируется, но не входит в его состав.
 
 | Aspect | Status | Canonical owner / refs | Supporting view / artifact | Reason if N/A / coverage note |
 | --- | --- | --- | --- | --- |
@@ -121,7 +130,7 @@ must_not_define:
 
 ## Contracts
 
-Connector — first-class механизм или binding, связывающий стороны решения: API call, event, queue, callback, shared store/file access, cache interaction, authentication handoff, locking/concurrency mechanism или runtime/config binding. Не смешивай connector kind с protocol/format (`schema`, encoding) или parties/roles (producer, consumer, provider, initiator, target). Для значимого connector зафиксируй применимые roles, protocol/format и direction, sync/async boundary, ordering/delivery, timeout/retry/idempotency, trust boundary, failure/degradation, compatibility/versioning и observability. Компактное описание оставь здесь; отдельный interaction contract создавай только при самостоятельной review boundary. Не добавляй реалистичные секреты, production IDs или file-level implementation steps.
+Connector — first-class механизм или binding, связывающий стороны решения: API call, event, queue, callback, shared store/file access, cache interaction, authentication handoff, locking/concurrency mechanism или runtime/config binding. Не смешивай connector kind с protocol/format (`schema`, encoding) или parties/roles (producer, consumer, provider, initiator, target). Для значимого connector зафиксируй применимые roles, protocol/format и direction, sync/async boundary, ordering/delivery, timeout/retry/idempotency, trust boundary, failure/degradation, compatibility/versioning и observability. Компактное описание оставь здесь; отдельный interaction contract создавай только при самостоятельной review boundary. В таблице ниже определяй только неделегированные `CTR-*`; для delegated contract оставь ownership routing в Design Pack и ссылку в Traceability, не дублируя semantics. Не добавляй реалистичные секреты, production IDs или file-level implementation steps.
 
 | Contract ID | Connector / direction | Roles and sync boundary | Guarantees / failure / evolution semantics |
 | --- | --- | --- | --- |
@@ -155,11 +164,17 @@ Connector — first-class механизм или binding, связывающи�
 | Capacity / latency | yes / no | Меняется ли load/latency-sensitive path | Estimate, benchmark, load model | Вывод или ссылка |
 | Migration / evolution safety | yes / no | Нужны ли mixed versions, staged rollout или data/config migration | Compatibility/migration review, rehearsal | Вывод или ссылка |
 
-## ADR / External Design Dependencies
+## External Dependency Readiness
 
-| Artifact | Current status | Used for | Rule |
-| --- | --- | --- | --- |
-| `../../adr/ADR-XXX.md` | `proposed` / `accepted` | Какой выбор или baseline задает | `proposed` не считается finalized design |
+Перечисли только `external-dependency` из Design Pack. Governed-документ готов
+только при `status: active` и finalized entity lifecycle. Для standalone
+non-document asset readiness подтверждает active root: укажи canonical source,
+version/revision, когда применимо, и результат проверки актуальности.
+
+| Artifact | Publication status | Lifecycle status | Canonical source / version | Used for |
+| --- | --- | --- | --- | --- |
+| `../../adr/ADR-XXX.md` | `active` | `decision_status: accepted` | ADR revision | Какой выбор или baseline задаёт |
+| `<canonical-c4-asset>` | `not applicable` | Source-specific / `not applicable` | Source path and version/revision | Какую boundary покрывает |
 
 ## Traceability
 

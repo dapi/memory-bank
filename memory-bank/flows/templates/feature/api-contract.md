@@ -30,7 +30,12 @@ canonical_for:
 
 Путь `api-contract.md` и `feature_api_contract_template` сохранены как compatibility aliases; семантически это общий Interaction Contract Template.
 
-`design.md` обязан индексировать contract в Design Pack, перечислить делегированные `CTR-*` и связать их с `SOL-*` и `REQ-*`. Contract не выбирает solution, не меняет scope и не задает implementation sequence.
+`design.md` обязан индексировать отдельный contract в Design Pack как
+`constituent`, перечислить делегированные `CTR-*` и связать их с `SOL-*` и
+`REQ-*`. Contract становится единственным непосредственным owner этих `CTR-*`;
+root не дублирует их semantics. К `Solution Ready` governed contract имеет
+`status: active`, а body — `Contract Status: accepted`. Contract не выбирает
+solution, не меняет scope и не задает implementation sequence.
 
 ## Instantiated Frontmatter
 
@@ -62,8 +67,9 @@ must_not_define:
 
 | Role | Value |
 | --- | --- |
+| Design Pack relation | `constituent` |
 | Boundary | Какой connector boundary описан, какие стороны он связывает и какой interaction mechanism или runtime/config binding фиксирует |
-| Owns | Какие `CTR-*` делегированы этому документу из `design.md` |
+| Owns | Какие `CTR-*` делегированы этому документу из root manifest; это их единственный непосредственный canonical owner |
 | Does not own | Scope, selected solution, acceptance, execution sequencing |
 | Roles | Producer / consumer / provider / initiator / target и owner каждой стороны |
 
@@ -85,7 +91,7 @@ must_not_define:
 
 | Field | Value |
 | --- | --- |
-| Status | draft / proposed / accepted / deprecated |
+| Status | draft / proposed / accepted / deprecated; `accepted` обязателен к `Solution Ready` |
 | Version | Версия contract или `unversioned` с причиной |
 | Compatibility | backward-compatible / breaking / migration required |
 | Source authority | Provider docs, accepted ADR, upstream contract or repo baseline |

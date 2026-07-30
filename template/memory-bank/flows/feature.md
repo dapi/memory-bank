@@ -2,7 +2,7 @@
 title: Feature Flow
 doc_kind: governance
 doc_function: canonical
-purpose: "Определяет stage-based lifecycle feature-документации с явным разделением `brief.md` (problem space), `design.md` (solution space) и `implementation-plan.md` (execution space)."
+purpose: "Определяет stage-based lifecycle feature-документации с явным разделением `brief.md` (problem space), design layer/design pack (solution space) и `implementation-plan.md` (execution space)."
 derived_from:
   - ../dna/governance.md
   - ../dna/frontmatter.md
@@ -28,6 +28,11 @@ canonical_for:
   - feature_traceability_rules
   - feature_decomposition_principle
   - feature_grounding_gate
+  - feature_design_layer_definition
+  - feature_design_pack_definition
+  - feature_design_pack_relation_rules
+  - feature_design_pack_readiness_rules
+  - feature_solution_ownership_rules
 status: active
 audience: humans_and_agents
 ---
@@ -40,11 +45,11 @@ audience: humans_and_agents
 1. Все документы одной фичи живут в `memory-bank/features/FT-XXX/`.
 2. **Feature = одна проверяемая delivery-unit.** По умолчанию это vertical slice пользовательской ценности, пронизывающий все затронутые слои системы (UI, API, storage, infra). Для чисто инфраструктурной работы допустима одна independently verifiable engineering/operations delivery-unit с observable outcome; горизонтальная нарезка ("все endpoints", "весь UI") должна быть явно обоснована через `NS-*`. Behavior-preserving restructuring следует [`Refactoring Flow`](refactoring.md).
 3. `brief.md` — canonical owner problem space: problem, outcome, scope, non-scope, assumptions, constraints, unresolved blocking decisions, validation profile decision и canonical verify contract delivery-единицы.
-4. `design.md` — conditional canonical owner solution space. Он создается только когда фича требует explicit design reasoning: selected design, architecture coverage, C4/design decision, accepted feature-local decisions, contracts, invariants, failure modes, rollout/backout, risk-based design verification или ссылки на принятые ADR.
+4. Design layer — conditional semantic owner solution space. Он создаётся только когда фича требует explicit design reasoning; design pack aggregate-владеет feature-local solution facts, а root `design.md` служит manifest и default owner неделегированных facts.
 5. `README.md` создается вместе с `brief.md` и остается routing-слоем на всем lifecycle.
 6. Lifecycle owner для `delivery_status` — только canonical `brief.md`. `design.md`, feature-level `README.md` и `implementation-plan.md` не дублируют это поле.
 7. `design.md` появляется только после `Problem Ready` и только если `brief.md` фиксирует `Design required: yes`.
-8. `implementation-plan.md` — derived execution-документ. В новых feature packages он не должен существовать, пока upstream owners не готовы: `brief.md` active и, если design required, `design.md` active.
+8. `implementation-plan.md` — derived execution-документ. В новых feature packages он не должен существовать, пока upstream owners не готовы: `brief.md` active и, если design required, весь design pack прошёл `Solution Ready`.
 9. Для canonical `brief.md`, canonical `design.md`, feature-level `README.md` и `implementation-plan.md` используй wrapper-шаблоны из `memory-bank/flows/templates/feature/`: сам template-файл имеет `doc_function: template`, а frontmatter/body инстанцируемого документа живут внутри embedded template contract.
 10. Смысл стабильных идентификаторов (`REQ-*`, `SOL-*`, `SD-*`, `STEP-*` и т.д.) задается в секции «Stable Identifiers» ниже.
 11. Acceptance scenarios (`SC-*`) покрывают delivery-unit end-to-end: для пользовательского slice — от входного события до наблюдаемого результата через все затронутые слои; для infrastructure/engineering/operations change — от system, operator или pipeline trigger до observable operational outcome. Тестирование отдельного слоя в изоляции допустимо как implementation detail плана, но не заменяет end-to-end acceptance.
@@ -124,7 +129,7 @@ C4 можно не создавать, если изменение одновр�
 ### C4 Artifact Rules
 
 1. C4 artifact может быть Mermaid, PlantUML, Structurizr DSL, image или markdown table, если он однозначно передает выбранный C4 level.
-2. C4 artifact входит в design-pack и индексируется из `design.md`.
+2. Feature-local C4 artifact индексируется как `derived-view` внутри design pack; существующий внешний canonical C4 artifact индексируется как `external-dependency` и не входит в pack.
 3. C4 artifact не должен содержать execution steps, file-level TODO или test commands.
 4. Если C4 level required, `Solution Ready` недостижим без artifact-а или ссылки на уже существующий canonical C4/design artifact, который покрывает affected boundary.
 
@@ -148,11 +153,44 @@ C4, data-flow и sequence views остаются conditional. Если они и
 
 Это selection gate, а не обязательство выполнить каждый вид анализа. `no` требует краткой причины; `yes` требует завершенного результата или ссылки на evidence/canonical artifact до `status: active`. Если анализ выявляет design gap, сначала обновляется canonical solution owner, а не `implementation-plan.md`.
 
-## Optional Design-Pack Artifacts
+## Design Layer And Design Pack
+
+`Design layer` — conditional semantic layer Feature Flow, который владеет
+feature-local solution space. Он существует, когда canonical `brief.md`
+фиксирует `Design required: yes`.
+
+`Design pack` — документальное представление design layer для одной feature:
+ровно один root `design.md` и ноль или более проиндексированных design
+artifacts. Feature-local canonical artifacts и derived views входят в pack;
+внешние canonical owners индексируются как dependencies, но не становятся его
+частью. Добавление или удаление companion artifacts не меняет identity pack,
+пока он относится к той же feature.
+
+`design.md` — root manifest, entry point и default owner feature-local solution
+facts, которые не делегированы другому canonical document owner. Manifest
+использует ровно одно из четырёх отношений для каждого artifact:
+
+| Relation | Значение |
+| --- | --- |
+| `root` | Обязательный `design.md`, manifest и default solution owner |
+| `constituent` | Artifact внутри design pack; может владеть явно делегированными canonical facts |
+| `derived-view` | Проекция canonical facts; не вводит новые canonical facts |
+| `external-dependency` | Внешний canonical owner, решение или model; импортируется, но не входит в pack |
+
+На aggregate уровне design pack владеет feature-local solution facts. Каждый
+canonical stable ID имеет ровно одного непосредственного document owner:
+неделегированный факт определяется в `design.md`, делегированный — в одном
+явно указанном constituent, а shared/project-wide факт остаётся у внешнего
+canonical owner. Root manifest индексирует owner и не дублирует его semantics.
+
+### Optional Design-Pack Artifacts
 
 `design.md` остается обязательной точкой входа любого non-empty design-pack. Interaction contracts, C4/sequence/state/data-flow views, data model, migration, security, observability и другие design artifacts создаются независимо друг от друга только по triggers из [Feature Artifact Catalog](feature-artifact-catalog.md#solution-and-design-artifacts).
 
-Компактный material остается в `design.md`. Отдельный solution artifact обязан быть проиндексирован в Design Pack, явно перечислить delegated ownership и не принимать новый selected solution вне `design.md` / accepted ADR.
+Компактный material остается в `design.md`. Каждый отдельный design artifact
+обязан быть проиндексирован с явным `Relation`, перечислить delegated ownership,
+если оно есть, и не принимать новый selected solution вне `design.md` /
+accepted ADR.
 
 ## Optional Feature Support Docs
 
@@ -165,7 +203,7 @@ Feature-local `ui-reference/README.md` ссылается на `engineering/ui-d
 ## Migration Strategy
 
 - Новые feature packages обязаны сразу следовать структуре `brief.md -> optional design.md -> implementation-plan.md`.
-- При миграции старого package layout сначала назначь canonical owners: problem-space content переносится в `brief.md`, required solution-space content — в `design.md`.
+- При миграции старого package layout сначала назначь canonical owners: problem-space content переносится в `brief.md`, required solution-space content — в root `design.md` или явно проиндексированный constituent.
 - После миграции package не должен сохранять duplicate active owners для problem space или solution space.
 - Миграция может происходить постепенно, package-by-package.
 
@@ -174,7 +212,7 @@ Feature-local `ui-reference/README.md` ссылается на `engineering/ui-d
 ```mermaid
 flowchart LR
     DF["Draft Feature<br/>brief.md: draft<br/>delivery_status: planned<br/>design: absent<br/>plan: absent"] --> PR["Problem Ready<br/>brief.md: active<br/>delivery_status: planned"]
-    PR -->|"Design required: yes"| SR["Solution Ready<br/>design.md: active"]
+    PR -->|"Design required: yes"| SR["Solution Ready<br/>design pack ready"]
     PR -->|"Design required: no"| PL["Plan Ready<br/>implementation-plan.md: active"]
     SR --> PL["Plan Ready<br/>implementation-plan.md: active"]
     PL --> EX["Execution<br/>delivery_status: in_progress<br/>plan: active"]
@@ -213,6 +251,12 @@ flowchart LR
 - [ ] `brief.md` фиксирует `Design required: yes`
 - [ ] `design.md` создан по шаблону `templates/feature/design.md`
 - [ ] `design.md` → `status: active`
+- [ ] Design Pack manifest содержит ровно один `root` и классифицирует каждый artifact как `root`, `constituent`, `derived-view` или `external-dependency`
+- [ ] каждый canonical stable ID имеет ровно одного непосредственного owner; root manifest индексирует delegated ownership без дублирования semantics
+- [ ] каждый canonical constituent owner и каждая external canonical dependency, являющиеся governed-документами, имеют `status: active`; применимый entity lifecycle также finalized для downstream consumption
+- [ ] каждый делегированный interaction contract имеет `Contract Status: accepted`
+- [ ] каждый required derived view проиндексирован и согласован со своими canonical owners; standalone/embedded non-document assets индексируются active governed-документом с canonical source и version/revision, когда применимо
+- [ ] между root, constituents, views и external dependencies нет противоречащих canonical facts
 - [ ] `design.md` содержит ≥ 1 `SOL-*`
 - [ ] `design.md` ссылается минимум на один canonical `REQ-*` из sibling `brief.md`
 - [ ] `design.md` фиксирует C4 applicability decision; если C4 level required, C4 artifact или ссылка на canonical C4/design artifact присутствует в design-pack
@@ -221,7 +265,7 @@ flowchart LR
 - [ ] Design Verification выбирает каждый analysis class по риску через `required: yes/no`; required analyses имеют method и result/evidence, а `no` имеет причину
 - [ ] selected design стабилизирован настолько, что downstream execution sequencing больше не конкурирует с ним за ownership
 - [ ] accepted feature-local decisions перенесены в `SD-*`, а architectural / reusable / cross-feature decisions оформлены в accepted ADR
-- [ ] если solution зависит от ADR, соответствующий ADR имеет `decision_status: accepted`
+- [ ] если solution зависит от ADR, соответствующий ADR имеет `status: active` и `decision_status: accepted`
 - [ ] для нового feature package `implementation-plan.md` отсутствует; для migrated package с уже существующим планом разрешено создать `design.md`, после чего план должен быть обновлён так, чтобы ссылаться на canonical solution refs до следующего существенного execution update
 
 ### Upstream Ready → Plan Ready
@@ -305,15 +349,15 @@ Plan Ready artifact-review convergence допускает не более пят
 2. `brief.md` владеет только problem space и связанными gate decisions: problem, outcome, scope, non-scope, assumptions, constraints, unresolved blocking decisions, Design Requirement Decision, validation profile decision и canonical verify contract.
 3. `brief.md` не должен содержать `How`, selected design, to-be C4 architecture model, accepted solution decisions, change surface, internal flow, concrete solution contracts, solution-level failure modes, rollout/backout semantics или execution sequencing.
 4. `DEC-*` в `brief.md` означает только unresolved blocking decisions. Как только решение принято, оно переезжает в `design.md` как `SD-*` или в ADR.
-5. `design.md`, если нужен, владеет только solution space: selected design, architecture coverage, C4 applicability/artifacts, accepted feature-local decisions, solution structure, connectors/configuration, internal flow, concrete contracts, invariants, solution-level failure modes, local rollout/backout semantics, design verification results и ссылки на принятые ADR.
+5. Если design layer нужен, design pack aggregate-владеет feature-local solution space. Root `design.md` владеет manifest, selected design и всеми неделегированными solution facts; constituent владеет только явно делегированными canonical facts; derived view не владеет canonical facts; external dependency сохраняет собственного canonical owner.
 6. `delivery_status` остается только на `brief.md`; `design.md` и `implementation-plan.md` не дублируют lifecycle state delivery-единицы.
 7. `design.md` не должен переопределять business requirements, scope, acceptance criteria, canonical checks, evidence contract, detailed current-system inventory или execution sequencing.
 8. Feature-support docs не должны переопределять canonical facts. Они могут давать surface inventory, UI reference, mockups, derived use cases и review mappings только как support context.
-9. Если feature зависит от ADR, canonical owner этой зависимости — `design.md`; `proposed` ADR не считается finalized design.
+9. Если feature зависит от ADR, ADR остаётся canonical owner решения, а `design.md` индексирует его как `external-dependency`; только `status: active` + `decision_status: accepted` считается finalized design.
 10. Если feature зависит от канонического use case, `brief.md` ссылается на соответствующий файл в `memory-bank/use-cases/`. Use case остается owner-ом trigger/preconditions/main flow/postconditions на уровне проекта, а `brief.md` фиксирует только slice-specific проблему и verify.
 11. `implementation-plan.md` остается derived execution-документом: он ссылается на canonical IDs из `brief.md` и, если есть, применимые `SOL-*`, `C4-*`, `SD-*`, `CTR-*`, `INV-*`, `FM-*`, `RB-*` и accepted ADR refs, показывает их realization в `STEP/CHK/EVID`, фиксирует discovery context и test strategy для исполнения и не переопределяет scope, selected design, C4 architecture model, blockers, acceptance criteria или evidence contract.
-12. Если меняются scope, assumptions, constraints, acceptance criteria или evidence contract, сначала обновляется `brief.md`. Если меняются selected design, to-be C4 architecture model, local accepted decisions, contracts, failure modes или rollout/backout semantics, сначала обновляется `design.md` или ADR. Только потом обновляется downstream-план.
-13. Если support doc выявляет конфликт с canonical owner, конфликт нельзя решать внутри support doc: обнови `brief.md`, `design.md`, ADR или `implementation-plan.md` по ownership.
+12. Если меняются scope, assumptions, constraints, acceptance criteria или evidence contract, сначала обновляется `brief.md`. Если меняются selected design, to-be C4 architecture model, local accepted decisions, contracts, failure modes или rollout/backout semantics, сначала обновляется их непосредственный owner: `design.md`, delegated constituent или ADR. Только потом обновляется downstream-план.
+13. Если support doc выявляет конфликт с canonical owner, конфликт нельзя решать внутри support doc: обнови `brief.md`, непосредственный design-pack owner, external dependency или `implementation-plan.md` по ownership.
 14. Если численный target threshold относится только к одной delivery-единице, canonical owner — соответствующий `brief.md`. Поднимать такой KPI в project-level документ можно только после того, как он стал shared upstream fact для нескольких feature.
 15. Хороший `implementation-plan.md` начинается с discovery context: relevant paths, local reference patterns, unresolved questions, test surfaces и execution environment должны быть зафиксированы до sequencing изменений.
 16. Для рискованных, необратимых или внешне-эффективных действий `implementation-plan.md` должен явно описывать human approval gates и не скрывать их внутри prose шага.
@@ -327,11 +371,11 @@ Plan Ready artifact-review convergence допускает не более пят
 Canonical testing policy живёт в [../engineering/testing-policy.md](../engineering/testing-policy.md). Ниже — выжимка, достаточная для создания feature package без обращения к policy-документу.
 
 1. **Canonical test cases** delivery-единицы задаются в `brief.md` через `SC-*`, feature-specific `NEG-*`, `CHK-*` и `EVID-*`.
-2. `design.md`, если нужен, может фиксировать solution-level `CTR-*`, `INV-*`, `FM-*` и `RB-*`, но не владеет test strategy и не подменяет canonical verify contract.
+2. Design pack, если нужен, aggregate-владеет solution-level `CTR-*`, `INV-*`, `FM-*` и `RB-*`; непосредственный owner — `design.md` или явно указанный constituent. Ни один design artifact не владеет test strategy и не подменяет canonical verify contract.
 3. `implementation-plan.md` владеет только стратегией исполнения: какие suites добавить, какие gaps временно manual-only и почему.
-4. **Sufficient coverage** = покрыт основной changed behavior, новые или измененные contracts из `design.md` / ADR, критичные failure modes из `FM-*` и feature-specific negative/edge scenarios, если они меняют verdict. Процент line coverage сам по себе недостаточен.
+4. **Sufficient coverage** = покрыт основной changed behavior, новые или измененные contracts из их design-pack owner / external dependency, критичные failure modes из `FM-*` и feature-specific negative/edge scenarios, если они меняют verdict. Процент line coverage сам по себе недостаточен.
 5. **Manual-only допустим** только как явное исключение (live infra, hardware, недетерминированная среда). Для каждого gap — причина, ручная процедура или `EVID-*`, owner follow-up и approval ref через `AG-*`.
-6. **К Problem Ready** `brief.md` уже фиксирует test case inventory: минимум один `SC-*`, traceability к `REQ-*` и Design Requirement Decision. **К Solution Ready** required `design.md` фиксирует delivered design, C4 applicability, architecture coverage, risk-based design verification, contracts и local decisions. **К Done** — automated tests добавлены, обязательные suites зелёные локально и в CI.
+6. **К Problem Ready** `brief.md` уже фиксирует test case inventory: минимум один `SC-*`, traceability к `REQ-*` и Design Requirement Decision. **К Solution Ready** весь required design pack готов и согласован по gate выше. **К Done** — automated tests добавлены, обязательные suites зелёные локально и в CI.
 7. **Simplify review** — отдельный проход после функциональных тестов, до closure. Цель: убедиться, что код минимально сложен. Три похожие строки лучше premature abstraction. Complexity оправдана только со ссылкой на `CON-*`, `INV-*`, `FM-*`, `SD-*` или accepted ADR.
 8. **Verification context separation** — функциональная верификация, simplify review и acceptance test — три логически отдельных прохода. Между проходами агент формулирует выводы до начала следующего. Для compact feature packages допустимо в одной сессии, но simplify review не пропускается.
 
@@ -363,10 +407,10 @@ Canonical testing policy живёт в [../engineering/testing-policy.md](../eng
 | `TRD-*` | trade-offs | `design.md` |
 | `C4-*` | C4 applicability decision, model levels, elements или relationships | `design.md` |
 | `SD-*` | accepted feature-local solution decisions | `design.md` |
-| `INV-*` | solution invariants | `design.md` |
-| `CTR-*` | concrete solution contracts | `design.md` |
-| `FM-*` | solution-level failure modes | `design.md` |
-| `RB-*` | rollout / backout stages | `design.md` |
+| `INV-*` | solution invariants | `design.md` или delegated constituent |
+| `CTR-*` | concrete solution contracts | `design.md` или delegated constituent |
+| `FM-*` | solution-level failure modes | `design.md` или delegated constituent |
+| `RB-*` | rollout / backout stages | `design.md` или delegated constituent |
 
 ### Plan IDs
 
@@ -413,4 +457,4 @@ Canonical testing policy живёт в [../engineering/testing-policy.md](../eng
 4. `implementation-plan.md` ссылается на canonical IDs из `brief.md` и, если есть, применимые `SOL-*`, `C4-*`, `SD-*`, `CTR-*`, `INV-*`, `FM-*`, `RB-*` и accepted ADR refs в Design Realization Mapping и `Implements`; `Verifies` содержит связанные `CHK-*`, а `Evidence IDs` — подтверждающие `EVID-*`, образуя trace chain от canonical ref до evidence.
 5. Если sequencing блокируется неизвестностью, план фиксирует её как `OQ-*`, а не прячет в prose.
 6. Если выполнение требует человеческого подтверждения для рискованных действий, план фиксирует это через `AG-*`.
-7. Если design или to-be C4 architecture model меняется после `Solution Ready`, сначала обновляется `design.md` или ADR, затем план.
+7. Если design или to-be C4 architecture model меняется после `Solution Ready`, сначала обновляется непосредственный owner из Design Pack manifest или external dependency, затем root manifest и план.

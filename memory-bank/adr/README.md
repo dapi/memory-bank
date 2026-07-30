@@ -20,7 +20,7 @@ audience: humans_and_agents
 ## Аннотированный индекс
 
 - [`ADR-001-introduce-design-pack.md`](ADR-001-introduce-design-pack.md)
-  Proposal: разделить semantic design layer, documentary design pack и root
+  Accepted: разделить semantic design layer, documentary design pack и root
   `design.md`, а также закрепить aggregate и direct ownership solution facts.
 
 ## Authoring And Review

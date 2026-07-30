@@ -54,7 +54,7 @@ audience: humans_and_agents
 
 - Canonical validation profile decision живёт только в owner-е, назначенном [`validation-profiles.md`](validation-profiles.md); testing policy и execution artifacts не выбирают profile повторно.
 - Canonical test cases delivery-единицы задаются в `brief.md` через `SC-*`, feature-specific `NEG-*`, `CHK-*` и `EVID-*`.
-- `design.md`, если нужен, владеет selected design, C4 applicability/model, `CTR-*`, `INV-*`, `FM-*` и локальными `RB-*`, но не подменяет canonical verify contract.
+- Design pack, если нужен, aggregate-владеет selected design, C4 applicability/model, `CTR-*`, `INV-*`, `FM-*` и локальными `RB-*`. Root `design.md` остаётся default owner, а явно делегированный constituent — непосредственным owner перечисленных IDs; ни один design artifact не подменяет canonical verify contract.
 - `implementation-plan.md` владеет только стратегией исполнения: какие test surfaces будут добавлены или обновлены, какие gaps временно остаются manual-only и почему.
 
 ## Feature Flow Expectations
@@ -62,7 +62,7 @@ audience: humans_and_agents
 Canonical lifecycle gates живут в [../flows/feature.md](../flows/feature.md):
 
 - к `Problem Ready` `brief.md` уже фиксирует validation profile decision и test case inventory;
-- к `Solution Ready` required `design.md` фиксирует selected design, C4 applicability/model, contracts и solution-level failure modes;
+- к `Solution Ready` весь required design pack готов по relation, ownership, publication/lifecycle и consistency rules из Feature Flow;
 - к `Plan Ready` `implementation-plan.md` содержит `Test Strategy` с planned automated coverage и manual-only gaps;
 - к `Done` required tests добавлены, локальные команды зелёные и CI не противоречит локальному verify.
 

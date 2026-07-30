@@ -2,12 +2,12 @@
 title: "ADR-001: Ввести design pack как solution-space package"
 doc_kind: adr
 doc_function: canonical
-purpose: "Фиксирует предложение разделить design layer, design pack и root `design.md`, а также назначить design pack владельцем feature-local `CTR-*` с однозначным document-level ownership."
+purpose: "Фиксирует решение разделить design layer, design pack и root `design.md`, а также назначить design pack владельцем feature-local `CTR-*` с однозначным document-level ownership."
 derived_from:
   - ../dna/principles.md
   - ../dna/governance.md
-status: draft
-decision_status: proposed
+status: active
+decision_status: accepted
 date: 2026-07-30
 decision_makers:
   - Danil Pismenny
@@ -73,11 +73,11 @@ artifacts, их ownership и `Solution Ready` gate.
 | Сохранить `design.md` единственным владельцем solution space | Простая модель и один очевидный файл | Не описывает delegated contracts и другие canonical design artifacts; стимулирует разрастание одного файла или ложное ownership | Не основной: противоречит уже поддерживаемому многофайловому design |
 | Использовать design pack только как неформальную группу файлов вокруг `design.md` | Даёт краткое название существующему многофайловому layout без нового lifecycle concept | Не задаёт identity, membership, aggregate ownership, direct ownership или readiness semantics; разные документы продолжат определять пакет по-разному | Не основной: улучшает лексику, но не устраняет governance drift |
 | Считать `design layer` и `design pack` синонимами, а `design.md` — их manifest | Вводит имя для многофайлового design и сохраняет root entry point | Смешивает semantic lifecycle layer с его документальным представлением; остаётся неясным непосредственный owner конкретного факта | Не основной: уменьшает файловую неоднозначность, но сохраняет категориальную |
-| Разделить `design layer`, `design pack` и root `design.md`; использовать aggregate и direct ownership | Масштабируется от одного файла до нескольких, сохраняет SSoT и позволяет точно маршрутизировать изменения | Требует явного manifest и обновления нескольких governance/template формулировок | Предлагаемый: единственный вариант, закрывающий все драйверы без запрета delegated ownership |
+| Разделить `design layer`, `design pack` и root `design.md`; использовать aggregate и direct ownership | Масштабируется от одного файла до нескольких, сохраняет SSoT и позволяет точно маршрутизировать изменения | Требует явного manifest и обновления нескольких governance/template формулировок | Выбранный: единственный вариант, закрывающий все драйверы без запрета delegated ownership |
 
 ## Решение
 
-Предлагается принять следующие определения.
+Принято решение использовать следующие определения.
 
 **Design layer** — conditional semantic layer Feature Flow, который владеет
 feature-local solution space. Он существует, когда canonical `brief.md`
@@ -115,9 +115,21 @@ Design Pack manifest должен различать отношения:
   импортируется как `external-dependency`.
 
 `Solution Ready` означает готовность design pack, а не только наличие
-`design.md: active`. Root `design.md` должен быть `active`; все constituent
-owners должны иметь допустимый publication status; external decisions должны
-иметь требуемый lifecycle status; каждый canonical ID должен иметь одного
+`design.md: active`. Root `design.md`, каждый canonical constituent owner и
+каждая external canonical dependency, являющиеся governed-документами, должны
+иметь `status: active`. Для lifecycle-owning constituent или dependency
+дополнительно обязателен status, который его canonical lifecycle определяет как
+finalized input для downstream consumption; в частности, делегированный
+interaction contract должен иметь `Contract Status: accepted`, а внешний ADR —
+одновременно `status: active` и `decision_status: accepted`.
+
+Каждый required `derived-view` должен быть проиндексирован и согласован со
+своими canonical owners. Если view является отдельным governed-документом, он
+должен иметь `status: active`. Любой embedded или standalone non-document asset,
+включая внешний C4 artifact, не получает искусственный YAML status: его
+readiness подтверждает `active` governed-документ, который индексирует asset,
+указывает его canonical source и version/revision, когда применимо, и фиксирует
+его актуальность и согласованность. Каждый canonical ID должен иметь одного
 непосредственного owner; между artifacts не должно быть противоречащих
 canonical facts.
 
@@ -181,14 +193,17 @@ Evidence сначала фиксируются в implementation PR, а посл
 
 Compliance подтверждается следующими evidence:
 
-- `flows/feature.md` содержит единые определения design layer и design pack;
-- Design Pack manifest различает `root`, `constituent`, `derived-view` и
-  `external-dependency`;
-- `rg` не находит нормативных утверждений, объявляющих `design.md` безусловным
-  владельцем всех feature-local `CTR-*`;
-- artifact catalog и contract template указывают один непосредственный owner для
-  каждого делегированного `CTR-*`;
-- `Solution Ready` gate проверяет readiness всего design pack;
+- [`flows/feature.md`](../flows/feature.md) содержит единые определения design
+  layer/design pack, relation contract, direct ownership и aggregate
+  `Solution Ready` gate;
+- [`design.md` template](../flows/templates/feature/design.md) реализует manifest
+  с `root`, `constituent`, `derived-view` и `external-dependency`;
+- [`feature-artifact-catalog.md`](../flows/feature-artifact-catalog.md) и
+  [`interaction contract template`](../flows/templates/feature/api-contract.md)
+  фиксируют routing и единственного непосредственного owner делегированных
+  `CTR-*`;
+- [`testing-policy.md`](../engineering/testing-policy.md) ссылается на readiness
+  всего design pack вместо безусловного ownership root `design.md`;
 - `memory-bank-cli lint --scope-root template/memory-bank --entrypoint template/memory-bank/README.md`
   и `memory-bank-cli doctor --profile template` проходят;
 - `git diff --check` не находит whitespace errors.
@@ -210,14 +225,12 @@ ADR следует пересмотреть, если:
 
 ## Follow-up
 
-- Обновить `memory-bank/flows/feature.md` и его generic template counterpart как
-  canonical owner lifecycle и терминов.
-- Обновить `feature-artifact-catalog.md`, design/contract/implementation-plan
-  templates и testing policy согласно ownership boundaries.
-- Синхронизировать project-local `memory-bank/` с изменённым
-  `template/memory-bank/`, сохраняя project-specific adaptation.
-- Добавить или усилить lint checks для manifest relations и уникального
-  document-level ownership, если текущий CLI этого не проверяет.
+Living governance rules, generic/project copies и glossary реализованы в
+связанных canonical owners выше.
+
+Остаётся оценить отдельным tooling change автоматические lint checks для
+manifest relations и уникального document-level ownership; этот follow-up не
+блокирует принятие решения или его текущую документационную реализацию.
 
 ## Связанные ссылки
 
