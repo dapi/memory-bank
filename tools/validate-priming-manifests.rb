@@ -114,7 +114,13 @@ class PrimingManifestValidator
     end
 
     relative = input.delete_prefix("memory-bank/")
-    if Pathname(relative).each_filename.include?("..")
+    relative_path = Pathname(relative)
+    if relative_path.absolute?
+      add_error(path, "stage #{stage.inspect}: #{input.inspect} must remain relative under memory-bank/")
+      return
+    end
+
+    if relative_path.each_filename.include?("..")
       add_error(path, "stage #{stage.inspect}: #{input.inspect} escapes the scope root")
       return
     end
@@ -169,5 +175,7 @@ class PrimingManifestValidator
   end
 end
 
-scope_root = ARGV.fetch(0, "template/memory-bank")
-exit 1 unless PrimingManifestValidator.new(scope_root).run
+if $PROGRAM_NAME == __FILE__
+  scope_root = ARGV.fetch(0, "template/memory-bank")
+  exit 1 unless PrimingManifestValidator.new(scope_root).run
+end
