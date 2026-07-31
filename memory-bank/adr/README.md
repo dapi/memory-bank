@@ -27,10 +27,16 @@ audience: humans_and_agents
 
 Локальный ADR template адаптирует MADR 4.0.0, но остается canonical contract
 Memory Bank. Если в agent environment доступен skill `adr-writing`, используй
-его для authoring и review. Перед переводом ADR в `status: active` проверь его
-по локальному Definition of Done **E.C.A.D.R.**: explicit problem,
-comprehensive options, actionable decision, documented consequences и
-reviewability. Полное определение критериев находится в
+только его MADR / E.C.A.D.R. quality checklist и review heuristics. Не применяй
+его filesystem workflow, sequence script, naming, frontmatter или status
+defaults. Для authoring всегда создавай ADR из локального шаблона и сохраняй в
+`memory-bank/adr/ADR-XXX-short-decision-name.md`; не создавай
+`docs/adrs/NNNN-*.md`. Локальные правила ниже имеют приоритет над generic skill.
+
+Перед переводом ADR в `status: active` проверь его по локальному Definition of
+Done **E.C.A.D.R.**: explicit problem, comprehensive options, actionable
+decision, documented consequences и reviewability. Полное определение критериев
+находится в
 [`ADR-XXX.md#authoring-method-and-quality-gate`](../flows/templates/adr/ADR-XXX.md#authoring-method-and-quality-gate).
 
 ## Naming

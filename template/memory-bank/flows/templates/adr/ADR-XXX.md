@@ -9,7 +9,7 @@ derived_from:
 status: active
 audience: humans_and_agents
 template_for: adr
-template_target_path: ../../../adr/ADR-XXX.md
+template_target_path: ../../../adr/ADR-XXX-short-decision-name.md
 ---
 
 # ADR-XXX: Short Decision Name
@@ -58,8 +58,14 @@ trade-offs, decision outcome, consequences, Confirmation и review metadata.
 Canonical contract для Memory Bank задает этот локальный шаблон; новая версия
 MADR не меняет его автоматически.
 
-Если в agent environment доступен skill `adr-writing`, используй его при
-создании и проверке ADR. Наличие skill не является скрытой runtime-зависимостью:
+Если в agent environment доступен skill `adr-writing`, используй только его
+MADR / E.C.A.D.R. quality checklist и review heuristics. Не выполняй его
+filesystem workflow, sequence script и write steps, а также не переноси его
+naming, frontmatter и status defaults. Для этого репозитория canonical contract
+задают `template_target_path`, секция `Instantiated Frontmatter` и lifecycle
+правила этого шаблона: создавай
+`memory-bank/adr/ADR-XXX-short-decision-name.md`, а не
+`docs/adrs/NNNN-*.md`. Наличие skill не является скрытой runtime-зависимостью:
 локальный quality gate определен здесь через мнемонику **E.C.A.D.R.**
 
 | Критерий | Что должно быть доказано в ADR |
