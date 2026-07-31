@@ -89,12 +89,19 @@ Grounding выполняется до sequencing против конкретно
 Перед первым write implementing agent читает только этот manifest и проверяет,
 что рабочая tree начинается с grounded repository revision выше. Это
 исполняемая инструкция, а не пересказ `GRND-*` facts: перечисляй concrete
-repo-relative paths или stable external sources в порядке чтения. Category,
-glob, `TODO`, предполагаемый path и «изучи релевантное» не допускаются.
+repo-relative paths или stable external sources в порядке чтения. Для каждого
+input укажи точную section/symbol, подтверждающий `GRND-*`, цель чтения и
+`STEP-*`, до которого input обязателен. Category, glob, `TODO`, предполагаемый
+path, unresolved placeholder и «изучи релевантное» не допускаются.
 
-1. `memory-bank/domain/<rule>.md`
-2. `path/to/existing/module`
-3. `path/to/existing/tests`
+| Order | Exact path / stable source | Section / symbol | Grounding refs | Purpose | Required before |
+| --- | --- | --- | --- | --- | --- |
+| `1` | `memory-bank/domain/example-rule.md` | `# Example Rule` | `GRND-01` | Подтвердить применимое domain rule | `STEP-01` |
+| `2` | `path/to/existing/module` | `ExistingService` | `GRND-01` | Подтвердить текущий implementation pattern | `STEP-01` |
+| `3` | `path/to/existing/tests` | `ExistingServiceTest` | `GRND-02` | Подтвердить test conventions и regression surface | `STEP-02` |
+
+Замени все example rows фактическими inputs плана. Один input может ссылаться
+на несколько `GRND-*` и `STEP-*`; перечисли их явно.
 
 Перед первым write выполни `git rev-parse HEAD` и сравни с grounded immutable
 revision. Если revision расходится или один из перечисленных inputs недоступен,

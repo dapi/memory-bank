@@ -10,6 +10,7 @@
 
 ```bash
 rg --files template/memory-bank
+ruby tools/validate-priming-manifests-test.rb
 ruby tools/validate-priming-manifests.rb template/memory-bank
 memory-bank-cli lint --scope-root template/memory-bank --entrypoint template/memory-bank/README.md
 memory-bank-cli doctor --profile template

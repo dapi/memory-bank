@@ -39,7 +39,9 @@ jobs:
           test -d memory-bank
 
       - name: Validate priming manifests
-        run: ruby tools/validate-priming-manifests.rb template/memory-bank
+        run: |
+          ruby tools/validate-priming-manifests-test.rb
+          ruby tools/validate-priming-manifests.rb template/memory-bank
 
       - name: Lint template
         run: memory-bank-cli lint --scope-root template/memory-bank --entrypoint template/memory-bank/README.md
