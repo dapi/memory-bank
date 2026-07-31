@@ -114,7 +114,7 @@ requirements, scope, solution, plan, lifecycle facts и evidence остаютс�
 назначенных owners и не копируются в Ledger как второй active SSoT.
 
 Persisted state содержит:
-- `state_revision`, время обновления и `run_status: ACTIVE | HUMAN_GATE | DONE`;
+- `state_revision`, время обновления и `run_status: ACTIVE | WAIT | HUMAN_GATE | DONE`;
 - `control_state: INTAKE | ROUTING | FLOW | CLOSURE`, issue ref и source revisions;
 - `route_revision`, текущий route, predicate evidence и route history;
 - closure horizon текущей issue: что должно завершиться в этом run и какие
@@ -135,12 +135,19 @@ issue, переводит run в `CLOSURE`, а выполненный exit/hando
 `DONE`. Package-level disposition `Rerouted` закрывает прежний package, но
 переводит issue-run из `FLOW` обратно в `ROUTING`, а не в `CLOSURE`.
 
-После resume сначала проверь, что human response или external event выполняет
-exact resume condition сохранённого Human Gate. Если нет, оставь
-`run_status: HUMAN_GATE` и не выполняй dependent mutations. Если да, сохрани
-response evidence, очисти resolved blocker, установи `run_status: ACTIVE`,
-увеличь `state_revision`, выполни re-grounding и продолжи сохранённый control
-state либо `ROUTING`, если ответ изменил facts/scope/route.
+`WAIT` — нетерминальная пауза внутри текущего `control_state` для ожидаемого
+внешнего события, не требующего человеческого действия. Она не закрывает flow,
+не освобождает доказательства пройденных gate и после события возвращается в
+`ACTIVE` без нового routing, если external facts не изменили route или scope.
+
+После resume сначала проверь exact resume condition сохранённого состояния.
+Для `HUMAN_GATE` это human response или required external action; если его нет,
+оставь `run_status: HUMAN_GATE` и не выполняй dependent mutations. Для `WAIT`
+это ожидаемый terminal external event; если его нет, оставь `run_status: WAIT`
+и только мониторь event. Если condition выполнен, сохрани evidence, очисти
+resolved blocker или pending event, установи `run_status: ACTIVE`, увеличь
+`state_revision`, выполни re-grounding и продолжи сохранённый control state либо
+`ROUTING`, если ответ изменил facts/scope/route.
 
 Обновляй state до и после каждого gate/checkpoint и handoff, а также после
 routing, каждой итерации цикла, изменения facts/profile, handback, review/CI и
@@ -302,12 +309,32 @@ review.
 iteration budget сами по себе не дают terminal verdict.
 </final_convergence>
 
+<ci_waiting_rule>
+Ожидание асинхронного статуса внешней системы, не требующее действия или решения
+человека (например, GitHub CI в состояниях `queued`, `pending` или `in_progress`),
+не является Human Gate.
+
+В таком состоянии сохраняй `run_status: WAIT`; в Run Ledger записывай CI как
+`pending_external_event` с URL, временем последней проверки и exact next action
+`poll CI`. Продолжай разрешённую независимую работу; если её нет, используй
+доступный механизм ожидания/мониторинга и не запрашивай действия пользователя.
+Не завершай run с `STATUS: HUMAN_GATE` и не объявляй `STATUS: DONE` до terminal
+результата обязательного CI.
+
+Human Gate для CI допустим только когда требуется действие человека, которое
+агент не может безопасно выполнить сам: approval, доступ/секрет, решение о
+flaky или failing check либо разрешение изменить подход после исчерпания
+допустимых попыток исправления.
+</ci_waiting_rule>
+
 <stop_conditions>
 Оформи Human Gate и останови только работу, зависящую от него, когда безопасное
 продолжение требует решения между существенными trade-offs, обязательного
 approval, недостающего source/input, production/live-data действия, решения по
 security/payment/compliance, выбора между конфликтующими established patterns
-либо обязательного внешнего action/event или недоступной capability.
+либо обязательного действия человека или внешнего владельца, которое агент не
+может безопасно инициировать или выполнить сам, либо недоступной capability.
+Простое ожидание статуса внешней системы не является Human Gate.
 
 До остановки закрой active children и writer lease. Persisted state должен
 содержать blocked gate/predicate, blocker/risk, уже собранное evidence, один
@@ -318,13 +345,22 @@ action после ответа или события.
 </stop_conditions>
 
 <completion_contract>
-Заверши run ровно одним статусом.
+При завершении turn верни ровно один текущий статус. `DONE` и `HUMAN_GATE`
+завершают run; `WAIT` сохраняет нетерминальный run для последующего resume.
 
 `STATUS: HUMAN_GATE` завершает только текущий run и допустим лишь при выполнении
 `<stop_conditions>`. Он не утверждает выполнение acceptance, validation, tests,
 CI, PR readiness или terminal contract. После resume обнови external sources,
 перепроверь route/profile и продолжи с blocked либо первым invalidated gate, не
 начиная процесс заново.
+
+Если обязательный CI ещё выполняется, run остаётся `WAIT` с
+`pending_external_event`; это не `DONE` и не `HUMAN_GATE`. Финальный статус
+выдаётся только после terminal CI result или при настоящем условии Human Gate.
+
+`STATUS: WAIT` сообщает о нетерминальном ожидании внешнего события и должен
+содержать owner/event, URL или evidence, время последней проверки, resume
+condition и exact next action. Он не является запросом к человеку.
 
 Недоступность обязательной delivery capability — включая `.git` write или
 GitHub write в restricted `start-issue --human-gate` profile — является
@@ -353,5 +389,5 @@ Epic, `Rerouted` возвращает в Task Routing, а `Parked` остана�
 run status; artifacts; изменения; PR/commit; проверки и CI;
 review/convergence; handoffs; оставшиеся
 blockers, approvals и risks. После отчёта добавь ровно одну отдельную строку:
-`STATUS: DONE` или `STATUS: HUMAN_GATE`.
+`STATUS: DONE`, `STATUS: WAIT` или `STATUS: HUMAN_GATE`.
 </output_format>
