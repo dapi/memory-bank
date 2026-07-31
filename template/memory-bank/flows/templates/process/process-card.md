@@ -7,6 +7,7 @@ derived_from:
   - ../../../dna/governance.md
   - ../../../dna/frontmatter.md
   - ../../routing.md
+  - ../../priming/context-priming.md
 status: active
 audience: humans_and_agents
 template_for: process
@@ -64,6 +65,11 @@ must_not_define:
 - Кто его инициирует.
 - Какие входные данные нужны перед стартом.
 
+## Priming Inputs
+
+Прочитай `memory-bank/processes/<process-name>.priming.yaml` и выполни source
+set `entry`.
+
 ## Scope
 
 ### In Scope
@@ -90,5 +96,6 @@ must_not_define:
 
 ## Escalation
 
-- Когда процесс нужно остановить и поднять к человеку.
+- Когда процесс нужно остановить и поднять к человеку, включая missing или
+  conflicting priming input.
 ```

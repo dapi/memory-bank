@@ -5,9 +5,11 @@ doc_function: canonical
 purpose: Lifecycle создания, активации и обновления канонических project-level use cases.
 derived_from:
   - ../dna/governance.md
+  - priming/context-priming.md
   - feature.md
 canonical_for:
   - use_case_selection
+  - use_case_priming_inputs
   - use_case_creation_flow
   - use_case_lifecycle
   - operational_agentic_use_case_rules
@@ -21,6 +23,11 @@ audience: humans_and_agents
 Этот flow управляет project-level `UC-*`: от решения завести канонический
 сценарий до его регистрации, активации, обновления и архивации. Он не является
 отдельным route для delivery-задачи и не заменяет [`Task Routing`](routing.md).
+
+## Priming Inputs
+
+Прочитай [`use-case.yaml`](priming/use-case.yaml) и выполни source set
+`create_update`.
 
 ## Что Такое Use Case
 

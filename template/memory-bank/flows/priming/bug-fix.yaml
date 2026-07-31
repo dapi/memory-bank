@@ -1,0 +1,13 @@
+version: 1
+process: bug_fix
+stages:
+  entry:
+    - memory-bank/prd/*.md
+    - memory-bank/use-cases/*.md
+    - memory-bank/domain/*.md
+    - memory-bank/engineering/validation-profiles.md
+    - memory-bank/engineering/testing-policy.md
+  analysis_fix:
+    - memory-bank/engineering/architecture.md
+    - memory-bank/engineering/coding-style.md
+    - memory-bank/ops/development.md

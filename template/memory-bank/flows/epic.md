@@ -7,9 +7,11 @@ derived_from:
   - ../dna/governance.md
   - ../dna/frontmatter.md
   - routing.md
+  - priming/context-priming.md
   - feature.md
 canonical_for:
   - epic_directory_structure
+  - epic_priming_inputs
   - epic_document_boundaries
   - epic_template_selection_rules
   - epic_intake_rules
@@ -35,6 +37,15 @@ FPF-основание:
 - **Strict Distinction**: epic, feature, PRD, use case, ADR и implementation plan имеют разные owners и не должны подменять друг друга.
 - **Evidence Graph**: epic решения должны ссылаться на источники, stakeholder answers, specs, ADR или code facts.
 - **Q-Bundle**: качество epic нельзя свести к одному score; оно проверяется набором отдельных свойств ниже.
+
+## Priming Inputs
+
+Прочитай [`epic.yaml`](priming/epic.yaml). Выполни `intake`, затем добавляй
+`bootstrap`, `roadmap_ready` и `execution_handoff` перед соответствующими
+стадиями.
+
+Intake facts и open questions принадлежат `brief.md`; при прямом bootstrap они
+фиксируются в `charter.md` или linked issue.
 
 ## Package Rules
 

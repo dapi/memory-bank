@@ -25,6 +25,7 @@ Do not inspect or use files under template/memory-bank/prompts/** as workflow de
 У репозитория нет runtime-приложения и встроенного CLI. Установите закреплённый release `memory-bank-cli` по [инструкции CLI](docs/memory-bank.md). Перед PR запускайте:
 
 - `rg --files template` для проверки структуры и имён файлов;
+- `ruby tools/validate-priming-manifests.rb template/memory-bank` для проверки schema и разрешимых paths priming manifests;
 - `memory-bank-cli lint --scope-root template/memory-bank --entrypoint template/memory-bank/README.md` для аудита ссылок, reachability и expected README-индексов внутри template;
 - `memory-bank-cli doctor --profile template` для проверки marker, governance и template CI;
 - `git diff --check` для поиска лишних пробелов и conflict markers;

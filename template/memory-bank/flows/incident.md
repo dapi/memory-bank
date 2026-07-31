@@ -6,10 +6,12 @@ purpose: Operational flow от обнаружения и containment инцид�
 derived_from:
   - ../dna/governance.md
   - routing.md
+  - priming/context-priming.md
   - ../engineering/testing-policy.md
   - ../ops/runbooks/README.md
 canonical_for:
   - incident_entry_contract
+  - incident_priming_inputs
   - incident_response_flow
   - incident_human_gates
   - pir_requirements
@@ -29,6 +31,13 @@ Incident — событие с активным или потенциально 
 detection → triage → containment → recovery → timeline
           → root cause analysis → remediation → PIR → prevention work
 ```
+
+## Priming Inputs
+
+Прочитай [`incident.yaml`](priming/incident.yaml). Выполни source set
+`containment`, затем `recovery_pir` перед Recovery / PIR.
+
+Containment не ждёт Recovery / PIR priming или broad discovery.
 
 ## Response Gates
 

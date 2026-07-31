@@ -1,0 +1,8 @@
+version: 1
+process: small_change
+stages:
+  entry_execution:
+    - memory-bank/engineering/validation-profiles.md
+    - memory-bank/engineering/coding-style.md
+    - memory-bank/engineering/testing-policy.md
+    - memory-bank/ops/development.md

@@ -6,6 +6,7 @@ purpose: Governed wrapper-шаблон плана имплементации. Ф
 derived_from:
   - ../../feature.md
   - ../../feature-artifact-catalog.md
+  - ../../priming/context-priming.md
   - ../../../dna/frontmatter.md
   - ../../../engineering/testing-policy.md
 status: active
@@ -82,6 +83,23 @@ Grounding выполняется до sequencing против конкретно
 | --- | --- | --- | --- |
 | `GRND-01` | `path/to/existing/module` | Какой существующий implementation pattern или affected surface реально найден | Какие `STEP-*`, `PRE-*` или touchpoints обязаны его учитывать |
 | `GRND-02` | `path/to/existing/tests` / discovery command | Какая test surface существует или evidence-backed почему подходящего покрытия нет | Какие `CHK-*`, suites и planned automated coverage следуют из этого |
+
+## Implementation Priming
+
+Перед первым write implementing agent читает только этот manifest и проверяет,
+что рабочая tree начинается с grounded repository revision выше. Это
+исполняемая инструкция, а не пересказ `GRND-*` facts: перечисляй concrete
+repo-relative paths или stable external sources в порядке чтения. Category,
+glob, `TODO`, предполагаемый path и «изучи релевантное» не допускаются.
+
+1. `memory-bank/domain/<rule>.md`
+2. `path/to/existing/module`
+3. `path/to/existing/tests`
+
+Перед первым write выполни `git rev-parse HEAD` и сравни с grounded immutable
+revision. Если revision расходится или один из перечисленных inputs недоступен,
+останови execution и обнови grounding/plan; не угадывай changed state и не
+расширяй manifest произвольно.
 
 ## Grounding / Support References
 

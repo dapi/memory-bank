@@ -6,10 +6,12 @@ purpose: Delivery flow для воспроизводимого расхожде�
 derived_from:
   - ../dna/governance.md
   - routing.md
+  - priming/context-priming.md
   - ../engineering/testing-policy.md
   - ../engineering/validation-profiles.md
 canonical_for:
   - bug_fix_entry_contract
+  - bug_fix_priming_inputs
   - bug_reproduction_rules
   - bug_fix_execution_flow
   - bug_regression_evidence_rules
@@ -22,6 +24,15 @@ audience: humans_and_agents
 # Bug Fix Flow
 
 Bug — наблюдаемое поведение, противоречащее уже принятому expected behavior. Источником может быть error tracker, support, QA, пользовательский report или incident analysis.
+
+## Priming Inputs
+
+Прочитай [`bug-fix.yaml`](priming/bug-fix.yaml). Выполни source set `entry`,
+затем `analysis_fix` перед Analysis / Fix.
+
+Task owner добавляет exact report, affected implementation и test paths.
+Expected/actual behavior, reproduction evidence и unknowns фиксируются в bug
+report или linked delivery task.
 
 ## Entry Gate
 

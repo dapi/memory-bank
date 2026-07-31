@@ -7,9 +7,11 @@ derived_from:
   - ../dna/governance.md
   - ../dna/frontmatter.md
   - routing.md
+  - priming/context-priming.md
   - ../engineering/validation-profiles.md
 canonical_for:
   - feature_directory_structure
+  - feature_priming_inputs
   - feature_document_boundaries
   - feature_template_selection_rules
   - feature_flow_stages
@@ -40,6 +42,18 @@ audience: humans_and_agents
 
 Этот документ задает порядок появления feature-артефактов. Агент должен вести feature package по стадиям и не создавать downstream-артефакты раньше, чем созрел их upstream-owner.
 
+## Priming Inputs
+
+Прочитай [`feature.yaml`](priming/feature.yaml). Выполни `bootstrap_brief`,
+затем добавляй source sets перед соответствующими стадиями. `design` обязателен
+при `Design required: yes`; `ui_design`, `interaction_runtime_design` и
+`scenario_design` обязательны при выборе соответствующего artifact; далее
+выполни `plan_ready` и `execution_continuation`.
+
+Task owner добавляет exact affected implementation and test paths в
+`implementation-plan.md`. Stage priming не заменяет execution grounding с
+immutable revision и `GRND-*` evidence.
+
 ## Package Rules
 
 1. Все документы одной фичи живут в `memory-bank/features/FT-XXX/`.
@@ -54,10 +68,10 @@ audience: humans_and_agents
 10. Смысл стабильных идентификаторов (`REQ-*`, `SOL-*`, `SD-*`, `STEP-*` и т.д.) задается в секции «Stable Identifiers» ниже.
 11. Acceptance scenarios (`SC-*`) покрывают delivery-unit end-to-end: для пользовательского slice — от входного события до наблюдаемого результата через все затронутые слои; для infrastructure/engineering/operations change — от system, operator или pipeline trigger до observable operational outcome. Тестирование отдельного слоя в изоляции допустимо как implementation detail плана, но не заменяет end-to-end acceptance.
 12. **Связь с task tracker.** При создании feature package агент обязан добавить в исходную задачу или ticket ссылку на `brief.md`, а после появления downstream-документов — ссылки на существующие `design.md` и `implementation-plan.md`.
-13. Если фича является частью более крупной инициативы, `brief.md` может зависеть от PRD из `memory-bank/prd/`, но PRD не заменяет сам feature package.
+13. До Bootstrap / Brief агент обязан прочитать весь текущий `memory-bank/prd/*.md` corpus. Это обязательный context baseline независимо от того, зависит ли feature от конкретного PRD; PRD не заменяет сам feature package.
 14. Если фича создает новый устойчивый сценарий проекта или materially changes существующий, соответствующий `UC-*` в `memory-bank/use-cases/` должен быть создан или обновлен до closure.
 15. Optional feature-support docs (`runtime-surfaces.md`, `diagrams/<name>-sequence.md`, `ui-reference/README.md`, `use-cases/README.md`) допустимы для сложных фич как grounding / review / traceability aids. Они не становятся canonical owner problem space, solution space, acceptance inventory или execution sequencing.
-16. Если фича зависит от upstream-документа инициативы, `brief.md` импортирует только релевантные upstream-ссылки, а не весь upstream scope.
+16. Полное чтение PRD corpus не создаёт semantic dependency от каждого PRD. `brief.md: derived_from` импортирует только фактические upstream-owner references и не копирует весь upstream scope.
 17. Если работа крупнее одной delivery-feature и требует общего roadmap, cross-feature risk register или нескольких delivery units, не расширяй feature package: повтори [`Task Routing`](routing.md), выбери [`Epic Flow`](epic.md) и после epic handoff веди каждую утвержденную delivery-единицу как отдельный feature package.
 18. Validation profile выбирается в `brief.md` по [`validation-profiles.md`](../engineering/validation-profiles.md). `design.md` может уточнить risk facts, а `implementation-plan.md` разворачивает minimum contract в команды, suites и checkpoints, но ни один из них не дублирует profile decision.
 
@@ -273,6 +287,7 @@ flowchart LR
 Plan Ready artifact-review convergence допускает не более пяти review-improve итераций. Последняя итерация с исправлениями не считается clean verdict без последующего re-review; исчерпание budget оставляет gate непройденным и требует replan либо Human Gate.
 
 - [ ] агент выполнил grounding до sequencing: прошёлся по текущему состоянию системы против зафиксированного immutable commit SHA repository revision и сохранил `GRND-*` evidence в `implementation-plan.md`; `HEAD`, branch name и tag не допускаются
+- [ ] `implementation-plan.md` содержит упорядоченный `Implementation Priming`: exact repo-relative paths или stable external sources, section/symbol, `GRND-*` refs, purpose и required `STEP-*`; categories, globs, `TODO` и предполагаемые paths не допускаются
 - [ ] если `brief.md` фиксирует `Design required: yes`, весь design pack по-прежнему удовлетворяет `Solution Ready`, включая publication/lifecycle статусы constituents и external dependencies
 - [ ] если `brief.md` фиксирует `Design required: no`, `implementation-plan.md` не принимает architecture decisions, contracts или invariants
 - [ ] `implementation-plan.md` создан по шаблону `templates/feature/implementation-plan.md`
@@ -296,6 +311,7 @@ Plan Ready artifact-review convergence допускает не более пят
 - [ ] `brief.md` → `delivery_status: in_progress`
 - [ ] если design layer существует, весь design pack и referenced external dependencies сохраняют `Solution Ready`; изменение любой reviewed revision возвращает feature к соответствующему gate
 - [ ] `implementation-plan.md` → `status: active`
+- [ ] implementing agent до первого write прочитал `Implementation Priming` и подтвердил, что стартовая repository revision совпадает с grounded immutable commit SHA; при расхождении execution остановлен для re-grounding/replan
 - [ ] `implementation-plan.md` фиксирует test strategy: automated coverage surfaces, required local/CI suites
 - [ ] каждый manual-only gap имеет причину, ручную процедуру и `AG-*` с approval ref
 

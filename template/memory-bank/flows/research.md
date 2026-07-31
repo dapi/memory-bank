@@ -7,8 +7,10 @@ derived_from:
   - ../dna/governance.md
   - ../dna/frontmatter.md
   - routing.md
+  - priming/context-priming.md
 canonical_for:
   - research_directory_structure
+  - research_priming_inputs
   - research_lifecycle
   - research_artifact_ownership
   - research_evidence_provenance
@@ -21,6 +23,16 @@ audience: humans_and_agents
 # Research And Discovery Flow
 
 Research & Discovery Flow управляет задачей, чьим первым outcome является не delivery, а evidence-backed answer для named decision owner. **Discovery** — подходящее имя product-oriented режима этого flow, но не заменяет общий термин `research`: market research, technical spike и desk research могут не быть product discovery.
+
+## Priming Inputs
+
+Прочитай [`research.yaml`](priming/research.yaml). Выполни `bootstrap`, затем
+ровно один source set `product_market` или `technical`; перед следующими
+стадиями добавь `evidence_collection` и `synthesis_decision`.
+
+Task owner добавляет exact source records. После bootstrap question, known
+evidence, assumptions, unknowns и stopping condition принадлежат `brief.md`
+research package.
 
 ## Package Rules
 
