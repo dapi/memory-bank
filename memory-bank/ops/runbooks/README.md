@@ -33,3 +33,8 @@ Runbook должен отвечать на вопросы:
 7. Escalation
 
 Если у проекта пока нет runbooks, каталог может содержать только этот индекс.
+
+## Available Runbooks
+
+- [Local tgcli через voldar](tgcli-voldar.md) — автоматический SOCKS5 SSH-туннель,
+  локальная Telegram-сессия и проверки подключения.
