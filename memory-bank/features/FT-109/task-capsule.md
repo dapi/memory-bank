@@ -19,9 +19,9 @@ stage: {current: Done, canonical_owner: brief.md}
 current_role: delivery-orchestrator
 next_role: none
 artifact_refs:
-  - {path: brief.md, owner: feature-brief, revision: sha256:c261c2d223e30f4da4085fd309283c7e784eaf611fd32c5516041508d059e2d6}
+  - {path: brief.md, owner: feature-brief, revision: sha256:33f3a3a61fbd96fc9483aa269a2b6eb22b361108de3168cecadb86cbb1835f32}
   - {path: design.md, owner: feature-design, revision: sha256:c9f9d0b072a8acaaaa04fb183f0aeb0c942ccd2a537990080537055445135803}
-  - {path: implementation-plan.md, owner: feature-plan, revision: sha256:358987d7fe2ace4b01c607c0ad0fbd2ba1e0f302a63ab7a524fabead2e1b92d6}
+  - {path: implementation-plan.md, owner: feature-plan, revision: sha256:a444061cfd8c38d1850a4465a07a9833efe027afe6774b84f31f598408a29e48}
 completed_action: {id: STEP-03, summary: "Completed final documentation validation and implementation review", evidence_refs: [EVID-FINAL]}
 current_action: {id: CLOSE-01, summary: "Verified terminal Feature package and delivery references", evidence_refs: [EVID-CI]}
 next_action: {owner: none, id: DONE-01, summary: "No further action; package is archived and issue is closed", stop_condition: "Terminal state reached"}
@@ -34,11 +34,11 @@ evidence:
   - {id: EVID-BOOTSTRAP, ref: "memory-bank/features/FT-109/brief.md@sha256:c261c2d223e30f4da4085fd309283c7e784eaf611fd32c5516041508d059e2d6; design.md@sha256:c9f9d0b072a8acaaaa04fb183f0aeb0c942ccd2a537990080537055445135803", proves: "Problem and selected solution owners exist"}
   - {id: EVID-PLAN-READY, ref: "review-record.md#artifact-review", proves: "Draft Plan Ready artifact review passed"}
   - {id: EVID-FINAL, ref: "review-record.md#implementation-review", proves: "Final documentation candidate passed validation and review"}
-  - {id: EVID-CI, ref: "PR-110 CI validate-template success for terminal closure commit", proves: "Required PR CI passed for the terminal repository revision"}
+  - {id: EVID-CI, ref: "https://github.com/dapi/memory-bank/actions/runs/31041845661/job/92427832402", proves: "Required PR CI passed for the terminal repository revision"}
 stop_conditions:
   - {id: STOP-01, trigger: "Canonical owner conflict or route expansion", action: "Pause mutations and reroute"}
 last_handoff_diagnostic: {status: none, reason_code: none, message: none, repair_action: none, evidence_ref: none}
-updated_at: 2026-08-06T02:20:00+03:00
+updated_at: 2026-08-06T02:35:00+03:00
 ```
 
 Resume by reading this capsule, the referenced FT-109 owners, the Feature Flow
@@ -55,9 +55,9 @@ manifests and last verified revisions for this handoff are:
   (`plan_ready` and `execution_continuation`).
 - `template/memory-bank/flows/priming/process.yaml@sha256:9a6be526824cbcff2caf58c2ff1517a6984eff3f2874d9de840b20400f8f4834`
   (`process_documentation`).
-- Last verified owner revisions: `brief.md@sha256:c261c2d223e30f4da4085fd309283c7e784eaf611fd32c5516041508d059e2d6`,
+- Last verified owner revisions: `brief.md@sha256:33f3a3a61fbd96fc9483aa269a2b6eb22b361108de3168cecadb86cbb1835f32`,
   `design.md@sha256:c9f9d0b072a8acaaaa04fb183f0aeb0c942ccd2a537990080537055445135803`,
-  `implementation-plan.md@sha256:358987d7fe2ace4b01c607c0ad0fbd2ba1e0f302a63ab7a524fabead2e1b92d6`.
+  `implementation-plan.md@sha256:a444061cfd8c38d1850a4465a07a9833efe027afe6774b84f31f598408a29e48`.
 
 ## Human-readable Handoff
 

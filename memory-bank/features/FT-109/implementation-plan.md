@@ -46,10 +46,10 @@ runtime or validator.
 
 ## Current State / Reference Points
 
-The repository is documentation-only, the worktree is clean at the grounded
-SHA, and the generic template has no Task Capsule contract. `memory-bank/` is
-the project-local canonical adaptation layer; `template/memory-bank/` is the
-generic payload.
+The repository is documentation-only, the worktree is clean at terminal
+revision `525360b`, and the generic template now contains the Task Capsule
+contract. `memory-bank/` is the project-local canonical adaptation layer;
+`template/memory-bank/` is the generic payload.
 
 ## Test Strategy
 
@@ -71,7 +71,7 @@ follow-ups and must not enter this delivery unit.
 - Worktree: `/Users/danil/worktrees/feature/issue-109-define-task-capsule-contract-for-memory`
 - Branch: `feature/issue-109-define-task-capsule-contract-for-memory`
 - Grounded immutable revision: `8066bed81fa4245d6fd3e380c39312720622b296`
-- Required external CI: GitHub checks for the eventual PR; no PR exists yet.
+- Required external CI: GitHub checks for [PR #110](https://github.com/dapi/memory-bank/pull/110); terminal check passed at `https://github.com/dapi/memory-bank/actions/runs/31041845661/job/92427832402`.
 
 ## Preconditions
 
