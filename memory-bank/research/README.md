@@ -31,3 +31,6 @@ audience: humans_and_agents
 ## Instantiated Research
 
 В шаблонном репозитории этот каталог может быть пустым. Это нормально.
+
+- [`R-GH-87/`](R-GH-87/README.md) — decision record for ownership of reusable
+  CLI validation and repository-specific priming-manifest checks.
