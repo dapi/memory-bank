@@ -84,10 +84,10 @@ else:
 
 ```mermaid
 flowchart TD
-    A[Начало] --> B{amount > 0?}
-    B -- да --> C[approve]
-    B -- нет --> D[reject]
-    C --> E[Конец]
+    A["Начало"] --> B{"amount > 0?"}
+    B -- да --> C["approve()"]
+    B -- нет --> D["reject()"]
+    C --> E["Конец"]
     D --> E
 ```
 
@@ -114,9 +114,9 @@ def checkout(request):
 
 ```mermaid
 flowchart LR
-    checkout --> authenticate
-    checkout --> create_order
-    checkout --> charge
+    A["checkout()"] --> B["authenticate()"]
+    A --> C["create_order()"]
+    A --> D["charge()"]
 ```
 
 Такой граф позволяет понять:
@@ -141,10 +141,10 @@ result = db.execute(safe_query)
 
 ```mermaid
 flowchart LR
-    A[request.q\nисточник] --> B[query]
-    B --> C[escape(query)]
-    C --> D[safe_query]
-    D --> E[db.execute\nприёмник]
+    A["request.q<br/>источник"] --> B["query"]
+    B --> C["escape(query)"]
+    C --> D["safe_query"]
+    D --> E["db.execute()<br/>приёмник"]
 ```
 
 Здесь важна не только структура вызовов. Вопрос звучит так: дошло ли значение из `request.q` до `db.execute`, и прошло ли оно через `escape`?
@@ -217,17 +217,17 @@ Code Property Graph — ориентированный, размеченный �
 
 ```mermaid
 flowchart TD
-    S[Исходный код] --> P[Frontend / парсер]
-    P --> A[AST\nструктура]
-    P --> C[CFG\nпоток управления]
-    P --> D[DFG / PDG\nпотоки и зависимости]
-    P --> G[Call graph\nвызовы]
-    A --> X[Единый CPG]
+    S["Исходный код"] --> P["Frontend / парсер"]
+    P --> A["AST<br/>структура"]
+    P --> C["CFG<br/>поток управления"]
+    P --> D["DFG / PDG<br/>потоки и зависимости"]
+    P --> G["Call graph<br/>вызовы"]
+    A --> X["Единый CPG"]
     C --> X
     D --> X
     G --> X
-    X --> Q[Запросы и проверки]
-    Q --> R[Аудит, уязвимости, impact analysis]
+    X --> Q["Запросы и проверки"]
+    Q --> R["Аудит, уязвимости, impact analysis"]
 ```
 
 Существенная мысль: CPG — не обязательно граф, который нужно рисовать целиком на экране. Реальный граф большого репозитория будет огромным. Ценность — в том, что инструмент может выполнить ограниченный запрос и вернуть небольшой объяснимый путь: источник → преобразования → приёмник, или caller → callee → следующий callee.
