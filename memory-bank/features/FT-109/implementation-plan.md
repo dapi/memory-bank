@@ -9,7 +9,7 @@ derived_from:
   - ../../../template/memory-bank/flows/feature.md
   - ../../../template/memory-bank/engineering/testing-policy.md
   - ../../ops/development.md
-status: active
+status: archived
 audience: humans_and_agents
 ---
 

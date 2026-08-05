@@ -6,7 +6,7 @@ purpose: "Active resumable state for the FT-109 Task Capsule contract delivery u
 derived_from:
   - ../../../template/memory-bank/flows/task-capsule.md
   - brief.md
-status: active
+status: archived
 audience: humans_and_agents
 ---
 
@@ -15,7 +15,7 @@ audience: humans_and_agents
 ```yaml
 task_id: FT-109
 route: {name: Feature, revision: 1, source_ref: ../../../template/memory-bank/flows/routing.md}
-stage: {current: Execution, canonical_owner: implementation-plan.md}
+stage: {current: Done, canonical_owner: brief.md}
 current_role: delivery-orchestrator
 next_role: none
 artifact_refs:
@@ -23,8 +23,8 @@ artifact_refs:
   - {path: design.md, owner: feature-design, revision: sha256:c9f9d0b072a8acaaaa04fb183f0aeb0c942ccd2a537990080537055445135803}
   - {path: implementation-plan.md, owner: feature-plan, revision: sha256:358987d7fe2ace4b01c607c0ad0fbd2ba1e0f302a63ab7a524fabead2e1b92d6}
 completed_action: {id: STEP-03, summary: "Completed final documentation validation and implementation review", evidence_refs: [EVID-FINAL]}
-current_action: {id: CLOSE-01, summary: "Verify terminal Feature package and delivery references", evidence_refs: []}
-next_action: {owner: delivery-orchestrator, id: CLOSE-01, summary: "Verify terminal package, commit and CI delivery state", stop_condition: "Any terminal predicate or required CI check fails"}
+current_action: {id: CLOSE-01, summary: "Verified terminal Feature package and delivery references", evidence_refs: [EVID-CI]}
+next_action: {owner: none, id: DONE-01, summary: "No further action; package is archived and issue is closed", stop_condition: "Terminal state reached"}
 assumptions:
   - {id: ASM-01, summary: "Generic rules belong in template/memory-bank", owner_ref: brief.md}
   - {id: ASM-02, summary: "Existing Feature/Epic documents remain lifecycle owners", owner_ref: design.md}
@@ -34,10 +34,11 @@ evidence:
   - {id: EVID-BOOTSTRAP, ref: "memory-bank/features/FT-109/brief.md@sha256:c261c2d223e30f4da4085fd309283c7e784eaf611fd32c5516041508d059e2d6; design.md@sha256:c9f9d0b072a8acaaaa04fb183f0aeb0c942ccd2a537990080537055445135803", proves: "Problem and selected solution owners exist"}
   - {id: EVID-PLAN-READY, ref: "review-record.md#artifact-review", proves: "Draft Plan Ready artifact review passed"}
   - {id: EVID-FINAL, ref: "review-record.md#implementation-review", proves: "Final documentation candidate passed validation and review"}
+  - {id: EVID-CI, ref: "PR-110 CI validate-template success for terminal closure commit", proves: "Required PR CI passed for the terminal repository revision"}
 stop_conditions:
   - {id: STOP-01, trigger: "Canonical owner conflict or route expansion", action: "Pause mutations and reroute"}
 last_handoff_diagnostic: {status: none, reason_code: none, message: none, repair_action: none, evidence_ref: none}
-updated_at: 2026-08-05T23:59:30+03:00
+updated_at: 2026-08-06T02:20:00+03:00
 ```
 
 Resume by reading this capsule, the referenced FT-109 owners, the Feature Flow
@@ -63,7 +64,7 @@ manifests and last verified revisions for this handoff are:
 ### Current State
 
 - Completed: final documentation validation and implementation review passed.
-- Current: terminal package verification and delivery-state closure.
+- Current: terminal Feature package and delivery references verified.
 
 ### Assumptions and Open Risks
 
@@ -71,7 +72,7 @@ manifests and last verified revisions for this handoff are:
 
 ### Next Checks
 
-- Verify commit, PR and required CI before closing the issue.
+- No further checks; terminal state reached.
 
 ### Handoff Diagnostic
 
