@@ -49,6 +49,10 @@ audience: humans_and_agents
 - [`flows/README.md`](flows/README.md)
   Читать, когда нужно: создать use case, epic/feature package, провести артефакт по lifecycle gates или использовать шаблон.
 
+- [`flows/execution-handoff.md`](flows/execution-handoff.md)
+  Читать, когда нужно: безопасно продолжить одну конкретную задачу по compact,
+  read-only и evidence-backed проекции наблюдаемого исполнения.
+
 - [`adr/README.md`](adr/README.md)
   Читать, когда нужно: найти или завести Architecture Decision Record.
 

@@ -38,3 +38,5 @@ stages:
   execution_continuation:
     - memory-bank/features/<FT-ID>/*.md
     - memory-bank/engineering/git-workflow.md
+  execution_handoff:
+    - memory-bank/flows/execution-handoff.md

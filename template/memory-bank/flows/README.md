@@ -15,6 +15,7 @@ derived_from:
   - epic.md
   - use-case.md
   - feature.md
+  - execution-handoff.md
   - feature-artifact-catalog.md
   - templates/README.md
 status: active
@@ -27,6 +28,8 @@ audience: humans_and_agents
 
 - [Task Routing](routing.md) — порядок выбора flow, routing predicates, повторный routing и Human Routing.
 - [Task Context Priming](priming/README.md) — общий P0/P1/P2 contract, universal DNA baseline и per-process YAML manifests.
+- [Execution Handoff Contract](execution-handoff.md) — compact read-only projection
+  observed execution с direct primary-source references для continuation одной задачи.
 - [Research & Discovery Flow](research.md) — evidence-backed lifecycle research-задач, от question framing до decision и handoff без преждевременного delivery.
 - [Incident And PIR Flow](incident.md) — containment, recovery, timeline, RCA, PIR и prevention work.
 - [Bug Fix Flow](bug-fix.md) — reproduction, analysis, fix, regression coverage и closure.
