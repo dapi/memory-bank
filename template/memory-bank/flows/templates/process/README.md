@@ -76,6 +76,11 @@ audience: humans_and_agents
   Читать, когда работа переносится между сессиями или компьютерами и нужно сохранить current state, assumptions, risks и next checks.
   Отвечает на вопрос: как безопасно продолжить уже начатый процесс без потери контекста.
 
+- [`task-capsule.md`](task-capsule.md)
+  Читать, когда активная Feature или Epic должна сохранить structured state,
+  owner refs и один exact `next_action` между session, machine или role boundary.
+  Отвечает на вопрос: как продолжить package-local delivery без второго SSoT.
+
 - [`lifecycle-protocol.md`](lifecycle-protocol.md)
   Читать, когда процесс состоит из фаз, human gates, verification и rollback и должен переживать длинный delivery-cycle.
   Отвечает на вопрос: как управлять полным жизненным циклом изменения от старта до handoff или closure.

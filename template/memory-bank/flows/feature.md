@@ -74,6 +74,7 @@ immutable revision и `GRND-*` evidence.
 16. Полное чтение PRD corpus не создаёт semantic dependency от каждого PRD. `brief.md: derived_from` импортирует только фактические upstream-owner references и не копирует весь upstream scope.
 17. Если работа крупнее одной delivery-feature и требует общего roadmap, cross-feature risk register или нескольких delivery units, не расширяй feature package: повтори [`Task Routing`](routing.md), выбери [`Epic Flow`](epic.md) и после epic handoff веди каждую утвержденную delivery-единицу как отдельный feature package.
 18. Validation profile выбирается в `brief.md` по [`validation-profiles.md`](../engineering/validation-profiles.md). `design.md` может уточнить risk facts, а `implementation-plan.md` разворачивает minimum contract в команды, suites и checkpoints, но ни один из них не дублирует profile decision.
+19. If a Feature task must cross a session, machine or role boundary, it must instantiate `task-capsule.md` beside `brief.md`; compact work completed within one governed session may omit it. The capsule references `brief.md`, the design pack and `implementation-plan.md`; it does not own requirements, acceptance, lifecycle status, selected design or execution sequencing. Use the canonical [Task Capsule Contract](task-capsule.md) for schema and update rules.
 
 ## Feature Package Anatomy
 
@@ -329,6 +330,14 @@ Plan Ready artifact-review convergence допускает не более пят
 - [ ] если feature добавляет новый stable flow или materially changes существующий project-level scenario, соответствующий `UC-*` создан или обновлен и зарегистрирован в `memory-bank/use-cases/README.md`
 - [ ] `brief.md` → `delivery_status: done`
 - [ ] `implementation-plan.md` → `status: archived`
+
+When a package adopts a Task Capsule for cross-session or handoff state, update
+it at every gate, writer handoff, checkpoint, review/CI result, pause, reroute
+and closure with the accepted stage, immutable artifact refs, evidence, one
+exact next action and any handoff diagnostic. Packages that do not adopt a
+capsule follow the ordinary Feature Flow owner documents and handoff rules.
+A Feature capsule is sufficient to select the next safe action, but the
+referenced canonical owners remain required for execution and verification.
 
 ### → Cancelled (из любой стадии после Draft Feature)
 
