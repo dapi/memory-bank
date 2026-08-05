@@ -68,6 +68,8 @@ Canonical lifecycle gates живут в [../flows/feature.md](../flows/feature.m
 
 ## Что Считается Sufficient Coverage
 
+For each applicable `REQ-*`, preserve the `brief.md` verification method and evidence contract. Quality requirements include an observable threshold and a repeatable measurement/check. The plan maps each changed implementation, test, and config path plus symbol/section back to a `REQ-*` or explicit supporting rationale; review checks that mapping in both directions.
+
 - Покрыт основной changed behavior и ближайший regression path.
 - Покрыты новые или измененные contracts, события, schema или integration boundaries.
 - Покрыты критичные failure modes из `FM-*` в required `design.md`, bug history или acceptance risks.

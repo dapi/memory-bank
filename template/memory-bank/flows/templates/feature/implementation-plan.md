@@ -177,6 +177,15 @@ revision. Если revision расходится или один из переч
 | `RB-01` | `design.md` | Migration, config or operational surface | `STEP-04` | `CHK-04` | `EVID-04` |
 | `../../adr/ADR-XXX-short-decision-name.md` | `../../adr/ADR-XXX-short-decision-name.md` (`accepted`) | Decision realization target | `STEP-05` | `CHK-05` | `EVID-05` |
 
+## Exact requirement realization and reverse coverage
+
+Use repository-relative paths and a symbol, heading, or configuration key. A changed surface without a requirement is explicitly supporting/necessary; globs and module-only descriptions are insufficient.
+
+| Requirement or supporting ref | Exact implementation / test / config path + symbol/section | Change role | Steps | Checks / evidence |
+| --- | --- | --- | --- | --- |
+| `REQ-01` | `path/file.ext#Symbol` | direct realization | `STEP-01` | `CHK-01`, `EVID-01` |
+| `SUP-01` | `path/test.ext#test_name` | supporting: why required | `STEP-02` | `CHK-02`, `EVID-02` |
+
 ## Workstreams
 
 Разбей работу на независимые потоки с явным результатом каждого.

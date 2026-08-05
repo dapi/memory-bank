@@ -75,6 +75,31 @@ must_not_define:
 
 ## What
 
+### Requirement applicability and classification
+
+For every baseline class in [Feature Flow](../../feature.md#requirement-taxonomy-and-traceability), select `applicable`, `not-applicable` with rationale, or `covered-upstream` with reference. Do not create `FR-*`/`NFR-*`; record the class on `REQ-*`.
+
+| Class | Decision | Trigger / rationale / upstream reference | Requirement IDs |
+| --- | --- | --- | --- |
+| stakeholder / product | applicable / not-applicable / covered-upstream |  | `REQ-01` / none |
+| functional | applicable |  | `REQ-01` |
+| performance | applicable / not-applicable / covered-upstream |  |  |
+| quality attribute | applicable / not-applicable / covered-upstream |  |  |
+| interface | applicable / not-applicable / covered-upstream |  |  |
+| data | applicable / not-applicable / covered-upstream |  |  |
+| security | applicable / not-applicable / covered-upstream |  |  |
+| safety | applicable / not-applicable / covered-upstream |  |  |
+| regulatory / compliance | applicable / not-applicable / covered-upstream |  |  |
+| operational | applicable / not-applicable / covered-upstream |  |  |
+| compatibility | applicable / not-applicable / covered-upstream |  |  |
+| deployment / rollout | applicable / not-applicable / covered-upstream |  |  |
+| constraint | applicable / not-applicable / covered-upstream |  | `CON-01` / none |
+| verification / acceptance | applicable | Every applicable `REQ-*` needs proof. | `SC-01`, `EC-01`, `CHK-01`, `EVID-01` |
+
+| Requirement ID | Class | Normative measurable statement / threshold | Source / rationale | Priority / owner | Verification method |
+| --- | --- | --- | --- | --- | --- |
+| `REQ-01` | functional | The system shall … | issue / upstream reference | must / owner | test / inspection / analysis / demonstration |
+
 ### Problem
 
 Какой симптом, ограничение или возможность делает фичу нужной. Если общий контекст уже зафиксирован upstream, здесь опиши только feature-specific вопрос delivery.
@@ -179,4 +204,12 @@ Verify должен быть исполнимым.
 | Evidence ID | Artifact | Producer | Path contract | Reused by checks |
 | --- | --- | --- | --- | --- |
 | `EVID-01` | Лог, отчет, скриншот или sample output | verify-runner / human | `artifacts/ft-xxx/verify/chk-01/` | `CHK-01` |
+
+### Requirement-to-realization traceability
+
+`brief.md` owns the requirement chain; `design.md` owns selected solution facts and the plan supplies the exact target. A supporting change without a direct `REQ-*` needs its explicit rationale.
+
+| Requirement | Acceptance / check / evidence | Solution or decision | Exact realization target | Supporting rationale / review or CI result |
+| --- | --- | --- | --- | --- |
+| `REQ-01` | `EC-01`, `SC-01`, `CHK-01`, `EVID-01` | `SOL-01` / design-not-required decision | `path/file.ext#SymbolOrSection` | none / CI URL |
 ```

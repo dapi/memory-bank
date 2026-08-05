@@ -25,6 +25,8 @@ canonical_for:
   - feature_connector_description_rules
   - feature_design_verification_rules
   - feature_identifier_taxonomy
+  - feature_requirement_taxonomy
+  - feature_requirement_traceability_rules
   - solution_identifier_taxonomy
   - feature_plan_identifier_taxonomy
   - feature_traceability_rules
@@ -68,12 +70,13 @@ immutable revision и `GRND-*` evidence.
 10. Смысл стабильных идентификаторов (`REQ-*`, `SOL-*`, `SD-*`, `STEP-*` и т.д.) задается в секции «Stable Identifiers» ниже.
 11. Acceptance scenarios (`SC-*`) покрывают delivery-unit end-to-end: для пользовательского slice — от входного события до наблюдаемого результата через все затронутые слои; для infrastructure/engineering/operations change — от system, operator или pipeline trigger до observable operational outcome. Тестирование отдельного слоя в изоляции допустимо как implementation detail плана, но не заменяет end-to-end acceptance.
 12. **Связь с task tracker.** При создании feature package агент обязан добавить в исходную задачу или ticket ссылку на `brief.md`, а после появления downstream-документов — ссылки на существующие `design.md` и `implementation-plan.md`.
-13. До Bootstrap / Brief агент обязан прочитать весь текущий `memory-bank/prd/*.md` corpus. Это обязательный context baseline независимо от того, зависит ли feature от конкретного PRD; PRD не заменяет сам feature package.
-14. Если фича создает новый устойчивый сценарий проекта или materially changes существующий, соответствующий `UC-*` в `memory-bank/use-cases/` должен быть создан или обновлен до closure.
-15. Optional feature-support docs (`runtime-surfaces.md`, `diagrams/<name>-sequence.md`, `ui-reference/README.md`, `use-cases/README.md`) допустимы для сложных фич как grounding / review / traceability aids. Они не становятся canonical owner problem space, solution space, acceptance inventory или execution sequencing.
-16. Полное чтение PRD corpus не создаёт semantic dependency от каждого PRD. `brief.md: derived_from` импортирует только фактические upstream-owner references и не копирует весь upstream scope.
-17. Если работа крупнее одной delivery-feature и требует общего roadmap, cross-feature risk register или нескольких delivery units, не расширяй feature package: повтори [`Task Routing`](routing.md), выбери [`Epic Flow`](epic.md) и после epic handoff веди каждую утвержденную delivery-единицу как отдельный feature package.
-18. Validation profile выбирается в `brief.md` по [`validation-profiles.md`](../engineering/validation-profiles.md). `design.md` может уточнить risk facts, а `implementation-plan.md` разворачивает minimum contract в команды, suites и checkpoints, но ни один из них не дублирует profile decision.
+13. **Source-template exception.** When this repository is itself changing only its generic `template/` payload and its root `memory-bank/` is a managed downstream installation, do not create a project-specific feature package or modify that managed installation solely to mirror the delivery. The routed issue/task record is the brief-equivalent canonical carrier for scope, requirement classes, validation profile, acceptance, evidence, and lifecycle-gate decisions; the PR links back to it. This exception does not apply to a downstream project using the template: its feature delivery still uses `memory-bank/features/FT-XXX/`.
+14. До Bootstrap / Brief агент обязан прочитать весь текущий `memory-bank/prd/*.md` corpus. Это обязательный context baseline независимо от того, зависит ли feature от конкретного PRD; PRD не заменяет сам feature package.
+15. Если фича создает новый устойчивый сценарий проекта или materially changes существующий, соответствующий `UC-*` в `memory-bank/use-cases/` должен быть создан или обновлен до closure.
+16. Optional feature-support docs (`runtime-surfaces.md`, `diagrams/<name>-sequence.md`, `ui-reference/README.md`, `use-cases/README.md`) допустимы для сложных фич как grounding / review / traceability aids. Они не становятся canonical owner problem space, solution space, acceptance inventory или execution sequencing.
+17. Полное чтение PRD corpus не создаёт semantic dependency от каждого PRD. `brief.md: derived_from` импортирует только фактические upstream-owner references и не копирует весь upstream scope.
+18. Если работа крупнее одной delivery-feature и требует общего roadmap, cross-feature risk register или нескольких delivery units, не расширяй feature package: повтори [`Task Routing`](routing.md), выбери [`Epic Flow`](epic.md) и после epic handoff веди каждую утвержденную delivery-единицу как отдельный feature package.
+19. Validation profile выбирается в `brief.md` по [`validation-profiles.md`](../engineering/validation-profiles.md). `design.md` может уточнить risk facts, а `implementation-plan.md` разворачивает minimum contract в команды, suites и checkpoints, но ни один из них не дублирует profile decision. The source-template exception records this decision in its issue/task carrier instead.
 
 ## Feature Package Anatomy
 
@@ -397,6 +400,47 @@ Canonical testing policy живёт в [../engineering/testing-policy.md](../eng
 
 ## Stable Identifiers
 
+## Requirement Taxonomy And Traceability
+
+`brief.md` owns the feature requirement inventory. A requirement is an externally needed outcome or condition—not a design choice, task, test, or evidence. Keep `REQ-*` as its stable identifier and record a mandatory class field; do not introduce a parallel `FR-*`/`NFR-*` namespace. `MET-*` is a goal or observed metric, `CON-*` a boundary, `EC-*` an acceptance verdict, and `CHK-*`/`EVID-*` proof. Each may link to a `REQ-*`, but none replaces it.
+
+For every baseline class, the brief records `applicable`, `not-applicable` with a rationale, or `covered-upstream` with its canonical reference. Functional is always applicable; the decision row itself is mandatory for all other classes. The validation profile changes verification depth, not classification. A triggered class gets a `REQ-*`; a shared fact stays in its upstream product, domain, policy, or regulatory owner.
+
+| Class | Level | Canonical owner / artifact | Applicability trigger | Measurement, verification, and evidence | Example / anti-example |
+| --- | --- | --- | --- | --- | --- |
+| stakeholder / product | stakeholder/product | shared product, PRD, or use case; otherwise `brief.md` | delivery outcome is stakeholder-specific | validate scenario outcome with its evidence | operator completes intake / internal implementation preference |
+| functional | feature/system | `brief.md` `REQ-*` | always | scenario, check, and evidence | system shall accept a submission / use PostgreSQL |
+| performance | feature/system/component | `brief.md` `REQ-*` | latency, throughput, capacity, or resource target | numeric threshold, repeatable measurement, report | p95 under 200 ms / “fast” |
+| quality attribute | feature/system/component | `brief.md` `REQ-*` | availability, reliability, consistency, recovery, usability, maintainability, etc. | measurable criterion, method, and result carrier | recover within 15 min / add retries |
+| interface | feature/system boundary | `brief.md` `REQ-*`, realized by `CTR-*` | API, CLI, event, UI, or external-system boundary | contract/interaction check and sample or CI result | webhook returns signed payload / handler class name |
+| data | feature/system boundary | `brief.md` `REQ-*`, realized by `CTR-*` | schema, format, retention, integrity, or migration boundary | data/contract check and migration evidence | retain audit fields 365 days / add a column |
+| security | feature/system boundary | `brief.md` `REQ-*`, controls in design | trust, auth, secret, sensitive-data, or threat trigger | analysis plus control check/evidence | only owner may export / choose OAuth library |
+| safety | feature/system boundary | `brief.md` `REQ-*`, controls in design | harm, hazardous operation, or safety-critical failure trigger | hazard/failure check and result | stop device on sensor fault / standard exception wording |
+| regulatory / compliance | stakeholder/product or system | policy/regulation upstream or `brief.md` | applicable obligation | procedure/check evidence | retain consent record / team style preference |
+| operational | feature/system/component | `brief.md` `REQ-*`, solution/runbook in design | operator, observability, support, backup, or recovery trigger | runbook/check evidence | alert includes correlation ID / refactor package name |
+| compatibility | feature/system boundary | `brief.md` `REQ-*`, mechanism in design | versioned consumer, migration, or legacy behavior trigger | compatibility matrix/contract check | v1 client remains supported / latest SDK only |
+| deployment / rollout | feature/system operation | `brief.md` `REQ-*`, `RB-*` in design | staged release, flag, migration, rollback, or infra delivery trigger | rollout/backout evidence | rollback within one deploy unit / create a new module |
+| constraint | any applicable level | `CON-*` in `brief.md` | imposed budget, technology, policy, date, or boundary | link testable proof where possible | must use approved region / prefer a pattern |
+| verification / acceptance | feature delivery | `SC-*`, `EC-*`, `CHK-*`, `EVID-*` in `brief.md` | required for each applicable requirement; is proof, not a requirement class | method, acceptance verdict, and evidence carrier | SC proves export result / “add a test” as a requirement |
+
+Every applicable `REQ-*` records: class, normative measurable statement (a threshold where meaningful), source/rationale, priority, accountable owner, verification method, acceptance/check/evidence links, and realization link. Goals are `MET-*`; assumptions are `ASM-*`; constraints are `CON-*`; selected decisions, invariants, and contracts are `SD-*`/`INV-*`/`CTR-*`; acceptance is `EC-*`; evidence records a result only.
+
+Required chain: `upstream source → REQ-* → EC/SC → selected solution/contract or design-not-required decision → exact repository path + symbol/config section → STEP-* → CHK-* → EVID-* → review/CI result`. Each changed implementation, test, or configuration surface maps back to a `REQ-*` or an explicit supporting/necessary rationale. Paths are repository-relative and name a symbol, heading, or configuration key; a glob or module-only label is not an exact target. Lifecycle artifact review checks the chain in both directions: no orphan requirement, dangling link, duplicate owner, accepted design fact without realization target, or unexplained changed surface.
+
+Lint and doctor remain structural: they may validate ID format, uniqueness, resolvable links, and required template sections, but do not infer semantic applicability or a validation profile. Those judgments remain explicit brief evidence and lifecycle review, avoiding a domain-specific requirements engine.
+
+### Worked Traceability Examples
+
+| Feature kind | Requirement → realization chain |
+| --- | --- |
+| User-facing | `REQ-01` accessibility: “keyboard focus is visible on every dialog control” → `SC-01` keyboard journey → `CTR-01` UI contract → `web/dialog.tsx#Dialog` → `STEP-01` → `CHK-01` browser test → `EVID-01` CI result. |
+| Contract / integration | `REQ-02` interface: “webhook is signed with HMAC-SHA256” → `EC-02` → `CTR-02` → `services/webhook.go#SignPayload` → `STEP-02` → `CHK-02` contract test → `EVID-02` CI result. |
+| Infrastructure / operations | `REQ-03` operational: “rollback completes within one deploy unit” → `SC-03` rollback drill → `RB-01` → `infra/deploy.yaml#rollback` → `STEP-03` → `CHK-03` staging drill → `EVID-03` run record. |
+
+### Migration And Compatibility
+
+Existing feature packages remain valid: their mnemonic IDs retain their current meanings and are not silently reclassified or renamed. New active packages use the applicability matrix and fields above. An existing package adds only the applicable decision rows and trace links when it next materially changes; unknown legacy coverage is recorded as a gap or follow-up, never fabricated.
+
 ### Feature IDs
 
 | Prefix | Meaning | Used in |
@@ -464,6 +508,7 @@ Canonical testing policy живёт в [../engineering/testing-policy.md](../eng
 6. Любой `design.md`, где есть принятые feature-local решения, использует `SD-*`; `ALT-*`, `TRD-*`, `CTR-*`, `INV-*`, `FM-*` и `RB-*` применяются только когда соответствующая solution-semantics действительно нужна.
 7. Любой optional support doc использует только local support IDs и traceability к canonical refs; он не вводит новые canonical `REQ-*`, `SC-*`, `CHK-*` или `EVID-*`.
 8. Любой `implementation-plan.md` использует как минимум `GRND-*`, `PRE-*`, `STEP-*`, `CHK-*`, `EVID-*`; при наличии ambiguity или human approval gates используются `OQ-*` и `AG-*`.
+9. Any new active `brief.md` records applicability for every baseline class and the minimum fields for each applicable `REQ-*`.
 
 ### Traceability Contract
 
@@ -471,6 +516,7 @@ Canonical testing policy живёт в [../engineering/testing-policy.md](../eng
 2. Verify в `brief.md` связывает `REQ-*` с test cases через `Acceptance Scenarios`, feature-specific `NEG-*`, `Traceability matrix`, `Test matrix` и `Evidence contract`.
 3. `design.md`, если есть, связывает `REQ-*` из `brief.md` с `SOL-*`, `ALT-*`, `TRD-*`, `C4-*`, `SD-*`, `CTR-*`, `INV-*`, `FM-*`, `RB-*` и accepted ADR refs.
 4. `implementation-plan.md` ссылается на canonical IDs из `brief.md` и, если есть, применимые `SOL-*`, `C4-*`, `SD-*`, `CTR-*`, `INV-*`, `FM-*`, `RB-*` и accepted ADR refs в Design Realization Mapping и `Implements`; `Verifies` содержит связанные `CHK-*`, а `Evidence IDs` — подтверждающие `EVID-*`, образуя trace chain от canonical ref до evidence.
-5. Если sequencing блокируется неизвестностью, план фиксирует её как `OQ-*`, а не прячет в prose.
-6. Если выполнение требует человеческого подтверждения для рискованных действий, план фиксирует это через `AG-*`.
-7. Если design или to-be C4 architecture model меняется после `Solution Ready`, сначала обновляется непосредственный owner из Design Pack manifest или external dependency, затем root manifest и план.
+5. The plan maps every changed implementation/test/config surface to a `REQ-*` or explicit supporting rationale using exact path plus symbol/section.
+6. Если sequencing блокируется неизвестностью, план фиксирует её как `OQ-*`, а не прячет в prose.
+7. Если выполнение требует человеческого подтверждения для рискованных действий, план фиксирует это через `AG-*`.
+8. Если design или to-be C4 architecture model меняется после `Solution Ready`, сначала обновляется непосредственный owner из Design Pack manifest или external dependency, затем root manifest и план.
