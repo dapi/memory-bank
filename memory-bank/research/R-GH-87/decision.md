@@ -19,7 +19,7 @@ audience: humans_and_agents
 | --- | --- |
 | Decision owner | `dapi/memory-bank` maintainer |
 | Decision date | 2026-08-05 |
-| Decision reference | [Issue #87 maintainer routing record](https://github.com/dapi/memory-bank/issues/87#issuecomment-5087962973) and this evidence package |
+| Decision reference | [Issue #87 validated decision comment](https://github.com/dapi/memory-bank/issues/87#issuecomment-5187546909) and this evidence package |
 
 Terminal disposition is recorded only in sibling `brief.md` as
 `research_status: validated`.
