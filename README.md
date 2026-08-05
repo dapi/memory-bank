@@ -90,6 +90,7 @@ service setup-команды проекта; он намеренно не пер
 | [Greenfield adaptation protocol](docs/greenfield-integration-protocol.md) | Для копирования шаблона, извлечения project facts из README и docs, адаптации Memory Bank и создания initial PRD |
 | [Использование Memory Bank](docs/usage.md) | Для повседневной работы с задачами и AI-агентами после внедрения |
 | [Праймеринг контекста](docs/context-priming.md) | Для подготовки AI-агента к конкретной задаче и сбора релевантного контекста |
+| [Code Property Graph](docs/code-property-graph.md) | Как AST, CFG, графы вызовов, потоков данных и зависимостей образуют единую модель кода для анализа и AI-агентов |
 | [Использование `memory-bank-cli`](docs/memory-bank.md) | Для пользователей CLI и downstream CI |
 | [Глоссарий](docs/glossary.md) | Термины governance и структуры документации, используемые в этом репозитории |
 | [Ownership и безопасные обновления](docs/ownership.md) | Для понимания lock schema, границ владения и conflict policy |
