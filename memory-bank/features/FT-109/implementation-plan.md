@@ -47,7 +47,7 @@ runtime or validator.
 ## Current State / Reference Points
 
 The repository is documentation-only, the worktree is clean at terminal
-revision `525360b`, and the generic template now contains the Task Capsule
+revision `d7496b8`, and the generic template now contains the Task Capsule
 contract. `memory-bank/` is the project-local canonical adaptation layer;
 `template/memory-bank/` is the generic payload.
 

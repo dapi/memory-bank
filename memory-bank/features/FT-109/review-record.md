@@ -20,20 +20,20 @@ not define requirements, lifecycle state or acceptance; those remain owned by
 
 ## Frozen candidate
 
-- Candidate: working-tree documentation delivery before commit.
-- Owner revisions: `brief.md@sha256:c261c2d223e30f4da4085fd309283c7e784eaf611fd32c5516041508d059e2d6`, `design.md@sha256:c9f9d0b072a8acaaaa04fb183f0aeb0c942ccd2a537990080537055445135803`, `implementation-plan.md@sha256:358987d7fe2ace4b01c607c0ad0fbd2ba1e0f302a63ab7a524fabead2e1b92d6`.
-- Review carrier: Run Ledger state plus the review command output for this candidate; the resulting commit/PR will provide the immutable repository carrier for delivery closure.
+- Candidate: committed terminal documentation delivery at `d7496b8`.
+- Owner revisions: `brief.md@sha256:33f3a3a61fbd96fc9483aa269a2b6eb22b361108de3168cecadb86cbb1835f32`, `design.md@sha256:c9f9d0b072a8acaaaa04fb183f0aeb0c942ccd2a537990080537055445135803`, `implementation-plan.md@sha256:a444061cfd8c38d1850a4465a07a9833efe027afe6774b84f31f598408a29e48`.
+- Review carrier: Run Ledger state plus the committed `codex review --base main` output for this candidate.
 
 ## Artifact review
 
 - Scope: requirements, design, plan and process artifacts against Feature Flow and Task Capsule predicates.
-- Command: `codex review --uncommitted`.
+- Command: `codex review --base main`.
 - Verdict: clean after bounded fixes; latest clean verdict is recorded in the Run Ledger before delivery mutation.
 
 ## Implementation review
 
 - Scope: repository diff against accepted FT-109 owners and the documentation validation profile.
-- Command: `codex review --uncommitted`.
+- Command: `codex review --base main`.
 - Verdict: clean after bounded fixes; latest clean verdict is recorded in the Run Ledger before delivery mutation.
 
 ## Reproducible checks
