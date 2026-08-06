@@ -102,6 +102,9 @@ service setup-команды проекта; он намеренно не пер
 
 ### Методические источники
 
+- [MECE principle](https://en.wikipedia.org/wiki/MECE_principle) — источник
+  правила для непересекающихся и совместно исчерпывающих закрытых
+  классификаций;
 - Philippe Kruchten, [*Architectural Blueprints — The “4+1” View Model of Software Architecture*](https://arxiv.org/abs/2006.04975) — первичный источник stakeholder-oriented проверки Logical, Process, Development и Physical views через driving scenarios; [краткий обзор](https://en.wikipedia.org/wiki/4%2B1_architectural_view_model);
 - Nenad Medvidovic, Richard N. Taylor, [*A Classification and Comparison Framework for Software Architecture Description Languages*](https://ics.uci.edu/~taylor/documents/2000-ADLs-TSE.pdf) — источник архитектурной модели components, connectors и configurations.
 
