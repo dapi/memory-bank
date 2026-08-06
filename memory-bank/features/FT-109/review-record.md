@@ -20,9 +20,9 @@ not define requirements, lifecycle state or acceptance; those remain owned by
 
 ## Frozen candidate
 
-- Candidate: committed documentation delivery at `897399c` (`897399c2a77954dfa97db4899f6c84139a18483`).
+- Candidate: committed documentation delivery at `125566d` (`125566dd45a1c4fae1500f828861dd913f5636df`).
 - Owner revisions: `brief.md@sha256:33f3a3a61fbd96fc9483aa269a2b6eb22b361108de3168cecadb86cbb1835f32`, `design.md@sha256:c9f9d0b072a8acaaaa04fb183f0aeb0c942ccd2a537990080537055445135803`, `implementation-plan.md@sha256:fa57c8300eda26152a616626e04e279987bcf0a73cb400fbeddb7ec48107cdbd`.
-- Review carrier: Run Ledger state plus the committed `codex review --base develop` output for this candidate.
+- Review carrier: Run Ledger state plus the committed `codex review --base develop` output for this candidate. This later evidence-carrier-only update does not change the reviewed owner artifacts.
 
 ## Artifact review
 
