@@ -102,6 +102,7 @@ service setup-команды проекта; он намеренно не пер
 
 Источники полезных практик:
 
+- [4+1 architectural view model](https://en.wikipedia.org/wiki/4%2B1_architectural_view_model) — источник stakeholder-oriented проверки Logical, Process, Development и Physical views через driving scenarios;
 - [`dapi/zelma`](https://github.com/dapi/zelma);
 - [`brandymint/merchantly`](https://github.com/brandymint/merchantly);
 - [`alfagen/mercury`](https://github.com/alfagen/mercury);

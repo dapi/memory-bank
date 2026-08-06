@@ -59,6 +59,7 @@ audience: humans_and_agents
 
 | Artifact | Question answered | Trigger | Default form / suggested path | Ownership | Template |
 | --- | --- | --- | --- | --- | --- |
+| 4+1 viewpoint coverage and correspondence | Достаточно ли одно решение описано для Logical, Process, Development, Physical concerns и driving Scenarios, и согласованы ли эти projections? | Любой required `design.md` | Sections in `design.md`; отдельный artifact не создаётся | Только cross-references между canonical owners; views не вводят новые facts | [Design](templates/feature/design.md) |
 | `design.md` | Какое решение выбрано и почему? | `Design required: yes` | `features/FT-XXX/design.md` | `root`: manifest, selected design и default owner неделегированных feature-local solution facts | [Design](templates/feature/design.md) |
 | C4 view | Какие system, container, component или critical code boundaries и bindings затронуты? | Срабатывает C4 trigger из feature flow | Embedded Mermaid/table; при росте `diagrams/<name>-c4.md` | `derived-view` для feature-local projection или `external-dependency` для canonical shared model; не заменяет Architecture Coverage Decision | pattern in Design |
 | Component responsibility map | Как распределена ответственность между modules/services? | Новая decomposition, orchestration или ownership transfer | Table or C3 view in `design.md` | Selected responsibilities остаются `SOL-*` / `SD-*` | pattern only |
