@@ -28,6 +28,10 @@ audience: humans_and_agents
 
 ## Naming
 
+## Active Packages
+
+- [`FT-109/`](FT-109/README.md) — Task Capsule contract delivery package.
+
 - Базовый формат: `FT-XXX/`
 - Вместо `XXX` используй идентификатор, принятый в проекте: issue id, ticket id или другой стабильный ключ
 - Один package = одна delivery-единица

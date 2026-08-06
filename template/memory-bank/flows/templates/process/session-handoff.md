@@ -26,6 +26,12 @@ canonical_for:
 
 Ключевая идея: в handoff попадают не все детали подряд, а только то, что реально нужно для безопасного продолжения.
 
+Для активной Feature или Epic package этот handoff инстанцируется как
+package-local [`task-capsule.md`](../../task-capsule.md). Capsule должна
+содержать continuation priming inputs и human-readable sections ниже, а также
+structured state, owner refs и ровно один `next_action`; отдельный session
+handoff нужен только если flow явно назначает другой canonical artifact.
+
 Обязательно фиксируй:
 
 - текущий выполненный шаг;

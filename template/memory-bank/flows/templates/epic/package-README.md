@@ -52,6 +52,10 @@ audience: humans_and_agents
 
 Добавляй `charter.md`, `roadmap.md`, `subissues.md`, `risks.md`, optional `decision-log.md` и knowledge artifacts только когда они реально созданы. Для каждой ссылки кратко укажи, какими facts владеет документ.
 
+Если Epic пересекает session, machine или role boundary, добавь optional
+`task-capsule.md` в этот annotated index; он хранит только epic-level
+continuation state и не индексирует lifecycle отдельных Feature slices.
+
 ## Handoff
 
 До `Roadmap Ready -> Execution` не создавай delivery `FT-*` packages из этого epic. Следуй gates в `memory-bank/flows/epic.md`.

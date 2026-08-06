@@ -57,9 +57,14 @@ Intake facts и open questions принадлежат `brief.md`; при пря�
 6. `decision-log.md` - local decision ledger for decisions that affect the epic but do not require global ADR.
 7. `subissues.md` - registry of candidate and accepted delivery subissues, each mapped to roadmap waves and source `SLICE-*`/`UC-*`.
 8. `risks.md` - epic-level risk register for financial, operational, scope and delivery risks.
-9. `design.md`, `specs/**`, `diagrams/**`, `source-docs/**` — опциональные knowledge-артефакты. Они допустимы только когда индексируются из epic package и подчиняются правилам knowledge-артефактов ниже.
-10. `implementation-plan.md` не создаётся внутри epic. Code-level execution belongs to a separate `memory-bank/features/FT-<issue>/` package.
-11. Для epic package используй templates from `memory-bank/flows/templates/epic/`.
+9. An active Epic may carry `task-capsule.md` beside `README.md`, `brief.md` and
+   `charter.md`. It stores only resumable epic-level state and refs; lifecycle,
+   roadmap, risk and subissue facts remain with their canonical owners. After
+   `Roadmap Ready`, each accepted slice receives a separate issue, Task Routing,
+   Feature package and Feature capsule.
+10. `design.md`, `specs/**`, `diagrams/**`, `source-docs/**` — опциональные knowledge-артефакты. Они допустимы только когда индексируются из epic package и подчиняются правилам knowledge-артефактов ниже.
+11. `implementation-plan.md` не создаётся внутри epic. Code-level execution belongs to a separate `memory-bank/features/FT-<issue>/` package.
+12. Для epic package используй templates from `memory-bank/flows/templates/epic/`.
 
 ## Layer Model
 
@@ -186,6 +191,7 @@ flowchart LR
 - [ ] фактический outcome сопоставлен с `charter.md` acceptance и записан в его `Outcome`/`Acceptance`
 - [ ] `roadmap.md`, `subissues.md` и `risks.md` отражают финальное состояние; `decision-log.md`, если используется, также отражает финальное состояние
 - [ ] открытые риски и follow-up work имеют owner и отдельные task references
+- [ ] если Epic adopted `task-capsule.md`, он содержит финальные owner/evidence refs и не копирует state отдельных Feature slices
 - [ ] человек подтвердил закрытие инициативы
 - [ ] package `README.md` имеет `epic_stage: done`; для отменённой инициативы используется `epic_stage: cancelled`
 

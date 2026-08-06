@@ -79,4 +79,8 @@ audience: humans_and_agents
   Отвечает на вопрос: где находятся problem space, validation profile decision, canonical verify contract и stable IDs для этой фичи.
 
 После появления downstream-документов добавь сюда только существующие routes. Возможный состав и triggers смотри в `memory-bank/flows/feature-artifact-catalog.md`; отсутствие optional use cases, contracts, diagrams, support docs или ADR является нормальным.
+
+Если Feature пересекает session, machine или role boundary, добавь
+`task-capsule.md` в этот annotated index; capsule может появиться до
+`implementation-plan.md` и не заменяет canonical `brief.md`.
 ```

@@ -21,6 +21,7 @@ canonical_for:
 | Term | Meaning | Context | Do not confuse with |
 | --- | --- | --- | --- |
 | `domain-term` | Что термин означает в проекте | Где используется | Похожие product, UI или technical terms |
+| `task-capsule` | Package-local persisted handoff containing the current route/stage, canonical owner references, resumable actions, assumptions, risks, evidence, stop conditions and the exact next action for safely continuing an active task across sessions, machines or roles. | Feature and Epic orchestration; contract: [`task-capsule.md`](../../template/memory-bank/flows/task-capsule.md) | A lifecycle owner document, a session transcript or a task registry; those may provide facts or projections but do not replace the capsule contract. |
 
 ## Naming Rules
 

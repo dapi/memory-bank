@@ -35,6 +35,7 @@ derived_from:
   - process/README.md
   - process/process-card.md
   - process/session-handoff.md
+  - process/task-capsule.md
   - process/lifecycle-protocol.md
 status: active
 audience: humans_and_agents
@@ -75,4 +76,5 @@ audience: humans_and_agents
 - [PROC-XXX: Process Documentation Index](process/README.md) — шаблон индекса процесс-документов. Отвечает на вопрос: как собрать routing-layer для reusable process cards, session handoff и lifecycle protocol.
 - [PROC-XXX: Compact Process Card](process/process-card.md) — шаблон короткого reusable workflow. Отвечает на вопрос: как зафиксировать процесс с одним trigger, шагами и exit criteria.
 - [PROC-XXX: Session Handoff](process/session-handoff.md) — шаблон передачи состояния между сессиями. Отвечает на вопрос: как продолжить процесс без потери assumptions, risks и next checks.
+- [FT/EP-XXX: Task Capsule](process/task-capsule.md) — package-local structured state для продолжения активной Feature или Epic без второго SSoT.
 - [PROC-XXX: Lifecycle Protocol](process/lifecycle-protocol.md) — шаблон полного lifecycle protocol. Отвечает на вопрос: как вести multi-phase process с gates, verification и rollback.
