@@ -23,7 +23,7 @@ canonical_for:
 
 Создавай `design.md`, когда фича требует solution-space reasoning: выбор подхода, trade-offs, contracts, invariants, failure modes, rollout/backout, ADR/C4/data-flow/diagram dependencies или design-pack из нескольких документов.
 
-На стадии анализа обязательно заполни C4 applicability decision, Architecture Coverage Decision и risk-based Design Verification. C4 artifact обязателен только когда trigger из [feature.md#c4-analysis-requirements](../../feature.md#c4-analysis-requirements) требует C1/C2/C3/C4; отдельные diagrams/contracts остаются conditional, но coverage analysis обязателен для любого required `design.md`.
+На стадии анализа обязательно заполни C4 applicability decision, 4+1 Viewpoint Coverage Decision, Cross-View Correspondence, Architecture Coverage Decision и risk-based Design Verification. C4 artifact обязателен только когда trigger из [feature.md#c4-analysis-requirements](../../feature.md#c4-analysis-requirements) требует C1/C2/C3/C4; отдельные diagrams/contracts остаются conditional, но coverage analysis обязателен для любого required `design.md`.
 
 `design.md` не заменяет `brief.md`: требования, acceptance criteria и evidence contract остаются в `brief.md`. `design.md` также не является execution plan: file-level touchpoints, атомарные шаги, команды тестов и checkpoints принадлежат `implementation-plan.md`.
 
@@ -92,6 +92,38 @@ canonical owner — `external-dependency` и не входит в состав p
 - `C2` - Container: deployable/runtime nodes, queues, stores, protocols.
 - `C3` - Component: modules/services/state machines внутри container.
 - `C4` - Code: только когда class/interface-level structure является архитектурным решением.
+
+## 4+1 Viewpoint Coverage Decision
+
+Эта таблица проверяет stakeholder/concern coverage, не создавая новых canonical
+owners. Logical View и Scenarios обязательны. Для Process, Development и
+Physical выбери `covered` при применимом trigger или обоснованный `N/A`.
+Supporting projection не владеет facts и должна ссылаться на canonical IDs.
+Применимость определяй только по
+[View Applicability Predicates](../../feature.md#view-applicability-predicates):
+если evidence недостаточно для `N/A`, продолжи analysis или используй Human
+Gate.
+
+Process View означает runtime behavior проектируемой системы, а не Feature
+Flow. `implementation-plan.md` не является Development View: он описывает
+execution sequence, а не устойчивую структуру code modules.
+
+| View | Stakeholders / concerns | Status | Canonical owner / refs | Supporting projection | Applicability trigger / N/A evidence |
+| --- | --- | --- | --- | --- | --- |
+| Logical | Users, product/domain owners; capabilities, rules, meaning | `covered` | `brief.md` `REQ-*`; применимые `UC-*`, PRD/domain refs | domain/use-case projection / `none` | `Always`; где определено observable behavior |
+| Process | Runtime, reliability/performance owners; interactions, state, ordering, concurrency, failure/recovery | `covered` / `N/A` | `design.md` `CTR-*` / `INV-*` / `FM-*` или delegated contract / ADR | sequence / state / data-flow / `none` | Какой runtime predicate сработал или evidence, что semantics не меняется |
+| Development | Developers/maintainers; modules, components, interfaces, code ownership | `covered` / `N/A` | `design.md` `SOL-*` / `SD-*`, `engineering/architecture.md` или ADR | C3/C4 / component map / `none` | Какой structure predicate сработал или evidence, что ownership/dependencies не меняются |
+| Physical | Operations/platform owners; deployables, nodes, queues/stores, config bindings, deployment topology | `covered` / `N/A` | `design.md` `SOL-*` / `SD-*` / `RB-*`, `ops/*` или ADR | C2 / deployment view / `none` | Какой topology predicate сработал или evidence, что placement/bindings не меняются |
+| Scenarios (+1) | Users/operators/reviewers; end-to-end and negative journeys | `covered` | `brief.md` `SC-*` / `NEG-*`; применимые `UC-*` | feature-local `FUC-*` / sequence / `none` | `Always`; какие scenarios формируют и проверяют решение |
+
+### Cross-View Correspondence
+
+Добавь по строке для каждого `SC-*` из `brief.md`. Используй только ссылки на
+canonical facts; для неприменимого view укажи `N/A`.
+
+| Scenario / requirement | Logical refs | Process refs | Development refs | Physical refs | Verification refs |
+| --- | --- | --- | --- | --- | --- |
+| `SC-01` / `REQ-01` | `REQ-01`, применимый `UC-*` | `CTR-01`, `INV-01`, `FM-01` / `N/A` | `SOL-01`, `C4-L3-*`, `SD-01` / `N/A` | `C4-L2-*`, `RB-01`, ops ref / `N/A` | `CHK-01`, `EVID-01` |
 
 ## Architecture Coverage Decision
 

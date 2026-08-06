@@ -100,11 +100,19 @@ service setup-команды проекта; он намеренно не пер
 
 ## Развитие шаблона
 
-Источники полезных практик:
+### Методические источники
+
+- Philippe Kruchten, [*Architectural Blueprints — The “4+1” View Model of Software Architecture*](https://arxiv.org/abs/2006.04975) — первичный источник stakeholder-oriented проверки Logical, Process, Development и Physical views через driving scenarios; [краткий обзор](https://en.wikipedia.org/wiki/4%2B1_architectural_view_model);
+- Nenad Medvidovic, Richard N. Taylor, [*A Classification and Comparison Framework for Software Architecture Description Languages*](https://ics.uci.edu/~taylor/documents/2000-ADLs-TSE.pdf) — источник архитектурной модели components, connectors и configurations.
+
+### Downstream-репозитории и практические полигоны
+
+Эти репозитории используют и адаптируют Memory Bank под конкретные проекты.
+Опыт их эксплуатации может становиться источником обобщаемых правил для
+шаблона, но их project-specific факты остаются в downstream-копиях.
 
 - [`dapi/zelma`](https://github.com/dapi/zelma);
 - [`brandymint/merchantly`](https://github.com/brandymint/merchantly);
-- [`alfagen/mercury`](https://github.com/alfagen/mercury);
-- Nenad Medvidovic, Richard N. Taylor, [*A Classification and Comparison Framework for Software Architecture Description Languages*](https://ics.uci.edu/~taylor/documents/2000-ADLs-TSE.pdf) — источник архитектурной модели components, connectors и configurations.
+- [`alfagen/mercury`](https://github.com/alfagen/mercury).
 
 Добавляйте в шаблон только обобщаемые правила. Названия продуктов, инфраструктурные детали и другие project-specific факты должны оставаться в downstream-копии `memory-bank/`.
