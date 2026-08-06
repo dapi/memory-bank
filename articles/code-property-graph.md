@@ -1,4 +1,4 @@
-# Почему grep недостаточно AI-агенту: Code Property Graph простыми словами
+# Code Property Graph: как видеть код не строками, а связями
 
 ## Зачем тебе вообще разбираться в графах кода
 
@@ -135,29 +135,19 @@ Data-flow graph показывает, как конкретное значени
 
 ```python
 query = request.get("q")
-sql = "SELECT * FROM products WHERE name = '" + query + "'"
-result = db.execute(sql)
+safe_query = escape(query)
+result = db.execute(safe_query)
 ```
 
 ```mermaid
 flowchart LR
     A["request.q<br/>источник"] --> B["query"]
-    B --> C["конкатенация SQL"]
-    C --> D["sql"]
+    B --> C["escape(query)"]
+    C --> D["safe_query"]
     D --> E["db.execute()<br/>приёмник"]
 ```
 
-Здесь важна не только структура вызовов. Вопрос звучит так: дошло ли значение из `request.q` до `db.execute`, и было ли оно отделено от текста SQL-запроса?
-
-В данном примере пользовательский ввод становится частью SQL-строки. Безопасный вариант использует параметризованный запрос:
-
-```python
-query = request.get("q")
-result = db.execute(
-    "SELECT * FROM products WHERE name = ?",
-    (query,),
-)
-```
+Здесь важна не только структура вызовов. Вопрос звучит так: дошло ли значение из `request.q` до `db.execute`, и прошло ли оно через `escape`?
 
 Data flow используется для:
 
