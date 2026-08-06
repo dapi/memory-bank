@@ -171,8 +171,21 @@ stakeholder/concern coverage поверх canonical facts, а не пять но
   project-level `UC-*` и negative/error paths. Scenario используется как input
   design analysis и затем как основа проверки, а не только как финальный test.
 
+### View Applicability Predicates
+
+| View | `covered` обязателен, когда | `N/A` допустим, когда |
+| --- | --- | --- |
+| Logical | Всегда: designed feature реализует или изменяет capability, rule или observable engineering/operations outcome из `brief.md` | Никогда |
+| Process | Selected solution меняет runtime interactions, state transitions, ordering, sync/async boundary, concurrency, failure propagation или recovery behavior | Все runtime semantics остаются у существующих canonical owners без изменений, а scenario не вводит новый temporal/failure path |
+| Development | Selected solution меняет module/component/interface responsibilities, code ownership, dependency direction или внутреннюю decomposition | Решение полностью использует существующую implementation structure и не перераспределяет ответственность или dependencies |
+| Physical | Selected solution меняет deployable/runtime nodes, queue/store boundary, environment/config binding, network/trust placement или deployment topology | Решение выполняется в существующей topology и не меняет runtime placement или bindings |
+| Scenarios (+1) | Всегда: каждый `SC-*` участвует в Cross-View Correspondence | Никогда |
+
+Если evidence недостаточно, чтобы доказать `N/A`, view остается `covered` и
+анализ продолжается либо unresolved applicability проходит Human Gate.
+
 Logical View и Scenarios всегда получают `covered`. Process, Development и
-Physical получают `covered` при применимом trigger либо обоснованный `N/A`.
+Physical получают `covered` по predicates выше либо обоснованный `N/A`.
 Каждая строка называет stakeholder/concern, canonical owner/refs и optional
 supporting projection. Supporting views ссылаются на canonical IDs и не вводят
 новые requirements, decisions, contracts или topology facts.
@@ -257,6 +270,9 @@ Feature-local `ui-reference/README.md` ссылается на `engineering/ui-d
 ## Migration Strategy
 
 - Новые feature packages обязаны сразу следовать структуре `brief.md -> optional design.md -> implementation-plan.md`.
+- Новый `design.md` обязан сразу содержать 4+1 Viewpoint Coverage Decision и Cross-View Correspondence.
+- Existing active/archived `design.md`, который уже прошёл `Solution Ready` до принятия 4+1 rules, сохраняет прежний gate state, пока его canonical solution facts не меняются; documented prior review или pinned template revision служит evidence grandfathering.
+- При material change существующего design pack grandfathering прекращается: перед повторным `Solution Ready` добавь 4+1 coverage и correspondence по текущему contract. Одна только execution continuation без изменения canonical solution facts не требует retroactive backfill.
 - При миграции старого package layout сначала назначь canonical owners: problem-space content переносится в `brief.md`, required solution-space content — в root `design.md` или явно проиндексированный constituent.
 - После миграции package не должен сохранять duplicate active owners для problem space или solution space.
 - Миграция может происходить постепенно, package-by-package.
@@ -314,7 +330,7 @@ flowchart LR
 - [ ] `design.md` содержит ≥ 1 `SOL-*`
 - [ ] `design.md` ссылается минимум на один canonical `REQ-*` из sibling `brief.md`
 - [ ] `design.md` фиксирует C4 applicability decision; если C4 level required, C4 artifact или ссылка на canonical C4/design artifact присутствует в design-pack
-- [ ] 4+1 Viewpoint Coverage Decision фиксирует `covered` для Logical View и Scenarios, а для Process, Development и Physical — `covered` или обоснованный `N/A`, stakeholder/concern, canonical refs и optional supporting projection
+- [ ] 4+1 Viewpoint Coverage Decision применяет View Applicability Predicates и фиксирует `covered` для Logical View и Scenarios, а для Process, Development и Physical — `covered` или evidence-backed `N/A`, stakeholder/concern, canonical refs и optional supporting projection
 - [ ] Cross-View Correspondence содержит каждый `SC-*` из `brief.md` и связывает его с requirement, применимыми Process/Development/Physical refs и `CHK-*`/`EVID-*`; неприменимые связи отмечены `N/A`
 - [ ] Architecture Coverage Decision фиксирует `covered` или обоснованный `N/A` для components, connectors, configuration, behavioral semantics и quality/evolution concerns
 - [ ] при cross-component interaction явно показаны bindings/topology, direction, connector kind и значимые interaction semantics; один перечень components недостаточен
@@ -501,7 +517,7 @@ Canonical testing policy живёт в [../engineering/testing-policy.md](../eng
 1. Любой canonical `brief.md` использует как минимум `REQ-*`, `NS-*`, `SC-*`, `CHK-*`, `EVID-*`.
 2. Любой `brief.md` со `status: active` задает хотя бы один explicit test case через `SC-*`.
 3. `brief.md` может использовать только минимальный problem-space набор для compact feature package или расширенный набор feature IDs по необходимости; отдельные problem-space templates не используются.
-4. Любой required `design.md` использует как минимум один `SOL-*`, один `C4-*` decision, 4+1 Viewpoint Coverage Decision, Cross-View Correspondence, Architecture Coverage Decision и Design Verification selection и связывает solution refs минимум с одним `REQ-*` из sibling `brief.md`.
+4. Любой новый required `design.md` и существующий design pack, повторно входящий в `Solution Ready` после material solution change, использует как минимум один `SOL-*`, один `C4-*` decision, 4+1 Viewpoint Coverage Decision, Cross-View Correspondence, Architecture Coverage Decision и Design Verification selection и связывает solution refs минимум с одним `REQ-*` из sibling `brief.md`; grandfathered packages следуют Migration Strategy.
 5. Любой `design.md` фиксирует selection rationale для C4 applicability; выбранные C4 views используют `C4-*` и связываются с `SOL-*`, `SD-*`, `CTR-*`, `INV-*` или ADR refs.
 6. Любой `design.md`, где есть принятые feature-local решения, использует `SD-*`; `ALT-*`, `TRD-*`, `CTR-*`, `INV-*`, `FM-*` и `RB-*` применяются только когда соответствующая solution-semantics действительно нужна.
 7. Любой optional support doc использует только local support IDs и traceability к canonical refs; он не вводит новые canonical `REQ-*`, `SC-*`, `CHK-*` или `EVID-*`.

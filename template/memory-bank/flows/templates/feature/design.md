@@ -99,18 +99,22 @@ canonical owner — `external-dependency` и не входит в состав p
 owners. Logical View и Scenarios обязательны. Для Process, Development и
 Physical выбери `covered` при применимом trigger или обоснованный `N/A`.
 Supporting projection не владеет facts и должна ссылаться на canonical IDs.
+Применимость определяй только по
+[View Applicability Predicates](../../feature.md#view-applicability-predicates):
+если evidence недостаточно для `N/A`, продолжи analysis или используй Human
+Gate.
 
 Process View означает runtime behavior проектируемой системы, а не Feature
 Flow. `implementation-plan.md` не является Development View: он описывает
 execution sequence, а не устойчивую структуру code modules.
 
-| View | Stakeholders / concerns | Status | Canonical owner / refs | Supporting projection | Reason if N/A / coverage note |
+| View | Stakeholders / concerns | Status | Canonical owner / refs | Supporting projection | Applicability trigger / N/A evidence |
 | --- | --- | --- | --- | --- | --- |
-| Logical | Users, product/domain owners; capabilities, rules, meaning | `covered` | `brief.md` `REQ-*`; применимые `UC-*`, PRD/domain refs | domain/use-case projection / `none` | Где определено observable behavior |
-| Process | Runtime, reliability/performance owners; interactions, state, ordering, concurrency, failure/recovery | `covered` / `N/A` | `design.md` `CTR-*` / `INV-*` / `FM-*` или delegated contract / ADR | sequence / state / data-flow / `none` | Как покрыта runtime dynamics или почему она не меняется |
-| Development | Developers/maintainers; modules, components, interfaces, code ownership | `covered` / `N/A` | `design.md` `SOL-*` / `SD-*`, `engineering/architecture.md` или ADR | C3/C4 / component map / `none` | Как покрыта implementation structure или почему она не меняется |
-| Physical | Operations/platform owners; deployables, nodes, queues/stores, config bindings, deployment topology | `covered` / `N/A` | `design.md` `SOL-*` / `SD-*` / `RB-*`, `ops/*` или ADR | C2 / deployment view / `none` | Как покрыта runtime topology или почему она не меняется |
-| Scenarios (+1) | Users/operators/reviewers; end-to-end and negative journeys | `covered` | `brief.md` `SC-*` / `NEG-*`; применимые `UC-*` | feature-local `FUC-*` / sequence / `none` | Какие scenarios формируют и проверяют решение |
+| Logical | Users, product/domain owners; capabilities, rules, meaning | `covered` | `brief.md` `REQ-*`; применимые `UC-*`, PRD/domain refs | domain/use-case projection / `none` | `Always`; где определено observable behavior |
+| Process | Runtime, reliability/performance owners; interactions, state, ordering, concurrency, failure/recovery | `covered` / `N/A` | `design.md` `CTR-*` / `INV-*` / `FM-*` или delegated contract / ADR | sequence / state / data-flow / `none` | Какой runtime predicate сработал или evidence, что semantics не меняется |
+| Development | Developers/maintainers; modules, components, interfaces, code ownership | `covered` / `N/A` | `design.md` `SOL-*` / `SD-*`, `engineering/architecture.md` или ADR | C3/C4 / component map / `none` | Какой structure predicate сработал или evidence, что ownership/dependencies не меняются |
+| Physical | Operations/platform owners; deployables, nodes, queues/stores, config bindings, deployment topology | `covered` / `N/A` | `design.md` `SOL-*` / `SD-*` / `RB-*`, `ops/*` или ADR | C2 / deployment view / `none` | Какой topology predicate сработал или evidence, что placement/bindings не меняются |
+| Scenarios (+1) | Users/operators/reviewers; end-to-end and negative journeys | `covered` | `brief.md` `SC-*` / `NEG-*`; применимые `UC-*` | feature-local `FUC-*` / sequence / `none` | `Always`; какие scenarios формируют и проверяют решение |
 
 ### Cross-View Correspondence
 
