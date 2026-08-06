@@ -31,7 +31,7 @@ assumptions:
 risks:
   - {id: ER-01, summary: "Downstream adoption may require separate follow-up issues", owner_ref: implementation-plan.md}
 evidence:
-  - {id: EVID-BOOTSTRAP, ref: "memory-bank/features/FT-109/brief.md@sha256:c261c2d223e30f4da4085fd309283c7e784eaf611fd32c5516041508d059e2d6; design.md@sha256:c9f9d0b072a8acaaaa04fb183f0aeb0c942ccd2a537990080537055445135803", proves: "Problem and selected solution owners exist"}
+  - {id: EVID-BOOTSTRAP, ref: "memory-bank/features/FT-109/brief.md@sha256:33f3a3a61fbd96fc9483aa269a2b6eb22b361108de3168cecadb86cbb1835f32; design.md@sha256:c9f9d0b072a8acaaaa04fb183f0aeb0c942ccd2a537990080537055445135803", proves: "Problem and selected solution owners exist"}
   - {id: EVID-PLAN-READY, ref: "review-record.md#artifact-review", proves: "Draft Plan Ready artifact review passed"}
   - {id: EVID-FINAL, ref: "review-record.md#implementation-review", proves: "Final documentation candidate passed validation and review"}
   - {id: EVID-CI, ref: "https://github.com/dapi/memory-bank/actions/runs/31041845661/job/92427832402", proves: "Required PR CI passed for the terminal repository revision"}
