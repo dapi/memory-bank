@@ -17,6 +17,12 @@ audience: humans_and_agents
 
 Use case нужен для сценария, который живет на уровне продукта, повторяется во времени и может быть upstream для нескольких feature packages. Это не замена `SC-*` внутри `brief.md`: `SC-*` описывают acceptance сценарии delivery-единицы, а `UC-*` описывают устойчивое поведение системы на уровне проекта.
 
+Один `UC-*` может иметь много downstream BDD examples. `BR-*`, `ALT-*` и
+`EX-*` дают точки traceability к feature `SC-*` / `NEG-*`, но example bodies,
+`CHK-*` и test implementation не копируются в project-level use case. Правила
+Discovery, Formulation и Automation определяет
+[`Behavior Specification Practice`](../flows/behavior-specification.md).
+
 Обычно use case наследует общий product context из [`../product/context.md`](../product/context.md). Если сценарий зависит от предметных правил, states или events, он также должен ссылаться на соответствующие документы из [`../domain/README.md`](../domain/README.md).
 
 ## Когда Заводить Use Case

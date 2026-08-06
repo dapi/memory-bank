@@ -134,6 +134,11 @@ revision. Если revision расходится или один из переч
 
 Какие test surfaces должны быть обновлены по мере реализации. Сошлись на validation profile из `brief.md` и покажи, как каждая применимая обязанность его minimum contract закрывается tests, suites, evidence, approvals и rollout/backout checkpoints. Этот раздел не переопределяет profile decision или canonical test cases из `brief.md`.
 
+Для каждого required `SC-*` / `NEG-*` выбери самый низкий надёжный test level,
+который доказывает observable outcome. BDD не требует Gherkin, Cucumber или
+E2E-only tests. Если project conventions позволяют, planned test name, tag или
+metadata сохраняет scenario ref для traceability.
+
 | Test surface | Canonical refs | Existing coverage | Planned automated coverage | Required local suites / commands | Required CI suites / jobs | Manual-only gap / justification | Manual-only approval ref |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | `path/or/behavior` | `REQ-01`, `SC-01`, `NEG-01`, `CHK-01`, `SOL-01 если design существует` | Что покрыто сейчас | Какой suite, test type или deterministic check обязаны добавить или обновить | Какие команды или suites обязаны быть зелёными локально | Какие jobs или suites обязаны быть зелёными в CI | Что пока остается manual-only и почему | `AG-01` / review link / `none` |
