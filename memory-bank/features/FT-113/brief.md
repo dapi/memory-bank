@@ -6,7 +6,7 @@ purpose: "Фиксирует delivery-единицу по описанию BDD �
 derived_from:
   - ../../flows/feature.md
 status: active
-delivery_status: in_progress
+delivery_status: done
 audience: humans_and_agents
 source_issue: https://github.com/dapi/memory-bank/issues/113
 must_not_define:

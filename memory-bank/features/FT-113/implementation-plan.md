@@ -2,11 +2,11 @@
 title: "FT-113: Implementation Plan"
 doc_kind: feature
 doc_function: derived
-purpose: "Active execution trace и closure preparation для FT-113."
+purpose: "Archived execution trace и closure evidence для FT-113."
 derived_from:
   - brief.md
   - ../../flows/feature.md
-status: active
+status: archived
 audience: humans_and_agents
 ---
 
@@ -22,8 +22,9 @@ flow, policy и indexes, сохранив ownership существующих art
 Draft plan прошёл clean artifact review, resulting active revision получила
 final clean re-review, а post-main-merge revision сохранила принятую semantics.
 PR #114 смержен commit-ом `48f67fa93ebfca40603b06e7f764751c61c2df43`;
-эта revision фиксирует обязательный `delivery_status: in_progress` перед
-отдельным closure transition. Delivery и review evidence перечислены ниже.
+отдельная revision `41f85dffce49f46f00fc094c8df8b7504ace1801`
+зафиксировала обязательный `delivery_status: in_progress`. Эта последующая
+revision фиксирует closure. Delivery и review evidence перечислены ниже.
 
 ## Grounding Evidence
 
