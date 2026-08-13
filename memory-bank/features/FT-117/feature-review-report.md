@@ -81,17 +81,17 @@ review_mode: self_review
 | `engineering/README.md` | `50f1efb6ff9c68cd72eb22949ef778ffaf0fef9dc8d00847016aab0f4aad63aa` |
 | `engineering/autonomy-boundaries.md` | `0bc9446a2e28230a77a2d173af00fc4776e6dcf66bf68cf5164c2bea95c0643b` |
 | `engineering/validation-profiles.md` | `bf4b7ea1c4e82c9e15749a1fb6f7fdd1beb60b38185a040eb9610f6ec81f1ec9` |
-| `flows/README.md` | `2b7396e2ebb66c31f5835cecce59baa852722358b784b2d6b0ab00a3b69a3b90` |
+| `flows/README.md` | `e1874780be91df99d7fa90f2680320ed7f30c9dea120be7741304ccfe25b94ea` |
 | `flows/bug-fix.md` | `c748d08faefe2fcacfacf13964f199ac1bca10ac3432859d90510dd8caa517a3` |
 | `flows/epic.md` | `13a7a7a81437969d4193c8c716e29e49340d66d44afa775114254c3d7ed619f0` |
-| `flows/feature.md` | `99ca76da31426fcdcd12daec24201c5547aa319bcf5f6d37f79a118223e07340` |
+| `flows/feature.md` | `d267ce1f251b8b58c703bf4e8bc805445ebdc01886bd43ec5facde48e9aeddc6` |
 | `flows/routing.md` | `9cc785e2880ed0d6329d89bd6748addc8e68071db756653c3d007ec7b1a0643c` |
 | `flows/research.md` | `a8debef19df9b9a49f340f16bb97d78ed07399d71c4e24dd115696de5ae02036` |
 | `flows/templates/epic/decision-log.md` | `29619853753af94d0c1714019d9a4e6a226d2257f90f21a4b0e9d217be79dee4` |
 | `flows/priming/bug-fix.yaml` | `cd6d7707fcc9cf231172ecf9188d1dc7f83793352b1baf6293b59954a427a36d` |
-| `flows/priming/feature.yaml` | `cdf1ce3b47c621884bacdc822afcdcca7ef3c5c130eb63944f2a83b195dcea9e` |
+| `flows/priming/feature.yaml` | `0626e1c1b03a1c96d8c018389253777eca5c81af5e60906cdd13e7f3973f0656` |
 | `flows/priming/research.yaml` | `6d72986736eb9f41f21e47e238b6b04f6d17eda3875c009bacb448d078dca543` |
-| `memory-bank/features/README.md` | `56cacb998ba936a9078a8cc54b4450c0d7c7621ce0e08b75b379ddf36add9e64` |
+| `memory-bank/features/README.md` | `9313704c26297aa50afa0a69665061182dda4945107ad9019764f4af5503ecc7` |
 | `memory-bank/.lock` | `4290dcfa8a1453edccb70b6f0e5bac8a71570402139e18dea7b81be8adcd17db` |
 
 `feature-review-report.md` intentionally does not record its own digest: adding
@@ -197,6 +197,18 @@ CI were still blocked by pending `AG-01` at the time of Attempt 5.
 - Verdict: `CLEAN_PLAN_READY`.
 - The only plan delta from the prior clean revision is current scoped commit/push
   authority in `AG-01`; merge, release, deploy and publication remain excluded.
+
+## Execution Evidence
+
+- Recovery correction commit: `f7667514bb39b47deab023c717892e5c63ad94e7`.
+- Main synchronization commit: `c2a0578`; the only manual conflict resolution
+  preserved both `FT-113` and `FT-117` entries in `memory-bank/features/README.md`.
+- Required GitHub check `CI / validate-template`: `success` on `c2a0578`, run
+  [31751810935](https://github.com/dapi/memory-bank/actions/runs/31751810935).
+- Post-merge local manifest tests/validator, both lints, doctor and diff check:
+  `pass`.
+- Candidate manifest hashes were refreshed after merging current `origin/main`;
+  upstream BDD/FT-113 changes remain owned by main and are not FT-117 scope.
 
 ## Self-review Verdict
 
