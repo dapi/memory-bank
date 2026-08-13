@@ -13,6 +13,7 @@ derived_from:
   - small-change.md
   - refactoring.md
   - epic.md
+  - behavior-specification.md
   - use-case.md
   - feature.md
   - feature-artifact-catalog.md
@@ -33,6 +34,7 @@ audience: humans_and_agents
 - [Small Change Flow](small-change.md) — direct delivery без feature package, design и execution plan, но с обязательным routing record.
 - [Refactoring Flow](refactoring.md) — behavior-preserving restructuring, characterization coverage, checkpoints и closure gates.
 - [Epic Flow](epic.md) — Epic Intake/Proposal, lifecycle крупных инициатив, roadmap, decision log, risks и handoff в feature packages.
+- [Behavior Specification Practice](behavior-specification.md) — BDD-цикл Discovery → Formulation → Automation, качество concrete examples и traceability `UC/REQ → SC/NEG → CHK → test evidence`; это практика внутри выбранного flow, а не отдельный route.
 - [Use Case Flow](use-case.md) — критерии, lifecycle и ownership для project-level `UC-*`, включая operational / agentic сценарии.
 - [Feature Flow](feature.md) — lifecycle `brief.md -> optional design.md -> implementation-plan.md`, gates и стабильные ID (`REQ-*`, `SOL-*`, `STEP-*`).
 - [Feature Artifact Catalog](feature-artifact-catalog.md) — optional problem/solution/execution artifacts, selection triggers, ownership, default forms и template availability.

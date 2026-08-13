@@ -39,7 +39,7 @@ Downstream routes для living feature package добавляются по ме
 
 - `use-cases/README.md`
   Читать, когда нужно: если scenario set требует отдельного review-friendly представления happy/edge/error journeys.
-  Отвечает на вопрос: какие derived feature-local use cases и test candidates проецируются из canonical brief.
+  Отвечает на вопрос: какие derived feature-local use cases, BDD examples и test candidates проецируются из canonical brief без нового acceptance owner.
 
 - `contracts/<name>.md`
   Читать, когда нужно: если API/event/queue/callback/file/store/cache/auth/locking/runtime-config interaction contract вынесен из `design.md` из-за объема или самостоятельной review boundary.

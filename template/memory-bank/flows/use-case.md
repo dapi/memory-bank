@@ -6,6 +6,7 @@ purpose: Lifecycle создания, активации и обновления 
 derived_from:
   - ../dna/governance.md
   - priming/context-priming.md
+  - behavior-specification.md
   - feature.md
 canonical_for:
   - use_case_selection
@@ -14,6 +15,7 @@ canonical_for:
   - use_case_lifecycle
   - operational_agentic_use_case_rules
   - use_case_registry_contract
+  - use_case_behavior_coverage_contract
 status: active
 audience: humans_and_agents
 ---
@@ -38,7 +40,10 @@ actor-а: trigger, preconditions, основной flow, ожидаемые ал
 
 `UC-*` является canonical owner сценария уровня проекта. Feature-level `SC-*`
 остается owner-ом acceptance конкретной delivery-единицы, а feature-local
-`FUC-*` — derived представлением сценариев для review.
+`FUC-*` — derived представлением сценариев для review. BDD concrete examples
+не заменяют `UC-*`: они уточняют отдельные rules и branches в downstream
+feature через `SC-*` / `NEG-*` по
+[`Behavior Specification Practice`](behavior-specification.md).
 
 ## Selection Gate
 
@@ -54,6 +59,17 @@ actor-а: trigger, preconditions, основной flow, ожидаемые ал
 features, runbooks, prompts или ops docs. Не создавай `UC-*` для одноразового
 acceptance case, локального edge case или implementation detail: оставь это в
 `SC-*`, `NEG-*` или optional feature-local `FUC-*`.
+
+## Behavior Coverage
+
+`UC-*` владеет stable goal, actor, trigger, preconditions, main flow,
+alternatives/exceptions, postconditions и business rules. Он не хранит полную
+матрицу BDD examples, feature checks или test implementation.
+
+Используй стабильные `BR-*`, `ALT-*` и `EX-*` как точки traceability. Когда
+downstream examples уже существуют, связывай элементы use case с concrete
+`FT-XXX/SC-*` и `FT-XXX/NEG-*`. Такая coverage table навигационная: acceptance
+semantics и checks остаются в соответствующем feature `brief.md`.
 
 ## Operational / Agentic Use Cases
 
@@ -80,11 +96,13 @@ candidate scenario → selection gate → stable UC ID → draft from template
    [`use-cases/README.md`](../use-cases/README.md).
 3. Создай файл по [`UC-XXX` template](templates/use-case/UC-XXX.md).
 4. Заполни общий scenario contract: goal, actor, trigger, preconditions, main
-   flow, alternatives/exceptions, postconditions и business rules.
+   flow, alternatives/exceptions, postconditions и стабильные `BR-*` business
+   rules.
 5. Для operational / agentic сценария добавь только применимые optional
    contracts: observable status, handoff, diagnostics и recovery.
-6. Добавь upstream/downstream traceability без копирования требований или
-   implementation details из owner-документов.
+6. Добавь upstream/downstream traceability и доступную behavior coverage без
+   копирования requirements, BDD example bodies или implementation details из
+   owner-документов.
 7. Зарегистрируй use case в аннотированном реестре и переведи его в `active`
    после прохождения Activation Gate.
 
@@ -104,6 +122,8 @@ candidate scenario → selection gate → stable UC ID → draft from template
 - [ ] main flow описывает observable behavior, а не implementation sequence
 - [ ] ожидаемые alternatives/exceptions и успешные/неуспешные postconditions
       зафиксированы
+- [ ] применимые business rules имеют стабильные `BR-*`, а существующие
+      downstream `SC-*` / `NEG-*` связаны через behavior coverage
 - [ ] operational contracts добавлены, только если они являются частью
       наблюдаемого project-level behavior
 - [ ] traceability содержит актуальные upstream и downstream refs
@@ -118,6 +138,10 @@ candidate scenario → selection gate → stable UC ID → draft from template
 compatibility boundary; не оставляй одновременно два противоречащих active
 описания одного сценария.
 
+Material change требует impact analysis по связанным `BR/ALT/EX → SC/NEG`:
+обнови feature `brief.md`, `CHK-*`, derived views, execution plan и test code
+после изменения их canonical upstream owner.
+
 ### Active → Archived
 
 - [ ] сценарий больше не является поддерживаемым project-level behavior
@@ -130,6 +154,8 @@ compatibility boundary; не оставляй одновременно два п
 - `use-cases/README.md` владеет навигацией, ID и короткими аннотациями.
 - `UC-*` владеет project-level scenario contract.
 - `flows/templates/use-case/UC-XXX.md` владеет структурой нового документа.
+- `flows/behavior-specification.md` владеет BDD practice и правилами
+  formulation/automation, но не scenario semantics.
 - `brief.md` владеет feature scope, acceptance и evidence contract.
 - `design.md`, ADR и delegated contracts владеют solution и architecture facts.
 - runbooks владеют executable operational procedures и конкретными recovery

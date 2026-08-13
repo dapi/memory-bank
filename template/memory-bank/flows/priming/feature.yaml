@@ -2,6 +2,7 @@ version: 1
 process: feature
 stages:
   bootstrap_brief:
+    - memory-bank/flows/behavior-specification.md
     - memory-bank/flows/feature-artifact-catalog.md
     - memory-bank/features/README.md
     - memory-bank/prd/*.md
@@ -29,6 +30,7 @@ stages:
     - memory-bank/flows/templates/feature/support/runtime-surfaces.md
     - memory-bank/flows/templates/feature/support/sequence-diagram.md
   scenario_design:
+    - memory-bank/flows/behavior-specification.md
     - memory-bank/flows/templates/feature/support/use-cases.md
   plan_ready:
     - memory-bank/flows/templates/feature/implementation-plan.md

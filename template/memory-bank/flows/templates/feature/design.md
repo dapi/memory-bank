@@ -118,12 +118,15 @@ execution sequence, а не устойчивую структуру code modules
 
 ### Cross-View Correspondence
 
-Добавь по строке для каждого `SC-*` из `brief.md`. Используй только ссылки на
-canonical facts; для неприменимого view укажи `N/A`.
+Добавь по строке для каждого `SC-*` из `brief.md` и каждого существенного
+`NEG-*` / edge example, который влияет на failure, contract или invariant
+design. Используй только ссылки на canonical facts; для неприменимого view
+укажи `N/A`.
 
 | Scenario / requirement | Logical refs | Process refs | Development refs | Physical refs | Verification refs |
 | --- | --- | --- | --- | --- | --- |
 | `SC-01` / `REQ-01` | `REQ-01`, применимый `UC-*` | `CTR-01`, `INV-01`, `FM-01` / `N/A` | `SOL-01`, `C4-L3-*`, `SD-01` / `N/A` | `C4-L2-*`, `RB-01`, ops ref / `N/A` | `CHK-01`, `EVID-01` |
+| `NEG-01` / `REQ-01` | `REQ-01`, применимый `UC-*/EX-*` | `FM-01`, `CTR-01`, `INV-01` / `N/A` | `SOL-01`, `SD-01` / `N/A` | `RB-01`, ops ref / `N/A` | `CHK-02`, `EVID-02` |
 
 ## Architecture Coverage Decision
 

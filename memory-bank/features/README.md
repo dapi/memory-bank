@@ -34,5 +34,7 @@ audience: humans_and_agents
 
 ## Instantiated Packages
 
+- [`FT-113/`](FT-113/README.md) — интеграция BDD behavior specification practice
+  с существующими Feature/Use Case owners и verification traceability.
 - [`FT-117/`](FT-117/README.md) — autonomous Structured Decision Protocol,
   разделение decision authority и execution approval для issue #117.

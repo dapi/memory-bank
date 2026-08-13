@@ -14,6 +14,11 @@ audience: humans_and_agents
 
 Этот каталог — меню, а не checklist. Он перечисляет распространенные программно-инженерные артефакты и помогает выбрать только те, которые снимают реальную неоднозначность конкретной feature.
 
+Для observable behavior сначала примени
+[`Behavior Specification Practice`](behavior-specification.md). Discovery,
+Formulation и Automation используют существующие owners и сами по себе не
+требуют отдельного artifact.
+
 При bootstrap feature package обязательны только `README.md` и `brief.md`. Все остальные документы, таблицы и diagrams условны. `implementation-plan.md` появляется только перед реальным execution, а отдельный `design.md` — только когда `brief.md` фиксирует `Design required: yes`.
 
 ## Selection Rules
@@ -36,7 +41,7 @@ audience: humans_and_agents
 | Epic package | Как координируются roadmap, risks и несколько delivery units? | Работа крупнее одной vertical feature | `memory-bank/epics/EP-XXX/` | Initiative coordination, не feature execution | [Epic](templates/epic/README.md) |
 | `README.md` | Какие artifacts реально входят в feature package и в каком порядке их читать? | Любой feature package | `features/FT-XXX/README.md` | Routing only | [Feature README](templates/feature/README.md) |
 | `brief.md` | Какую проблему решаем, что входит в scope и как принимаем результат? | Любой feature package | `features/FT-XXX/brief.md` | Canonical problem, requirements, acceptance and evidence contract | [Brief](templates/feature/brief.md) |
-| Feature-local use cases | Какие happy, edge и error journeys удобнее review отдельно? | Много scenarios/roles или нужен `FUC -> REQ -> CHK` mapping | `use-cases/README.md` | Derived scenario projection; canonical acceptance остается в `brief.md` | [Feature Use Cases](templates/feature/support/use-cases.md) |
+| Feature-local use cases / behavior example map | Какие happy, edge и error journeys и их `Given / When / Then` projections удобнее review отдельно? | Много scenarios/roles или нужен `FUC → SC/NEG → REQ → CHK` mapping | `use-cases/README.md` | Derived scenario/example projection; canonical acceptance остается в `brief.md`, новый verdict здесь запрещён | [Feature Use Cases](templates/feature/support/use-cases.md) |
 | Runtime surface inventory | Где behavior существует сейчас и какой context доступен? | Несколько entrypoints, mappings, fallbacks или context variants | `runtime-surfaces.md` | Current-state reference | [Runtime Surfaces](templates/feature/support/runtime-surfaces.md) |
 | UI flow / mockups | Что видит пользователь и какие interface states проходит? | Меняется UI, navigation, editor/preview или interaction model | `ui-reference/README.md`, `ui-reference/mockups/*`; ссылка на `engineering/ui-design-guide/README.md` или нужный surface document | Interface reference; requirements и selected solution остаются у canonical owners; shared UI catalog не копируется в feature | [UI Reference](templates/feature/support/ui-reference.md) |
 | Glossary | Что означают неоднозначные business и technical terms? | Терминология materially влияет на scope, contract или review | Compact table in owner; при росте `glossary.md` | Reference term registry with source refs | pattern only |

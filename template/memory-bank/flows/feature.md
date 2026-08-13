@@ -8,6 +8,7 @@ derived_from:
   - ../dna/frontmatter.md
   - routing.md
   - priming/context-priming.md
+  - behavior-specification.md
   - ../engineering/validation-profiles.md
   - ../engineering/autonomy-boundaries.md
 canonical_for:
@@ -36,6 +37,7 @@ canonical_for:
   - feature_design_pack_relation_rules
   - feature_design_pack_readiness_rules
   - feature_solution_ownership_rules
+  - feature_behavior_specification_gates
 status: active
 audience: humans_and_agents
 ---
@@ -68,13 +70,14 @@ immutable revision и `GRND-*` evidence.
 9. Для canonical `brief.md`, canonical `design.md`, feature-level `README.md` и `implementation-plan.md` используй wrapper-шаблоны из `memory-bank/flows/templates/feature/`: сам template-файл имеет `doc_function: template`, а frontmatter/body инстанцируемого документа живут внутри embedded template contract.
 10. Смысл стабильных идентификаторов (`REQ-*`, `SOL-*`, `SD-*`, `STEP-*` и т.д.) задается в секции «Stable Identifiers» ниже.
 11. Acceptance scenarios (`SC-*`) покрывают delivery-unit end-to-end: для пользовательского slice — от входного события до наблюдаемого результата через все затронутые слои; для infrastructure/engineering/operations change — от system, operator или pipeline trigger до observable operational outcome. Тестирование отдельного слоя в изоляции допустимо как implementation detail плана, но не заменяет end-to-end acceptance.
-12. **Связь с task tracker.** При создании feature package агент обязан добавить в исходную задачу или ticket ссылку на `brief.md`, а после появления downstream-документов — ссылки на существующие `design.md` и `implementation-plan.md`.
-13. До Bootstrap / Brief агент обязан прочитать весь текущий `memory-bank/prd/*.md` corpus. Это обязательный context baseline независимо от того, зависит ли feature от конкретного PRD; PRD не заменяет сам feature package.
-14. Если фича создает новый устойчивый сценарий проекта или materially changes существующий, соответствующий `UC-*` в `memory-bank/use-cases/` должен быть создан или обновлен до closure.
-15. Optional feature-support docs (`runtime-surfaces.md`, `diagrams/<name>-sequence.md`, `ui-reference/README.md`, `use-cases/README.md`) допустимы для сложных фич как grounding / review / traceability aids. Они не становятся canonical owner problem space, solution space, acceptance inventory или execution sequencing.
-16. Полное чтение PRD corpus не создаёт semantic dependency от каждого PRD. `brief.md: derived_from` импортирует только фактические upstream-owner references и не копирует весь upstream scope.
-17. Если работа крупнее одной delivery-feature и требует общего roadmap, cross-feature risk register или нескольких delivery units, не расширяй feature package: повтори [`Task Routing`](routing.md), выбери [`Epic Flow`](epic.md) и после epic handoff веди каждую утвержденную delivery-единицу как отдельный feature package.
-18. Validation profile выбирается в `brief.md` по [`validation-profiles.md`](../engineering/validation-profiles.md). `design.md` может уточнить risk facts, а `implementation-plan.md` разворачивает minimum contract в команды, suites и checkpoints, но ни один из них не дублирует profile decision.
+12. Для observable behavior применяй [`Behavior Specification Practice`](behavior-specification.md): discovery findings маршрутизируются в существующие owners, concrete examples формулируются через `SC-*` / `NEG-*`, а automation связывается через `CHK-*` и `EVID-*`. BDD не вводит отдельный route или `BDD-*` identifiers.
+13. **Связь с task tracker.** При создании feature package агент обязан добавить в исходную задачу или ticket ссылку на `brief.md`, а после появления downstream-документов — ссылки на существующие `design.md` и `implementation-plan.md`.
+14. До Bootstrap / Brief агент обязан прочитать весь текущий `memory-bank/prd/*.md` corpus. Это обязательный context baseline независимо от того, зависит ли feature от конкретного PRD; PRD не заменяет сам feature package.
+15. Если фича создает новый устойчивый сценарий проекта или materially changes существующий, соответствующий `UC-*` в `memory-bank/use-cases/` должен быть создан или обновлен до closure.
+16. Optional feature-support docs (`runtime-surfaces.md`, `diagrams/<name>-sequence.md`, `ui-reference/README.md`, `use-cases/README.md`) допустимы для сложных фич как grounding / review / traceability aids. Они не становятся canonical owner problem space, solution space, acceptance inventory или execution sequencing.
+17. Полное чтение PRD corpus не создаёт semantic dependency от каждого PRD. `brief.md: derived_from` импортирует только фактические upstream-owner references и не копирует весь upstream scope.
+18. Если работа крупнее одной delivery-feature и требует общего roadmap, cross-feature risk register или нескольких delivery units, не расширяй feature package: повтори [`Task Routing`](routing.md), выбери [`Epic Flow`](epic.md) и после epic handoff веди каждую утвержденную delivery-единицу как отдельный feature package.
+19. Validation profile выбирается в `brief.md` по [`validation-profiles.md`](../engineering/validation-profiles.md). `design.md` может уточнить risk facts, а `implementation-plan.md` разворачивает minimum contract в команды, suites и checkpoints, но ни один из них не дублирует profile decision.
 
 ## Feature Package Anatomy
 
@@ -313,7 +316,9 @@ flowchart LR
 - [ ] `brief.md` → `status: active`
 - [ ] секция `What` содержит ≥ 1 `REQ-*` и ≥ 1 `NS-*`
 - [ ] секция `Verify` содержит ≥ 1 `SC-*`
-- [ ] каждый `REQ-*` прослеживается к ≥ 1 `SC-*` через traceability matrix
+- [ ] каждый `REQ-*` прослеживается к ≥ 1 `SC-*` или `NEG-*` через traceability matrix; основной changed behavior всегда имеет positive `SC-*`
+- [ ] verdict-changing вопросы из behavior discovery разрешены либо зафиксированы как blocking `DEC-*`; найденные stable flows, shared rules и deferred work переданы соответствующим `UC-*`, domain owner и `NS-*` / отдельной delivery-unit
+- [ ] каждый required `SC-*` / `NEG-*` однозначно задаёт существенный context, одно событие и observable outcome; при structured BDD triggers из [`Behavior Specification Practice`](behavior-specification.md) используется `Given / When / Then` или эквивалентная структура
 - [ ] секция `Verify` содержит ≥ 1 `CHK-*` и ≥ 1 `EVID-*`
 - [ ] если deliverable нельзя принять без negative/edge coverage → ≥ 1 `NEG-*`
 - [ ] `brief.md` содержит Design Requirement Decision: `Design required: yes/no` и причину
@@ -335,7 +340,7 @@ flowchart LR
 - [ ] `design.md` ссылается минимум на один canonical `REQ-*` из sibling `brief.md`
 - [ ] `design.md` фиксирует C4 applicability decision; если C4 level required, C4 artifact или ссылка на canonical C4/design artifact присутствует в design-pack
 - [ ] 4+1 Viewpoint Coverage Decision применяет View Applicability Predicates и фиксирует `covered` для Logical View и Scenarios, а для Process, Development и Physical — `covered` или evidence-backed `N/A`, stakeholder/concern, canonical refs и optional supporting projection
-- [ ] Cross-View Correspondence содержит каждый `SC-*` из `brief.md` и связывает его с requirement, применимыми Process/Development/Physical refs и `CHK-*`/`EVID-*`; неприменимые связи отмечены `N/A`
+- [ ] Cross-View Correspondence содержит каждый `SC-*` из `brief.md` и связывает его с requirement, применимыми Process/Development/Physical refs и `CHK-*`/`EVID-*`; существенные `NEG-*` / edge examples связаны с применимыми `FM-*`, `CTR-*`, `INV-*` или обоснованным `N/A`
 - [ ] Architecture Coverage Decision фиксирует `covered` или обоснованный `N/A` для components, connectors, configuration, behavioral semantics и quality/evolution concerns
 - [ ] при cross-component interaction явно показаны bindings/topology, direction, connector kind и значимые interaction semantics; один перечень components недостаточен
 - [ ] Design Verification выбирает каждый analysis class по риску через `required: yes/no`; required analyses имеют method и result/evidence, а `no` имеет причину
@@ -366,7 +371,7 @@ Plan Ready artifact-review convergence допускает не более пят
 - [ ] минимум один `GRND-*` подтверждает существующий implementation pattern или current change surface, а минимум один — существующую test surface либо evidence-backed отсутствие подходящего покрытия
 - [ ] шаги и workstreams в `implementation-plan.md` ссылаются на canonical IDs из `brief.md` и, если design layer существует, solution refs из их непосредственных design-pack owners / external dependencies
 - [ ] для designed feature план содержит явное refinement применимых `SOL-*`, `C4-*`, `SD-*`, `CTR-*`, `INV-*`, `FM-*`, `RB-*` и accepted ADR refs через `realization target -> STEP/CHK/EVID`; каждый применимый ref встречается минимум в одной mapping-строке, а найденный solution gap сначала обновляет canonical owner
-- [ ] `Test Strategy`, approvals и checkpoints покрывают применимые obligations validation profile из `brief.md`, не дублируя решение
+- [ ] `Test Strategy`, approvals и checkpoints покрывают применимые obligations validation profile из `brief.md`, не дублируя решение; каждый required `SC-*` / `NEG-*` имеет planned test surface, automation status, required local/CI suites и evidence
 - [ ] candidate revisions `brief.md`, полного optional design pack, всех referenced external dependencies, `implementation-plan.md` и grounded immutable commit SHA repository revision заморожены для Plan Ready artifact review
 - [ ] Plan Ready artifact review проверил достаточность grounding, consistency с upstream owners, ownership boundaries, traceability, executability, test strategy, approvals и stop/fallback conditions
 - [ ] все critical/important artifact findings исправлены; остальные findings явно disposition как допустимые non-blocking/deferred с owner; после последнего исправления получен clean re-review текущих candidate revisions
@@ -387,6 +392,7 @@ Plan Ready artifact-review convergence допускает не более пят
 
 - [ ] все `CHK-*` из `brief.md` имеют результат pass/fail в evidence
 - [ ] все `EVID-*` из `brief.md` заполнены конкретными carriers (путь к файлу, CI run, screenshot)
+- [ ] каждый required `SC-*` / `NEG-*` прослеживается через `CHK-*` к automated test или явно approved manual-only gap; test name, tag или metadata сохраняет scenario ref, если это допускают project conventions
 - [ ] delivered behavior не противоречит accepted `SOL-*` / `SD-*` / ADR refs, если design layer существует
 - [ ] automated tests для change surface добавлены или обновлены
 - [ ] required test suites зелёные локально и в CI
@@ -436,7 +442,7 @@ Plan Ready artifact-review convergence допускает не более пят
 5. Если design layer нужен, design pack aggregate-владеет feature-local solution space. Root `design.md` владеет manifest, selected design и всеми неделегированными solution facts; constituent владеет только явно делегированными canonical facts; derived view не владеет canonical facts; external dependency сохраняет собственного canonical owner.
 6. `delivery_status` остается только на `brief.md`; `design.md` и `implementation-plan.md` не дублируют lifecycle state delivery-единицы.
 7. `design.md` не должен переопределять business requirements, scope, acceptance criteria, canonical checks, evidence contract, detailed current-system inventory или execution sequencing.
-8. Feature-support docs не должны переопределять canonical facts. Они могут давать surface inventory, UI reference, mockups, derived use cases и review mappings только как support context.
+8. Feature-support docs не должны переопределять canonical facts. Они могут давать surface inventory, UI reference, mockups, derived use cases, behavior example maps и review mappings только как support context; derived example не может вводить новый verdict, отсутствующий в `brief.md`.
 9. Если feature зависит от ADR, ADR остаётся canonical owner решения, а `design.md` индексирует его как `external-dependency`; только `status: active` + `decision_status: accepted` считается finalized design.
 10. Если feature зависит от канонического use case, `brief.md` ссылается на соответствующий файл в `memory-bank/use-cases/`. Use case остается owner-ом trigger/preconditions/main flow/postconditions на уровне проекта, а `brief.md` фиксирует только slice-specific проблему и verify.
 11. `implementation-plan.md` остается derived execution-документом: он ссылается на canonical IDs из `brief.md` и, если есть, применимые `SOL-*`, `C4-*`, `SD-*`, `CTR-*`, `INV-*`, `FM-*`, `RB-*` и accepted ADR refs, показывает их realization в `STEP/CHK/EVID`, фиксирует discovery context и test strategy для исполнения и не переопределяет scope, selected design, C4 architecture model, blockers, acceptance criteria или evidence contract.
@@ -460,8 +466,9 @@ Canonical testing policy живёт в [../engineering/testing-policy.md](../eng
 4. **Sufficient coverage** = покрыт основной changed behavior, новые или измененные contracts из их design-pack owner / external dependency, критичные failure modes из `FM-*` и feature-specific negative/edge scenarios, если они меняют verdict. Процент line coverage сам по себе недостаточен.
 5. **Manual-only допустим** только как явное исключение (live infra, hardware, недетерминированная среда). Для каждого gap — причина, ручная процедура или `EVID-*`, owner follow-up и approval ref через `AG-*`.
 6. **К Problem Ready** `brief.md` уже фиксирует test case inventory: минимум один `SC-*`, traceability к `REQ-*` и Design Requirement Decision. **К Solution Ready** весь required design pack готов и согласован по gate выше. **К Done** — automated tests добавлены, обязательные suites зелёные локально и в CI.
-7. **Simplify review** — отдельный проход после функциональных тестов, до closure. Цель: убедиться, что код минимально сложен. Три похожие строки лучше premature abstraction. Complexity оправдана только со ссылкой на `CON-*`, `INV-*`, `FM-*`, `SD-*` или accepted ADR.
-8. **Verification context separation** — функциональная верификация, simplify review и acceptance test — три логически отдельных прохода. Между проходами агент формулирует выводы до начала следующего. Для compact feature packages допустимо в одной сессии, но simplify review не пропускается.
+7. **BDD automation не означает E2E-only.** Для `SC-*` / `NEG-*` выбирай самый низкий надёжный unit, component, contract, integration или E2E surface, который доказывает observable outcome; Gherkin и Cucumber не обязательны.
+8. **Simplify review** — отдельный проход после функциональных тестов, до closure. Цель: убедиться, что код минимально сложен. Три похожие строки лучше premature abstraction. Complexity оправдана только со ссылкой на `CON-*`, `INV-*`, `FM-*`, `SD-*` или accepted ADR.
+9. **Verification context separation** — функциональная верификация, simplify review и acceptance test — три логически отдельных прохода. Между проходами агент формулирует выводы до начала следующего. Для compact feature packages допустимо в одной сессии, но simplify review не пропускается.
 
 ## Stable Identifiers
 
@@ -536,8 +543,8 @@ Canonical testing policy живёт в [../engineering/testing-policy.md](../eng
 ### Traceability Contract
 
 1. Scope в `brief.md` фиксируется через `REQ-*`, non-scope через `NS-*`.
-2. Verify в `brief.md` связывает `REQ-*` с test cases через `Acceptance Scenarios`, feature-specific `NEG-*`, `Traceability matrix`, `Test matrix` и `Evidence contract`.
-3. `design.md`, если есть, связывает каждый `SC-*` и применимые `REQ-*` из `brief.md` с Logical, Process, Development и Physical refs через Cross-View Correspondence; canonical solution traceability отдельно связывает `REQ-*` с `SOL-*`, `ALT-*`, `TRD-*`, `C4-*`, `SD-*`, `CTR-*`, `INV-*`, `FM-*`, `RB-*` и accepted ADR refs.
+2. Verify в `brief.md` связывает `REQ-*` с concrete examples через `Acceptance Scenarios`, feature-specific `NEG-*`, `Traceability matrix`, `Test matrix` и `Evidence contract`; structured examples сохраняют rule refs, context, event, observable outcome и `CHK-*` mapping.
+3. `design.md`, если есть, связывает каждый `SC-*` и применимые `REQ-*` из `brief.md` с Logical, Process, Development и Physical refs через Cross-View Correspondence; существенные `NEG-*` / edge examples связываются с применимыми `FM-*`, `CTR-*`, `INV-*` или `N/A`; canonical solution traceability отдельно связывает `REQ-*` с `SOL-*`, `ALT-*`, `TRD-*`, `C4-*`, `SD-*`, `CTR-*`, `INV-*`, `FM-*`, `RB-*` и accepted ADR refs.
 4. `implementation-plan.md` ссылается на canonical IDs из `brief.md` и, если есть, применимые `SOL-*`, `C4-*`, `SD-*`, `CTR-*`, `INV-*`, `FM-*`, `RB-*` и accepted ADR refs в Design Realization Mapping и `Implements`; `Verifies` содержит связанные `CHK-*`, а `Evidence IDs` — подтверждающие `EVID-*`, образуя trace chain от canonical ref до evidence.
 5. Если sequencing блокируется неизвестностью, план фиксирует её как `OQ-*`, а не прячет в prose.
 6. Если выполнение требует человеческого подтверждения для рискованных действий, план фиксирует это через `AG-*`.

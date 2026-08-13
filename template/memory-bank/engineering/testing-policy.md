@@ -5,6 +5,7 @@ doc_function: canonical
 purpose: "Описывает testing policy репозитория: обязательность test case design, требования к automated regression coverage и допустимые manual-only gaps."
 derived_from:
   - ../dna/governance.md
+  - ../flows/behavior-specification.md
   - ../flows/feature.md
   - validation-profiles.md
 status: active
@@ -16,6 +17,7 @@ canonical_for:
   - manual_only_verification_exceptions
   - simplify_review_discipline
   - verification_context_separation
+  - bdd_automation_policy
 must_not_define:
   - feature_acceptance_criteria
   - feature_scope
@@ -50,6 +52,25 @@ audience: humans_and_agents
 - Required automated tests считаются закрывающими риск только если они проходят локально и в CI.
 - Manual-only verify допустим только как явное исключение и не заменяет automated coverage там, где automation реалистична.
 
+## BDD Automation Policy
+
+[`Behavior Specification Practice`](../flows/behavior-specification.md)
+определяет Discovery и Formulation; этот policy определяет automation boundary.
+
+- BDD не требует Gherkin, Cucumber, browser automation или E2E-only tests.
+- Для каждого required `SC-*` / `NEG-*` выбирай самый низкий надёжный unit,
+  component, contract, integration или E2E surface, который доказывает
+  observable outcome.
+- Один behavior example может проверяться несколькими техническими тестами;
+  каждый test surface должен быть виден в `implementation-plan.md#test-strategy`.
+- Имя, tag или metadata теста должны сохранять ссылку на `SC-*` / `NEG-*`, если
+  project framework это допускает без brittle coupling.
+- Test code не владеет requirement или expected behavior. При изменении
+  expected verdict сначала обнови canonical `UC/domain/brief` owner, затем
+  examples, `CHK-*`, plan и code.
+- Gherkin, если выбран downstream-проектом, является executable projection
+  canonical `SC-*` / `NEG-*`, а не параллельным source of truth.
+
 ## Ownership Split
 
 - Canonical validation profile decision живёт только в owner-е, назначенном [`validation-profiles.md`](validation-profiles.md); testing policy и execution artifacts не выбирают profile повторно.
@@ -72,6 +93,8 @@ Canonical lifecycle gates живут в [../flows/feature.md](../flows/feature.m
 - Покрыты новые или измененные contracts, события, schema или integration boundaries.
 - Покрыты критичные failure modes из `FM-*` в required `design.md`, bug history или acceptance risks.
 - Покрыты feature-specific negative/edge scenarios, если они меняют verdict.
+- Required `SC-*` / `NEG-*` прослеживаются через `CHK-*` к automated test либо
+  явно approved manual-only gap и concrete `EVID-*`.
 - Процент line coverage сам по себе недостаточен: нужен scenario- и contract-level coverage.
 
 ## Когда Manual-Only Допустим
