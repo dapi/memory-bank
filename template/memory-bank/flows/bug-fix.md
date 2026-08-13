@@ -9,6 +9,7 @@ derived_from:
   - priming/context-priming.md
   - ../engineering/testing-policy.md
   - ../engineering/validation-profiles.md
+  - ../engineering/autonomy-boundaries.md
 canonical_for:
   - bug_fix_entry_contract
   - bug_fix_priming_inputs

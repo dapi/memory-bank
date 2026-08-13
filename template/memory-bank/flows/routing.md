@@ -87,7 +87,7 @@ Issue / Task
 | 5 | Работа крупнее одной delivery-feature и требует общего roadmap, cross-feature risk register или нескольких delivery units? | [`Epic Flow`](epic.md) |
 | 6 | Цель — изменить внутреннюю структуру при сохранении поведения? | [`Refactoring Flow`](refactoring.md) |
 | 7 | Задача укладывается в одну delivery-unit и создаёт или materially меняет пользовательское поведение либо доставляет плановое infrastructure, engineering или operations изменение с проверяемым outcome? | [`Feature Flow`](feature.md) |
-| 8 | После FPF Decision Protocol и доступного `bounded_probe` route всё ещё нельзя обосновать, требуется authority/value decision или риск не контролируется? | Human Routing |
+| 8 | После P0-safe FPF classification и автономных tie-breakers route всё ещё нельзя обосновать, Research Flow не может законно закрыть unknown, требуется authority/value decision или риск не контролируется? | Human Routing |
 
 ### Small Change Gate
 
@@ -118,11 +118,12 @@ Issue / Task
 
 Неполнота epic facts сама по себе не является основанием для `Human Routing`.
 Сначала примени FPF Decision Protocol из
-[`autonomy-boundaries.md`](../engineering/autonomy-boundaries.md) и, если
-допустимо, `bounded_probe`. Human gate нужен только когда результатом стал
-`escalate`: route нельзя обосновать без отсутствующего product/value decision,
-нужны дополнительные полномочия или риск нельзя контролировать intake
-boundaries.
+[`autonomy-boundaries.md`](../engineering/autonomy-boundaries.md) в пределах P0.
+Если missing facts требуют эксперимента или broad evidence collection, выбери
+Research Flow, а не выполняй probe до routing. Human gate нужен только когда
+результатом стал `escalate`: route нельзя обосновать без отсутствующего
+product/value decision, нужны дополнительные полномочия или риск нельзя
+контролировать intake boundaries.
 
 ## Rerouting Rules
 
@@ -141,7 +142,9 @@ boundaries.
 [`../engineering/autonomy-boundaries.md`](../engineering/autonomy-boundaries.md).
 Не отправляй задачу в Human Routing только из-за сложности, неполных данных или
 нескольких правдоподобных routes. Сначала используй routing predicates,
-canonical facts, автономные tie-breakers и допустимый `bounded_probe`.
+canonical facts и автономные tie-breakers. P0 остаётся read-only: если unknown
+требует эксперимента, implementation discovery или изменения файлов, выбери
+Research Flow и выполни `bounded_probe` внутри его lifecycle.
 
 Запрашивай решение человека, только когда FPF outcome — `escalate`: выбор flow
 требует отсутствующего product/business value judgment или дополнительных
@@ -154,10 +157,9 @@ canonical facts, автономные tie-breakers и допустимый `boun
 `human_routing`.
 
 Перед запросом человека зафиксируй competing routes, применённые decision
-criteria, evidence, unknown, выполненные или отклонённые probes, approval trigger
-и точный вопрос. Не продолжай зависимую от решения delivery; независимые
-исследование, подготовку и безопасную validation продолжай в пределах задачи.
-После решения повтори Task Routing.
+criteria, P0 evidence, unknown, причину неприменимости Research Flow, approval
+trigger и точный вопрос. До решения не начинай delivery, broad research, design
+или изменение файлов; после него повтори Task Routing.
 
 ## Outcome / Exit Contract
 
@@ -174,8 +176,8 @@ criteria, evidence, unknown, выполненные или отклонённы�
 - для Research route запись указывает decision question, decision owner и stopping condition;
 - для применимого delivery flow его canonical owner фиксирует отдельный validation profile decision по [`validation-profiles.md`](../engineering/validation-profiles.md); это downstream evidence выбора flow, а не дополнительный route;
 - для `Human Routing` зафиксированы FPF outcome `escalate`, вопрос, риск или
-  конкурирующие routes и причина, по которой `proceed`/`bounded_probe`
-  недопустимы.
+  конкурирующие routes и причина, по которой routing criteria, автономные
+  tie-breakers и Research Flow не дают допустимого продолжения.
 
 ### Terminal State
 

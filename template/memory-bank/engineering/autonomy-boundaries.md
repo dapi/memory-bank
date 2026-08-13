@@ -110,6 +110,11 @@ risk-bearing шаг над production/live state.
 изменять production/live state, не создавать внешний commitment и не обходить
 обязательный approval. После probe обнови evidence и повтори protocol.
 
+До завершения Task Routing полный `bounded_probe` не выполняется: P0 допускает
+только read-only сбор facts для классификации route. Если unknown требует
+эксперимента, implementation discovery или изменения файлов, выбери Research
+Flow; experiment и его stopping condition принадлежат этому lifecycle.
+
 ### `escalate`
 
 Выбирай только когда после доступного анализа и безопасных probes отсутствует

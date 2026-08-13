@@ -9,6 +9,7 @@ derived_from:
   - routing.md
   - priming/context-priming.md
   - ../engineering/validation-profiles.md
+  - ../engineering/autonomy-boundaries.md
 canonical_for:
   - feature_directory_structure
   - feature_priming_inputs

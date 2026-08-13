@@ -63,6 +63,9 @@ validation и подготовка rollback выполняются автоно�
 approval только из-за сложности или риска будущего изменения. Approval
 проверяется непосредственно перед тем execution step, который пересекает
 canonical Human Gate из [`autonomy-boundaries.md`](autonomy-boundaries.md).
+Approval evidence может быть явным разрешением в текущей task либо применимой
+active project policy, если она однозначно называет действие, environment и
+границы разрешения. Неясное или общее разрешение не считается approval.
 FPF Decision Protocol может выбрать подход и усилить controls, но не может
 отменить обязательный approval или понизить profile ниже сработавшего trigger.
 
@@ -81,7 +84,7 @@ Human approval — отдельный gate для risk-bearing action и не з
 | `low-risk` | Targeted regression для changed behavior; существующие nearest tests | Targeted affected suite и repository lint/typecheck, если применимы | Все required jobs для change | Только для непокрываемой automation части с явной процедурой | Обычный review; manual-only gap требует указанного approver | Понятный локальный revert; staged rollout не обязателен | Simplify/convergence pass исполнителя и обычный review |
 | `standard` | Changed behavior, ближайший regression path, изменённые contracts/integration boundaries и material negative cases | Все affected unit/integration/contract suites | Полный required CI set | Acceptance evidence и оформленные manual-only gaps | Approval для manual-only critical gap и внешне-эффективных действий | Rollback path для runtime change; rollout checks, если delivery не атомарна | Final convergence pass исполнителя и обычный review |
 | `high-risk` | Все surfaces, необходимые для безопасного direct production/live action; critical failure modes; recovery rehearsal или deterministic substitute | Полный релевантный набор для данного действия; невозможное явно блокирует или получает approval | Все required CI плюс доступные specialized gates | Evidence по действию, critical path, failure/recovery case и rehearsal | Human approval для downgrade, manual-only gaps и самого risk-bearing execution step; выбор профиля и подготовка автономны | Явные staged rollout, observability signals, stop conditions и проверенный backout/recovery plan | Separate non-authoring actor проверяет затронутый production-risk domain; финальный convergence pass обязателен |
-| `release-deployment` | Build/package/config validation, deploy/rollback automation и smoke/health checks | Release artifact/config checks и staging rehearsal, где доступно | Required release/deployment jobs | Artifact identity, staging/smoke results и production signals | Human approval перед production или live-data action | Явные rollout units, stop signals, rollback owner и fastest safe rollback | Separate review release plan/config и post-deploy convergence обязательны |
+| `release-deployment` | Build/package/config validation, deploy/rollback automation и smoke/health checks | Release artifact/config checks и staging rehearsal, где доступно | Required release/deployment jobs | Artifact identity, staging/smoke results и production signals | Approval перед production execution только когда шаг пересекает canonical Human Gate; task/project-policy preauthorization может быть approval evidence. Live-data mutation дополнительно включает `high-risk` obligations | Явные rollout units, stop signals, rollback owner и fastest safe rollback | Separate review release plan/config и post-deploy convergence обязательны |
 
 Конкретные frameworks, команды, suites, CI job names и evidence paths не принадлежат taxonomy: их задают project-specific [`testing-policy.md`](testing-policy.md), execution plan или routing record выбранного flow.
 
