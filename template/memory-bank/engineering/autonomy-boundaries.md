@@ -8,6 +8,9 @@ derived_from:
 canonical_for:
   - agent_autonomy_rules
   - structured_decision_protocol
+  - decision_carrier_selection_rules
+  - execution_authorization_rules
+  - approval_evidence_rules
   - escalation_triggers
   - supervision_checkpoints
 status: active
@@ -23,10 +26,10 @@ audience: humans_and_agents
 описанный ниже Structured Decision Protocol, используя доступные canonical
 facts, evidence и ограничения проекта.
 
-Structured Decision Protocol вдохновлён First Principles Framework (FPF), но
-этот документ содержит полный обязательный для исполнения контракт. Внешняя
-FPF-спецификация или skill могут углубить анализ, но не являются dependency:
-их отсутствие не блокирует решение и не создаёт `Human Gate`.
+Structured Decision Protocol является полным обязательным контрактом. First
+Principles Framework (FPF) или другая reasoning methodology могут углубить
+анализ, но остаются опциональными: их отсутствие не блокирует решение, не
+создаёт `Human Gate` и не меняет outcome semantics протокола.
 
 Разделяй три независимых вопроса:
 
@@ -48,7 +51,7 @@ plan. Structured Decision Protocol не отменяет явно заданны
 
 - читает код, документацию, логи, метрики и error tracker;
 - исследует существующие паттерны и собирает evidence;
-- редактирует код и внутреннюю документацию;
+- редактирует обычный non-risky код и внутреннюю документацию;
 - запускает локальные тесты, линтеры, сборки и безопасные диагностические команды;
 - готовит design, migration, rollout, backout и implementation plans;
 - создаёт разрешённые project workflow ветки, worktrees, commits и pull requests;
@@ -57,9 +60,13 @@ plan. Structured Decision Protocol не отменяет явно заданны
 - исправляет дефекты, блокирующие accepted outcome в затронутом scope, если это
   не меняет intent и не пересекает отдельную границу полномочий.
 
-Создание pull request не означает разрешение на merge. Подготовка production,
-security, migration или integration change не означает разрешение исполнить
-risk-bearing шаг над production/live state.
+Создание pull request не означает разрешение на merge. Агент может автономно
+провести analysis, design, планирование, validation и подготовку rollback для
+production, security, compliance, migration или integration change. Но сама
+repository mutation, materially меняющая security/auth/trust/compliance
+boundary, требует specific authority в текущей task или active project policy;
+без неё это отдельный Human Gate. Такая authority также не означает разрешение
+исполнить risk-bearing шаг над production/live state.
 
 ## Когда применять Structured Decision Protocol
 
@@ -81,27 +88,42 @@ risk-bearing шаг над production/live state.
 
 ## Structured Decision Protocol
 
+Каждая нетривиальная запись протокола различает четыре роли:
+
+- **authority source** — текущая task или active project policy, которая задаёт
+  допустимый scope и ограничения;
+- **decision owner** — accountable role, принимающая решение среди допустимых
+  вариантов;
+- **canonical carrier** — единственный durable artifact, владеющий rationale и
+  outcome;
+- **execution approver / approval evidence** — отдельная роль и ссылка на
+  разрешение, только если конкретный execution step пересекает Human Gate.
+
+`Decision owner` не означает автоматически ни владельца carrier, ни execution
+approver. Approval evidence фиксирует permission для шага исполнения и никогда
+не меняет outcome протокола.
+
 Проведи минимально достаточный reasoning cycle:
 
-1. Зафиксируй decision, bounded context, scope и decision owner.
+1. Зафиксируй decision, bounded context, scope, authority source и decision owner.
 2. Отдели canonical facts и evidence от assumptions и unknowns.
-3. Назови обязательные constraints, invariants, authority boundaries и budget.
-4. Сформируй жизнеспособные варианты; не создавай искусственные альтернативы,
+3. Назови обязательные constraints, invariants, authority boundaries и budget;
+   исключи варианты, которые им не соответствуют.
+4. Сформируй жизнеспособные варианты и явно запиши rejected alternatives; не создавай искусственные альтернативы,
    если решение однозначно.
-5. Сравни варианты по применимым критериям в таком порядке:
-   - соблюдение intent, invariants и contracts;
-   - минимальный blast radius;
-   - обратимость и качество rollback;
-   - соответствие существующим паттернам;
-   - проверяемость и наблюдаемость;
-   - меньшая operational complexity;
-   - стоимость и срок.
-6. Зафиксируй chosen option, rejected alternatives, evidence, значимые unknowns,
-   risk controls и confidence.
-7. Заверши одним outcome: `proceed`, `bounded_probe` или `escalate`.
+5. После удаления недопустимых вариантов примени tie-breakers в таком порядке:
+   существующий canonical pattern; наименьшее обратимое изменение; наименьший
+   blast radius; наименьшая operational и maintenance complexity; наиболее
+   сильная доступная verification.
+6. Зафиксируй chosen option, rationale, evidence, значимые unknowns, risk
+   controls и confidence.
+7. Запиши execution approver и approval evidence, если они требуются для
+   последующего execution step; иначе укажи `not required`.
+8. Заверши одним outcome: `proceed`, `bounded_probe` или `escalate`.
 
-Если варианты остаются близкими, используй критерии выше как tie-breaker и
-выбирай автономно. Равенство вариантов не является причиной спрашивать человека.
+Если варианты остаются близкими после этих tie-breakers, выбирай автономно.
+Tie-breakers не могут решить отсутствующий product/business value judgment.
+Равенство вариантов не является причиной спрашивать человека.
 
 ### `proceed`
 
@@ -142,19 +164,29 @@ value judgment. Unknown нельзя молча считать разрешен�
 не требуют ADR. Фиксируй rationale только когда оно существенно для review,
 rollback или будущих решений.
 
-Минимальная запись structured decision:
+Зафиксируй минимальную запись structured decision:
 
 ```text
-Decision: <что выбирается>
-Context / scope: <границы решения>
+Protocol: Structured Decision Protocol
+Context: <task, bounded context и decision question>
+Authority source: <текущая task или active project policy>
+Decision owner: <accountable decision-making role>
+Carrier: <единственный canonical record>
 Facts / evidence: <canonical refs и observations>
-Constraints / unknowns: <что обязательно и чего не знаем>
-Options: <жизнеспособные варианты>
-Choice / rationale: <выбор и применённые критерии>
-Risk control: <validation, rollback и stop conditions>
+Assumptions / unknowns: <явный список или none>
+Constraints / authority boundaries: <hard limits и budget>
+Options / rejected alternatives: <допустимые варианты и причины отказа, если применимо>
+Rationale: <почему выбранный вариант победил>
+Risk controls: <reversibility, blast radius, validation, rollback и stop conditions>
 Confidence: <достаточность основания>
 Outcome: proceed | bounded_probe | escalate
+Execution approval: <not required | required: approval ref>
+Probe budget / stop condition: <required for bounded_probe; otherwise none>
 ```
+
+В записи должен быть ровно один `Outcome`. `Execution approval` не является
+вторым outcome и не превращает `proceed` в разрешение на внешний или
+risk-bearing шаг.
 
 ## Human Gate — остановись и спроси
 
@@ -164,6 +196,9 @@ Human approval или решение обязательно, когда:
   production/live data;
 - нужно изменить production access, credentials, security/auth state или
   выполнить другую труднообратимую security-sensitive операцию;
+- нужно внести repository/code/config mutation, materially меняющую
+  security/auth/trust/compliance boundary, и текущая task или active project
+  policy не даёт specific authority для такого изменения;
 - выполняется реальная финансовая, юридически значимая или иная необратимая
   внешняя операция;
 - нужно отправить сообщение, опубликовать материал или принять обязательство от
@@ -182,6 +217,23 @@ Human approval или решение обязательно, когда:
 Human Gate применяется к конкретному decision или execution step. Остальную
 подготовку, исследование, validation и безопасную работу продолжай, если они не
 зависят от ответа.
+
+### Valid approval evidence
+
+Разрешение текущей task или active project policy считается approval evidence
+только если запись одновременно:
+
+- называет конкретное действие или узкий класс действий;
+- называет target, environment или external system;
+- задаёт scope и существенные limits;
+- исходит от canonical task или active policy с понятным owner;
+- является актуальной и не отменена более специфичной policy, compliance rule,
+  contract или revocation;
+- прикреплена к точному execution gate.
+
+Широкое, неоднозначное, выведенное из контекста или устаревшее разрешение не
+является approval evidence. Policy может дополнительно требовать fresh approval
+для каждого execution.
 
 ## Что не является Human Gate
 
@@ -209,5 +261,6 @@ Human Gate применяется к конкретному decision или exec
 Если замечания или ошибки не уменьшаются после заранее ограниченного числа
 итераций, не повторяй тот же цикл. Пересмотри hypothesis, upstream requirements,
 plan и environment constraints через Structured Decision Protocol. Эскалируй
-только если этот разбор завершился `escalate`, а не из-за самого факта
+только если этот разбор не дал bounded продолжения или выявил
+authority/value/risk boundary, а не из-за самого факта
 исчерпания итераций.

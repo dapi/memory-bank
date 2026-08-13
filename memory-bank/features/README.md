@@ -31,3 +31,8 @@ audience: humans_and_agents
 - Базовый формат: `FT-XXX/`
 - Вместо `XXX` используй идентификатор, принятый в проекте: issue id, ticket id или другой стабильный ключ
 - Один package = одна delivery-единица
+
+## Instantiated Packages
+
+- [`FT-117/`](FT-117/README.md) — autonomous Structured Decision Protocol,
+  разделение decision authority и execution approval для issue #117.
