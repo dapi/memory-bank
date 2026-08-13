@@ -6,7 +6,7 @@ purpose: "Фиксирует delivery-единицу по описанию BDD �
 derived_from:
   - ../../flows/feature.md
 status: active
-delivery_status: planned
+delivery_status: done
 audience: humans_and_agents
 source_issue: https://github.com/dapi/memory-bank/issues/113
 must_not_define:
@@ -138,7 +138,19 @@ flow, а не как отдельный route, каталог или обяза�
 
 ### Evidence
 
-- `EVID-01` Pending: внешний clean artifact-review record с reviewer identity,
-  immutable candidate revision, findings/dispositions и итоговым verdict.
-- `EVID-02` Pending: concrete local/CI carriers для всех команд `CHK-02`,
-  привязанные к той же candidate revision.
+- `EVID-01` Plan Ready review records в PR #114: first frozen-candidate review
+  [comment 5286741057](https://github.com/dapi/memory-bank/pull/114#issuecomment-5286741057),
+  final active-plan re-review
+  [comment 5286756775](https://github.com/dapi/memory-bank/pull/114#issuecomment-5286756775)
+  и post-main-merge review
+  [comment 5286806415](https://github.com/dapi/memory-bank/pull/114#issuecomment-5286806415);
+  каждый verdict имеет `0 critical` и `0 important` findings. Отдельный
+  delivered-diff/documentation review
+  [comment 5286839502](https://github.com/dapi/memory-bank/pull/114#issuecomment-5286839502)
+  подтверждает delivery scope и фиксирует обязательный отдельный lifecycle
+  transition перед closure.
+- `EVID-02` Merged PR #114, merge commit
+  [`48f67fa93ebfca40603b06e7f764751c61c2df43`](https://github.com/dapi/memory-bank/commit/48f67fa93ebfca40603b06e7f764751c61c2df43)
+  и зелёный CI run
+  [`31747394563`](https://github.com/dapi/memory-bank/actions/runs/31747394563)
+  для reviewed head `37eaf34beff23ddc12f76f53662163577bdf6042`.
