@@ -4,3 +4,4 @@
 .symphony-workspace/
 tmp/
 .start-issue/runs/
+.DS_Store
