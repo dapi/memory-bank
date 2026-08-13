@@ -59,7 +59,7 @@ BDD не вводит `BDD-*` identifiers. Он уточняет существ�
 Canonical traceability:
 
 ```text
-UC → BR / REQ → SC / NEG → CHK → automated test → EVID
+[optional UC/BR] → REQ → SC/NEG → CHK → automated test or approved manual-only check → EVID
 ```
 
 Один `UC-*` может иметь много downstream examples. Один `SC-*` или `NEG-*`

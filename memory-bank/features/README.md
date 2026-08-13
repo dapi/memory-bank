@@ -31,3 +31,8 @@ audience: humans_and_agents
 - Базовый формат: `FT-XXX/`
 - Вместо `XXX` используй идентификатор, принятый в проекте: issue id, ticket id или другой стабильный ключ
 - Один package = одна delivery-единица
+
+## Instantiated Packages
+
+- [`FT-113/`](FT-113/README.md) — интеграция BDD behavior specification practice
+  с существующими Feature/Use Case owners и verification traceability.
