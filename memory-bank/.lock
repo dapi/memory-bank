@@ -169,11 +169,9 @@
       "payload_mode": "100644"
     },
     "memory-bank/features/README.md": {
-      "ownership": "managed",
+      "ownership": "adapted",
       "base_digest": "sha256:b566792f535872b80432e6c5290a618aac32e3970c63d5f50fc8d8f863a3d312",
-      "payload_digest": "sha256:b566792f535872b80432e6c5290a618aac32e3970c63d5f50fc8d8f863a3d312",
-      "base_mode": "100644",
-      "payload_mode": "100644"
+      "base_mode": "100644"
     },
     "memory-bank/flows/README.md": {
       "ownership": "managed",
