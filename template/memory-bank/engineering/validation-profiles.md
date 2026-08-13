@@ -33,7 +33,7 @@ Delivery flow и validation profile отвечают на разные вопр�
 | `documentation` | Меняется только документация или другой non-runtime artifact; executable behavior, contracts, production config и release path не меняются. |
 | `low-risk` | Локальное executable change следует известному паттерну, имеет малый blast radius и не активирует triggers ниже. |
 | `standard` | Default для executable change, которое не доказано как `low-risk` и не активирует более сильный профиль. |
-| `high-risk` | Текущий run непосредственно выполняет рискованное действие над production/live state: изменяет или удаляет production data, production access/security state, совершает реальную финансовую или другую необратимую внешнюю операцию. Требуются explicit approval и отдельная проверка неавтором mutation. |
+| `high-risk` | Текущий run непосредственно выполняет рискованное действие над production/live state: изменяет или удаляет production data, production access/security state, совершает реальную финансовую или другую необратимую внешнюю операцию. Подготовка решения автономна; перед risk-bearing execution step требуются explicit approval и отдельная проверка неавтором mutation. |
 | `release-deployment` | Основной change surface — production config, build/release artifact, deployment или rollback path без отдельного `high-risk` trigger. |
 
 Это не количественный risk score. `documentation < low-risk < standard`; `high-risk` и `release-deployment` — усиленные специализированные профили. Если применимы оба, выбери `high-risk` и добавь все release/deployment obligations из соответствующей строки minimum contract.
@@ -58,6 +58,14 @@ Delivery flow и validation profile отвечают на разные вопр�
 4. Отсутствие возможности выполнить обязательную проверку создаёт blocker или approved manual-only gap по [`testing-policy.md`](testing-policy.md), но само по себе не снижает profile.
 5. Profile задаёт floor. Project-specific testing policy, incident controls, regulatory rules или reviewer могут требовать больше.
 
+Выбор более сильного profile, design, implementation, rehearsal, staging,
+validation и подготовка rollback выполняются автономно. Они не требуют human
+approval только из-за сложности или риска будущего изменения. Approval
+проверяется непосредственно перед тем execution step, который пересекает
+canonical Human Gate из [`autonomy-boundaries.md`](autonomy-boundaries.md).
+FPF Decision Protocol может выбрать подход и усилить controls, но не может
+отменить обязательный approval или понизить profile ниже сработавшего trigger.
+
 ## Minimum Validation And Evidence Contract
 
 `Обычный review` не требует отдельного неавторского reviewer: это convergence
@@ -72,7 +80,7 @@ Human approval — отдельный gate для risk-bearing action и не з
 | `documentation` | Link, schema/frontmatter, example или docs build checks, применимые к changed docs | Targeted documentation lint/build | Все required documentation jobs | Semantic read-through; render evidence, если layout влияет на результат | Обычный review; отдельный approval только по project policy | Не требуется; если меняется published release path, переклассифицировать | Обычный review достаточен |
 | `low-risk` | Targeted regression для changed behavior; существующие nearest tests | Targeted affected suite и repository lint/typecheck, если применимы | Все required jobs для change | Только для непокрываемой automation части с явной процедурой | Обычный review; manual-only gap требует указанного approver | Понятный локальный revert; staged rollout не обязателен | Simplify/convergence pass исполнителя и обычный review |
 | `standard` | Changed behavior, ближайший regression path, изменённые contracts/integration boundaries и material negative cases | Все affected unit/integration/contract suites | Полный required CI set | Acceptance evidence и оформленные manual-only gaps | Approval для manual-only critical gap и внешне-эффективных действий | Rollback path для runtime change; rollout checks, если delivery не атомарна | Final convergence pass исполнителя и обычный review |
-| `high-risk` | Все surfaces, необходимые для безопасного direct production/live action; critical failure modes; recovery rehearsal или deterministic substitute | Полный релевантный набор для данного действия; невозможное явно блокирует или получает approval | Все required CI плюс доступные specialized gates | Evidence по действию, critical path, failure/recovery case и rehearsal | Human approval профиля, manual-only gaps и risk-bearing execution step | Явные staged rollout, observability signals, stop conditions и проверенный backout/recovery plan | Separate non-authoring actor проверяет затронутый production-risk domain; финальный convergence pass обязателен |
+| `high-risk` | Все surfaces, необходимые для безопасного direct production/live action; critical failure modes; recovery rehearsal или deterministic substitute | Полный релевантный набор для данного действия; невозможное явно блокирует или получает approval | Все required CI плюс доступные specialized gates | Evidence по действию, critical path, failure/recovery case и rehearsal | Human approval для downgrade, manual-only gaps и самого risk-bearing execution step; выбор профиля и подготовка автономны | Явные staged rollout, observability signals, stop conditions и проверенный backout/recovery plan | Separate non-authoring actor проверяет затронутый production-risk domain; финальный convergence pass обязателен |
 | `release-deployment` | Build/package/config validation, deploy/rollback automation и smoke/health checks | Release artifact/config checks и staging rehearsal, где доступно | Required release/deployment jobs | Artifact identity, staging/smoke results и production signals | Human approval перед production или live-data action | Явные rollout units, stop signals, rollback owner и fastest safe rollback | Separate review release plan/config и post-deploy convergence обязательны |
 
 Конкретные frameworks, команды, suites, CI job names и evidence paths не принадлежат taxonomy: их задают project-specific [`testing-policy.md`](testing-policy.md), execution plan или routing record выбранного flow.

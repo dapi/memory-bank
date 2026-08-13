@@ -71,7 +71,9 @@ Issue / Task
      |   доставляет planned engineering /
      |   operations outcome? ------------> Feature Flow
      |
-     +-- Неясно / высокий риск ----------> Human Routing
+     +-- Route не выбран после FPF,
+         нужен authority/value decision
+         или риск не контролируется? ----> Human Routing
 ```
 
 ## Routing Predicates
@@ -85,7 +87,7 @@ Issue / Task
 | 5 | Работа крупнее одной delivery-feature и требует общего roadmap, cross-feature risk register или нескольких delivery units? | [`Epic Flow`](epic.md) |
 | 6 | Цель — изменить внутреннюю структуру при сохранении поведения? | [`Refactoring Flow`](refactoring.md) |
 | 7 | Задача укладывается в одну delivery-unit и создаёт или materially меняет пользовательское поведение либо доставляет плановое infrastructure, engineering или operations изменение с проверяемым outcome? | [`Feature Flow`](feature.md) |
-| 8 | Маршрут остаётся неоднозначным или риск не контролируется? | Human Routing |
+| 8 | После FPF Decision Protocol и доступного `bounded_probe` route всё ещё нельзя обосновать, требуется authority/value decision или риск не контролируется? | Human Routing |
 
 ### Small Change Gate
 
@@ -114,7 +116,13 @@ Issue / Task
 
 Если признаки Epic route уже подтверждены, но problem, outcome, границы или evidence ещё недостаточны для canonical `charter.md`, задача всё равно маршрутизируется в [`Epic Flow`](epic.md). В этом случае Epic Flow начинается с `Epic Intake`: создаётся proposal package с `README.md` и `brief.md`, а недостающие факты фиксируются как open questions.
 
-Неполнота epic facts сама по себе не является основанием для `Human Routing`. Human gate нужен только тогда, когда нельзя обоснованно выбрать route, требуется продуктовое решение о самом направлении инициативы или доступный риск нельзя контролировать intake boundaries.
+Неполнота epic facts сама по себе не является основанием для `Human Routing`.
+Сначала примени FPF Decision Protocol из
+[`autonomy-boundaries.md`](../engineering/autonomy-boundaries.md) и, если
+допустимо, `bounded_probe`. Human gate нужен только когда результатом стал
+`escalate`: route нельзя обосновать без отсутствующего product/value decision,
+нужны дополнительные полномочия или риск нельзя контролировать intake
+boundaries.
 
 ## Rerouting Rules
 
@@ -129,16 +137,27 @@ Issue / Task
 
 ## Human Routing
 
-Следуй canonical triggers из [`../engineering/autonomy-boundaries.md`](../engineering/autonomy-boundaries.md). Для routing дополнительно запрашивай решение человека, когда выбор flow требует продуктового решения, риск нельзя контролировать существующими gates или несколько route остаются одинаково правдоподобными после доступного исследования.
+Следуй canonical FPF Decision Protocol и triggers из
+[`../engineering/autonomy-boundaries.md`](../engineering/autonomy-boundaries.md).
+Не отправляй задачу в Human Routing только из-за сложности, неполных данных или
+нескольких правдоподобных routes. Сначала используй routing predicates,
+canonical facts, автономные tie-breakers и допустимый `bounded_probe`.
+
+Запрашивай решение человека, только когда FPF outcome — `escalate`: выбор flow
+требует отсутствующего product/business value judgment или дополнительных
+полномочий, ни один route не сохраняет обязательные constraints либо риск нельзя
+контролировать существующими gates.
 
 ### Human Routing Priming Inputs
 
 Прочитай [`routing.yaml`](priming/routing.yaml) и выполни source set
 `human_routing`.
 
-Перед запросом человека зафиксируй competing routes, evidence, unknown или
-approval trigger и точный вопрос. Не продолжай delivery или broad research до
-решения; после него повтори Task Routing.
+Перед запросом человека зафиксируй competing routes, применённые decision
+criteria, evidence, unknown, выполненные или отклонённые probes, approval trigger
+и точный вопрос. Не продолжай зависимую от решения delivery; независимые
+исследование, подготовку и безопасную validation продолжай в пределах задачи.
+После решения повтори Task Routing.
 
 ## Outcome / Exit Contract
 
@@ -154,7 +173,9 @@ approval trigger и точный вопрос. Не продолжай delivery 
 - для Epic route запись дополнительно указывает `Epic Intake`, когда facts ещё недостаточны для прямого `Bootstrap Epic`;
 - для Research route запись указывает decision question, decision owner и stopping condition;
 - для применимого delivery flow его canonical owner фиксирует отдельный validation profile decision по [`validation-profiles.md`](../engineering/validation-profiles.md); это downstream evidence выбора flow, а не дополнительный route;
-- для `Human Routing` зафиксированы вопрос, риск или конкурирующие routes.
+- для `Human Routing` зафиксированы FPF outcome `escalate`, вопрос, риск или
+  конкурирующие routes и причина, по которой `proceed`/`bounded_probe`
+  недопустимы.
 
 ### Terminal State
 

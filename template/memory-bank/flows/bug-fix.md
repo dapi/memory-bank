@@ -42,7 +42,15 @@ report или linked delivery task.
 - [ ] operational incident уже contained или передан в [`Incident Flow`](incident.md)
 - [ ] bug report или связанная delivery task фиксирует validation profile decision
 
-Если нет ни доступного источника уже принятого expected behavior, ни зафиксированного решения человека, Entry Gate не выполнен: зафиксируй вопрос и риск через [Human Routing](routing.md#human-routing). До решения `Human Gate` не начинай Analysis And Fix и не изменяй код; после решения повтори Task Routing.
+Если нет ни доступного источника уже принятого expected behavior, ни
+зафиксированного решения человека, Entry Gate не выполнен. Не изобретай expected
+behavior и не начинай Analysis And Fix как bug fix. Примени
+[`FPF Decision Protocol`](../engineering/autonomy-boundaries.md#fpf-decision-protocol)
+и повтори Task Routing: доступный evidence-backed answer может потребовать
+Research Flow, а новое желаемое поведение — Feature Flow. Используй
+[Human Routing](routing.md#human-routing) только при outcome `escalate`, когда
+выбор действительно требует отсутствующего product/value decision или
+дополнительных полномочий.
 
 ## Flow
 

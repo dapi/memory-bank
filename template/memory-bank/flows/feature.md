@@ -182,7 +182,10 @@ stakeholder/concern coverage поверх canonical facts, а не пять но
 | Scenarios (+1) | Всегда: каждый `SC-*` участвует в Cross-View Correspondence | Никогда |
 
 Если evidence недостаточно, чтобы доказать `N/A`, view остается `covered` и
-анализ продолжается либо unresolved applicability проходит Human Gate.
+анализ продолжается. Неопределённость applicability сама по себе не является
+Human Gate; примени
+[`FPF Decision Protocol`](../engineering/autonomy-boundaries.md#fpf-decision-protocol)
+и эскалируй только при outcome `escalate`.
 
 Logical View и Scenarios всегда получают `covered`. Process, Development и
 Physical получают `covered` по predicates выше либо обоснованный `N/A`.
@@ -342,7 +345,13 @@ flowchart LR
 
 ### Upstream Ready → Plan Ready
 
-Plan Ready artifact-review convergence допускает не более пяти review-improve итераций. Последняя итерация с исправлениями не считается clean verdict без последующего re-review; исчерпание budget оставляет gate непройденным и требует replan либо Human Gate.
+Plan Ready artifact-review convergence допускает не более пяти review-improve
+итераций. Последняя итерация с исправлениями не считается clean verdict без
+последующего re-review; исчерпание budget оставляет gate непройденным. Примени
+[`FPF Decision Protocol`](../engineering/autonomy-boundaries.md#fpf-decision-protocol),
+пересмотри hypothesis, upstream facts, plan и review scope; продолжай через
+обоснованный replan или `bounded_probe`. Human Gate нужен только при outcome
+`escalate`.
 
 - [ ] агент выполнил grounding до sequencing: прошёлся по текущему состоянию системы против зафиксированного immutable commit SHA repository revision и сохранил `GRND-*` evidence в `implementation-plan.md`; `HEAD`, branch name и tag не допускаются
 - [ ] `implementation-plan.md` содержит упорядоченный `Implementation Priming`: exact repo-relative paths или stable external sources, section/symbol, `GRND-*` refs, purpose и required `STEP-*`; categories, globs, `TODO` и предполагаемые paths не допускаются
@@ -434,7 +443,7 @@ Plan Ready artifact-review convergence допускает не более пят
 13. Если support doc выявляет конфликт с canonical owner, конфликт нельзя решать внутри support doc: обнови `brief.md`, непосредственный design-pack owner, external dependency или `implementation-plan.md` по ownership.
 14. Если численный target threshold относится только к одной delivery-единице, canonical owner — соответствующий `brief.md`. Поднимать такой KPI в project-level документ можно только после того, как он стал shared upstream fact для нескольких feature.
 15. Хороший `implementation-plan.md` начинается с discovery context: relevant paths, local reference patterns, unresolved questions, test surfaces и execution environment должны быть зафиксированы до sequencing изменений.
-16. Для рискованных, необратимых или внешне-эффективных действий `implementation-plan.md` должен явно описывать human approval gates и не скрывать их внутри prose шага.
+16. Для действий, пересекающих canonical Human Gate из [autonomy boundaries](../engineering/autonomy-boundaries.md#human-gate--остановись-и-спроси), `implementation-plan.md` должен явно отделять автономные preparation/validation steps от требующего approval execution step и не скрывать gate внутри prose шага.
 17. Если feature исполняет часть upstream initiative, `brief.md` должен ссылаться только на релевантные upstream artifacts и imported IDs, а не копировать весь upstream scope. Если используются upstream solution decisions, `design.md` или ADR ссылается на их canonical owner.
 18. Upstream roadmap, cross-feature risks и delivery-unit registries принадлежат upstream owner-документам, а не feature package.
 19. **Artifact review и implementation review различаются.** Artifact review проверяет governed brief/design/plan, их grounding, ownership, completeness и traceability до lifecycle gate. Implementation review проверяет delivered code и repository diff после execution. Они имеют разные reviewed revisions, findings и verdicts и не заменяют друг друга.
