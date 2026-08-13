@@ -96,9 +96,12 @@ and Use Case selection rules. Derived resolutions are explicitly labelled in
 - `EVID-01`: Plan Ready artifact-review records in PR #114:
   [draft candidate](https://github.com/dapi/memory-bank/pull/114#issuecomment-5286741057),
   [active-plan final re-review](https://github.com/dapi/memory-bank/pull/114#issuecomment-5286756775)
-  [post-main-merge review](https://github.com/dapi/memory-bank/pull/114#issuecomment-5286806415)
-  and [delivered-diff review](https://github.com/dapi/memory-bank/pull/114#issuecomment-5286839502);
-  all report `0 critical` and `0 important` findings.
+  and [post-main-merge review](https://github.com/dapi/memory-bank/pull/114#issuecomment-5286806415)
+  report `0 critical` and `0 important` findings. Separate
+  [delivered-diff review](https://github.com/dapi/memory-bank/pull/114#issuecomment-5286839502)
+  reported `0 critical` and `1 important`: the missing recorded `in_progress`
+  transition. Revision `41f85dffce49f46f00fc094c8df8b7504ace1801`
+  resolved that finding before this closure revision.
 - `EVID-02`: merged PR #114 at
   [`48f67fa93ebfca40603b06e7f764751c61c2df43`](https://github.com/dapi/memory-bank/commit/48f67fa93ebfca40603b06e7f764751c61c2df43)
   and successful CI run
