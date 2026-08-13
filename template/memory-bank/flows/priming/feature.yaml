@@ -8,6 +8,7 @@ stages:
     - memory-bank/prd/*.md
     - memory-bank/product/*.md
     - memory-bank/domain/*.md
+    - memory-bank/engineering/autonomy-boundaries.md
     - memory-bank/engineering/validation-profiles.md
     - memory-bank/flows/templates/feature/README.md
     - memory-bank/flows/templates/feature/brief.md

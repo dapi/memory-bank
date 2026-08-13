@@ -5,6 +5,7 @@ stages:
     - memory-bank/prd/*.md
     - memory-bank/use-cases/*.md
     - memory-bank/domain/*.md
+    - memory-bank/engineering/autonomy-boundaries.md
     - memory-bank/engineering/validation-profiles.md
     - memory-bank/engineering/testing-policy.md
   analysis_fix:

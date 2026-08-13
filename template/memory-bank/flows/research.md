@@ -8,6 +8,7 @@ derived_from:
   - ../dna/frontmatter.md
   - routing.md
   - priming/context-priming.md
+  - ../engineering/autonomy-boundaries.md
 canonical_for:
   - research_directory_structure
   - research_priming_inputs
@@ -143,6 +144,14 @@ When a durable fact is accepted, promote it before closing the research package:
 6. Do not copy private participant data, credentials, customer data or restricted source content into the repository. Store a minimal reference, access boundary and derived observation instead.
 7. A technical spike may contain disposable code or benchmark commands, but production implementation requires a new routed delivery flow.
 8. If findings change an active canonical fact, update that owner first; research artifacts remain derived evidence.
+
+9. Если P0 или уже выбранный delivery flow выявил unknown, требующий
+   `bounded_probe`, сначала явно выбери или повторно выбери Research Flow по
+   Task Routing. Probe обязан вернуть decision question, collected evidence,
+   limitations и terminal disposition в originating decision context. После
+   handoff originating context повторяет Structured Decision Protocol и Task
+   Routing; Research не выбирает delivery route молча и не подменяет его
+   implementation plan.
 
 ## Stable Identifiers
 
