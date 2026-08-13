@@ -2,11 +2,11 @@
 title: "FT-113: Implementation Plan"
 doc_kind: feature
 doc_function: derived
-purpose: "Draft execution и verification plan для FT-113."
+purpose: "Active execution и verification plan для FT-113."
 derived_from:
   - brief.md
   - ../../flows/feature.md
-status: draft
+status: active
 audience: humans_and_agents
 ---
 
@@ -19,9 +19,11 @@ flow, policy и indexes, сохранив ownership существующих art
 
 ## Lifecycle Note
 
-Candidate implementation уже существует в commit `110fbc7ec0db62cfdad67749db5a7ed20696d3fa`,
-но этот plan и feature package ещё не прошли Plan Ready artifact review. Наличие
-candidate diff не переводит lifecycle в Execution или Done задним числом.
+Candidate implementation уже существует в commit `110fbc7ec0db62cfdad67749db5a7ed20696d3fa`.
+Draft plan прошёл clean artifact review; resulting active revision должна быть
+заморожена и получить final clean re-review до закрытия Plan Ready. Наличие
+candidate implementation не переводит lifecycle в Execution или Done задним
+числом.
 
 ## Grounding Evidence
 
