@@ -31,9 +31,9 @@ configuration или implicit permission на внешние действия.
   C4/applicability и 4+1 coverage.
 
 - [`implementation-plan.md`](implementation-plan.md)
-  Читать перед execution: grounded paths, document changes, checks,
-  checkpoints и stop conditions.
+  Читать перед recovery acceptance: immutable Git receipts, exact checks,
+  review gates, checkpoints и stop conditions для existing candidate.
 
 - [`feature-review-report.md`](feature-review-report.md)
-  Читать для semantic self-review, acceptance coverage и результатов
-  deterministic documentation checks.
+  Читать для self-review, independent review history, acceptance coverage и
+  результатов deterministic documentation checks.

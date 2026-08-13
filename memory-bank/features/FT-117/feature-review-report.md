@@ -74,10 +74,10 @@ review_mode: self_review
 | Candidate | Revision evidence |
 | --- | --- |
 | Repository baseline | commit `d3639b1` |
-| `FT-117/README.md` | `914cbaa360ed53b2ce10d54b154eb55808ea5b766224c97dae41bf7bc7624c3b` |
-| `brief.md` | `53c40aa65fad0dc493593dd286a84cb31d9e753c29416e41c17bb575c4968e58` |
-| `design.md` | `15826c67aa13334b86cbd85adc38279ea8dd560dfa2ecfa54f1bc2bb66aaf036` |
-| `implementation-plan.md` | `d107c37f4f4dc3fb712253289296f056b34e4a1b1a806d6b83d1022ea140a464` |
+| `FT-117/README.md` | `194f180d9d7c6400824ce4ac69082e4282de477242ccebf3e210b04031ec5f18` |
+| `brief.md` | `3599634017d986424ba2ddc951d994ef285b715cba54fac47e507960ce91ddc8` |
+| `design.md` | `0dd7ae943707ea9a7aac8f59a39c100103d9ed2f7d2def189dfb73a17ee60e8a` |
+| `implementation-plan.md` | `9920295dec22feefa2531b7f50c6e1109a815c4da760d179bd9676a8102983cb` |
 | `engineering/README.md` | `50f1efb6ff9c68cd72eb22949ef778ffaf0fef9dc8d00847016aab0f4aad63aa` |
 | `engineering/autonomy-boundaries.md` | `0bc9446a2e28230a77a2d173af00fc4776e6dcf66bf68cf5164c2bea95c0643b` |
 | `engineering/validation-profiles.md` | `bf4b7ea1c4e82c9e15749a1fb6f7fdd1beb60b38185a040eb9610f6ec81f1ec9` |
@@ -104,10 +104,103 @@ runtime test. The package does not authorize merge, release, deployment,
 publication or external task-tracker writes. A separate reviewer or PR review
 may add findings; canonical owners must be updated before dependent documents.
 
-## Verdict
+## Independent Plan Ready Review History
 
-`implementation_candidate_complete` — all issue-level corrections are reflected
-in the current package and deterministic checks pass. This self-review is not
-the independent Plan Ready verdict: `implementation-plan.md` remains
-`status: draft` until a non-authoring reviewer checks the frozen candidate in a
-separate read-only context.
+### Attempt 1 — blocked
+
+- Reviewer: OpenAI Codex, independent non-authoring reviewer in an isolated
+  archive with repository artifacts treated read-only.
+- Reviewed revision: `fbb3d851ca2a8a58910326e9687c56e9547d75f9`;
+  all 19 Candidate Revision Manifest digests matched the archive.
+- Verdict: `BLOCKED_PLAN_READY`.
+- Critical `C-01`: the earlier plan was retrospective and could not claim that
+  Plan Ready preceded commits `9822d88`–`d3639b1`.
+- Important `I-01`: Epic/carrier and index surfaces were absent from the design
+  and realization maps.
+- Important `I-02`: the isolated archive could not independently inspect the
+  grounded Git objects or baseline diff.
+- Important `I-03`: `CHK-05` and required CI were not reproducible exact checks.
+- Important `I-04`: after corrections, both the resulting draft and promoted
+  active plan revisions require independent clean review.
+- Minor `M-01`: one summary omitted `SC-10`.
+- Minor `M-02`: the Environment Contract miscounted verification commands.
+
+Disposition: all findings are addressed in the next candidate by the recovery
+boundary, complete change-surface mapping, exact Git/check/CI receipts and the
+required two-stage Plan Ready review. Historical sequencing remains disclosed.
+
+### Attempt 2 — blocked
+
+- Reviewer: OpenAI Codex, independent non-authoring reviewer in an isolated Git
+  clone; no repository or external writes were performed.
+- Reviewed base: `fbb3d851ca2a8a58910326e9687c56e9547d75f9`, plus the frozen
+  five-file recovery candidate recorded in the manifest below.
+- Verdict: `BLOCKED_PLAN_READY`.
+- Important `R2-I-01`: one exact Research assertion did not span a Markdown
+  line break, and the pre-commit diff check omitted working-tree corrections.
+- Important `R2-I-02`: the current request did not specifically name permission
+  to push branch `docs/issue-117-autonomy-fpf` or update PR #118.
+- Important `R2-I-03`: terminal metadata changes lacked their own commit, push,
+  CI and final convergence step.
+- Minor `R2-M-01`: `STEP-01` omitted `FT-117/README.md` from its touchpoints.
+
+Disposition: the next candidate uses a multiline assertion, checks committed
+and working-tree diffs separately, keeps branch/PR push behind explicit
+`AG-01`, includes the package README and adds terminal commit/push/CI/convergence.
+
+### Attempt 3 — clean draft verdict
+
+- Reviewer: OpenAI Codex, independent non-authoring reviewer in an isolated Git
+  clone; repository and external state remained unchanged.
+- Reviewed base: `fbb3d851ca2a8a58910326e9687c56e9547d75f9`.
+- Frozen package hashes: `README 194f180…`, `brief 955ad5e…`, `design 0dd7ae9…`,
+  `plan 7a2e753…`, `report 5f82197…`; all identities matched.
+- Verdict: `CLEAN_PLAN_READY` for the draft revision.
+- `R2-I-01`, `R2-I-02`, `R2-I-03` and `R2-M-01`: `closed`.
+- Exact local checks, semantic scenarios and zero template leakage passed.
+- Remaining gate: promote the plan to `active`, freeze it and obtain a clean
+  independent re-review of that active revision.
+
+### Attempt 4 — blocked active verdict
+
+- Reviewer: OpenAI Codex, independent non-authoring reviewer in an isolated Git
+  clone; all frozen hashes and checks matched.
+- Verdict: `BLOCKED_PLAN_READY`.
+- Important `I-01`: the historical self-review verdict below still used the
+  present-tense phrase “remains `status: draft`” after plan promotion.
+
+Disposition: retain the self-review limitation but describe it as the state at
+the time of that review; freeze and re-review the unchanged active plan with the
+synchronized evidence carrier.
+
+### Attempt 5 — clean active verdict
+
+- Reviewer: OpenAI Codex, independent non-authoring reviewer in an isolated Git
+  clone; no repository or external writes were performed.
+- Frozen active plan:
+  `5cc90fda452aed260d462d2e5cc942242f5e9eb6e8da9ec4a87e2d3155678dec`.
+- Evidence carrier reviewed at:
+  `4cf6a9fbff889a2c64850777d52495f01c44742e060188f0cea4e0025bd964be`.
+- Open critical/important findings: `none`.
+- Verdict: `CLEAN_PLAN_READY`.
+
+Plan Ready was closed for local `STEP-01`–`STEP-03`; branch push, PR update and
+CI were still blocked by pending `AG-01` at the time of Attempt 5.
+
+### Attempt 6 — clean approval-evidence revision
+
+- Reviewer: OpenAI Codex, independent non-authoring reviewer in an isolated Git
+  clone; no repository or external writes were performed.
+- Frozen active plan:
+  `9920295dec22feefa2531b7f50c6e1109a815c4da760d179bd9676a8102983cb`.
+- Open critical/important findings: `none`.
+- Verdict: `CLEAN_PLAN_READY`.
+- The only plan delta from the prior clean revision is current scoped commit/push
+  authority in `AG-01`; merge, release, deploy and publication remain excluded.
+
+## Self-review Verdict
+
+`implementation_candidate_complete` — at the time of this self-review all
+issue-level corrections were reflected in the package and deterministic checks
+passed. This self-review did not provide the independent Plan Ready verdict;
+the then-draft plan required the separate review history recorded above.

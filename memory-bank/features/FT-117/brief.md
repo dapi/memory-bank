@@ -10,7 +10,7 @@ derived_from:
   - ../../../template/memory-bank/engineering/autonomy-boundaries.md
   - ../../../template/memory-bank/engineering/validation-profiles.md
 status: active
-delivery_status: planned
+delivery_status: in_progress
 audience: humans_and_agents
 must_not_define:
   - implementation_sequence
@@ -90,6 +90,10 @@ Issue [#117](https://github.com/dapi/memory-bank/issues/117) обнаружил�
 - `CON-05` FPF или другая reasoning methodology могут использоваться как
   опциональный supporting analysis, но их отсутствие не блокирует protocol и
   не создаёт Human Gate.
+- `CON-06` Core documentation candidate появился в commits `9822d88`–`d3639b1`
+  до bootstrap этого feature package. Recovery review может принять или
+  отклонить этот existing candidate, но не должен изображать, что исторические
+  writes прошли Plan Ready задним числом.
 
 ## Design Requirement Decision
 
@@ -177,6 +181,9 @@ Routing rules.
 
 `EVID-05` — outputs `CHK-01`–`CHK-04` и semantic review record этого package.
 
+`EVID-06` — отдельные non-authoring Plan Ready и implementation review records,
+которые называют frozen revisions, findings, dispositions и verdicts.
+
 ## Traceability
 
 | Requirement | Acceptance / evidence |
@@ -185,4 +192,4 @@ Routing rules.
 | `REQ-04` | `SC-02`, `SC-03`, `SC-08`, `EVID-03` |
 | `REQ-05`, `REQ-06` | `SC-04`, `SC-05`, `SC-07`, `SC-10`, `EVID-02`–`EVID-04` |
 | `REQ-08` | `SC-09`, `SC-10`, `EVID-02`–`EVID-04` |
-| `REQ-01`–`REQ-08` | `CHK-01`–`CHK-05`, `EVID-05` |
+| `REQ-01`–`REQ-08` | `CHK-01`–`CHK-05`, `EVID-05`, `EVID-06` |

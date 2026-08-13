@@ -99,7 +99,13 @@ inferred permission отклоняется.
 | `flows/research.md` | `external-dependency` | Probe lifecycle, evidence handoff и repeat-routing semantics | `active`; canonical flow owner |
 | `flows/bug-fix.md` | `external-dependency` | Bug Fix reroute/replan semantics | `active`; canonical flow owner |
 | `flows/feature.md` | `external-dependency` | Feature ambiguity/review-convergence semantics | `active`; canonical flow owner |
+| `flows/epic.md` | `external-dependency` | Epic-local carrier selection and decision-log rules | `active`; canonical flow owner |
+| `flows/templates/epic/decision-log.md` | `external-dependency` | Instantiated epic decision carrier terminology | `active`; canonical template owner |
 | `engineering/validation-profiles.md` | `external-dependency` | Validation and execution-approval separation | `active`; canonical profile owner |
+
+Indexes, priming manifests, the project feature index and `memory-bank/.lock`
+are synchronized projections or repository metadata, not additional design-pack
+owners. Their realization and checks are mapped in `implementation-plan.md`.
 
 ## C4 Applicability Decision
 
@@ -116,7 +122,7 @@ Cross-document ownership отображена в Design Pack и не требу�
 | Process | `covered` | P0 → Research → repeat routing и exact execution gate из `SD-03`/`SD-04` |
 | Development | `covered` | Canonical owners: autonomy, routing, flow и validation docs |
 | Physical | `N/A` | Нет runtime/deployable или deployment topology change; `C4-00` |
-| Scenarios (+1) | `covered` | `SC-01`–`SC-09` и `NEG-01`–`NEG-03` |
+| Scenarios (+1) | `covered` | `SC-01`–`SC-10` и `NEG-01`–`NEG-03` |
 
 ## Architecture Coverage Decision
 
