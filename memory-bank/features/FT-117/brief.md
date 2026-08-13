@@ -10,7 +10,7 @@ derived_from:
   - ../../../template/memory-bank/engineering/autonomy-boundaries.md
   - ../../../template/memory-bank/engineering/validation-profiles.md
 status: active
-delivery_status: in_progress
+delivery_status: done
 audience: humans_and_agents
 must_not_define:
   - implementation_sequence

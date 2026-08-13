@@ -75,9 +75,9 @@ review_mode: self_review
 | --- | --- |
 | Repository baseline | commit `d3639b1` |
 | `FT-117/README.md` | `194f180d9d7c6400824ce4ac69082e4282de477242ccebf3e210b04031ec5f18` |
-| `brief.md` | `3599634017d986424ba2ddc951d994ef285b715cba54fac47e507960ce91ddc8` |
+| `brief.md` | `9e0f7a76cb9bbca49306c7e65944bb1e68eb7f8df2cc0b049e2a80b5b7817b4d` |
 | `design.md` | `0dd7ae943707ea9a7aac8f59a39c100103d9ed2f7d2def189dfb73a17ee60e8a` |
-| `implementation-plan.md` | `9920295dec22feefa2531b7f50c6e1109a815c4da760d179bd9676a8102983cb` |
+| `implementation-plan.md` | `3399ce26a03b133006463b31b8c29854124b17c6f73ba564a4cc964d43784fd6` |
 | `engineering/README.md` | `50f1efb6ff9c68cd72eb22949ef778ffaf0fef9dc8d00847016aab0f4aad63aa` |
 | `engineering/autonomy-boundaries.md` | `0bc9446a2e28230a77a2d173af00fc4776e6dcf66bf68cf5164c2bea95c0643b` |
 | `engineering/validation-profiles.md` | `bf4b7ea1c4e82c9e15749a1fb6f7fdd1beb60b38185a040eb9610f6ec81f1ec9` |
@@ -205,10 +205,32 @@ CI were still blocked by pending `AG-01` at the time of Attempt 5.
   preserved both `FT-113` and `FT-117` entries in `memory-bank/features/README.md`.
 - Required GitHub check `CI / validate-template`: `success` on `c2a0578`, run
   [31751810935](https://github.com/dapi/memory-bank/actions/runs/31751810935).
+- Recovery evidence refresh head: `1f00e35b2a12973b24eab4a5057b8b52dc4fd81b`;
+  exact-head `CI / validate-template`: `success`, run
+  [31751884082](https://github.com/dapi/memory-bank/actions/runs/31751884082).
 - Post-merge local manifest tests/validator, both lints, doctor and diff check:
   `pass`.
 - Candidate manifest hashes were refreshed after merging current `origin/main`;
   upstream BDD/FT-113 changes remain owned by main and are not FT-117 scope.
+
+## Independent Implementation Review
+
+- Reviewer: OpenAI Codex, independent non-authoring read-only reviewer.
+- Delivered head: `1f00e35b2a12973b24eab4a5057b8b52dc4fd81b`.
+- Current main: `079b79d139fa91fec0ec8a65fcbc6f387c684ee5`.
+- Implementation baseline: `daa7cb639d2bc2741da8b829a125546b45bf8a0e`.
+- Critical findings: `none`.
+- Important findings: `none`.
+- Minor `M-01`: report referenced the preceding successful CI run instead of
+  exact-head run `31751884082`; closed by the Execution Evidence update above.
+- Requirements `REQ-01`–`REQ-08`, scenarios `SC-01`–`SC-10`, negative cases,
+  ownership, cross-flow consistency, BDD/FT-113 compatibility, simplify review
+  and scope boundaries: `pass`.
+- Verdict: `CLEAN_IMPLEMENTATION_REVIEW`.
+
+This verdict does not authorize merge, release, deployment or publication. The
+terminal metadata revision still requires its own successful CI and final
+convergence read.
 
 ## Self-review Verdict
 

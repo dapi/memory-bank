@@ -6,7 +6,7 @@ purpose: "Forward recovery plan for independently reviewing, accepting and closi
 derived_from:
   - brief.md
   - design.md
-status: active
+status: archived
 audience: humans_and_agents
 must_not_define:
   - ft_117_scope
