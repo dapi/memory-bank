@@ -185,7 +185,7 @@ stakeholder/concern coverage поверх canonical facts, а не пять но
 Если evidence недостаточно, чтобы доказать `N/A`, view остается `covered` и
 анализ продолжается. Неопределённость applicability сама по себе не является
 Human Gate; примени
-[`FPF Decision Protocol`](../engineering/autonomy-boundaries.md#fpf-decision-protocol)
+[`Structured Decision Protocol`](../engineering/autonomy-boundaries.md#structured-decision-protocol)
 и эскалируй только при outcome `escalate`.
 
 Logical View и Scenarios всегда получают `covered`. Process, Development и
@@ -349,7 +349,7 @@ flowchart LR
 Plan Ready artifact-review convergence допускает не более пяти review-improve
 итераций. Последняя итерация с исправлениями не считается clean verdict без
 последующего re-review; исчерпание budget оставляет gate непройденным. Примени
-[`FPF Decision Protocol`](../engineering/autonomy-boundaries.md#fpf-decision-protocol),
+[`Structured Decision Protocol`](../engineering/autonomy-boundaries.md#structured-decision-protocol),
 пересмотри hypothesis, upstream facts, plan и review scope; продолжай через
 обоснованный replan или `bounded_probe`. Human Gate нужен только при outcome
 `escalate`.

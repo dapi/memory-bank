@@ -66,8 +66,9 @@ canonical Human Gate из [`autonomy-boundaries.md`](autonomy-boundaries.md).
 Approval evidence может быть явным разрешением в текущей task либо применимой
 active project policy, если она однозначно называет действие, environment и
 границы разрешения. Неясное или общее разрешение не считается approval.
-FPF Decision Protocol может выбрать подход и усилить controls, но не может
-отменить обязательный approval или понизить profile ниже сработавшего trigger.
+Structured Decision Protocol может выбрать подход и усилить controls, но не
+может отменить обязательный approval или понизить profile ниже сработавшего
+trigger.
 
 ## Minimum Validation And Evidence Contract
 

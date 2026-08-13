@@ -18,7 +18,7 @@ audience: humans_and_agents
 - [UI Design Guide](ui-design-guide/README.md) — project-level index для shared и surface-specific UI references. Адаптируй его под public site, admin, mobile или другие реальные UI surfaces проекта.
 - [Testing Policy](testing-policy.md) — правила тестирования, обязательные automated tests, sufficient coverage. Отвечает на вопрос: когда feature обязана иметь test cases и когда допустим manual-only verify.
 - [Validation Profiles](validation-profiles.md) — независимая от delivery flow глубина validation: taxonomy, risk triggers, minimum evidence contract и canonical owner решения.
-- [Autonomy Boundaries](autonomy-boundaries.md) — autonomous-by-default правила, FPF Decision Protocol и настоящие Human Gates. Отвечает на вопрос: что агент решает и исполняет сам, а где нужны человеческие полномочия или принятие неконтролируемого риска.
+- [Autonomy Boundaries](autonomy-boundaries.md) — autonomous-by-default правила, самодостаточный Structured Decision Protocol, вдохновлённый FPF, и настоящие Human Gates. Отвечает на вопрос: что агент решает и исполняет сам, а где нужны человеческие полномочия или принятие неконтролируемого риска.
 - [Coding Style](coding-style.md) — конвенции оформления кода, tooling и правила локальной сложности.
 - [Git Workflow](git-workflow.md) — git-конвенции: commits, ветки, PR и optional worktrees.
 - [ADR](../adr/README.md) — instantiated Architecture Decision Records проекта.

@@ -46,7 +46,7 @@ report или linked delivery task.
 Если нет ни доступного источника уже принятого expected behavior, ни
 зафиксированного решения человека, Entry Gate не выполнен. Не изобретай expected
 behavior и не начинай Analysis And Fix как bug fix. Примени
-[`FPF Decision Protocol`](../engineering/autonomy-boundaries.md#fpf-decision-protocol)
+[`Structured Decision Protocol`](../engineering/autonomy-boundaries.md#structured-decision-protocol)
 и повтори Task Routing: доступный evidence-backed answer может потребовать
 Research Flow, а новое желаемое поведение — Feature Flow. Используй
 [Human Routing](routing.md#human-routing) только при outcome `escalate`, когда

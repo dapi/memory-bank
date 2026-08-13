@@ -2,12 +2,12 @@
 title: Autonomy Boundaries
 doc_kind: engineering
 doc_function: canonical
-purpose: "Границы автономии агента: что он решает и исполняет самостоятельно, как применяет FPF и когда обязан эскалировать человеку."
+purpose: "Границы автономии агента: что он решает и исполняет самостоятельно, как применяет Structured Decision Protocol и когда обязан эскалировать человеку."
 derived_from:
   - ../dna/governance.md
 canonical_for:
   - agent_autonomy_rules
-  - fpf_decision_protocol
+  - structured_decision_protocol
   - escalation_triggers
   - supervision_checkpoints
 status: active
@@ -20,7 +20,13 @@ audience: humans_and_agents
 
 Сложность, неоднозначность и наличие нескольких допустимых подходов сами по себе
 не являются `Human Gate`. Агент сначала обязан попытаться принять решение через
-FPF, используя доступные canonical facts, evidence и ограничения проекта.
+описанный ниже Structured Decision Protocol, используя доступные canonical
+facts, evidence и ограничения проекта.
+
+Structured Decision Protocol вдохновлён First Principles Framework (FPF), но
+этот документ содержит полный обязательный для исполнения контракт. Внешняя
+FPF-спецификация или skill могут углубить анализ, но не являются dependency:
+их отсутствие не блокирует решение и не создаёт `Human Gate`.
 
 Разделяй три независимых вопроса:
 
@@ -33,8 +39,8 @@ FPF, используя доступные canonical facts, evidence и огра
    автономно.
 
 Human approval перед исполнением не заменяет reasoning, validation или rollback
-plan. FPF не отменяет явно заданные project policies, обязательные approvals и
-границы полномочий.
+plan. Structured Decision Protocol не отменяет явно заданные project policies,
+обязательные approvals и границы полномочий.
 
 ## Автопилот — делай без подтверждения
 
@@ -55,9 +61,9 @@ plan. FPF не отменяет явно заданные project policies, об
 security, migration или integration change не означает разрешение исполнить
 risk-bearing шаг над production/live state.
 
-## Когда применять FPF
+## Когда применять Structured Decision Protocol
 
-Используй FPF до выбора или изменения решения, когда:
+Используй Structured Decision Protocol до выбора или изменения решения, когда:
 
 - нет одного очевидного существующего паттерна;
 - паттерны или источники противоречат друг другу;
@@ -73,7 +79,7 @@ risk-bearing шаг над production/live state.
 Не запускай heavyweight-анализ для локального решения, которое следует
 однозначному принятому паттерну и легко проверяется.
 
-## FPF Decision Protocol
+## Structured Decision Protocol
 
 Проведи минимально достаточный reasoning cycle:
 
@@ -136,7 +142,7 @@ value judgment. Unknown нельзя молча считать разрешен�
 не требуют ADR. Фиксируй rationale только когда оно существенно для review,
 rollback или будущих решений.
 
-Минимальная запись FPF decision:
+Минимальная запись structured decision:
 
 ```text
 Decision: <что выбирается>
@@ -171,7 +177,7 @@ Human approval или решение обязательно, когда:
 - требуемый outcome выходит за выданный scope, budget или полномочия;
 - ни один вариант не сохраняет обязательные invariants либо риск нельзя
   ограничить validation, staged execution, rollback и stop conditions;
-- FPF Decision Protocol завершился `escalate`.
+- Structured Decision Protocol завершился `escalate`.
 
 Human Gate применяется к конкретному decision или execution step. Остальную
 подготовку, исследование, validation и безопасную работу продолжай, если они не
@@ -194,7 +200,7 @@ Human Gate применяется к конкретному decision или exec
 Перед запросом человека зафиксируй:
 
 - точный заблокированный decision или execution step;
-- FPF outcome и уже проверенные варианты;
+- outcome протокола и уже проверенные варианты;
 - canonical facts, evidence и остающийся unknown;
 - почему `proceed` и `bounded_probe` недопустимы;
 - конкретное требуемое решение или approval;
@@ -202,5 +208,6 @@ Human Gate применяется к конкретному decision или exec
 
 Если замечания или ошибки не уменьшаются после заранее ограниченного числа
 итераций, не повторяй тот же цикл. Пересмотри hypothesis, upstream requirements,
-plan и environment constraints через FPF. Эскалируй только если этот разбор
-завершился `escalate`, а не из-за самого факта исчерпания итераций.
+plan и environment constraints через Structured Decision Protocol. Эскалируй
+только если этот разбор завершился `escalate`, а не из-за самого факта
+исчерпания итераций.
