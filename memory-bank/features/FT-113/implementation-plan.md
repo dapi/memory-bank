@@ -2,7 +2,7 @@
 title: "FT-113: Implementation Plan"
 doc_kind: feature
 doc_function: derived
-purpose: "Active execution и verification plan для FT-113."
+purpose: "Active execution trace и closure preparation для FT-113."
 derived_from:
   - brief.md
   - ../../flows/feature.md
@@ -19,11 +19,11 @@ flow, policy и indexes, сохранив ownership существующих art
 
 ## Lifecycle Note
 
-Candidate implementation уже существует в commit `110fbc7ec0db62cfdad67749db5a7ed20696d3fa`.
-Draft plan прошёл clean artifact review; resulting active revision должна быть
-заморожена и получить final clean re-review до закрытия Plan Ready. Наличие
-candidate implementation не переводит lifecycle в Execution или Done задним
-числом.
+Draft plan прошёл clean artifact review, resulting active revision получила
+final clean re-review, а post-main-merge revision сохранила принятую semantics.
+PR #114 смержен commit-ом `48f67fa93ebfca40603b06e7f764751c61c2df43`;
+эта revision фиксирует обязательный `delivery_status: in_progress` перед
+отдельным closure transition. Delivery и review evidence перечислены ниже.
 
 ## Grounding Evidence
 
@@ -92,7 +92,14 @@ and Use Case selection rules. Derived resolutions are explicitly labelled in
 
 ## Evidence
 
-- `EVID-01` pending: external clean artifact-review record with reviewer,
-  immutable candidate revision, findings/dispositions and verdict.
-- `EVID-02` pending: local and CI outputs for every `CHK-02` command, all bound
-  to the same candidate revision.
+- `EVID-01`: Plan Ready artifact-review records in PR #114:
+  [draft candidate](https://github.com/dapi/memory-bank/pull/114#issuecomment-5286741057),
+  [active-plan final re-review](https://github.com/dapi/memory-bank/pull/114#issuecomment-5286756775)
+  [post-main-merge review](https://github.com/dapi/memory-bank/pull/114#issuecomment-5286806415)
+  and [delivered-diff review](https://github.com/dapi/memory-bank/pull/114#issuecomment-5286839502);
+  all report `0 critical` and `0 important` findings.
+- `EVID-02`: merged PR #114 at
+  [`48f67fa93ebfca40603b06e7f764751c61c2df43`](https://github.com/dapi/memory-bank/commit/48f67fa93ebfca40603b06e7f764751c61c2df43)
+  and successful CI run
+  [`31747394563`](https://github.com/dapi/memory-bank/actions/runs/31747394563)
+  for reviewed head `37eaf34beff23ddc12f76f53662163577bdf6042`.

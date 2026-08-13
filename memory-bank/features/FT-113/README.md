@@ -15,8 +15,8 @@ audience: humans_and_agents
 ## Аннотированный индекс
 
 - [`brief.md`](brief.md) — problem, scope и canonical verify contract.
-- [`implementation-plan.md`](implementation-plan.md) — active execution и
-  verification plan; resulting active revision ожидает final clean re-review.
+- [`implementation-plan.md`](implementation-plan.md) — active execution trace;
+  delivery смержена, lifecycle closure ожидает отдельную revision.
 
 Изменения generic template находятся в `template/memory-bank/`; этот package
 остаётся source-repository delivery trace и не попадает в downstream payload.
