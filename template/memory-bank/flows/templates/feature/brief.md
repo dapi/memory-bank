@@ -240,11 +240,11 @@ Verify должен быть исполнимым.
 | `EVID-01` | Лог, отчет, скриншот или sample output | verify-runner / human | `artifacts/ft-xxx/verify/chk-01/` | `CHK-01` |
 | `EVID-02` | Лог, отчет или sample output для negative/edge behavior | verify-runner / human | `artifacts/ft-xxx/verify/chk-02/` | `CHK-02` |
 
-### Requirement-to-realization traceability
+### Requirement acceptance traceability
 
-`brief.md` owns the requirement chain; `design.md` owns selected solution facts and the plan supplies the exact target. A supporting change without a direct `REQ-*` needs its explicit rationale.
+`brief.md` owns requirements and their acceptance/evidence contract. Selected solution facts belong to `design.md`; exact targets, supporting-change rationale and steps belong to `implementation-plan.md`; execution owns results. Their mappings extend this chain at later gates without copying those facts back into the brief.
 
-| Requirement | Acceptance / check / evidence | Solution or decision | Exact realization target | Supporting rationale / review or CI result |
-| --- | --- | --- | --- | --- |
-| `REQ-01` | `EC-01`, `SC-01`, `CHK-01`, `EVID-01` | `SOL-01` / design-not-required decision | `path/file.ext#SymbolOrSection` | none / CI URL |
+| Requirement | Acceptance | Verification method / check | Evidence contract |
+| --- | --- | --- | --- |
+| `REQ-01` | `EC-01`, `SC-01` | automated test via `CHK-01` | `EVID-01` |
 ```

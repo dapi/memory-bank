@@ -7,6 +7,7 @@ derived_from:
   - ../dna/governance.md
   - ../flows/behavior-specification.md
   - ../flows/feature.md
+  - ../flows/feature-requirements.md
   - validation-profiles.md
 status: active
 canonical_for:
