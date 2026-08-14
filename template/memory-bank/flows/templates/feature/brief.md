@@ -5,6 +5,7 @@ doc_function: template
 purpose: Governed wrapper-шаблон для canonical `brief.md` в AI-driven development. Фиксирует, как инстанцировать problem-space intent, scope и machine-checkable verify без смешения wrapper и целевого frontmatter.
 derived_from:
   - ../../feature.md
+  - ../../feature-requirements.md
   - ../../feature-artifact-catalog.md
   - ../../../dna/frontmatter.md
   - ../../../engineering/testing-policy.md
@@ -28,7 +29,7 @@ canonical_for:
 
 Optional companions выбирай по [Feature Artifact Catalog](../../feature-artifact-catalog.md). Не копируй весь каталог в feature и не создавай placeholders: Artifact Routing Decision перечисляет только выбранные artifacts и material omissions, которые важно объяснить reviewers.
 
-Используй стабильные идентификаторы по taxonomy из [../../feature.md#stable-identifiers](../../feature.md#stable-identifiers).
+Используй стабильные идентификаторы по taxonomy из [../../feature-requirements.md#stable-identifiers](../../feature-requirements.md#stable-identifiers).
 
 ### Frontmatter Quick Ref
 
@@ -55,6 +56,7 @@ doc_function: canonical
 purpose: "Canonical brief для delivery-единицы. Фиксирует problem space, scope, validation profile и verify без смешения с solution space или execution plan."
 derived_from:
   - ../../flows/feature.md
+  - ../../flows/feature-requirements.md
   # Optional:
   # - ../../product/context.md
   # - ../../domain/rules.md
@@ -77,7 +79,7 @@ must_not_define:
 
 ### Requirement applicability and classification
 
-For every baseline class in [Feature Flow](../../feature.md#requirement-taxonomy-and-traceability), select `applicable`, `not-applicable` with rationale, or `covered-upstream` with reference. Do not create `FR-*`/`NFR-*`; record the class on `REQ-*`.
+For every baseline class in [Feature Requirements, Identifiers And Traceability](../../feature-requirements.md#requirement-taxonomy-and-traceability), select `applicable`, `not-applicable` with rationale, or `covered-upstream` with reference. Do not create `FR-*`/`NFR-*`; record the class on `REQ-*`.
 
 | Class | Decision | Trigger / rationale / upstream reference | Requirement IDs |
 | --- | --- | --- | --- |

@@ -6,6 +6,7 @@ purpose: Каталог optional артефактов для постановк�
 derived_from:
   - ../dna/governance.md
   - feature.md
+  - feature-requirements.md
 status: active
 audience: humans_and_agents
 ---

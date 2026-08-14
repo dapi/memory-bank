@@ -5,6 +5,7 @@ doc_function: template
 purpose: Governed wrapper-шаблон плана имплементации. Фиксирует, как инстанцировать execution-документ без переопределения canonical problem или solution facts и без смешения wrapper с целевым `implementation-plan.md`.
 derived_from:
   - ../../feature.md
+  - ../../feature-requirements.md
   - ../../feature-artifact-catalog.md
   - ../../priming/context-priming.md
   - ../../../dna/frontmatter.md
@@ -34,7 +35,7 @@ template_target_path: ../../../features/FT-XXX/implementation-plan.md
 
 Plan Ready artifact review проверяет этот документ как governed artifact до начала execution. Его verdict хранится вне reviewed plan и фиксирует reviewer, grounded repository revision, candidate revisions canonical owners/plan, findings/dispositions и clean verdict. Artifact review не является review реализации и не заменяет последующий implementation/code review.
 
-Для ссылок внутри плана используй стабильные идентификаторы по taxonomy из [../../feature.md#stable-identifiers](../../feature.md#stable-identifiers).
+Для ссылок внутри плана используй стабильные идентификаторы по taxonomy из [../../feature-requirements.md#stable-identifiers](../../feature-requirements.md#stable-identifiers).
 
 Если неизвестность меняет scope, acceptance criteria или evidence contract, она сначала поднимается upstream в sibling `brief.md`. Если неизвестность меняет selected design, architecture coverage, C4 architecture model, accepted local decisions, contracts, invariants, failure modes или rollout/backout semantics, она сначала поднимается в required sibling `design.md`, delegated contract или ADR и только после этого фигурирует в плане.
 
