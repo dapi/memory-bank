@@ -82,7 +82,7 @@ must_not_define:
 
 ### Requirement applicability and classification
 
-For every baseline class in [Feature Requirements, Identifiers And Traceability](../../feature-requirements.md#requirement-taxonomy-and-traceability), select `applicable`, `not-applicable` with rationale, or `covered-upstream` with reference. Do not create `FR-*`/`NFR-*`; record the class on `REQ-*`.
+For every baseline class in [Feature Requirements, Identifiers And Traceability](../../flows/feature-requirements.md#requirement-taxonomy-and-traceability), select `applicable`, `not-applicable` with rationale, or `covered-upstream` with reference. Do not create `FR-*`/`NFR-*`; record the class on `REQ-*`.
 
 | Class | Decision | Trigger / rationale / upstream reference | Requirement IDs |
 | --- | --- | --- | --- |

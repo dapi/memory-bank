@@ -70,13 +70,12 @@ immutable revision и `GRND-*` evidence.
 11. Acceptance scenarios (`SC-*`) покрывают delivery-unit end-to-end: для пользовательского slice — от входного события до наблюдаемого результата через все затронутые слои; для infrastructure/engineering/operations change — от system, operator или pipeline trigger до observable operational outcome. Тестирование отдельного слоя в изоляции допустимо как implementation detail плана, но не заменяет end-to-end acceptance.
 12. Для observable behavior применяй [`Behavior Specification Practice`](behavior-specification.md): discovery findings маршрутизируются в существующие owners, concrete examples формулируются через `SC-*` / `NEG-*`, а automation связывается через `CHK-*` и `EVID-*`. BDD не вводит отдельный route или `BDD-*` identifiers.
 13. **Связь с task tracker.** При создании feature package агент обязан добавить в исходную задачу или ticket ссылку на `brief.md`, а после появления downstream-документов — ссылки на существующие `design.md` и `implementation-plan.md`.
-14. **Source-template exception.** When this repository is itself changing only its generic `template/` payload and its root `memory-bank/` is a managed downstream installation, do not create a project-specific feature package or modify that managed installation solely to mirror the delivery. The routed issue/task record is the brief-equivalent canonical carrier for scope, requirement classes, validation profile, acceptance, evidence, and lifecycle-gate decisions; the PR links back to it. This exception does not apply to a downstream project using the template: its feature delivery still uses `memory-bank/features/FT-XXX/`.
-15. До Bootstrap / Brief агент обязан прочитать весь текущий `memory-bank/prd/*.md` corpus. Это обязательный context baseline независимо от того, зависит ли feature от конкретного PRD; PRD не заменяет сам feature package.
-16. Если фича создает новый устойчивый сценарий проекта или materially changes существующий, соответствующий `UC-*` в `memory-bank/use-cases/` должен быть создан или обновлен до closure.
-17. Optional feature-support docs (`runtime-surfaces.md`, `diagrams/<name>-sequence.md`, `ui-reference/README.md`, `use-cases/README.md`) допустимы для сложных фич как grounding / review / traceability aids. Они не становятся canonical owner problem space, solution space, acceptance inventory или execution sequencing.
-18. Полное чтение PRD corpus не создаёт semantic dependency от каждого PRD. `brief.md: derived_from` импортирует только фактические upstream-owner references и не копирует весь upstream scope.
-19. Если работа крупнее одной delivery-feature и требует общего roadmap, cross-feature risk register или нескольких delivery units, не расширяй feature package: повтори [`Task Routing`](routing.md), выбери [`Epic Flow`](epic.md) и после epic handoff веди каждую утвержденную delivery-единицу как отдельный feature package.
-20. Validation profile выбирается в `brief.md` по [`validation-profiles.md`](../engineering/validation-profiles.md). `design.md` может уточнить risk facts, а `implementation-plan.md` разворачивает minimum contract в команды, suites и checkpoints, но ни один из них не дублирует profile decision. The source-template exception records this decision in its issue/task carrier instead.
+14. До Bootstrap / Brief агент обязан прочитать весь текущий `memory-bank/prd/*.md` corpus. Это обязательный context baseline независимо от того, зависит ли feature от конкретного PRD; PRD не заменяет сам feature package.
+15. Если фича создает новый устойчивый сценарий проекта или materially changes существующий, соответствующий `UC-*` в `memory-bank/use-cases/` должен быть создан или обновлен до closure.
+16. Optional feature-support docs (`runtime-surfaces.md`, `diagrams/<name>-sequence.md`, `ui-reference/README.md`, `use-cases/README.md`) допустимы для сложных фич как grounding / review / traceability aids. Они не становятся canonical owner problem space, solution space, acceptance inventory или execution sequencing.
+17. Полное чтение PRD corpus не создаёт semantic dependency от каждого PRD. `brief.md: derived_from` импортирует только фактические upstream-owner references и не копирует весь upstream scope.
+18. Если работа крупнее одной delivery-feature и требует общего roadmap, cross-feature risk register или нескольких delivery units, не расширяй feature package: повтори [`Task Routing`](routing.md), выбери [`Epic Flow`](epic.md) и после epic handoff веди каждую утвержденную delivery-единицу как отдельный feature package.
+19. Validation profile выбирается в `brief.md` по [`validation-profiles.md`](../engineering/validation-profiles.md). `design.md` может уточнить risk facts, а `implementation-plan.md` разворачивает minimum contract в команды, suites и checkpoints, но ни один из них не дублирует profile decision.
 
 ## Feature Package Anatomy
 
@@ -302,17 +301,6 @@ flowchart LR
 ## Transition Gates
 
 Каждый gate — набор проверяемых предикатов. Переход допустим тогда и только тогда, когда все предикаты истинны.
-
-### Source-Template Gate Adaptation
-
-Когда применяется source-template exception из [Package Rules](#package-rules),
-feature package намеренно не создаётся. Это отдельный вариант тех же gates, а
-не bypass:
-
-1. Routed issue/task carrier заменяет `README.md` и `brief.md` и содержит те же problem-space facts: scope/non-scope, requirement applicability, acceptance/evidence contract, validation profile, Design Requirement Decision и lifecycle state.
-2. При `Design required: yes` selected solution и применимые design predicates фиксируются в изменяемых governed owners, accepted ADR или linked issue/PR design record; при `no` carrier хранит rationale.
-3. Plan/Execution predicates проверяются по repository-approved issue/PR/orchestration record: immutable grounding revision, exact targets, steps, checks, evidence, approvals и review verdicts остаются обязательными, хотя `implementation-plan.md` не создаётся.
-4. Только predicates существования и publication/lifecycle status файлов package заменяются explicit exception evidence. Semantic, ownership, validation, Git, CI и closure predicates выполняются без ослабления.
 
 ### Bootstrap Feature Package
 

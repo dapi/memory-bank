@@ -99,7 +99,7 @@ Profile decision записывается ровно один раз; downstream
 | Flow | Canonical owner | Правило |
 | --- | --- | --- |
 | Small Change | issue/task routing record; draft PR только если tracker нельзя обновить | Record содержит profile, triggers/rationale и approval ref при downgrade. |
-| Feature | `memory-bank/features/FT-XXX/brief.md`; for the source-template exception in Feature Flow, the routed issue/task record | `implementation-plan.md` реализует contract через suites/checkpoints, но не дублирует решение. The exception carrier records the same minimum decision fields without modifying a managed downstream installation. |
+| Feature | `memory-bank/features/FT-XXX/brief.md` | `implementation-plan.md` реализует contract через suites/checkpoints, но не дублирует решение. |
 | Bug Fix | bug report или связанная delivery task; draft PR только как fallback | Reproduction, regression plan и evidence исполняют выбранный profile. |
 | Refactoring | исходная task; draft PR только как fallback | Profile учитывает blast radius и critical behavior, которое нужно сохранить. |
 | Incident / PIR | Не назначается containment/PIR record | Permanent remediation и prevention items получают profile после отдельного Task Routing. Incident safety gates продолжают действовать независимо. |
