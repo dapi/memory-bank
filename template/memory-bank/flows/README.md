@@ -13,6 +13,7 @@ derived_from:
   - small-change.md
   - refactoring.md
   - epic.md
+  - behavior-specification.md
   - use-case.md
   - feature.md
   - feature-requirements.md
@@ -26,7 +27,7 @@ audience: humans_and_agents
 
 Каталог `memory-bank/flows/` содержит reusable process-layer для шаблона: lifecycle rules, taxonomy стабильных идентификаторов и governed templates.
 
-- [Task Routing](routing.md) — порядок выбора flow, routing predicates, повторный routing и Human Routing.
+- [Task Routing](routing.md) — порядок выбора flow, routing predicates, повторный routing и Human Routing только после Structured Decision Protocol outcome `escalate`.
 - [Task Context Priming](priming/README.md) — общий P0/P1/P2 contract, universal DNA baseline и per-process YAML manifests.
 - [Research & Discovery Flow](research.md) — evidence-backed lifecycle research-задач, от question framing до decision и handoff без преждевременного delivery.
 - [Incident And PIR Flow](incident.md) — containment, recovery, timeline, RCA, PIR и prevention work.
@@ -34,6 +35,7 @@ audience: humans_and_agents
 - [Small Change Flow](small-change.md) — direct delivery без feature package, design и execution plan, но с обязательным routing record.
 - [Refactoring Flow](refactoring.md) — behavior-preserving restructuring, characterization coverage, checkpoints и closure gates.
 - [Epic Flow](epic.md) — Epic Intake/Proposal, lifecycle крупных инициатив, roadmap, decision log, risks и handoff в feature packages.
+- [Behavior Specification Practice](behavior-specification.md) — BDD-цикл Discovery → Formulation → Automation, качество concrete examples и traceability `UC/REQ → SC/NEG → CHK → test evidence`; это практика внутри выбранного flow, а не отдельный route.
 - [Use Case Flow](use-case.md) — критерии, lifecycle и ownership для project-level `UC-*`, включая operational / agentic сценарии.
 - [Feature Flow](feature.md) — lifecycle `brief.md -> optional design.md -> implementation-plan.md` и transition gates.
 - [Feature Requirements, Identifiers And Traceability](feature-requirements.md) — requirement classes, stable IDs, applicability и двусторонняя трассировка до delivered surfaces и evidence.

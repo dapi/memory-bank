@@ -6,6 +6,7 @@ purpose: Governed wrapper-шаблон для canonical `brief.md` в AI-driven 
 derived_from:
   - ../../feature.md
   - ../../feature-requirements.md
+  - ../../behavior-specification.md
   - ../../feature-artifact-catalog.md
   - ../../../dna/frontmatter.md
   - ../../../engineering/testing-policy.md
@@ -28,6 +29,8 @@ canonical_for:
 Если фича меняет API, event, schema, file format, CLI, env contract, security boundary, financial calculation, integration contract, rollout/backout или требует alternatives/trade-off reasoning, зафиксируй `Design required: yes` и создай sibling `design.md` по шаблону `design.md`. Новые пакеты держат substantial design только в `design.md` / design-pack.
 
 Optional companions выбирай по [Feature Artifact Catalog](../../feature-artifact-catalog.md). Не копируй весь каталог в feature и не создавай placeholders: Artifact Routing Decision перечисляет только выбранные artifacts и material omissions, которые важно объяснить reviewers.
+
+Для observable behavior применяй [Behavior Specification Practice](../../behavior-specification.md). Compact feature может оставить однострочный `SC-*`, если context, event и outcome однозначны. При нескольких rules/branches, significant edge/error behavior или изменении user/API/event/operational contract используй structured `Given / When / Then` examples.
 
 Используй стабильные идентификаторы по taxonomy из [../../feature-requirements.md#stable-identifiers](../../feature-requirements.md#stable-identifiers).
 
@@ -176,12 +179,38 @@ failure modes или rollout/backout в `brief.md`.
 | Requirement ID | Problem refs | Acceptance refs | Checks | Evidence IDs |
 | --- | --- | --- | --- | --- |
 | `REQ-01` | `ASM-01`, `CON-01`, `DEC-01` | `EC-01`, `SC-01` | `CHK-01` | `EVID-01` |
-| `REQ-02` | `ASM-01`, `CON-01` | `EC-02`, `SC-02` | `CHK-01` | `EVID-01` |
+| `REQ-02` | `ASM-01`, `CON-01` | `EC-02`, `SC-02`, `NEG-01` | `CHK-01`, `CHK-02` | `EVID-01`, `EVID-02` |
 
 ### Acceptance Scenarios
 
-- `SC-01` Основной happy path.
-- `SC-02` Обязательный real-world или edge scenario.
+Для compact feature допустима однострочная форма, если она однозначно задаёт
+существенный context, event и observable outcome:
+
+- `SC-01` Основной happy path: при <context>, когда <event>, система публикует или показывает <observable outcome>.
+
+Для structured BDD используй форму ниже. Rule refs ссылаются на canonical
+`UC/BR/REQ`, но не копируют их semantics.
+
+#### SC-02: Название различающего поведения
+
+- Rule refs: `UC-XXX/BR-01`, `REQ-02`
+- Given: существенное начальное состояние
+- When: одно значимое событие или действие
+- Then: observable outcome для пользователя, оператора или external system
+- And: дополнительный observable outcome, только если нужен verdict
+- Checks: `CHK-01`
+
+### Negative / Edge Scenarios
+
+Добавляй `NEG-*`, когда negative или boundary behavior меняет acceptance verdict.
+
+#### NEG-01: Название error или edge behavior
+
+- Rule refs: `UC-XXX/EX-01`, `REQ-02`
+- Given: существенное boundary-состояние
+- When: событие или действие
+- Then: наблюдаемый отказ, fallback или preserved state
+- Checks: `CHK-02`
 
 ### Checks
 
@@ -190,22 +219,26 @@ Verify должен быть исполнимым.
 | Check ID | Covers | How to check | Expected result | Evidence path |
 | --- | --- | --- | --- | --- |
 | `CHK-01` | `EC-01`, `SC-01` | Команда или процедура | Что считаем успехом | Где лежит артефакт |
+| `CHK-02` | `NEG-01` | Команда или процедура | Какой negative / edge verdict ожидается | Где лежит артефакт |
 
 ### Test matrix
 
 | Check ID | Evidence IDs | Evidence path |
 | --- | --- | --- |
 | `CHK-01` | `EVID-01` | `artifacts/ft-xxx/verify/chk-01/` |
+| `CHK-02` | `EVID-02` | `artifacts/ft-xxx/verify/chk-02/` |
 
 ### Evidence
 
 - `EVID-01` Какой артефакт обязан появиться после проверки.
+- `EVID-02` Evidence negative / edge verdict или approved manual-only gap.
 
 ### Evidence contract
 
 | Evidence ID | Artifact | Producer | Path contract | Reused by checks |
 | --- | --- | --- | --- | --- |
 | `EVID-01` | Лог, отчет, скриншот или sample output | verify-runner / human | `artifacts/ft-xxx/verify/chk-01/` | `CHK-01` |
+| `EVID-02` | Лог, отчет или sample output для negative/edge behavior | verify-runner / human | `artifacts/ft-xxx/verify/chk-02/` | `CHK-02` |
 
 ### Requirement-to-realization traceability
 

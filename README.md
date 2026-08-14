@@ -1,110 +1,101 @@
-# Memory Bank — governance-ядро AI Software Development OS
+# Memory Bank
 
-## Что это
+**A durable, version-controlled context and governance layer for software development with coding agents.**
 
-Memory Bank — переносимый documentation-first шаблон для разработки ПО с AI-агентами. Его копируют в проект и адаптируют так, чтобы человек и агент одинаково понимали:
+[Русская версия](README.ru.md) · [Adoption guide](docs/adoption.md) · [Daily usage](docs/usage.md) · [CLI](https://github.com/dapi/memory-bank-cli)
 
-- какой продукт создаётся и для кого;
-- как устроена предметная область;
-- какие инженерные и операционные правила действуют;
-- какие требования, сценарии и архитектурные решения приняты;
-- как работа будет реализована и проверена.
+Coding agents are most useful when they share the same understanding of the product, domain, architecture, constraints, and definition of done. Memory Bank keeps that knowledge in Git, next to the code, instead of leaving it in one person's head or a disposable chat session.
 
-Это не вики и не архив заметок, а версионируемая рабочая память проекта. Важный контекст хранится рядом с кодом, а не в голове разработчика или одноразовом чате.
+It gives humans and agents an authoritative starting point, routes work through explicit delivery flows, and preserves the decisions needed to resume a task in a fresh session.
 
-Здесь **OS** — метафора operating system для процесса разработки. Memory Bank работает как control plane: задаёт контекст, правила, lifecycle и критерии готовности. Task tracker, agent runner, coding agent, Git и CI образуют execution layer вокруг него.
+Memory Bank is not a wiki, task tracker, or agent runner. It is the control plane around those tools: durable context, ownership rules, lifecycle gates, and verification contracts.
 
-## Как это работает
+## What you get
 
-`dna/` задаёт governance-ядро: Single Source of Truth, зависимости между документами, lifecycle, frontmatter и правила навигации. Постоянный контекст проекта находится в `product/`, `domain/`, `engineering/` и `ops/`; research, инициативы, сценарии и решения — в Research, PRD, epic, use case и ADR.
+- **Durable project context** — product intent, domain language, engineering rules, and operational constraints survive across sessions.
+- **Clear ownership** — Single Source of Truth rules prevent the same fact from drifting across documents.
+- **Governed delivery** — task routing selects the smallest suitable flow for incidents, bugs, research, small changes, epics, refactoring, or features.
+- **Safe reuse and updates** — an ownership-aware CLI installs the template, preserves local customizations, and reports conflicts.
+- **Automated checks** — `lint` audits links and navigation; `doctor` checks adoption, governance, managed drift, and CI integration.
 
-Для значимой delivery-фичи контекст созревает поэтапно:
+```text
+Memory Bank context and rules
+             ↓
+         Issue / task
+             ↓
+   Agent session and delivery flow
+             ↓
+ Implementation → verification → PR
+             ↓
+ New durable knowledge returns to Memory Bank
+```
+
+## Quick Start
+
+Install the companion CLI with Go:
+
+```sh
+go install github.com/dapi/memory-bank-cli/cmd/memory-bank-cli@latest
+```
+
+Then, from the root of your Git repository:
+
+```sh
+memory-bank-cli init --dry-run
+memory-bank-cli init
+memory-bank-cli doctor
+```
+
+`--dry-run` previews every file before installation. `init` installs the template, creates `memory-bank/.lock`, and adds a managed Memory Bank block to the repository's agent instructions. For reproducible automation, pin a released CLI version instead of `latest`.
+
+Next, open `memory-bank/README.md` and adapt `product/`, `domain/`, `engineering/`, and `ops/` to the actual project. Generic template text is not evidence about an existing codebase: brownfield projects should follow the [brownfield adaptation protocol](docs/brownfield-adaptation-protocol.md), while new projects can use the [greenfield protocol](docs/greenfield-integration-protocol.md).
+
+See the complete [adoption guide](docs/adoption.md) for agent setup, local validation, and downstream CI.
+
+## How it works
+
+The `dna/` layer defines document governance: source ownership, dependency direction, lifecycle, frontmatter, and navigation. Stable project context lives in `product/`, `domain/`, `engineering/`, and `ops/`. Requirements and decisions mature through research, PRDs, epics, use cases, feature packages, and ADRs.
+
+For a substantial delivery feature, the context typically develops in three stages:
 
 ```text
 brief.md                 design.md                  implementation-plan.md
-что и зачем       →      какое решение       →     как реализовать и проверить
+what and why      →      chosen solution     →     implementation and checks
 problem space            solution space             execution space
-                         (если требуется)
+                         (when required)
 ```
 
-Документы не должны дублировать друг друга. Код владеет реализацией, а Memory Bank — намерением, требованиями, обоснованием решений и контрактами.
+Documents own intent, requirements, rationale, and contracts. Code owns implementation. A new agent session can therefore restart from the same task and canonical documents without reconstructing the project from chat history.
 
-Агенту передаётся компактный стартовый контекст и ссылки на нужные owner-документы. Если сессия исчерпала контекст, новую можно начать с той же задачи: важные факты, решения и способы проверки остаются в Memory Bank.
+Every task begins with [Task Routing](template/memory-bank/flows/routing.md), which selects the applicable lifecycle and its evidence requirements.
 
-## Что находится в шаблоне
+## Template layout
 
-В этом source-репозитории payload хранится в `template/`. Команды
-`memory-bank-cli init` и `update` переносят в корень downstream-репозитория
-все tracked regular files из этого каталога: например,
-`template/memory-bank/` становится `memory-bank/`, а `template/init.sh` —
-`./init.sh`. Имя `template/` в проект-получатель не переносится.
+This repository is the upstream source. `memory-bank-cli init` installs tracked regular files from `template/` into a downstream repository: `template/memory-bank/` becomes `memory-bank/`, while `template/init.sh` becomes `./init.sh`.
 
-| Каталог | Назначение |
+| Area | Purpose |
 | --- | --- |
-| [`dna/`](template/memory-bank/dna/README.md) | Governance-ядро: SSoT, frontmatter, lifecycle и правила связей между документами |
-| [`product/`](template/memory-bank/product/README.md) | Vision, customers, metrics, marketing и roadmap |
-| [`domain/`](template/memory-bank/domain/README.md) | Glossary, domain model, business rules, states, events и context map |
-| [`engineering/`](template/memory-bank/engineering/README.md) | Архитектура, тестирование, coding style, git workflow и границы автономии агента |
-| [`ops/`](template/memory-bank/ops/README.md) | Локальная разработка, окружения, конфигурация, релизы и runbooks |
-| [`prd/`](template/memory-bank/prd/README.md) | Продуктовые инициативы между общим product context и отдельными фичами |
-| [`research/`](template/memory-bank/research/README.md) | Evidence-backed market, product и technical research до решения о delivery |
-| [`epics/`](template/memory-bank/epics/README.md) | Крупные инициативы с roadmap, рисками, решениями и delivery subissues |
-| [`use-cases/`](template/memory-bank/use-cases/README.md) | Канонические пользовательские и операционные сценарии |
-| [`features/`](template/memory-bank/features/README.md) | Пакеты отдельных delivery-фич |
-| [`adr/`](template/memory-bank/adr/README.md) | Архитектурные решения и причины их принятия |
-| [`flows/`](template/memory-bank/flows/README.md) | Lifecycle-процессы и шаблоны документов |
-| [`prompts/`](template/memory-bank/prompts/README.md) | Human-only каталог prompt-артефактов и его access contract |
+| [`dna/`](template/memory-bank/dna/README.md) | Governance, Single Source of Truth, lifecycle, and document contracts |
+| [`product/`](template/memory-bank/product/README.md) | Vision, customers, metrics, marketing, and roadmap |
+| [`domain/`](template/memory-bank/domain/README.md) | Glossary, domain model, rules, states, events, and context map |
+| [`engineering/`](template/memory-bank/engineering/README.md) | Architecture, testing, coding style, Git workflow, and agent autonomy |
+| [`ops/`](template/memory-bank/ops/README.md) | Development, environments, configuration, releases, and runbooks |
+| [`research/`](template/memory-bank/research/README.md), [`prd/`](template/memory-bank/prd/README.md), [`epics/`](template/memory-bank/epics/README.md) | Discovery and initiative-level planning |
+| [`use-cases/`](template/memory-bank/use-cases/README.md), [`features/`](template/memory-bank/features/README.md), [`adr/`](template/memory-bank/adr/README.md) | Scenarios, delivery packages, and architecture decisions |
+| [`flows/`](template/memory-bank/flows/README.md) | Task lifecycles and reusable document templates |
 
-После установки шаблона [`memory-bank/README.md`](template/memory-bank/README.md) становится основным индексом downstream-проекта.
+After installation, `memory-bank/README.md` is the primary index inside the downstream project.
 
-Корневой [`template/init.sh`](template/init.sh) — portable bootstrap для
-`mise`, Git submodules и `direnv`, если соответствующие файлы есть в проекте.
-После установки адаптируй `./init.sh` под реальные dependency, database и
-service setup-команды проекта; он намеренно не переносит `.env`-файлы.
+## Documentation
 
-## Внедрение в проект
+- [Adopting Memory Bank](docs/adoption.md)
+- [Using Memory Bank day to day](docs/usage.md)
+- [Context priming for an agent task](docs/context-priming.md)
+- [CLI integration](docs/memory-bank.md)
+- [Ownership and safe updates](docs/ownership.md)
+- [Repository development](docs/development.md)
+- [Detailed overview in Russian](README.ru.md)
 
-В downstream-проект устанавливается каталог `memory-bank/` и создаётся ownership lock рядом с ним. Исходники CLI, Go-модуль, CI и release-конфигурация этого репозитория не являются частью шаблона приложения.
+The governance model applies the [MECE principle](https://en.wikipedia.org/wiki/MECE_principle): categories should be mutually exclusive and collectively exhaustive within their declared scope.
 
-Инструкция по внедрению охватывает:
-
-- адаптацию существующего проекта (brownfield);
-- запуск нового проекта (greenfield);
-- настройку агента;
-- локальную проверку и downstream CI.
-
-Следуйте [инструкции по внедрению](docs/adoption.md).
-
-## Выбор рабочего процесса
-
-Каждая задача сначала проходит [Task Routing](template/memory-bank/flows/routing.md). Он направляет работу в Incident, Bug Fix, Research & Discovery, Small Change, Epic, Refactoring, Feature или на ручное решение.
-
-Корневой README даёт только обзор. Условия входа, lifecycle, обязательные артефакты и exit contract принадлежат каноническим документам в [`memory-bank/flows/`](template/memory-bank/flows/README.md) и не дублируются здесь.
-
-## Документация репозитория
-
-| Документ | Для кого и зачем |
-| --- | --- |
-| [Внедрение Memory Bank](docs/adoption.md) | Для команд, подключающих шаблон к brownfield- или greenfield-проекту |
-| [Brownfield adaptation protocol](docs/brownfield-adaptation-protocol.md) | Для evidence-backed адаптации существующего репозитория до и после установки Memory Bank |
-| [Greenfield adaptation protocol](docs/greenfield-integration-protocol.md) | Для копирования шаблона, извлечения project facts из README и docs, адаптации Memory Bank и создания initial PRD |
-| [Использование Memory Bank](docs/usage.md) | Для повседневной работы с задачами и AI-агентами после внедрения |
-| [Праймеринг контекста](docs/context-priming.md) | Для подготовки AI-агента к конкретной задаче и сбора релевантного контекста |
-| [Использование `memory-bank-cli`](docs/memory-bank.md) | Для пользователей CLI и downstream CI |
-| [Глоссарий](docs/glossary.md) | Термины governance и структуры документации, используемые в этом репозитории |
-| [Ownership и безопасные обновления](docs/ownership.md) | Для понимания lock schema, границ владения и conflict policy |
-| [Managed-блок инструкций агента](docs/agent-instructions.md) | Для marker contract, doctor и выбора единственного agent instruction target |
-| [Разработка репозитория](docs/development.md) | Для разработчиков шаблона |
-
-`memory-bank-cli lint` проверяет broken links, orphan-документы, достижимость через индексную навигацию и contract ожидаемых `README.md`-индексов. `memory-bank-cli doctor` добавляет read-only диагностику внедрения, governance, managed drift и CI. CLI разрабатывается и выпускается отдельно в [`dapi/memory-bank-cli`](https://github.com/dapi/memory-bank-cli).
-
-## Развитие шаблона
-
-Источники полезных практик:
-
-- [`dapi/zelma`](https://github.com/dapi/zelma);
-- [`brandymint/merchantly`](https://github.com/brandymint/merchantly);
-- [`alfagen/mercury`](https://github.com/alfagen/mercury);
-- Nenad Medvidovic, Richard N. Taylor, [*A Classification and Comparison Framework for Software Architecture Description Languages*](https://ics.uci.edu/~taylor/documents/2000-ADLs-TSE.pdf) — источник архитектурной модели components, connectors и configurations.
-
-Добавляйте в шаблон только обобщаемые правила. Названия продуктов, инфраструктурные детали и другие project-specific факты должны оставаться в downstream-копии `memory-bank/`.
+The CLI is developed and released separately in [`dapi/memory-bank-cli`](https://github.com/dapi/memory-bank-cli). This template is available under the [Apache License 2.0](LICENSE).

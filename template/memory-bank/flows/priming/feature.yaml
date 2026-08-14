@@ -3,11 +3,13 @@ process: feature
 stages:
   bootstrap_brief:
     - memory-bank/flows/feature-requirements.md
+    - memory-bank/flows/behavior-specification.md
     - memory-bank/flows/feature-artifact-catalog.md
     - memory-bank/features/README.md
     - memory-bank/prd/*.md
     - memory-bank/product/*.md
     - memory-bank/domain/*.md
+    - memory-bank/engineering/autonomy-boundaries.md
     - memory-bank/engineering/validation-profiles.md
     - memory-bank/flows/templates/feature/README.md
     - memory-bank/flows/templates/feature/brief.md
@@ -29,6 +31,7 @@ stages:
     - memory-bank/flows/templates/feature/support/runtime-surfaces.md
     - memory-bank/flows/templates/feature/support/sequence-diagram.md
   scenario_design:
+    - memory-bank/flows/behavior-specification.md
     - memory-bank/flows/templates/feature/support/use-cases.md
   plan_ready:
     - memory-bank/flows/templates/feature/implementation-plan.md

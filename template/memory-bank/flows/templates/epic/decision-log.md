@@ -2,7 +2,7 @@
 title: "EP-XXX: Decision Log Template"
 doc_kind: governance
 doc_function: template
-purpose: "Шаблон epic-local decision log for decisions backed by evidence/FPF that do not require global ADR."
+purpose: "Шаблон epic-local decision log for decisions backed by evidence and Structured Decision Protocol that do not require global ADR."
 derived_from:
   - ../../epic.md
 status: active
@@ -29,7 +29,7 @@ must_not_define:
 
 # EP-XXX: Decision Log
 
-## FPF Reading Rule
+## Structured Decision Reading Rule
 
 Record facts, assumptions, reasoning and consequences separately.
 

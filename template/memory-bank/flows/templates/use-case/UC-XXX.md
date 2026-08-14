@@ -8,6 +8,7 @@ derived_from:
   - ../../../dna/frontmatter.md
   - ../../../product/context.md
   - ../../use-case.md
+  - ../../behavior-specification.md
 status: active
 audience: humans_and_agents
 template_for: use_case
@@ -23,6 +24,8 @@ canonical_for:
 ## Wrapper Notes
 
 Use case фиксирует устойчивый проектный сценарий. Он описывает trigger, preconditions, основной flow, альтернативы и postconditions, но не уходит в implementation sequence, архитектуру или feature-level verify.
+
+BDD concrete examples живут downstream как `SC-*` / `NEG-*`. Use case дает им стабильные точки traceability через `BR-*`, `ALT-*` и `EX-*`, но не копирует example bodies, checks или test matrix.
 
 Критерии выбора, lifecycle и границы между `UC-*`, `SC-*` и `FUC-*` определяет [`Use Case Flow`](../../use-case.md).
 
@@ -50,6 +53,7 @@ must_not_define:
   - implementation_sequence
   - architecture_decision
   - feature_level_test_matrix
+  - bdd_example_inventory
 ```
 
 ## Instantiated Body
@@ -126,6 +130,16 @@ must_not_define:
 | Features | `FT-XXX`, `FT-YYY` |
 | ADR | `ADR-XXX` / `none` |
 | Runbooks / Ops | `../ops/...` / `none` |
+
+## Downstream Behavior Coverage
+
+Заполняй после появления downstream feature examples. Таблица является
+навигацией; canonical acceptance и checks остаются в feature `brief.md`.
+
+| UC element | Downstream examples | Coverage note |
+| --- | --- | --- |
+| `BR-01` | `FT-XXX/SC-01`, `FT-XXX/NEG-01` | Какие различающие positive/negative examples проверяют rule |
+| `ALT-01` | `FT-YYY/SC-02` | Какая feature реализует alternative branch |
 
 ## Lifecycle Note (Required When Archived)
 

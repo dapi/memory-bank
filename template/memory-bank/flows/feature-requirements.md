@@ -13,7 +13,6 @@ canonical_for:
   - feature_requirement_traceability_rules
   - solution_identifier_taxonomy
   - feature_plan_identifier_taxonomy
-  - feature_traceability_rules
 must_not_define:
   - feature_flow_stages
   - feature_solution_decisions
@@ -117,29 +116,6 @@ Lint and doctor remain structural: they may validate ID format, uniqueness, reso
 | `FUC-*` | derived feature-local use cases | `use-cases/README.md` |
 | `TC-*` | derived test case candidates | `use-cases/README.md`, support docs |
 | `SEQ-*` | sequence branches, temporal rules or interaction paths | `diagrams/<name>-sequence.md`, embedded sequence views |
-
-### Required Minimum
-
-1. Любой canonical `brief.md` использует как минимум `REQ-*`, `NS-*`, `SC-*`, `CHK-*`, `EVID-*`.
-2. Любой `brief.md` со `status: active` задает хотя бы один explicit test case через `SC-*`.
-3. `brief.md` может использовать только минимальный problem-space набор для compact feature package или расширенный набор feature IDs по необходимости; отдельные problem-space templates не используются.
-4. Любой required `design.md` использует как минимум один `SOL-*`, один `C4-*` decision, Architecture Coverage Decision и Design Verification selection и связывает solution refs минимум с одним `REQ-*` из sibling `brief.md`.
-5. Любой `design.md` фиксирует selection rationale для C4 applicability; выбранные C4 views используют `C4-*` и связываются с `SOL-*`, `SD-*`, `CTR-*`, `INV-*` или ADR refs.
-6. Любой `design.md`, где есть принятые feature-local решения, использует `SD-*`; `ALT-*`, `TRD-*`, `CTR-*`, `INV-*`, `FM-*` и `RB-*` применяются только когда соответствующая solution-semantics действительно нужна.
-7. Любой optional support doc использует только local support IDs и traceability к canonical refs; он не вводит новые canonical `REQ-*`, `SC-*`, `CHK-*` или `EVID-*`.
-8. Любой `implementation-plan.md` использует как минимум `GRND-*`, `PRE-*`, `STEP-*`, `CHK-*`, `EVID-*`; при наличии ambiguity или human approval gates используются `OQ-*` и `AG-*`.
-9. Any new active `brief.md` records applicability for every baseline class and the minimum fields for each applicable `REQ-*`.
-
-### Traceability Contract
-
-1. Scope в `brief.md` фиксируется через `REQ-*`, non-scope через `NS-*`.
-2. Verify в `brief.md` связывает `REQ-*` с test cases через `Acceptance Scenarios`, feature-specific `NEG-*`, `Traceability matrix`, `Test matrix` и `Evidence contract`.
-3. `design.md`, если есть, связывает `REQ-*` из `brief.md` с `SOL-*`, `ALT-*`, `TRD-*`, `C4-*`, `SD-*`, `CTR-*`, `INV-*`, `FM-*`, `RB-*` и accepted ADR refs.
-4. `implementation-plan.md` ссылается на canonical IDs из `brief.md` и, если есть, применимые `SOL-*`, `C4-*`, `SD-*`, `CTR-*`, `INV-*`, `FM-*`, `RB-*` и accepted ADR refs в Design Realization Mapping и `Implements`; `Verifies` содержит связанные `CHK-*`, а `Evidence IDs` — подтверждающие `EVID-*`, образуя trace chain от canonical ref до evidence.
-5. The plan maps every changed implementation/test/config surface to a `REQ-*` or explicit supporting rationale using exact path plus symbol/section.
-6. Если sequencing блокируется неизвестностью, план фиксирует её как `OQ-*`, а не прячет в prose.
-7. Если выполнение требует человеческого подтверждения для рискованных действий, план фиксирует это через `AG-*`.
-8. Если design или to-be C4 architecture model меняется после `Solution Ready`, сначала обновляется непосредственный owner из Design Pack manifest или external dependency, затем root manifest и план.
 
 ## Worked Traceability Examples
 
