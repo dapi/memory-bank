@@ -4,11 +4,25 @@
 
 [Русская версия](README.ru.md) · [Adoption guide](docs/adoption.md) · [Daily usage](docs/usage.md) · [CLI](https://github.com/dapi/memory-bank-cli)
 
+**`AGENTS.md` can tell an agent how to start. Memory Bank preserves what the project means, why decisions were made, and how work is verified.**
+
+<p align="center">
+  <img src="docs/assets/memory-bank-demo.gif" alt="Memory Bank CLI previews installation, installs project context and validates it for a fresh agent session" width="760">
+</p>
+
 Coding agents are most useful when they share the same understanding of the product, domain, architecture, constraints, and definition of done. Memory Bank keeps that knowledge in Git, next to the code, instead of leaving it in one person's head or a disposable chat session.
 
-It gives humans and agents an authoritative starting point, routes work through explicit delivery flows, and preserves the decisions needed to resume a task in a fresh session.
+It gives humans and agents an authoritative starting point, routes work through explicit delivery flows, and preserves the decisions and evidence needed to resume a task in a fresh session.
 
 Memory Bank is not a wiki, task tracker, or agent runner. It is the control plane around those tools: durable context, ownership rules, lifecycle gates, and verification contracts.
+
+Use it when a project has one or more of these symptoms:
+
+- a fresh agent has to reconstruct product intent from chat history;
+- the same rule appears in several documents and drifts;
+- implementation starts before requirements, risks, or acceptance are clear;
+- a task cannot be resumed without the person who ran the previous session;
+- a successful test is reported without a durable link to what was verified.
 
 ## What you get
 
@@ -41,12 +55,16 @@ go install github.com/dapi/memory-bank-cli/cmd/memory-bank-cli@latest
 Then, from the root of your Git repository:
 
 ```sh
-memory-bank-cli init --dry-run
-memory-bank-cli init
+SOURCE_DIR="$(mktemp -d)/memory-bank"
+git clone --depth 1 https://github.com/dapi/memory-bank.git "$SOURCE_DIR"
+SOURCE_REF="$(git -C "$SOURCE_DIR" rev-parse HEAD)"
+
+memory-bank-cli init --source "$SOURCE_DIR" --template-version "$SOURCE_REF" --source-ref "$SOURCE_REF" --dry-run
+memory-bank-cli init --source "$SOURCE_DIR" --template-version "$SOURCE_REF" --source-ref "$SOURCE_REF"
 memory-bank-cli doctor
 ```
 
-`--dry-run` previews every file before installation. `init` installs the template, creates `memory-bank/.lock`, and adds a managed Memory Bank block to the repository's agent instructions. For reproducible automation, pin a released CLI version instead of `latest`.
+`--dry-run` previews every file before installation. `init` installs the clean checkout pinned by `SOURCE_REF`, creates `memory-bank/.lock`, and adds a managed Memory Bank block to the repository's agent instructions. For reproducible automation, pin both a released CLI version and a released template tag instead of using their latest revisions.
 
 Next, open `memory-bank/README.md` and adapt `product/`, `domain/`, `engineering/`, and `ops/` to the actual project. Generic template text is not evidence about an existing codebase: brownfield projects should follow the [brownfield adaptation protocol](docs/brownfield-adaptation-protocol.md), while new projects can use the [greenfield protocol](docs/greenfield-integration-protocol.md).
 
