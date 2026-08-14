@@ -303,6 +303,17 @@ flowchart LR
 
 Каждый gate — набор проверяемых предикатов. Переход допустим тогда и только тогда, когда все предикаты истинны.
 
+### Source-Template Gate Adaptation
+
+Когда применяется source-template exception из [Package Rules](#package-rules),
+feature package намеренно не создаётся. Это отдельный вариант тех же gates, а
+не bypass:
+
+1. Routed issue/task carrier заменяет `README.md` и `brief.md` и содержит те же problem-space facts: scope/non-scope, requirement applicability, acceptance/evidence contract, validation profile, Design Requirement Decision и lifecycle state.
+2. При `Design required: yes` selected solution и применимые design predicates фиксируются в изменяемых governed owners, accepted ADR или linked issue/PR design record; при `no` carrier хранит rationale.
+3. Plan/Execution predicates проверяются по repository-approved issue/PR/orchestration record: immutable grounding revision, exact targets, steps, checks, evidence, approvals и review verdicts остаются обязательными, хотя `implementation-plan.md` не создаётся.
+4. Только predicates существования и publication/lifecycle status файлов package заменяются explicit exception evidence. Semantic, ownership, validation, Git, CI и closure predicates выполняются без ослабления.
+
 ### Bootstrap Feature Package
 
 - [ ] `README.md` создан по шаблону `templates/feature/README.md`

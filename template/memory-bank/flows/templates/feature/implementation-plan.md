@@ -190,7 +190,7 @@ Use repository-relative paths and a symbol, heading, or configuration key. A cha
 | Requirement or supporting ref | Exact implementation / test / config path + symbol/section | Change role | Steps | Checks / evidence |
 | --- | --- | --- | --- | --- |
 | `REQ-01` | `path/file.ext#Symbol` | direct realization | `STEP-01` | `CHK-01`, `EVID-01` |
-| `SUP-01` | `path/test.ext#test_name` | supporting: why required | `STEP-02` | `CHK-02`, `EVID-02` |
+| supporting rationale: regression coverage for `REQ-01` | `path/test.ext#test_name` | supporting: why required | `STEP-02` | `CHK-02`, `EVID-02` |
 
 ## Workstreams
 

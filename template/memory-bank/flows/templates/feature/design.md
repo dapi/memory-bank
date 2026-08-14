@@ -143,16 +143,16 @@ design. Используй только ссылки на canonical facts; дл�
 
 ## Selected Solution
 
-## Requirement realization boundary
+- `SOL-01` Выбранный элемент решения и почему он закрывает `REQ-*`.
+- `SOL-02` Второй элемент решения, если нужен.
+
+### Requirement realization boundary
 
 `brief.md` owns requirements and acceptance. Map its applicable `REQ-*` to selected solution facts here, without adding requirements.
 
 | Requirement | Class | Selected solution / contract / invariant | Plan realization owner | Verification link |
 | --- | --- | --- | --- | --- |
 | `REQ-01` | interface | `SOL-01`, `CTR-01` | `implementation-plan.md` | `CHK-01`, `EVID-01` |
-
-- `SOL-01` Выбранный элемент решения и почему он закрывает `REQ-*`.
-- `SOL-02` Второй элемент решения, если нужен.
 
 ## Alternatives Considered
 
