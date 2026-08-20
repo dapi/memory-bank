@@ -28,3 +28,4 @@ source set `governed_artifact`.
 - [Frontmatter Schema](frontmatter.md) — schema полей frontmatter.
 - [Document Lifecycle](lifecycle.md) — maintenance rules, sync checklist.
 - [Cross-references](cross-references.md) — правила двусторонней навигации code ↔ docs.
+- [Working Glossary](working-glossary.md) — справочник терминов Memory Bank для людей и агентов; значение каждого термина остаётся у указанного canonical owner.
