@@ -36,7 +36,7 @@ canonical_for:
 **Gate:** не запускать широкое распространение, пока новый читатель не может понять продукт и запустить dry-run за пять минут.
 
 - [x] Сжать first screen README до problem, difference и working quick start.
-- [x] Добавить короткую GIF-демонстрацию.
+- [x] Проверить короткую GIF-демонстрацию и убрать её: статичный сценарий на первом экране не объясняет реальное поведение CLI.
 - [ ] Установить подготовленный GitHub social preview и homepage URL после появления стабильной страницы статьи.
 - [x] Добавить topics: `coding-agents`, `context-engineering`, `agentic-coding`, `claude-code`, `codex`, `cursor`, `software-governance`, `developer-tools`, `documentation`, `ssot`.
 - [x] Повторить quick start на чистом temporary repository: 131 файл установлен, `doctor` завершился с 0 errors, 1 ожидаемым предупреждением об отсутствующем CI gate.

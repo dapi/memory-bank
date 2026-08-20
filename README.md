@@ -6,10 +6,6 @@
 
 **`AGENTS.md` can tell an agent how to start. Memory Bank preserves what the project means, why decisions were made, and how work is verified.**
 
-<p align="center">
-  <img src="docs/assets/memory-bank-demo.gif" alt="Memory Bank CLI previews installation, installs project context and validates it for a fresh agent session" width="760">
-</p>
-
 Coding agents are most useful when they share the same understanding of the product, domain, architecture, constraints, and definition of done. Memory Bank keeps that knowledge in Git, next to the code, instead of leaving it in one person's head or a disposable chat session.
 
 It gives humans and agents an authoritative starting point, routes work through explicit delivery flows, and preserves the decisions and evidence needed to resume a task in a fresh session.
