@@ -133,6 +133,7 @@ After installation, `memory-bank/README.md` is the primary index inside the down
 - [Adopting Memory Bank](docs/adoption.md)
 - [Using Memory Bank day to day](docs/usage.md)
 - [Context priming for an agent task](docs/context-priming.md)
+- [Glossary](docs/glossary.md)
 - [Optional CLI automation](docs/memory-bank.md)
 - [Ownership and safe updates](docs/ownership.md)
 - [Repository development](docs/development.md)
