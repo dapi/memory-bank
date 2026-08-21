@@ -8,9 +8,8 @@ CLI utility так, чтобы он отражал наблюдаемое сос
 код и не реализует продуктовые изменения.
 
 В source checkout `dapi/memory-bank` payload называется
-`template/memory-bank/`, но `memory-bank-cli init` устанавливает его в
-downstream repository как `memory-bank/`. Все пути ниже относятся к
-downstream-каталогу после установки.
+`template/memory-bank/`; при переносе в downstream repository он становится
+`memory-bank/`. Все пути ниже относятся к downstream-каталогу после установки.
 
 **До шага «Установить и активировать» не открывайте, не копируйте и не
 консультируйте `memory-bank/`, включая generic template, его README, governance
@@ -77,9 +76,10 @@ packages или epics. Unknown означает `Unknown`/`TBD`/`Needs owner con
 
 ### 3. Установить и активировать Memory Bank
 
-Только после завершения discovery инициализируйте downstream `memory-bank/` из
-upstream payload `template/memory-bank/` по [инструкции CLI](memory-bank.md).
-Затем прочитайте
+Только после завершения discovery перенесите downstream `memory-bank/` из
+upstream payload `template/memory-bank/`, не сохраняя `template/` как префикс и
+не перезаписывая existing repository instructions, docs или runtime-файлы без
+явного плана. Затем прочитайте
 `memory-bank/README.md`, governance-ядро и применимый flow. Сохраните existing
 repository instructions: managed agent block дополняет их, но не заменяет.
 
@@ -123,10 +123,9 @@ historical ADR — только для уже принятых и всё ещё 
 
 ### 7. Validate и trial
 
-Обновите README indexes и `derived_from` links. Запустите
-`memory-bank-cli lint` и `memory-bank-cli doctor`; если команда недоступна,
-запишите точную verification gap и выполните доступную проверку
-ссылок/структуры. Затем используйте adapted context в одной реальной task через
+Обновите README indexes и `derived_from` links. Проверьте ссылки, структуру,
+frontmatter и достижимость документов. Если в проекте подключён опциональный
+`memory-bank-cli`, дополнительно запустите `lint` и `doctor`. Затем используйте adapted context в одной реальной task через
 подходящий flow до объявления rollout complete.
 
 ## Product-type considerations
@@ -176,8 +175,9 @@ Inventory и owner-документы conditional: не создавайте irr
       если он известен.
 - [ ] Use cases и historical ADRs созданы только при source evidence; лишние
       delivery artifacts не созданы.
-- [ ] `memory-bank-cli lint` и `memory-bank-cli doctor` успешны либо
-      verification gap указан без заявления об успехе.
+- [ ] Ссылки, README-индексы, frontmatter и достижимость документов проверены;
+      результат опциональных `memory-bank-cli lint` и `doctor` указан, если CLI
+      подключён.
 - [ ] Adapted context испытан на одной real task через выбранный flow.
 - [ ] Reviewable change перечисляет created, changed и intentionally unadapted
       documents, а также follow-up owner/triggers.
@@ -193,5 +193,6 @@ PRD в ./brownfield-intake-prd.md: facts, sources, confidence, conflicts,
 assumptions, open questions и owner/freshness. Не выдумывай architecture или
 delivery plan. После discovery установи Memory Bank, адаптируй canonical owners
 из того же evidence, конвертируй intake в governed PRD и проверь
-memory-bank-cli lint/doctor.
+ссылки, README-индексы, frontmatter и достижимость документов; если в проекте
+подключён CLI, дополнительно запусти lint/doctor.
 ```

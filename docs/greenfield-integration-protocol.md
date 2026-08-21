@@ -23,7 +23,7 @@
 ## Выполнение
 
 1. Проведи inventory найденных фактов о продукте, пользователях, предметной области, архитектуре, разработке и эксплуатации.
-2. Если `memory-bank/` отсутствует, используй `memory-bank-cli init` с чистым закреплённым checkout `dapi/memory-bank`: CLI прочитает upstream `template/` и установит его содержимое в корень downstream-репозитория, поэтому `template/memory-bank/` станет `memory-bank/`, а `template/init.sh` — `./init.sh`. Если CLI недоступен и выбран явный manual fallback, скопируй содержимое source-каталога `template/` в корень downstream-репозитория, не сохраняя upstream-префикс. Если `memory-bank/` уже существует, не перезаписывай его целиком — адаптируй имеющуюся копию.
+2. Если `memory-bank/` отсутствует, получи чистый закреплённый checkout `dapi/memory-bank` и перенеси его upstream payload `template/` в корень downstream-репозитория: `template/memory-bank/` становится `memory-bank/`, а `template/init.sh` — `./init.sh`. Не сохраняй upstream-префикс и не перезаписывай существующие repository instructions, docs или runtime-файлы без явного плана. Если `memory-bank/` уже существует, не перезаписывай его целиком — адаптируй имеющуюся копию.
 3. Прочитай `memory-bank/README.md`, `memory-bank/dna/README.md` и правила document governance.
 4. Замени template placeholders подтверждёнными фактами текущего проекта и максимально полно адаптируй:
    - `product/` — problem, vision, users, jobs, outcomes, non-goals, metrics, positioning и roadmap;
@@ -39,7 +39,7 @@
    - если источников недостаточно для уверенного утверждения, оставь документ в `draft` и запиши конкретный open question вместо догадки.
 6. Обнови все затронутые README-индексы и `derived_from` связи. Каждый созданный документ должен быть достижим из `memory-bank/README.md`.
 7. Проведи финальную проверку на полноту и непротиворечивость: каждый найденный устойчивый факт должен либо иметь canonical owner, либо быть явно отмечен как неприменимый, конфликтующий или неизвестный.
-8. Запусти `memory-bank-cli lint`. Исправь broken links, orphan documents и ошибки индексной навигации. Если команда недоступна, сообщи об этом как о verification gap и выполни доступную проверку ссылок и структуры.
+8. Проверь ссылки, README-индексы, frontmatter и достижимость новых документов. Исправь broken links, orphan documents и ошибки индексной навигации. Если в проекте подключён опциональный `memory-bank-cli`, дополнительно запусти `lint` и укажи его результат.
 
 ## Правила адаптации
 
@@ -60,6 +60,19 @@
 - создан initial PRD и добавлен в `memory-bank/prd/README.md`;
 - неизвестные и противоречивые сведения явно перечислены как open questions;
 - навигация и ссылки согласованы;
-- `memory-bank-cli lint` проходит либо verification gap явно указан.
+- ссылки, README-индексы и frontmatter проверены; результат опционального CLI-аудита указан, если инструмент подключён.
 
 В финальном ответе перечисли изменённые разделы Memory Bank, созданный PRD, использованные source documents, результат проверки и оставшиеся open questions.
+
+## Copyable Codex prompt
+
+```text
+Это новый проект. Прочитай repository instructions, README и docs, затем
+выполни greenfield integration protocol из
+https://github.com/dapi/memory-bank/blob/main/docs/greenfield-integration-protocol.md.
+Добавь Memory Bank в текущий репозиторий, адаптируй product, domain, engineering
+и ops только из подтверждённых facts и создай initial PRD. Не выдумывай
+пользователей, требования, метрики, архитектуру или delivery plan; не реализуй
+продуктовые фичи. В конце покажи изменённые документы, источники, результаты
+validation и open questions.
+```

@@ -1,9 +1,9 @@
 # Внедрение Memory Bank в проект
 
-Этот документ описывает, как подключить Memory Bank к существующему или новому проекту. `memory-bank-cli` устанавливает tracked regular files из source `template/` в корень downstream-проекта: в частности, `template/memory-bank/` становится `memory-bank/`, а `template/init.sh` — `./init.sh`. Внутри `memory-bank/` создаётся служебный `memory-bank/.lock`. Source-repository metadata, `.github/` и `docs/` вне `template/` не являются частью шаблона приложения. Lock создаёт `memory-bank-cli init`, а не upstream template. Его нужно коммитить: он хранит версию источника и ownership-границу для безопасных обновлений.
+Этот документ описывает базовое подключение Memory Bank к существующему или новому проекту. Агент переносит tracked regular files из source `template/` в корень downstream-проекта: `template/memory-bank/` становится `memory-bank/`, а `template/init.sh` — `./init.sh`. Source-repository metadata, `.github/` и `docs/` вне `template/` не являются частью шаблона приложения.
 
 В репозитории `dapi/memory-bank` исходный payload находится в `template/`.
-Это только upstream-префикс: CLI его удаляет при установке. Downstream
+Это только upstream-префикс: агент не переносит его в downstream. Downstream
 инструкции должны ссылаться на реальные пути, например `memory-bank/` и
 `./init.sh`, но не на `template/...`.
 
@@ -16,7 +16,9 @@ memory-bank/
 init.sh
 ```
 
-Подробный ownership-контракт и процедура обновления: [`ownership.md`](ownership.md).
+Базовое внедрение не требует отдельной утилиты, lock-файла или CI. Для
+ownership-aware обновлений и автоматических проверок есть
+[опциональная CLI-автоматизация](memory-bank.md).
 
 ## Адаптировать существующий проект (brownfield)
 
@@ -24,11 +26,13 @@ init.sh
 
 Не заменяйте protocol кратким inventory: порядок важен, потому что generic template не является источником project facts до завершения discovery.
 
+Для запуска передайте агенту [copyable brownfield prompt](brownfield-adaptation-protocol.md#copyable-codex-prompt).
+
 ## Начать новый проект (greenfield)
 
 Для нового GitHub-проекта используйте [протокол адаптации Memory Bank](greenfield-integration-protocol.md). Он поручает Codex изучить существующие README и docs, скопировать generic-шаблон, максимально заполнить его подтверждёнными фактами о продукте и проекте и создать initial PRD.
 
-Для запуска выполните в корне downstream-репозитория:
+Для запуска передайте агенту [copyable greenfield prompt](greenfield-integration-protocol.md#copyable-codex-prompt). Если нужен shell-запуск Codex, выполните в корне downstream-репозитория:
 
 ```bash
 codex --search \
@@ -39,7 +43,10 @@ codex --search \
 
 ## Подключить агента
 
-Используйте managed-блок, который устанавливает `memory-bank-cli init`: он направляет агента к `memory-bank/README.md`, `memory-bank/dna/README.md` и `memory-bank/flows/routing.md`, не копируя governance. Не редактируйте содержимое между markers вручную; project-specific инструкции размещайте снаружи. Полный marker, update, doctor и alternative-target contract описан в [managed-блоках agent instructions](agent-instructions.md).
+Добавьте в repository instructions указание читать `memory-bank/README.md`,
+`memory-bank/dna/README.md` и `memory-bank/flows/routing.md`, не копируя
+governance. Project-specific инструкции остаются в собственном owner-файле.
+Опциональный managed-block contract описан в [инструкциях агента](agent-instructions.md).
 
 После установки Memory Bank для первой адаптации можно использовать запрос:
 
@@ -51,7 +58,7 @@ codex --search \
 
 После внедрения используйте [инструкцию по повседневной работе](usage.md): она описывает связь Memory Bank с task tracker и agent runner, рабочий цикл и стартовые запросы.
 
-## Установить локальную проверку
+## Опциональная CLI-проверка
 
 Для локального аудита установите закреплённый release `memory-bank-cli` из отдельного репозитория [`dapi/memory-bank-cli`](https://github.com/dapi/memory-bank-cli/releases). Выберите asset для своей ОС и архитектуры, проверьте его по опубликованному `checksums.txt` и добавьте бинарник в `PATH`.
 
@@ -64,7 +71,7 @@ memory-bank-cli doctor
 
 Интеграционный контракт и ссылки на command documentation: [`memory-bank.md`](memory-bank.md).
 
-## Подключить CI
+## Опциональный CI с CLI
 
 CI-проверка Memory Bank должна быть opt-in в downstream-проекте. Не копируйте `.github/workflows/ci.yml` из этого репозитория: он проверяет source template в profile `template`, а downstream-проекту нужен auto/downstream profile.
 
@@ -118,5 +125,6 @@ Memory Bank считается внедрённым, когда:
 - постоянный контекст `product/`, `domain/`, `engineering/` и `ops/` отражает фактические правила проекта или явно помечает пробелы;
 - агентские инструкции указывают читать `memory-bank/README.md` и governance-ядро;
 - первая реальная задача прошла через выбранный flow или `Small Change` routing record;
-- `memory-bank-cli doctor` проходит локально (и включает navigation checks `lint`);
-- CI-проверка подключена, если команда хочет блокировать PR при broken links или нарушенной индексной навигации.
+- ссылки, README-индексы и frontmatter проверены;
+- опциональные CLI-аудит и CI подключены, если команда хочет automated checks,
+  безопасные update или блокировку PR при broken links.
