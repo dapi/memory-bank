@@ -20,6 +20,8 @@ audience: humans_and_agents
 # Context Priming
 
 - [Context Priming Contract](context-priming.md) — P0/P1/P2 contract.
+- [Execution Handoff Contract](../execution-handoff.md) — derived observed
+  execution context; не заменяет declared priming inputs или canonical owners.
 - [Universal governance baseline](universal-baseline.yaml) — DNA inputs перед
   созданием или обновлением любого governed-артефакта.
 - [Routing manifest](routing.yaml) — P0 и Human Routing.

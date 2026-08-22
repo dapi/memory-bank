@@ -2,6 +2,43 @@
 
 [English version](README.md)
 
+**`AGENTS.md` объясняет агенту, как начать. Memory Bank сохраняет смысл проекта, принятые решения и способ доказать результат.**
+
+## Начать с агентом
+
+Скопируй запрос для своего типа проекта. Он поручает агенту принести и
+адаптировать Memory Bank; полный lifecycle определяют связанные протоколы.
+
+### Greenfield
+
+```text
+Это новый проект. Выполни
+https://github.com/dapi/memory-bank/blob/main/docs/greenfield-integration-protocol.md.
+```
+
+### Brownfield
+
+```text
+Это существующий проект. Выполни
+https://github.com/dapi/memory-bank/blob/main/docs/brownfield-adaptation-protocol.md.
+```
+
+Для воспроизводимого запуска замени `main` в URL протокола на immutable commit
+SHA.
+
+## Выполнить задачу
+
+После адаптации Memory Bank передай агенту задачу и этот запрос:
+
+```text
+Прочитай задачу, ./memory-bank/README.md и ./memory-bank/flows/routing.md.
+Выбери применимый flow и следуй его каноническому lifecycle. В финале сообщи
+route, изменённые артефакты, verification и open risks.
+```
+
+[Повседневная работа](docs/usage.md) объясняет цикл «задача → flow → проверки»
+и более короткие маршруты.
+
 ## Что это
 
 Memory Bank — переносимый documentation-first шаблон для разработки ПО с AI-агентами. Его копируют в проект и адаптируют так, чтобы человек и агент одинаково понимали:
@@ -35,9 +72,8 @@ problem space            solution space             execution space
 
 ## Что находится в шаблоне
 
-В этом source-репозитории payload хранится в `template/`. Команды
-`memory-bank-cli init` и `update` переносят в корень downstream-репозитория
-все tracked regular files из этого каталога: например,
+В этом source-репозитории payload хранится в `template/`. Агент переносит в
+корень downstream-репозитория tracked regular files из этого каталога: например,
 `template/memory-bank/` становится `memory-bank/`, а `template/init.sh` —
 `./init.sh`. Имя `template/` в проект-получатель не переносится.
 
@@ -66,7 +102,10 @@ service setup-команды проекта; он намеренно не пер
 
 ## Внедрение в проект
 
-В downstream-проект устанавливается каталог `memory-bank/` и создаётся ownership lock рядом с ним. Исходники CLI, Go-модуль, CI и release-конфигурация этого репозитория не являются частью шаблона приложения.
+В downstream-проект устанавливается каталог `memory-bank/`. Исходники CLI,
+Go-модуль, CI и release-конфигурация этого репозитория не являются частью
+шаблона приложения. Ownership lock и автоматизированные обновления —
+опциональное расширение, а не условие базового внедрения.
 
 Инструкция по внедрению охватывает:
 
@@ -93,13 +132,15 @@ service setup-команды проекта; он намеренно не пер
 | [Использование Memory Bank](docs/usage.md) | Для повседневной работы с задачами и AI-агентами после внедрения |
 | [Праймеринг контекста](docs/context-priming.md) | Для подготовки AI-агента к конкретной задаче и сбора релевантного контекста |
 | [User Story, Use Case и BDD-сценарии](docs/bdd-user-stories-and-use-cases.md) | Для разделения устойчивого сценария, delivery slice и проверяемых примеров поведения |
-| [Использование `memory-bank-cli`](docs/memory-bank.md) | Для пользователей CLI и downstream CI |
+| [Опциональная CLI-автоматизация](docs/memory-bank.md) | Для безопасных обновлений и downstream CI при необходимости |
 | [Глоссарий](docs/glossary.md) | Термины governance и структуры документации, используемые в этом репозитории |
 | [Ownership и безопасные обновления](docs/ownership.md) | Для понимания lock schema, границ владения и conflict policy |
 | [Managed-блок инструкций агента](docs/agent-instructions.md) | Для marker contract, doctor и выбора единственного agent instruction target |
 | [Разработка репозитория](docs/development.md) | Для разработчиков шаблона |
 
-`memory-bank-cli lint` проверяет broken links, orphan-документы, достижимость через индексную навигацию и contract ожидаемых `README.md`-индексов. `memory-bank-cli doctor` добавляет read-only диагностику внедрения, governance, managed drift и CI. CLI разрабатывается и выпускается отдельно в [`dapi/memory-bank-cli`](https://github.com/dapi/memory-bank-cli).
+Опциональный `memory-bank-cli` добавляет безопасные обновления, проверку links и
+диагностику governance. Он разрабатывается и выпускается отдельно в
+[`dapi/memory-bank-cli`](https://github.com/dapi/memory-bank-cli).
 
 ## Развитие шаблона
 

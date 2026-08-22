@@ -49,4 +49,5 @@ Product-документы не определяют предметную мод
 - [Customers](customers.md) — customer/user segments, jobs to be done, pains, evidence и assumptions.
 - [Metrics](metrics.md) — product metrics, baselines, targets, measurement ownership и instrumentation constraints.
 - [Marketing](marketing.md) — positioning, messaging, channels, competitive alternatives и launch constraints.
+- [GitHub Growth Plan](github-growth-plan.md) — отдельный 30-дневный план visibility, launch и проверяемого external adoption.
 - [Roadmap](roadmap.md) — product themes, bets, horizons и зависимости без превращения в feature backlog.

@@ -21,6 +21,7 @@ canonical_for:
 | Term | Meaning | Context | Do not confuse with |
 | --- | --- | --- | --- |
 | `domain-term` | Что термин означает в проекте | Где используется | Похожие product, UI или technical terms |
+| `Execution Handoff` | Derived, read-only, evidence-backed projection наблюдаемого исполнения одной задачи; каждый item ссылается на primary source | Continuation после execution | Canonical Memory Bank owner, declared priming context или session-state owner |
 
 ## Naming Rules
 

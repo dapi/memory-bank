@@ -49,7 +49,8 @@ audience: humans_and_agents
 затем добавляй source sets перед соответствующими стадиями. `design` обязателен
 при `Design required: yes`; `ui_design`, `interaction_runtime_design` и
 `scenario_design` обязательны при выборе соответствующего artifact; далее
-выполни `plan_ready` и `execution_continuation`.
+выполни `plan_ready` и `execution_continuation`. Перед созданием Execution
+Handoff выполни `execution_handoff`.
 
 Task owner добавляет exact affected implementation and test paths в
 `implementation-plan.md`. Stage priming не заменяет execution grounding с
@@ -431,6 +432,41 @@ Plan Ready artifact-review convergence допускает не более пят
 ### Handoff
 
 Закрой delivery issue и передай эксплуатационные или release-действия их owner-ам. Новые требования, решения и follow-up работу обнови у canonical owner и повторно маршрутизируй.
+
+### Worked Execution Handoff Example
+
+Ниже synthetic example формы, а не факт о существующей feature. Конкретная
+передача заменяет все placeholder значения direct primary-source references по
+[Execution Handoff Contract](execution-handoff.md).
+
+```text
+Starting point
+- claim: FT-042 is at Execution → Done verification.
+  primary_source: memory-bank/features/FT-042/brief.md#delivery-status
+
+Declared priming context
+- claim: the execution continuation source set was resolved for FT-042.
+  primary_source: memory-bank/flows/priming/feature.yaml#execution_continuation
+
+Observed execution
+- claim: STEP-03 was executed at immutable revision <commit-sha>.
+  primary_source: <commit-url-or-command-log>#STEP-03
+
+Verification
+- claim: CHK-02 passed.
+  primary_source: <ci-run-url-or-test-output>#CHK-02
+
+Continuation
+- claim: release approval is still required before production action.
+  primary_source: memory-bank/features/FT-042/implementation-plan.md#AG-01
+- next action: release owner requests AG-01 approval; stop if the approved
+  revision differs from <commit-sha>.
+  primary_source: memory-bank/features/FT-042/implementation-plan.md#AG-01
+```
+
+Здесь declared priming context показывает, что должно было быть загружено;
+observed execution доказывается отдельным commit, command log или CI carrier.
+Ни одна строка handoff не меняет `brief.md`, design owner или plan.
 
 ## Boundary Rules
 
