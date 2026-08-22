@@ -109,6 +109,16 @@ Brief priming не заменяет это evidence;
 [`implementation-plan.md`](../templates/feature/implementation-plan.md)
 содержит отдельный exact implementation manifest для агента перед первым write.
 
+## Declared Priming And Observed Execution
+
+P0/P1/P2 и resolved manifests — declared context: они называют sources, которые
+нужно прочитать перед decision или stage, но сами не доказывают, что действие
+было выполнено. Когда конкретную задачу нужно продолжить после исполнения,
+используй [Execution Handoff Contract](../execution-handoff.md) как отдельную
+read-only projection observed context. Он фиксирует только evidence-backed
+actions/results и direct primary sources; не становится priming report или
+owner-ом facts.
+
 ## Ownership
 
 - Этот документ владеет P0/P1/P2 model и manifest schema.
@@ -119,3 +129,5 @@ Brief priming не заменяет это evidence;
   какой manifest и source set выполнить.
 - Task owner владеет resolved task inputs и evidence. Не создавай отдельный
   universal priming report или central source matrix.
+- Execution Handoff владеет только формой derived observed-context projection;
+  его facts остаются у указанных primary sources.
