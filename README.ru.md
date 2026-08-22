@@ -12,13 +12,8 @@
 ### Greenfield
 
 ```text
-Это новый проект. Прочитай repository instructions, README и docs, затем
-выполни https://github.com/dapi/memory-bank/blob/main/docs/greenfield-integration-protocol.md.
-Добавь Memory Bank в текущий репозиторий, адаптируй product, domain, engineering
-и ops только из подтверждённых facts и создай initial PRD. Не выдумывай
-пользователей, требования, метрики, архитектуру или delivery plan; не реализуй
-продуктовые фичи. В конце покажи изменённые документы, источники, результаты
-validation и open questions.
+Это новый проект. Выполни
+https://github.com/dapi/memory-bank/blob/main/docs/greenfield-integration-protocol.md.
 ```
 
 ### Brownfield
@@ -26,31 +21,19 @@ validation и open questions.
 ```text
 Это существующий проект. Выполни
 https://github.com/dapi/memory-bank/blob/main/docs/brownfield-adaptation-protocol.md.
-До шага установки из этого протокола исследуй только существующие repository
-instructions, docs, code, manifests, CI/CD, configuration, runbooks и
-historical ADR. Зафиксируй evidence, sources, confidence, conflicts и open
-questions в intake PRD; не выдумывай architecture или delivery plan. Затем
-добавь и адаптируй Memory Bank из тех же evidence, проверь результат и сообщи
-изменённые документы, verification и remaining gaps.
 ```
 
 Для воспроизводимого запуска замени `main` в URL протокола на immutable commit
 SHA.
 
-## Сделать фичу
+## Выполнить задачу
 
 После адаптации Memory Bank передай агенту задачу и этот запрос:
 
 ```text
-Прочитай эту задачу, repository instructions, ./memory-bank/README.md и
-./memory-bank/flows/routing.md. До изменений выбери минимальный допустимый
-route. Если это Feature Flow, прочитай ./memory-bank/flows/feature.md; создай
-feature package с README.md и brief.md, design — только если он required, а
-implementation plan — только когда готовы upstream-документы. Реализуй
-согласованный scope, выполни validation выбранного flow и обнови canonical
-owner, если появилось новое устойчивое знание. Сообщи route, artifacts,
-verification и open risks. Не мержи, не деплой и не меняй внешние системы,
-пока задача явно этого не разрешает.
+Прочитай задачу, ./memory-bank/README.md и ./memory-bank/flows/routing.md.
+Выбери применимый flow и следуй его каноническому lifecycle. В финале сообщи
+route, изменённые артефакты, verification и open risks.
 ```
 
 [Повседневная работа](docs/usage.md) объясняет цикл «задача → flow → проверки»

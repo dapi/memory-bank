@@ -48,13 +48,8 @@ adapt Memory Bank; the linked protocols define the full lifecycle.
 ### Greenfield
 
 ```text
-This is a new project. Read the repository instructions, README, and docs, then
-follow https://github.com/dapi/memory-bank/blob/main/docs/greenfield-integration-protocol.md.
-Bring Memory Bank into this repository, adapt product, domain, engineering, and
-ops from confirmed facts only, and create an initial PRD. Do not invent users,
-requirements, metrics, architecture, or a delivery plan; do not implement
-product features. Finish with changed documents, sources, validation results,
-and open questions.
+This is a new project. Follow
+https://github.com/dapi/memory-bank/blob/main/docs/greenfield-integration-protocol.md.
 ```
 
 ### Brownfield
@@ -62,31 +57,19 @@ and open questions.
 ```text
 This is an existing project. Follow
 https://github.com/dapi/memory-bank/blob/main/docs/brownfield-adaptation-protocol.md.
-Before that protocol's installation step, inspect only the existing repository
-instructions, docs, code, manifests, CI/CD, configuration, runbooks, and
-historical ADRs. Record evidence, sources, confidence, conflicts, and open
-questions in an intake PRD; do not invent architecture or a delivery plan. Then
-bring in and adapt Memory Bank from the same evidence, validate it, and report
-the changed documents, verification, and remaining gaps.
 ```
 
 For reproducible use, replace `main` in a protocol URL with an immutable commit
 SHA.
 
-## Deliver a feature
+## Deliver a task
 
 After Memory Bank is adapted, give the agent the task and this prompt:
 
 ```text
-Read this task, the repository instructions, ./memory-bank/README.md, and
-./memory-bank/flows/routing.md. Select the smallest valid route before editing.
-If the route is Feature Flow, read ./memory-bank/flows/feature.md; create the
-feature package with README.md and brief.md, create design only when required,
-and create an implementation plan only after its upstream documents are ready.
-Implement the accepted scope, run the validation required by the selected flow,
-and update any canonical Memory Bank owner changed by durable new knowledge.
-Report the route, artifacts, verification, and open risks. Do not merge, deploy,
-or make external changes unless the task explicitly authorizes them.
+Read the task, ./memory-bank/README.md, and ./memory-bank/flows/routing.md.
+Choose the applicable flow and follow its canonical lifecycle. Report the route,
+changed artifacts, verification, and open risks.
 ```
 
 The [daily usage guide](docs/usage.md) explains the task-to-flow-to-verification
