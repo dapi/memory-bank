@@ -5,6 +5,7 @@ doc_function: template
 purpose: "Governed wrapper-шаблон для feature-local `design.md`. Фиксирует solution-space слой: выбранный подход, architecture coverage, contracts, design verification и design-pack routing без смешения с problem space или execution contract."
 derived_from:
   - ../../feature.md
+  - ../../feature-requirements.md
   - ../../feature-artifact-catalog.md
   - ../../../dna/frontmatter.md
 status: active
@@ -138,12 +139,20 @@ design. Используй только ссылки на canonical facts; дл�
 | Connectors / interactions | `covered` / `N/A` | `design.md` `CTR-*` или `contracts/<name>.md` | sequence / `none` | Где определены механизм и значимые interaction semantics или почему аспект неприменим |
 | Configuration / topology | `covered` / `N/A` | `design.md` `SOL-*` / `SD-*` или accepted ADR | C2/C3 / data-flow / `none` | Где определены bindings, direction, connector kind, optional links и affected topology или почему аспект неприменим |
 | Behavioral semantics | `covered` / `N/A` | `design.md` `SOL-*` / `CTR-*` / `INV-*` / `FM-*` | sequence / state machine / `none` | Где определены ordering, transitions и failure behavior или почему аспект неприменим |
-| Quality / evolution concerns | `covered` / `N/A` | `brief.md` `CON-*`; `design.md` `INV-*` / `FM-*` / `RB-*`; accepted ADR | analysis artifact / `none` | Где закрыты relevant quality, compatibility и evolution risks или почему аспект неприменим |
+| Quality / evolution concerns | `covered` / `N/A` | applicable performance / quality / compatibility `REQ-*` in `brief.md`; supporting `MET-*` / `CON-*`; `design.md` `INV-*` / `FM-*` / `RB-*`; accepted ADR | analysis artifact / `none` | Где закрыты relevant quality, compatibility и evolution risks или почему аспект неприменим |
 
 ## Selected Solution
 
 - `SOL-01` Выбранный элемент решения и почему он закрывает `REQ-*`.
 - `SOL-02` Второй элемент решения, если нужен.
+
+### Requirement realization boundary
+
+`brief.md` owns requirements and acceptance. Map its applicable `REQ-*` to selected solution facts here, without adding requirements.
+
+| Requirement | Class | Selected solution / contract / invariant | Plan realization owner | Verification link |
+| --- | --- | --- | --- | --- |
+| `REQ-01` | interface | `SOL-01`, `CTR-01` | `implementation-plan.md` | `CHK-01`, `EVID-01` |
 
 ## Alternatives Considered
 

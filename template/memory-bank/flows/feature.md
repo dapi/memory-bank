@@ -8,6 +8,7 @@ derived_from:
   - ../dna/frontmatter.md
   - routing.md
   - priming/context-priming.md
+  - feature-requirements.md
   - behavior-specification.md
   - ../engineering/validation-profiles.md
   - ../engineering/autonomy-boundaries.md
@@ -26,10 +27,6 @@ canonical_for:
   - feature_architecture_coverage_rules
   - feature_connector_description_rules
   - feature_design_verification_rules
-  - feature_identifier_taxonomy
-  - solution_identifier_taxonomy
-  - feature_plan_identifier_taxonomy
-  - feature_traceability_rules
   - feature_decomposition_principle
   - feature_grounding_gate
   - feature_design_layer_definition
@@ -38,6 +35,7 @@ canonical_for:
   - feature_design_pack_readiness_rules
   - feature_solution_ownership_rules
   - feature_behavior_specification_gates
+  - feature_traceability_rules
 status: active
 audience: humans_and_agents
 ---
@@ -69,7 +67,7 @@ immutable revision и `GRND-*` evidence.
 7. `design.md` появляется только после `Problem Ready` и только если `brief.md` фиксирует `Design required: yes`.
 8. `implementation-plan.md` — derived execution-документ. В новых feature packages он не должен существовать, пока upstream owners не готовы: `brief.md` active и, если design required, весь design pack прошёл `Solution Ready`.
 9. Для canonical `brief.md`, canonical `design.md`, feature-level `README.md` и `implementation-plan.md` используй wrapper-шаблоны из `memory-bank/flows/templates/feature/`: сам template-файл имеет `doc_function: template`, а frontmatter/body инстанцируемого документа живут внутри embedded template contract.
-10. Смысл стабильных идентификаторов (`REQ-*`, `SOL-*`, `SD-*`, `STEP-*` и т.д.) задается в секции «Stable Identifiers» ниже.
+10. Смысл стабильных идентификаторов (`REQ-*`, `SOL-*`, `SD-*`, `STEP-*` и т.д.) задается в [`Feature Requirements, Identifiers And Traceability`](feature-requirements.md#stable-identifiers).
 11. Acceptance scenarios (`SC-*`) покрывают delivery-unit end-to-end: для пользовательского slice — от входного события до наблюдаемого результата через все затронутые слои; для infrastructure/engineering/operations change — от system, operator или pipeline trigger до observable operational outcome. Тестирование отдельного слоя в изоляции допустимо как implementation detail плана, но не заменяет end-to-end acceptance.
 12. Для observable behavior применяй [`Behavior Specification Practice`](behavior-specification.md): discovery findings маршрутизируются в существующие owners, concrete examples формулируются через `SC-*` / `NEG-*`, а automation связывается через `CHK-*` и `EVID-*`. BDD не вводит отдельный route или `BDD-*` identifiers.
 13. **Связь с task tracker.** При создании feature package агент обязан добавить в исходную задачу или ticket ссылку на `brief.md`, а после появления downstream-документов — ссылки на существующие `design.md` и `implementation-plan.md`.
@@ -316,6 +314,7 @@ flowchart LR
 
 - [ ] `brief.md` → `status: active`
 - [ ] секция `What` содержит ≥ 1 `REQ-*` и ≥ 1 `NS-*`
+- [ ] для каждого baseline requirement class зафиксировано `applicable`, обоснованное `not-applicable` или `covered-upstream` с canonical ref по [`feature-requirements.md`](feature-requirements.md)
 - [ ] секция `Verify` содержит ≥ 1 `SC-*`
 - [ ] каждый `REQ-*` прослеживается к ≥ 1 `SC-*` или `NEG-*` через traceability matrix; основной changed behavior всегда имеет positive `SC-*`
 - [ ] verdict-changing вопросы из behavior discovery разрешены либо зафиксированы как blocking `DEC-*`; найденные stable flows, shared rules и deferred work переданы соответствующим `UC-*`, domain owner и `NS-*` / отдельной delivery-unit
@@ -508,62 +507,29 @@ Canonical testing policy живёт в [../engineering/testing-policy.md](../eng
 
 ## Stable Identifiers
 
+The canonical registry moved to
+[Feature Requirements, Identifiers And Traceability](feature-requirements.md#stable-identifiers).
+The headings below remain as compatibility bridges for existing deep links.
+
+## Requirement Taxonomy And Traceability
+
+See [Requirement Taxonomy And Traceability](feature-requirements.md#requirement-taxonomy-and-traceability).
+
 ### Feature IDs
 
-| Prefix | Meaning | Used in |
-| --- | --- | --- |
-| `MET-*` | outcome-метрики | `brief.md` |
-| `REQ-*` | scope и обязательные capability | `brief.md` |
-| `NS-*` | non-scope | `brief.md` |
-| `ASM-*` | assumptions и рабочие предпосылки | `brief.md` |
-| `CON-*` | ограничения problem space | `brief.md` |
-| `DEC-*` | unresolved blocking decisions | `brief.md` |
-| `EC-*` | exit criteria | `brief.md` |
-| `SC-*` | acceptance scenarios | `brief.md` |
-| `NEG-*` | negative / edge test cases | `brief.md` |
-| `CHK-*` | проверки | `brief.md`, `implementation-plan.md` |
-| `EVID-*` | evidence-артефакты | `brief.md`, `implementation-plan.md` |
-| `RJ-*` | rejection rules | `brief.md`, `implementation-plan.md` |
+See [Feature IDs](feature-requirements.md#feature-ids).
 
 ### Solution IDs
 
-| Prefix | Meaning | Used in |
-| --- | --- | --- |
-| `SOL-*` | solution elements / selected design blocks | `design.md` |
-| `ALT-*` | considered alternatives | `design.md` |
-| `TRD-*` | trade-offs | `design.md` |
-| `C4-*` | C4 applicability decision, model levels, elements или relationships | `design.md` |
-| `SD-*` | accepted feature-local solution decisions | `design.md` |
-| `INV-*` | solution invariants | `design.md` или delegated constituent |
-| `CTR-*` | concrete solution contracts | `design.md` или delegated constituent |
-| `FM-*` | solution-level failure modes | `design.md` или delegated constituent |
-| `RB-*` | rollout / backout stages | `design.md` или delegated constituent |
+See [Solution IDs](feature-requirements.md#solution-ids).
 
 ### Plan IDs
 
-| Prefix | Meaning | Used in |
-| --- | --- | --- |
-| `GRND-*` | grounding evidence о текущем repository state, existing patterns и test surfaces | `implementation-plan.md` |
-| `PRE-*` | preconditions | `implementation-plan.md` |
-| `OQ-*` | unresolved questions / ambiguities | `implementation-plan.md` |
-| `WS-*` | workstreams | `implementation-plan.md` |
-| `AG-*` | approval gates for risky actions | `implementation-plan.md` |
-| `STEP-*` | атомарные шаги | `implementation-plan.md` |
-| `PAR-*` | параллелизуемые блоки | `implementation-plan.md` |
-| `CP-*` | checkpoints | `implementation-plan.md` |
-| `ER-*` | execution risks | `implementation-plan.md` |
-| `STOP-*` | stop conditions / fallback | `implementation-plan.md` |
+See [Plan IDs](feature-requirements.md#plan-ids).
 
 ### Support IDs
 
-| Prefix | Meaning | Used in |
-| --- | --- | --- |
-| `SURF-*` | runtime surfaces / entrypoints / concrete render or processing surfaces | `runtime-surfaces.md` |
-| `MAP-*` | semantic mapping rows or mapping rules | `runtime-surfaces.md` |
-| `UI-*` | interface screens, states, controls or interaction elements | `ui-reference/README.md` |
-| `FUC-*` | derived feature-local use cases | `use-cases/README.md` |
-| `TC-*` | derived test case candidates | `use-cases/README.md`, support docs |
-| `SEQ-*` | sequence branches, temporal rules or interaction paths | `diagrams/<name>-sequence.md`, embedded sequence views |
+See [Support IDs](feature-requirements.md#support-ids).
 
 ### Required Minimum
 
@@ -575,6 +541,7 @@ Canonical testing policy живёт в [../engineering/testing-policy.md](../eng
 6. Любой `design.md`, где есть принятые feature-local решения, использует `SD-*`; `ALT-*`, `TRD-*`, `CTR-*`, `INV-*`, `FM-*` и `RB-*` применяются только когда соответствующая solution-semantics действительно нужна.
 7. Любой optional support doc использует только local support IDs и traceability к canonical refs; он не вводит новые canonical `REQ-*`, `SC-*`, `CHK-*` или `EVID-*`.
 8. Любой `implementation-plan.md` использует как минимум `GRND-*`, `PRE-*`, `STEP-*`, `CHK-*`, `EVID-*`; при наличии ambiguity или human approval gates используются `OQ-*` и `AG-*`.
+9. Any new active `brief.md` records applicability for every baseline class and the minimum fields for each applicable `REQ-*`.
 
 ### Traceability Contract
 
@@ -582,6 +549,15 @@ Canonical testing policy живёт в [../engineering/testing-policy.md](../eng
 2. Verify в `brief.md` связывает `REQ-*` с concrete examples через `Acceptance Scenarios`, feature-specific `NEG-*`, `Traceability matrix`, `Test matrix` и `Evidence contract`; structured examples сохраняют rule refs, context, event, observable outcome и `CHK-*` mapping.
 3. `design.md`, если есть, связывает каждый `SC-*` и применимые `REQ-*` из `brief.md` с Logical, Process, Development и Physical refs через Cross-View Correspondence; существенные `NEG-*` / edge examples связываются с применимыми `FM-*`, `CTR-*`, `INV-*` или `N/A`; canonical solution traceability отдельно связывает `REQ-*` с `SOL-*`, `ALT-*`, `TRD-*`, `C4-*`, `SD-*`, `CTR-*`, `INV-*`, `FM-*`, `RB-*` и accepted ADR refs.
 4. `implementation-plan.md` ссылается на canonical IDs из `brief.md` и, если есть, применимые `SOL-*`, `C4-*`, `SD-*`, `CTR-*`, `INV-*`, `FM-*`, `RB-*` и accepted ADR refs в Design Realization Mapping и `Implements`; `Verifies` содержит связанные `CHK-*`, а `Evidence IDs` — подтверждающие `EVID-*`, образуя trace chain от canonical ref до evidence.
-5. Если sequencing блокируется неизвестностью, план фиксирует её как `OQ-*`, а не прячет в prose.
-6. Если выполнение требует человеческого подтверждения для рискованных действий, план фиксирует это через `AG-*`.
-7. Если design или to-be C4 architecture model меняется после `Solution Ready`, сначала обновляется непосредственный owner из Design Pack manifest или external dependency, затем root manifest и план.
+5. The plan maps every changed implementation/test/config surface to a `REQ-*` or explicit supporting rationale using exact path plus symbol/section.
+6. Если sequencing блокируется неизвестностью, план фиксирует её как `OQ-*`, а не прячет в prose.
+7. Если выполнение требует человеческого подтверждения для рискованных действий, план фиксирует это через `AG-*`.
+8. Если design или to-be C4 architecture model меняется после `Solution Ready`, сначала обновляется непосредственный owner из Design Pack manifest или external dependency, затем root manifest и план.
+
+### Worked Traceability Examples
+
+See [Worked Traceability Examples](feature-requirements.md#worked-traceability-examples).
+
+### Migration And Compatibility
+
+See [Migration And Compatibility](feature-requirements.md#migration-and-compatibility).

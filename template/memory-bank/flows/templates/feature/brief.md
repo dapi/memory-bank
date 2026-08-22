@@ -5,6 +5,7 @@ doc_function: template
 purpose: Governed wrapper-шаблон для canonical `brief.md` в AI-driven development. Фиксирует, как инстанцировать problem-space intent, scope и machine-checkable verify без смешения wrapper и целевого frontmatter.
 derived_from:
   - ../../feature.md
+  - ../../feature-requirements.md
   - ../../behavior-specification.md
   - ../../feature-artifact-catalog.md
   - ../../../dna/frontmatter.md
@@ -31,7 +32,7 @@ Optional companions выбирай по [Feature Artifact Catalog](../../feature
 
 Для observable behavior применяй [Behavior Specification Practice](../../behavior-specification.md). Compact feature может оставить однострочный `SC-*`, если context, event и outcome однозначны. При нескольких rules/branches, significant edge/error behavior или изменении user/API/event/operational contract используй structured `Given / When / Then` examples.
 
-Используй стабильные идентификаторы по taxonomy из [../../feature.md#stable-identifiers](../../feature.md#stable-identifiers).
+Используй стабильные идентификаторы по taxonomy из [../../feature-requirements.md#stable-identifiers](../../feature-requirements.md#stable-identifiers).
 
 ### Frontmatter Quick Ref
 
@@ -58,6 +59,7 @@ doc_function: canonical
 purpose: "Canonical brief для delivery-единицы. Фиксирует problem space, scope, validation profile и verify без смешения с solution space или execution plan."
 derived_from:
   - ../../flows/feature.md
+  - ../../flows/feature-requirements.md
   # Optional:
   # - ../../product/context.md
   # - ../../domain/rules.md
@@ -77,6 +79,31 @@ must_not_define:
 # FT-XXX: Feature Name
 
 ## What
+
+### Requirement applicability and classification
+
+For every baseline class in [Feature Requirements, Identifiers And Traceability](../../flows/feature-requirements.md#requirement-taxonomy-and-traceability), select `applicable`, `not-applicable` with rationale, or `covered-upstream` with reference. Do not create `FR-*`/`NFR-*`; record the class on `REQ-*`.
+
+| Class | Decision | Trigger / rationale / upstream reference | Requirement IDs |
+| --- | --- | --- | --- |
+| stakeholder / product | applicable / not-applicable / covered-upstream |  | `REQ-01` / none |
+| functional | applicable |  | `REQ-01` |
+| performance | applicable / not-applicable / covered-upstream |  |  |
+| quality attribute | applicable / not-applicable / covered-upstream |  |  |
+| interface | applicable / not-applicable / covered-upstream |  |  |
+| data | applicable / not-applicable / covered-upstream |  |  |
+| security | applicable / not-applicable / covered-upstream |  |  |
+| safety | applicable / not-applicable / covered-upstream |  |  |
+| regulatory / compliance | applicable / not-applicable / covered-upstream |  |  |
+| operational | applicable / not-applicable / covered-upstream |  |  |
+| compatibility | applicable / not-applicable / covered-upstream |  |  |
+| deployment / rollout | applicable / not-applicable / covered-upstream |  |  |
+| constraint | applicable / not-applicable / covered-upstream |  | `CON-01` / none |
+| verification / acceptance | applicable | Every applicable `REQ-*` needs proof. | `SC-01`, `EC-01`, `CHK-01`, `EVID-01` |
+
+| Requirement ID | Class | Normative measurable statement / threshold | Source / rationale | Priority / owner | Verification method |
+| --- | --- | --- | --- | --- | --- |
+| `REQ-01` | functional | The system shall … | issue / upstream reference | must / owner | test / inspection / analysis / demonstration |
 
 ### Problem
 
@@ -212,4 +239,12 @@ Verify должен быть исполнимым.
 | --- | --- | --- | --- | --- |
 | `EVID-01` | Лог, отчет, скриншот или sample output | verify-runner / human | `artifacts/ft-xxx/verify/chk-01/` | `CHK-01` |
 | `EVID-02` | Лог, отчет или sample output для negative/edge behavior | verify-runner / human | `artifacts/ft-xxx/verify/chk-02/` | `CHK-02` |
+
+### Requirement acceptance traceability
+
+`brief.md` owns requirements and their acceptance/evidence contract. Selected solution facts belong to `design.md`; exact targets, supporting-change rationale and steps belong to `implementation-plan.md`; execution owns results. Their mappings extend this chain at later gates without copying those facts back into the brief.
+
+| Requirement | Acceptance | Verification method / check | Evidence contract |
+| --- | --- | --- | --- |
+| `REQ-01` | `EC-01`, `SC-01` | automated test via `CHK-01` | `EVID-01` |
 ```

@@ -2,6 +2,7 @@ version: 1
 process: feature
 stages:
   bootstrap_brief:
+    - memory-bank/flows/feature-requirements.md
     - memory-bank/flows/behavior-specification.md
     - memory-bank/flows/feature-artifact-catalog.md
     - memory-bank/features/README.md

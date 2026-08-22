@@ -16,6 +16,7 @@ derived_from:
   - behavior-specification.md
   - use-case.md
   - feature.md
+  - feature-requirements.md
   - execution-handoff.md
   - feature-artifact-catalog.md
   - templates/README.md
@@ -39,6 +40,7 @@ audience: humans_and_agents
 - [Epic Flow](epic.md) — Epic Intake/Proposal, lifecycle крупных инициатив, roadmap, decision log, risks и handoff в feature packages.
 - [Behavior Specification Practice](behavior-specification.md) — BDD-цикл Discovery → Formulation → Automation, качество concrete examples и traceability `UC/REQ → SC/NEG → CHK → test evidence`; это практика внутри выбранного flow, а не отдельный route.
 - [Use Case Flow](use-case.md) — критерии, lifecycle и ownership для project-level `UC-*`, включая operational / agentic сценарии.
-- [Feature Flow](feature.md) — lifecycle `brief.md -> optional design.md -> implementation-plan.md`, gates и стабильные ID (`REQ-*`, `SOL-*`, `STEP-*`).
+- [Feature Flow](feature.md) — lifecycle `brief.md -> optional design.md -> implementation-plan.md` и transition gates.
+- [Feature Requirements, Identifiers And Traceability](feature-requirements.md) — requirement classes, stable IDs, applicability и двусторонняя трассировка до delivered surfaces и evidence.
 - [Feature Artifact Catalog](feature-artifact-catalog.md) — optional problem/solution/execution artifacts, selection triggers, ownership, default forms и template availability.
 - [Templates Index](templates/README.md) — эталонные шаблоны governed-документов, включая PRD, use case, epic, feature и ADR.

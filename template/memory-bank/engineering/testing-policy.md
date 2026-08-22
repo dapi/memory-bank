@@ -7,6 +7,7 @@ derived_from:
   - ../dna/governance.md
   - ../flows/behavior-specification.md
   - ../flows/feature.md
+  - ../flows/feature-requirements.md
   - validation-profiles.md
 status: active
 canonical_for:
@@ -88,6 +89,8 @@ Canonical lifecycle gates живут в [../flows/feature.md](../flows/feature.m
 - к `Done` required tests добавлены, локальные команды зелёные и CI не противоречит локальному verify.
 
 ## Что Считается Sufficient Coverage
+
+For each applicable `REQ-*`, preserve the `brief.md` verification method and evidence contract. Quality requirements include an observable threshold and a repeatable measurement/check. The plan maps each changed implementation, test, and config path plus symbol/section back to a `REQ-*` or explicit supporting rationale; review checks that mapping in both directions.
 
 - Покрыт основной changed behavior и ближайший regression path.
 - Покрыты новые или измененные contracts, события, schema или integration boundaries.
