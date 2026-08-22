@@ -48,8 +48,26 @@ audience: humans_and_agents
 - [`ops/README.md`](ops/README.md)
   Читать, когда нужно: описать локальную разработку, окружения, релизы, конфигурацию и runbooks.
 
-- [`engineering/README.md`](engineering/README.md)
-  Читать, когда нужно: задать architecture patterns, frontend rules, testing policy, coding style, git workflow и границы автономии агента.
+- [`engineering/architecture.md`](engineering/architecture.md)
+  Читать, когда нужно: проверить code/module boundaries, runtime patterns, error handling и configuration ownership.
+
+- [`engineering/frontend.md`](engineering/frontend.md)
+  Читать, когда нужно: проверить frontend stack, component boundaries, design system integration и i18n.
+
+- [`engineering/ui-design-guide/README.md`](engineering/ui-design-guide/README.md)
+  Читать, когда нужно: найти project-level UI references по существующим surfaces и shared components.
+
+- [`engineering/testing-policy.md`](engineering/testing-policy.md)
+  Читать, когда нужно: определить обязательные test surfaces, regression coverage и допустимые manual-only gaps.
+
+- [`engineering/validation-profiles.md`](engineering/validation-profiles.md)
+  Читать, когда нужно: выбрать глубину validation и minimum evidence contract независимо от delivery flow.
+
+- [`engineering/autonomy-boundaries.md`](engineering/autonomy-boundaries.md)
+  Читать, когда нужно: проверить границы автономии, supervision checkpoints и escalation triggers.
+
+- [`engineering/coding-style.md`](engineering/coding-style.md)
+  Читать, когда нужно: проверить coding conventions, tooling contract и change discipline.
 
 - [`dna/README.md`](dna/README.md)
   Читать, когда нужно: проверить SSoT rules, frontmatter contract и governance-правила документации.
