@@ -3,7 +3,7 @@
 set -euo pipefail
 
 repository_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-output_path="${1:-${repository_root}/docs/assets/quick-start-terminal.gif}"
+output_directory="${1:-${repository_root}/docs/assets}"
 temporary_directory="$(mktemp -d)"
 
 cleanup() {
@@ -11,11 +11,12 @@ cleanup() {
 }
 trap cleanup EXIT
 
-mkdir -p "$(dirname "${output_path}")"
+mkdir -p "${output_directory}"
 
 render_frame() {
-  local frame_number="$1"
-  local terminal_text="$2"
+  local scenario="$1"
+  local frame_number="$2"
+  local terminal_text="$3"
 
   magick \
     -size 1200x720 \
@@ -33,55 +34,97 @@ render_frame() {
     -fill '#e6edf3' \
     -gravity northwest \
     -annotate +66+105 "${terminal_text}" \
-    "${temporary_directory}/frame-${frame_number}.png"
+    "${temporary_directory}/${scenario}-${frame_number}.png"
 }
 
-render_frame 1 '$ cd my-project'
+render_frame routing 1 '$ codex'
 
-render_frame 2 '$ cd my-project
-$ codex
+render_frame routing 2 '$ codex
 
-› Прочитай задачу и memory-bank/flows/routing.md'
+› Прочитай GitHub issue #123 и выполни его по процессу
+  memory-bank/flows/routing.md'
 
-render_frame 3 '$ cd my-project
-$ codex
+render_frame routing 3 '$ codex
 
-› Прочитай задачу и memory-bank/flows/routing.md
+› Прочитай GitHub issue #123 и выполни его по процессу
+  memory-bank/flows/routing.md
 
-• Маршрут: Feature Flow'
+• Читаю GitHub issue #123…'
 
-render_frame 4 '$ cd my-project
-$ codex
+render_frame routing 4 '$ codex
 
-• Маршрут: Feature Flow
-• Создан Feature Pack
+› Прочитай GitHub issue #123 и выполни его по процессу
+  memory-bank/flows/routing.md
 
-  memory-bank/features/FT-042/
-  ├── README.md
-  └── brief.md'
-
-render_frame 5 '$ cd my-project
-$ codex
-
-• Проблема и критерии проверки зафиксированы
-• Связанные решения и сценарии найдены
-• Следующий этап: проектирование решения'
-
-render_frame 6 '$ cd my-project
-$ codex
-
-✓ Контекст сохранён в репозитории
-✓ Новая сессия сможет продолжить задачу'
+• Читаю GitHub issue #123…
+• Выполняю Task Routing…'
 
 magick \
-  -delay 90 "${temporary_directory}/frame-1.png" \
-  -delay 110 "${temporary_directory}/frame-2.png" \
-  -delay 120 "${temporary_directory}/frame-3.png" \
-  -delay 150 "${temporary_directory}/frame-4.png" \
-  -delay 150 "${temporary_directory}/frame-5.png" \
-  -delay 220 "${temporary_directory}/frame-6.png" \
+  -delay 90 "${temporary_directory}/routing-1.png" \
+  -delay 140 "${temporary_directory}/routing-2.png" \
+  -delay 130 "${temporary_directory}/routing-3.png" \
+  -delay 220 "${temporary_directory}/routing-4.png" \
   -loop 0 \
   -layers Optimize \
-  "${output_path}"
+  "${output_directory}/quick-start-routing.gif"
 
-printf 'Rendered %s\n' "${output_path}"
+render_frame feature-pack 1 '$ codex'
+
+render_frame feature-pack 2 '$ codex
+
+› Прочитай GitHub issue #123.
+  Создай по нему Feature Pack согласно процессу
+  memory-bank/flows/feature.md.'
+
+render_frame feature-pack 3 '$ codex
+
+› Прочитай GitHub issue #123.
+  Создай по нему Feature Pack согласно процессу
+  memory-bank/flows/feature.md.
+
+  Проведи ревью созданного комплекта документов.'
+
+render_frame feature-pack 4 '$ codex
+
+› Прочитай GitHub issue #123.
+  Создай и проверь Feature Pack.
+  После обязательных этапов приступай к реализации.
+
+• Читаю issue и процесс Feature Flow…'
+
+magick \
+  -delay 90 "${temporary_directory}/feature-pack-1.png" \
+  -delay 140 "${temporary_directory}/feature-pack-2.png" \
+  -delay 150 "${temporary_directory}/feature-pack-3.png" \
+  -delay 230 "${temporary_directory}/feature-pack-4.png" \
+  -loop 0 \
+  -layers Optimize \
+  "${output_directory}/quick-start-feature-pack.gif"
+
+render_frame start-issue 1 '$ start-issue 123'
+
+render_frame start-issue 2 '$ start-issue 123
+
+• Получаю GitHub issue #123…'
+
+render_frame start-issue 3 '$ start-issue 123
+
+• Получаю GitHub issue #123…
+• Создаю ветку и директорию worktree…'
+
+render_frame start-issue 4 '$ start-issue 123
+
+• Получаю GitHub issue #123…
+• Создаю ветку и директорию worktree…
+• Запускаю настроенного агента…'
+
+magick \
+  -delay 100 "${temporary_directory}/start-issue-1.png" \
+  -delay 130 "${temporary_directory}/start-issue-2.png" \
+  -delay 150 "${temporary_directory}/start-issue-3.png" \
+  -delay 230 "${temporary_directory}/start-issue-4.png" \
+  -loop 0 \
+  -layers Optimize \
+  "${output_directory}/quick-start-start-issue.gif"
+
+printf 'Rendered terminal GIFs in %s\n' "${output_directory}"
