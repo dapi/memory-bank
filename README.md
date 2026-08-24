@@ -108,6 +108,10 @@ The `flows/` layer describes repeatable processes that an agent can follow. Ever
 
 For a substantial feature, Feature Flow produces a Feature Pack in three stages:
 
+The flow treats the feature as a testable vertical slice and follows
+specification-driven development: the documents required by the selected route
+are created and reviewed before implementation begins.
+
 ```text
 brief.md                 design.md                  implementation-plan.md
 what and why      →      chosen solution     →     implementation and checks
