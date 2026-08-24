@@ -10,6 +10,21 @@
 [Adoption guide (Russian)](docs/adoption.md) ·
 [Daily usage (Russian)](docs/usage.md)
 
+## Example: complete GitHub issue #123
+
+![Running a task through Memory Bank routing](docs/assets/quick-start-routing-en.gif)
+
+1. You give the agent an issue and point it to
+   `memory-bank/flows/routing.md`.
+2. The agent reads the task and project context, then Task Routing selects the
+   smallest process that still controls the risk.
+3. The selected process governs the required documents, code changes, and
+   verification. Lasting decisions and evidence return to their canonical
+   owners in Memory Bank.
+
+The result is a feedback loop: project knowledge guides delivery, and delivery
+improves project knowledge.
+
 ## What you get
 
 - **Durable project context** — product intent, domain language, engineering
@@ -25,21 +40,6 @@
   requirements, scenarios, and evidence that future work can reuse.
 - **A portable starting point** — an agent installs the template in a repository
   and adapts it from that project's own evidence.
-
-## Example: complete GitHub issue #123
-
-![Running a task through Memory Bank routing](docs/assets/quick-start-routing-en.gif)
-
-1. You give the agent an issue and point it to
-   `memory-bank/flows/routing.md`.
-2. The agent reads the task and project context, then Task Routing selects the
-   smallest process that still controls the risk.
-3. The selected process governs the required documents, code changes, and
-   verification. Lasting decisions and evidence return to their canonical
-   owners in Memory Bank.
-
-The result is a feedback loop: project knowledge guides delivery, and delivery
-improves project knowledge.
 
 ## Install in a project
 
