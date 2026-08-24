@@ -1,8 +1,10 @@
 # Memory Bank
 
-**Memory Bank is a version-controlled `memory-bank/` directory that coding
-agents read before work and update after delivery. It stores project knowledge,
-ownership rules, and repeatable development processes.**
+<p align="center">
+  <img src="docs/assets/memory-bank-mark.svg" alt="Memory Bank: project context, governed routing, and verified delivery" width="180">
+</p>
+
+**A version-controlled development system that gives coding agents durable knowledge, explicit governance, and repeatable delivery flows.**
 
 [Русская версия](README.ru.md) · [Quick start (Russian)](docs/quick-start.md) ·
 [Adoption guide (Russian)](docs/adoption.md) ·
