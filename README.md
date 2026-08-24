@@ -35,21 +35,7 @@ Use it when a project has one or more of these symptoms:
 - **A self-growing knowledge base** — delivery leaves behind decisions, requirements, scenarios, and evidence that future work can reuse.
 - **A portable starting point** — an agent brings the template into a repository and adapts it from the project's own evidence.
 
-```text
-Project knowledge + DNA
-          ↓
-      Issue / task
-          ↓
-       Task Routing
-          ↓
-       Delivery Flow
-          ↓
-Brief → Design Pack → Implementation Plan
-          ↓
- Code → verification → PR
-          ↓
-Decisions, evidence, and new knowledge return to Memory Bank
-```
+![Running a task through Memory Bank routing](docs/assets/quick-start-routing-en.gif)
 
 The result is a feedback loop: project knowledge guides delivery, and delivery improves project knowledge.
 
