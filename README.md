@@ -10,6 +10,8 @@
 
 **`AGENTS.md` can tell an agent how to start. Memory Bank preserves what the project means, why decisions were made, how work moves from a problem to verified code, and what the next agent needs to know.**
 
+![Running a task through Memory Bank routing](docs/assets/quick-start-routing-en.gif)
+
 ## What it is
 
 Memory Bank combines three parts that reinforce one another:
@@ -38,8 +40,6 @@ Use it when a project has one or more of these symptoms:
 - **Reusable reasoning tools** — artifact templates make the agent state the problem, constraints, selected solution, implementation steps, and verification evidence explicitly.
 - **A self-growing knowledge base** — delivery leaves behind decisions, requirements, scenarios, and evidence that future work can reuse.
 - **A portable starting point** — an agent brings the template into a repository and adapts it from the project's own evidence.
-
-![Running a task through Memory Bank routing](docs/assets/quick-start-routing-en.gif)
 
 The result is a feedback loop: project knowledge guides delivery, and delivery improves project knowledge.
 
