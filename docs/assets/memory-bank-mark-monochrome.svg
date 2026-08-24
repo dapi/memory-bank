@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" role="img" aria-labelledby="title desc">
+  <title id="title">Memory Bank monochrome mark</title>
+  <desc id="desc">A single-color version of the Memory Bank context, routing, and verification mark.</desc>
+
+  <defs>
+    <mask id="details" x="0" y="0" width="320" height="320" maskUnits="userSpaceOnUse">
+      <rect width="320" height="320" fill="#fff"/>
+      <path fill="#000" d="M116 54h88a8 8 0 0 1 0 16h-88a8 8 0 0 1 0-16Zm18 26h52a8 8 0 0 1 0 16h-52a8 8 0 0 1 0-16Z"/>
+      <circle cx="160" cy="160" r="22" fill="#000"/>
+      <path fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16" d="m121 258 27 23 51-45"/>
+    </mask>
+  </defs>
+
+  <g fill="#0B1020" mask="url(#details)">
+    <path d="M160 210c4 0 7 1 11 3l117 38c10 3 10 10 0 14l-117 39c-7 2-15 2-22 0L32 265c-10-4-10-11 0-14l117-38c4-2 7-3 11-3Z"/>
+    <path d="M160 112c4 0 7 1 11 3l117 38c10 3 10 10 0 14l-117 39c-7 2-15 2-22 0L32 167c-10-4-10-11 0-14l117-38c4-2 7-3 11-3Z"/>
+    <path d="M160 14c4 0 7 1 11 3l117 38c10 3 10 10 0 14l-117 39c-7 2-15 2-22 0L32 69c-10-4-10-11 0-14l117-38c4-2 7-3 11-3Z"/>
+    <path d="M153 105h14v38h-14z"/>
+  </g>
+  <circle cx="160" cy="160" r="12" fill="#0B1020"/>
+</svg>

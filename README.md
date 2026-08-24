@@ -1,5 +1,9 @@
 # Memory Bank
 
+<p align="center">
+  <img src="docs/assets/memory-bank-mark.svg" alt="Memory Bank: project context, governed routing, and verified delivery" width="180">
+</p>
+
 **A version-controlled development system that gives coding agents durable knowledge, explicit governance, and repeatable delivery flows.**
 
 [Русская версия](README.ru.md) · [Quick start (Russian)](docs/quick-start.md) · [Adoption guide](docs/adoption.md) · [Daily usage](docs/usage.md)
