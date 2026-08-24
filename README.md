@@ -1,16 +1,22 @@
 # Memory Bank
 
-**A durable, version-controlled context and governance layer for software development with coding agents.**
+**A version-controlled development system that gives coding agents durable knowledge, explicit governance, and repeatable delivery flows.**
 
 [Русская версия](README.ru.md) · [Adoption guide](docs/adoption.md) · [Daily usage](docs/usage.md)
 
-**`AGENTS.md` can tell an agent how to start. Memory Bank preserves what the project means, why decisions were made, and how work is verified.**
+**`AGENTS.md` can tell an agent how to start. Memory Bank preserves what the project means, why decisions were made, how work moves from a problem to verified code, and what the next agent needs to know.**
 
-Coding agents are most useful when they share the same understanding of the product, domain, architecture, constraints, and definition of done. Memory Bank keeps that knowledge in Git, next to the code, instead of leaving it in one person's head or a disposable chat session.
+## What it is
 
-It gives humans and agents an authoritative starting point, routes work through explicit delivery flows, and preserves the decisions and evidence needed to resume a task in a fresh session.
+Memory Bank combines three parts that reinforce one another:
 
-Memory Bank is not a wiki, task tracker, or agent runner. It is the control plane around those tools: durable context, ownership rules, lifecycle gates, and verification contracts.
+1. **A project knowledge base** for product, domain, engineering, operations, requirements, and decisions.
+2. **A governance layer** that defines who owns each fact, how documents depend on one another, and which source wins when documents disagree.
+3. **A delivery system** whose flows turn tasks into governed artifacts, implementation, verification, and new durable knowledge.
+
+Memory Bank is built on the **First Principles Framework (FPF)**. Work starts from explicit facts, constraints, assumptions, and desired outcomes; decisions preserve their rationale and evidence instead of disappearing into a chat session.
+
+It is not a wiki, task tracker, or agent runner. It is the development control plane around those tools: durable context, ownership rules, lifecycle gates, reusable processes, and verification contracts.
 
 Use it when a project has one or more of these symptoms:
 
@@ -23,22 +29,29 @@ Use it when a project has one or more of these symptoms:
 ## What you get
 
 - **Durable project context** — product intent, domain language, engineering rules, and operational constraints survive across sessions.
-- **Clear ownership** — Single Source of Truth rules prevent the same fact from drifting across documents.
+- **A Single Source of Truth** — every canonical fact has one owner; derived documents point back to that source instead of becoming competing copies.
 - **Governed delivery** — task routing selects the smallest suitable flow for incidents, bugs, research, small changes, epics, refactoring, or features.
-- **Portable starting point** — an agent brings the template into a repository and adapts it from the project's own evidence.
-- **Optional automation** — a companion CLI can later add ownership-aware updates and automated documentation checks.
+- **Reusable reasoning tools** — artifact templates make the agent state the problem, constraints, selected solution, implementation steps, and verification evidence explicitly.
+- **A self-growing knowledge base** — delivery leaves behind decisions, requirements, scenarios, and evidence that future work can reuse.
+- **A portable starting point** — an agent brings the template into a repository and adapts it from the project's own evidence.
 
 ```text
-Memory Bank context and rules
-             ↓
-         Issue / task
-             ↓
-   Agent session and delivery flow
-             ↓
- Implementation → verification → PR
-             ↓
- New durable knowledge returns to Memory Bank
+Project knowledge + DNA
+          ↓
+      Issue / task
+          ↓
+       Task Routing
+          ↓
+       Delivery Flow
+          ↓
+Brief → Design Pack → Implementation Plan
+          ↓
+ Code → verification → PR
+          ↓
+Decisions, evidence, and new knowledge return to Memory Bank
 ```
+
+The result is a feedback loop: project knowledge guides delivery, and delivery improves project knowledge.
 
 ## Start with an agent
 
@@ -77,20 +90,48 @@ cycle and its smaller routes.
 
 ## How it works
 
-The `dna/` layer defines document governance: source ownership, dependency direction, lifecycle, frontmatter, and navigation. Stable project context lives in `product/`, `domain/`, `engineering/`, and `ops/`. Requirements and decisions mature through research, PRDs, epics, use cases, feature packages, and ADRs.
+### DNA and Single Source of Truth
 
-For a substantial delivery feature, the context typically develops in three stages:
+The `dna/` layer is the constitution of the knowledge base. It defines Single Source of Truth, document ownership, dependency direction, lifecycle, frontmatter, and navigation rules. These principles keep Memory Bank internally consistent as it grows.
+
+A canonical document owns a fact. Another document may derive a requirement, plan, or view from it, but must preserve the dependency. When two documents disagree, ownership and dependency direction show which source is authoritative.
+
+### Project knowledge
+
+Stable project context lives in `product/`, `domain/`, `engineering/`, and `ops/`. Research, product initiatives, scenarios, delivery packages, and decisions live in `research/`, `prd/`, `epics/`, `use-cases/`, `features/`, and `adr/`.
+
+Documents own intent, requirements, rationale, and contracts. Code owns implementation. A fresh agent session can therefore resume from the same task and canonical sources without reconstructing the project from chat history.
+
+### Flows and Feature Packs
+
+The `flows/` layer describes repeatable processes that an agent can follow. Every task begins with [Task Routing](template/memory-bank/flows/routing.md), which selects the applicable lifecycle and its evidence requirements.
+
+For a substantial feature, Feature Flow produces a Feature Pack in three stages:
 
 ```text
 brief.md                 design.md                  implementation-plan.md
 what and why      →      chosen solution     →     implementation and checks
 problem space            solution space             execution space
-                         (when required)
 ```
 
-Documents own intent, requirements, rationale, and contracts. Code owns implementation. A new agent session can therefore restart from the same task and canonical documents without reconstructing the project from chat history.
+- `brief.md` owns the problem, scope, requirements, and verification contract;
+- the Design Pack owns the selected solution, its rationale, and solution-level contracts;
+- `implementation-plan.md` owns execution sequencing and checkpoints.
 
-Every task begins with [Task Routing](template/memory-bank/flows/routing.md), which selects the applicable lifecycle and its evidence requirements.
+The implementation changes the code, while lasting decisions and evidence return to their canonical owners in Memory Bank. The Feature Pack remains as a durable account of what changed, why it changed, and how the result was verified.
+
+### Templates as reasoning tools
+
+The templates in `flows/templates/` are not merely blank forms. They require an agent to separate the problem, solution, execution, and verification; name assumptions and constraints; compare meaningful alternatives; and preserve traceability. Filling the template therefore improves the decision process as well as its documentation.
+
+## Automation
+
+Memory Bank does not require a runner or CLI, but this repository includes two automation paths:
+
+- the optional [`memory-bank-cli`](docs/memory-bank.md) adds ownership-aware updates, link checks, diagnostics, and downstream CI;
+- the experimental [Symphony integration](docs/symphony-github-issues.md) dispatches selected GitHub Issues to Codex in isolated workspaces and hands completed pull requests to human review.
+
+Symphony runs agents and repository work. Memory Bank supplies the knowledge, governance, delivery flows, and verification contracts those agents follow.
 
 ## Template layout
 
@@ -118,6 +159,7 @@ After installation, `memory-bank/README.md` is the primary index inside the down
 - [Context priming for an agent task](docs/context-priming.md)
 - [Glossary](docs/glossary.md)
 - [Optional CLI automation](docs/memory-bank.md)
+- [Symphony with GitHub Issues](docs/symphony-github-issues.md)
 - [Ownership and safe updates](docs/ownership.md)
 - [Repository development](docs/development.md)
 - [Detailed overview in Russian](README.ru.md)
