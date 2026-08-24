@@ -2,7 +2,7 @@
 
 **A version-controlled development system that gives coding agents durable knowledge, explicit governance, and repeatable delivery flows.**
 
-[Русская версия](README.ru.md) · [Adoption guide](docs/adoption.md) · [Daily usage](docs/usage.md)
+[Русская версия](README.ru.md) · [Quick start (Russian)](docs/quick-start.md) · [Adoption guide](docs/adoption.md) · [Daily usage](docs/usage.md)
 
 **`AGENTS.md` can tell an agent how to start. Memory Bank preserves what the project means, why decisions were made, how work moves from a problem to verified code, and what the next agent needs to know.**
 
@@ -154,6 +154,7 @@ After installation, `memory-bank/README.md` is the primary index inside the down
 
 ## Documentation
 
+- [Quick start (Russian)](docs/quick-start.md)
 - [Adopting Memory Bank](docs/adoption.md)
 - [Using Memory Bank day to day](docs/usage.md)
 - [Context priming for an agent task](docs/context-priming.md)
