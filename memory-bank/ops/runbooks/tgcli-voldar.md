@@ -29,17 +29,23 @@ tgcli → 127.0.0.1:1080 → autossh/SSH → voldar.brandymint.ru → Telegram
 - Local proxy: `socks5://127.0.0.1:1080`
 - macOS LaunchAgent: `com.brandymint.proxied-chrome`
 - Local client source: `/Users/danil/code/tgcli`
+- Canonical executable: `~/.local/bin/tgcli`
+- Managed package: mise tool `npm:@dapi/tgcli@2.8.1`
 - Local tgcli store: `~/Library/Application Support/tgcli`
 - Remote tgcli store: `/home/danil/.local/share/tgcli`
 
-В окружении infra `direnv` первым выбирает бинарник из mise:
-`~/.local/share/mise/installs/node/25.9.0/bin/tgcli`. После изменений в исходном
-репозитории обновлять нужно именно этот installation target:
+`~/.local/bin/tgcli` is the only supported entrypoint for shells, cron jobs and
+LaunchAgents. It delegates to the independently managed mise npm tool and does
+not depend on a project's active Node.js version or a source checkout.
+
+To update the canonical installation, change the pinned
+`"npm:@dapi/tgcli"` version in `~/dotfiles/.config/mise/config.toml`, then run:
 
 ```bash
-cd ~/code/tgcli
-direnv exec ~/code/brandymint/infra npm install --global \
-  --prefix ~/.local/share/mise/installs/node/25.9.0 .
+cd ~/dotfiles
+mise install npm:@dapi/tgcli
+mise reshim
+~/.local/bin/tgcli --version
 ```
 
 Сессия локального `tgcli` была перенесена с `voldar`; реальные session/config
