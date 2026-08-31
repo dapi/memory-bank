@@ -35,8 +35,12 @@ tgcli → 127.0.0.1:1080 → autossh/SSH → voldar.brandymint.ru → Telegram
 - Remote tgcli store: `/home/danil/.local/share/tgcli`
 
 `~/.local/bin/tgcli` is the only supported entrypoint for shells, cron jobs and
-LaunchAgents. It delegates to the independently managed mise npm tool and does
-not depend on a project's active Node.js version or a source checkout.
+LaunchAgents. The wrapper resolves mise from `$HOME`, then restores the caller's
+working directory before executing tgcli. This deliberately isolates the native
+`better-sqlite3` binary from project-local Node overrides: running tgcli inside a
+repository that selects another Node version must not change tgcli's Node ABI.
+The wrapper therefore does not depend on a project's active Node.js version or a
+source checkout.
 
 To update the canonical installation, change the pinned
 `"npm:@dapi/tgcli"` version in `~/dotfiles/.config/mise/config.toml`, then run:
