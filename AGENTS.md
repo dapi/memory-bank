@@ -32,6 +32,17 @@ Do not inspect or use files under template/memory-bank/prompts/** as workflow de
 - `sed -n '1,120p' path/to/doc.md` для быстрой проверки frontmatter и заголовков;
 - `rg -n "PROJECT_SPECIFIC_TERM" template/memory-bank` с реальными терминами downstream-проекта, чтобы убедиться, что project-specific детали не протекли обратно в шаблон.
 
+## Синхронизация project-local memory-bank
+
+Репозиторий одновременно шаблон и его потребитель. Корневые ассеты (`WORKFLOW.md`, `.codex/agents`, `.start-issue/prompt.md`, `bootstrap-symphony.sh`, `run-symphony.sh`) — симлинки в `template/`, поэтому `memory-bank-cli pull` в корне останавливается на unsafe path (см. [`docs/ownership.md`](docs/ownership.md)). Синхронизируйте инстанс только через:
+
+```bash
+ruby tools/sync-project-memory-bank.rb            # план
+ruby tools/sync-project-memory-bank.rb --apply    # применить
+```
+
+Скрипт выполняет pull в изолированной песочнице и переносит обратно только `memory-bank/**` с его lock. Запускайте его после мержа изменений шаблона в `main`: lock закрепляет commit источника, и SHA из невлитой ветки исчезнет после squash-мержа. Конфликты внутри `memory-bank/` скрипт не решает — он останавливается и требует явного решения.
+
 ## Стиль оформления и соглашения по именованию
 
 Пишите в Markdown: короткие секции, понятные заголовки, относительные ссылки. Governed-документы в `template/memory-bank/` должны начинаться с YAML frontmatter; поле `status` обязательно всегда, а `derived_from`, `delivery_status`, `research_status` и `decision_status` добавляются, когда этого требует тип документа. См. `template/memory-bank/dna/frontmatter.md`.
