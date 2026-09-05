@@ -9,7 +9,7 @@ derived_from:
   - ../../behavior-specification.md
   - ../../feature-artifact-catalog.md
   - ../../../dna/frontmatter.md
-  - ../../../engineering/testing-policy.md
+  - ../../testing-policy.md
 status: active
 audience: humans_and_agents
 template_for: feature
@@ -159,7 +159,7 @@ failure modes или rollout/backout в `brief.md`.
 
 ## Validation Profile Decision
 
-Выбери один profile по [`../../engineering/validation-profiles.md`](../../engineering/validation-profiles.md). Эта секция — canonical owner решения; `implementation-plan.md` ссылается на неё и задаёт конкретные suites/checkpoints без повторного выбора profile.
+Выбери один profile по [`../../validation-profiles.md`](../../validation-profiles.md). Эта секция — canonical owner решения; `implementation-plan.md` ссылается на неё и задаёт конкретные suites/checkpoints без повторного выбора profile.
 
 | Profile | Triggers / rationale | Downgrade approval |
 | --- | --- | --- |

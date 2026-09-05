@@ -5,7 +5,7 @@ doc_function: canonical
 purpose: Маршрутизация входящей задачи в минимальный flow, который сохраняет контроль над риском.
 derived_from:
   - ../dna/governance.md
-  - ../engineering/autonomy-boundaries.md
+  - autonomy-boundaries.md
 canonical_for:
   - task_routing_order
   - task_routing_predicates
@@ -23,7 +23,7 @@ audience: humans_and_agents
 
 Этот документ выбирает flow для входящей задачи. Он не определяет lifecycle выбранной ветки: entry/exit gates, evidence и escalation принадлежат соответствующему flow-документу.
 
-Flow определяет организацию lifecycle, но не глубину проверки. После выбора route отдельно выбери один [`validation profile`](../engineering/validation-profiles.md) в canonical owner выбранного delivery flow. Profile не участвует в routing order и не заменяет flow; если его triggers выявили contract, rollout или другой scope, несовместимый с текущим route, примени обычные rerouting rules.
+Flow определяет организацию lifecycle, но не глубину проверки. После выбора route отдельно выбери один [`validation profile`](validation-profiles.md) в canonical owner выбранного delivery flow. Profile не участвует в routing order и не заменяет flow; если его triggers выявили contract, rollout или другой scope, несовместимый с текущим route, примени обычные rerouting rules.
 
 ## Context Priming Before Routing
 
@@ -118,7 +118,7 @@ Issue / Task
 
 Неполнота epic facts сама по себе не является основанием для `Human Routing`.
 Сначала примени Structured Decision Protocol из
-[`autonomy-boundaries.md`](../engineering/autonomy-boundaries.md) в пределах P0.
+[`autonomy-boundaries.md`](autonomy-boundaries.md) в пределах P0.
 Если missing facts требуют эксперимента или broad evidence collection, выбери
 Research Flow, а не выполняй probe до routing. Human gate нужен только когда
 результатом стал `escalate`: route нельзя обосновать без отсутствующего
@@ -139,7 +139,7 @@ product/value decision, нужны дополнительные полномоч
 ## Human Routing
 
 Следуй canonical Structured Decision Protocol и triggers из
-[`../engineering/autonomy-boundaries.md`](../engineering/autonomy-boundaries.md).
+[`autonomy-boundaries.md`](autonomy-boundaries.md).
 Не отправляй задачу в Human Routing только из-за сложности, неполных данных или
 нескольких правдоподобных routes. Сначала используй routing predicates,
 canonical facts и автономные tie-breakers. P0 остаётся read-only: если unknown
@@ -174,7 +174,7 @@ trigger и точный вопрос. До решения не начинай de
 - запись показывает, какие entry predicates сделали route допустимым; provisional incident record может быть дополнен полным routing record после containment;
 - для Epic route запись дополнительно указывает `Epic Intake`, когда facts ещё недостаточны для прямого `Bootstrap Epic`;
 - для Research route запись указывает decision question, decision owner и stopping condition;
-- для применимого delivery flow его canonical owner фиксирует отдельный validation profile decision по [`validation-profiles.md`](../engineering/validation-profiles.md); это downstream evidence выбора flow, а не дополнительный route;
+- для применимого delivery flow его canonical owner фиксирует отдельный validation profile decision по [`validation-profiles.md`](validation-profiles.md); это downstream evidence выбора flow, а не дополнительный route;
 - для `Human Routing` зафиксированы outcome `escalate`, вопрос, риск или
   конкурирующие routes и причина, по которой routing criteria, автономные
   tie-breakers и Research Flow не дают допустимого продолжения.

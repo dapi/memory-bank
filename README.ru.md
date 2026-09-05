@@ -216,11 +216,11 @@ brief.md                 design.md                  implementation-plan.md
 | [`dna/`](template/memory-bank/dna/README.md) | Правила управления: единственный источник истины, метаданные, жизненный цикл и связи между документами |
 | [`product/`](template/memory-bank/product/README.md) | Замысел продукта, пользователи, показатели, продвижение и дорожная карта |
 | [`domain/`](template/memory-bank/domain/README.md) | Словарь, модель предметной области, правила, состояния, события и границы контекстов |
-| [`engineering/`](template/memory-bank/engineering/README.md) | Архитектура, тестирование, стиль кода, работа с Git и границы самостоятельности агента |
+| [`engineering/`](template/memory-bank/engineering/README.md) | Архитектура, фронтенд, конвенции тестирования, стиль кода и работа с Git целевой системы |
 | [`ops/`](template/memory-bank/ops/README.md) | Локальная разработка, окружения, конфигурация, выпуски и операционные инструкции |
 | [`research/`](template/memory-bank/research/README.md), [`prd/`](template/memory-bank/prd/README.md), [`epics/`](template/memory-bank/epics/README.md) | Исследования и планирование инициатив |
 | [`use-cases/`](template/memory-bank/use-cases/README.md), [`features/`](template/memory-bank/features/README.md), [`adr/`](template/memory-bank/adr/README.md) | Сценарии, комплекты документов разработки и архитектурные решения |
-| [`flows/`](template/memory-bank/flows/README.md) | Жизненные циклы задач и повторно используемые шаблоны документов |
+| [`flows/`](template/memory-bank/flows/README.md) | Сквозные правила процесса (границы самостоятельности агента, профили проверки, политика тестирования), жизненные циклы задач и повторно используемые шаблоны документов |
 
 После установки `memory-bank/README.md` становится основным указателем внутри проекта-получателя.
 

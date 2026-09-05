@@ -310,8 +310,8 @@ feature package. Это отдельная ось состояния, котор
 ## Agent Work, Review And Authority
 
 Эти термины описывают взаимодействие человека и агента. Полные правила
-остаются в [границах автономии](../template/memory-bank/engineering/autonomy-boundaries.md)
-и [testing policy](../template/memory-bank/engineering/testing-policy.md).
+остаются в [границах автономии](../template/memory-bank/flows/autonomy-boundaries.md)
+и [testing policy](../template/memory-bank/flows/testing-policy.md).
 
 | Term | Meaning |
 | --- | --- |

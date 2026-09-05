@@ -7,7 +7,7 @@ derived_from:
   - ../dna/governance.md
   - routing.md
   - priming/context-priming.md
-  - ../engineering/testing-policy.md
+  - testing-policy.md
   - ../ops/runbooks/README.md
 canonical_for:
   - incident_entry_contract

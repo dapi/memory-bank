@@ -7,8 +7,8 @@ derived_from:
   - ../../flows/feature.md
   - ../../../template/memory-bank/flows/routing.md
   - ../../../template/memory-bank/flows/research.md
-  - ../../../template/memory-bank/engineering/autonomy-boundaries.md
-  - ../../../template/memory-bank/engineering/validation-profiles.md
+  - ../../../template/memory-bank/flows/autonomy-boundaries.md
+  - ../../../template/memory-bank/flows/validation-profiles.md
 status: active
 delivery_status: done
 audience: humans_and_agents
@@ -170,7 +170,7 @@ Issue [#117](https://github.com/dapi/memory-bank/issues/117) обнаружил�
 
 `EVID-01` — текущий issue #117 и её comments/acceptance criteria.
 
-`EVID-02` — canonical [autonomy boundaries](../../../template/memory-bank/engineering/autonomy-boundaries.md)
+`EVID-02` — canonical [autonomy boundaries](../../../template/memory-bank/flows/autonomy-boundaries.md)
 с protocol schema, outcome semantics, carrier rules и approval evidence.
 
 `EVID-03` — [Task Routing](../../../template/memory-bank/flows/routing.md), [Research Flow](../../../template/memory-bank/flows/research.md),

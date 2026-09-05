@@ -6,8 +6,9 @@ stages:
     - memory-bank/use-cases/*.md
     - memory-bank/domain/*.md
     - memory-bank/engineering/architecture.md
-    - memory-bank/engineering/validation-profiles.md
-    - memory-bank/engineering/testing-policy.md
+    - memory-bank/flows/validation-profiles.md
+    - memory-bank/flows/testing-policy.md
+    - memory-bank/engineering/testing-conventions.md
   execution:
     - memory-bank/engineering/coding-style.md
     - memory-bank/ops/development.md

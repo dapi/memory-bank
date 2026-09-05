@@ -5,8 +5,8 @@ doc_function: canonical
 purpose: "Selected solution и design-pack manifest для FT-117. Определяет ownership и cross-flow contract, не заменяя canonical autonomy и flow documents."
 derived_from:
   - brief.md
-  - ../../../template/memory-bank/engineering/autonomy-boundaries.md
-  - ../../../template/memory-bank/engineering/validation-profiles.md
+  - ../../../template/memory-bank/flows/autonomy-boundaries.md
+  - ../../../template/memory-bank/flows/validation-profiles.md
   - ../../../template/memory-bank/flows/routing.md
   - ../../../template/memory-bank/flows/research.md
   - ../../../template/memory-bank/flows/bug-fix.md

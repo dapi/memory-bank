@@ -9,8 +9,8 @@ stages:
     - memory-bank/prd/*.md
     - memory-bank/product/*.md
     - memory-bank/domain/*.md
-    - memory-bank/engineering/autonomy-boundaries.md
-    - memory-bank/engineering/validation-profiles.md
+    - memory-bank/flows/autonomy-boundaries.md
+    - memory-bank/flows/validation-profiles.md
     - memory-bank/flows/templates/feature/README.md
     - memory-bank/flows/templates/feature/brief.md
   design:
@@ -35,7 +35,8 @@ stages:
     - memory-bank/flows/templates/feature/support/use-cases.md
   plan_ready:
     - memory-bank/flows/templates/feature/implementation-plan.md
-    - memory-bank/engineering/testing-policy.md
+    - memory-bank/flows/testing-policy.md
+    - memory-bank/engineering/testing-conventions.md
     - memory-bank/engineering/coding-style.md
     - memory-bank/ops/development.md
     - memory-bank/ops/config.md

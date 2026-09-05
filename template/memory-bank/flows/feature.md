@@ -10,8 +10,8 @@ derived_from:
   - priming/context-priming.md
   - feature-requirements.md
   - behavior-specification.md
-  - ../engineering/validation-profiles.md
-  - ../engineering/autonomy-boundaries.md
+  - validation-profiles.md
+  - autonomy-boundaries.md
 canonical_for:
   - feature_directory_structure
   - feature_priming_inputs
@@ -76,7 +76,7 @@ immutable revision и `GRND-*` evidence.
 16. Optional feature-support docs (`runtime-surfaces.md`, `diagrams/<name>-sequence.md`, `ui-reference/README.md`, `use-cases/README.md`) допустимы для сложных фич как grounding / review / traceability aids. Они не становятся canonical owner problem space, solution space, acceptance inventory или execution sequencing.
 17. Полное чтение PRD corpus не создаёт semantic dependency от каждого PRD. `brief.md: derived_from` импортирует только фактические upstream-owner references и не копирует весь upstream scope.
 18. Если работа крупнее одной delivery-feature и требует общего roadmap, cross-feature risk register или нескольких delivery units, не расширяй feature package: повтори [`Task Routing`](routing.md), выбери [`Epic Flow`](epic.md) и после epic handoff веди каждую утвержденную delivery-единицу как отдельный feature package.
-19. Validation profile выбирается в `brief.md` по [`validation-profiles.md`](../engineering/validation-profiles.md). `design.md` может уточнить risk facts, а `implementation-plan.md` разворачивает minimum contract в команды, suites и checkpoints, но ни один из них не дублирует profile decision.
+19. Validation profile выбирается в `brief.md` по [`validation-profiles.md`](validation-profiles.md). `design.md` может уточнить risk facts, а `implementation-plan.md` разворачивает minimum contract в команды, suites и checkpoints, но ни один из них не дублирует profile decision.
 
 ## Feature Package Anatomy
 
@@ -187,7 +187,7 @@ stakeholder/concern coverage поверх canonical facts, а не пять но
 Если evidence недостаточно, чтобы доказать `N/A`, view остается `covered` и
 анализ продолжается. Неопределённость applicability сама по себе не является
 Human Gate; примени
-[`Structured Decision Protocol`](../engineering/autonomy-boundaries.md#structured-decision-protocol)
+[`Structured Decision Protocol`](autonomy-boundaries.md#structured-decision-protocol)
 и эскалируй только при outcome `escalate`.
 
 Logical View и Scenarios всегда получают `covered`. Process, Development и
@@ -354,7 +354,7 @@ flowchart LR
 Plan Ready artifact-review convergence допускает не более пяти review-improve
 итераций. Последняя итерация с исправлениями не считается clean verdict без
 последующего re-review; исчерпание budget оставляет gate непройденным. Примени
-[`Structured Decision Protocol`](../engineering/autonomy-boundaries.md#structured-decision-protocol),
+[`Structured Decision Protocol`](autonomy-boundaries.md#structured-decision-protocol),
 пересмотри hypothesis, upstream facts, plan и review scope; продолжай через
 обоснованный replan или `bounded_probe`. Human Gate нужен только при outcome
 `escalate`.
@@ -485,7 +485,7 @@ observed execution доказывается отдельным commit, command l
 13. Если support doc выявляет конфликт с canonical owner, конфликт нельзя решать внутри support doc: обнови `brief.md`, непосредственный design-pack owner, external dependency или `implementation-plan.md` по ownership.
 14. Если численный target threshold относится только к одной delivery-единице, canonical owner — соответствующий `brief.md`. Поднимать такой KPI в project-level документ можно только после того, как он стал shared upstream fact для нескольких feature.
 15. Хороший `implementation-plan.md` начинается с discovery context: relevant paths, local reference patterns, unresolved questions, test surfaces и execution environment должны быть зафиксированы до sequencing изменений.
-16. Для действий, пересекающих canonical Human Gate из [autonomy boundaries](../engineering/autonomy-boundaries.md#human-gate--остановись-и-спроси), `implementation-plan.md` должен явно отделять автономные preparation/validation steps от требующего approval execution step и не скрывать gate внутри prose шага.
+16. Для действий, пересекающих canonical Human Gate из [autonomy boundaries](autonomy-boundaries.md#human-gate--остановись-и-спроси), `implementation-plan.md` должен явно отделять автономные preparation/validation steps от требующего approval execution step и не скрывать gate внутри prose шага.
 17. Если feature исполняет часть upstream initiative, `brief.md` должен ссылаться только на релевантные upstream artifacts и imported IDs, а не копировать весь upstream scope. Если используются upstream solution decisions, `design.md` или ADR ссылается на их canonical owner.
 18. Upstream roadmap, cross-feature risks и delivery-unit registries принадлежат upstream owner-документам, а не feature package.
 19. **Artifact review и implementation review различаются.** Artifact review проверяет governed brief/design/plan, их grounding, ownership, completeness и traceability до lifecycle gate. Implementation review проверяет delivered code и repository diff после execution. Они имеют разные reviewed revisions, findings и verdicts и не заменяют друг друга.
@@ -493,7 +493,7 @@ observed execution доказывается отдельным commit, command l
 
 ## Test Ownership Summary
 
-Canonical testing policy живёт в [../engineering/testing-policy.md](../engineering/testing-policy.md). Ниже — выжимка, достаточная для создания feature package без обращения к policy-документу.
+Canonical testing policy живёт в [testing-policy.md](testing-policy.md). Ниже — выжимка, достаточная для создания feature package без обращения к policy-документу.
 
 1. **Canonical test cases** delivery-единицы задаются в `brief.md` через `SC-*`, feature-specific `NEG-*`, `CHK-*` и `EVID-*`.
 2. Design pack, если нужен, aggregate-владеет solution-level `CTR-*`, `INV-*`, `FM-*` и `RB-*`; непосредственный owner — `design.md` или явно указанный constituent. Ни один design artifact не владеет test strategy и не подменяет canonical verify contract.

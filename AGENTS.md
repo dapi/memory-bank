@@ -12,10 +12,10 @@ Do not inspect or use files under template/memory-bank/prompts/** as workflow de
 - `template/` — upstream payload, который должен оставаться generic; CLI устанавливает его файлы в downstream root без префикса `template/`. В частности, `template/memory-bank/` становится `memory-bank/`, а `template/init.sh` — `./init.sh`.
 - `template/memory-bank/` — generic Memory Bank documentation layer внутри upstream payload.
 - `template/memory-bank/dna/` — governance-ядро шаблона.
-- `template/memory-bank/flows/` — reusable lifecycle docs и governed templates.
+- `template/memory-bank/flows/` — reusable process-layer: cross-flow policy (autonomy boundaries, validation profiles, testing policy), lifecycle docs и governed templates. Этот слой generic и не зависит от стека целевой системы.
 - `template/memory-bank/prd/` — instantiated Product Requirements Documents.
 - `template/memory-bank/use-cases/` — instantiated канонические сценарии проекта.
-- `template/memory-bank/domain/`, `template/memory-bank/engineering/`, `template/memory-bank/ops/` — project-adaptation layers шаблона.
+- `template/memory-bank/domain/`, `template/memory-bank/engineering/`, `template/memory-bank/ops/` — project-adaptation layers шаблона, описывающие целевую систему. Правила самого delivery-процесса сюда не кладём: они принадлежат `flows/`.
 - `template/memory-bank/adr/` и `template/memory-bank/features/` — пустые или минимальные точки назначения для instantiated документов.
 
 Новые generic-правила размещайте в `template/memory-bank/`; generic root-level assets, нужные downstream-проекту, — в `template/`. Конкретную project-specific specialization не возвращайте обратно в шаблон.

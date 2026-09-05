@@ -8,7 +8,7 @@ derived_from:
   - ../dna/frontmatter.md
   - routing.md
   - priming/context-priming.md
-  - ../engineering/autonomy-boundaries.md
+  - autonomy-boundaries.md
 canonical_for:
   - research_directory_structure
   - research_priming_inputs

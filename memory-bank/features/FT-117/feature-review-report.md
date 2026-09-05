@@ -14,6 +14,13 @@ review_mode: self_review
 
 # FT-117: Feature Review Report
 
+> **Migration note (2026-09-05).** После разделения слоёв шаблона
+> `autonomy-boundaries.md`, `validation-profiles.md` и `testing-policy.md`
+> переехали из `engineering/` в `flows/`. Ссылки и пути в `brief.md`,
+> `design.md` и `implementation-plan.md` обновлены, чтобы пакет оставался
+> навигируемым. Пути и SHA256 в этом отчёте намеренно не менялись: они
+> фиксируют состояние на reviewed revision `d3639b1`.
+
 ## Review scope
 
 - Reviewed package: `FT-117` (`brief.md`, `design.md`, `implementation-plan.md`).

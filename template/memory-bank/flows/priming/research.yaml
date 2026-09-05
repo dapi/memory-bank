@@ -3,7 +3,7 @@ process: research
 stages:
   bootstrap:
     - memory-bank/research/README.md
-    - memory-bank/engineering/autonomy-boundaries.md
+    - memory-bank/flows/autonomy-boundaries.md
     - memory-bank/flows/templates/research/README.md
     - memory-bank/flows/templates/research/package-README.md
     - memory-bank/flows/templates/research/brief.md
@@ -15,7 +15,8 @@ stages:
     - memory-bank/domain/*.md
     - memory-bank/engineering/README.md
     - memory-bank/engineering/architecture.md
-    - memory-bank/engineering/testing-policy.md
+    - memory-bank/flows/testing-policy.md
+    - memory-bank/engineering/testing-conventions.md
     - memory-bank/ops/*.md
   evidence_collection:
     - memory-bank/flows/templates/research/plan.md

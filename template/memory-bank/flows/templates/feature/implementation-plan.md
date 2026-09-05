@@ -9,7 +9,7 @@ derived_from:
   - ../../feature-artifact-catalog.md
   - ../../priming/context-priming.md
   - ../../../dna/frontmatter.md
-  - ../../../engineering/testing-policy.md
+  - ../../testing-policy.md
 status: active
 audience: humans_and_agents
 template_for: feature

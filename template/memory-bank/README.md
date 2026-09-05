@@ -41,13 +41,13 @@ audience: humans_and_agents
   Читать, когда нужно: описать локальную разработку, окружения, релизы, конфигурацию и runbooks.
 
 - [`engineering/README.md`](engineering/README.md)
-  Читать, когда нужно: задать architecture patterns, frontend rules, testing policy, coding style, git workflow и границы автономии агента.
+  Читать, когда нужно: задать architecture patterns, frontend rules, testing conventions, coding style и git workflow целевой системы.
 
 - [`dna/README.md`](dna/README.md)
   Читать, когда нужно: проверить SSoT rules, frontmatter contract и governance-правила документации.
 
 - [`flows/README.md`](flows/README.md)
-  Читать, когда нужно: создать use case, epic/feature package, применить BDD-практику, провести артефакт по lifecycle gates или использовать шаблон.
+  Читать, когда нужно: создать use case, epic/feature package, применить BDD-практику, провести артефакт по lifecycle gates, узнать границы автономии агента, выбрать validation profile или использовать шаблон.
 
 - [`flows/execution-handoff.md`](flows/execution-handoff.md)
   Читать, когда нужно: безопасно продолжить одну конкретную задачу по compact,

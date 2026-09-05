@@ -1,6 +1,6 @@
 ---
 title: Validation Profiles
-doc_kind: engineering
+doc_kind: governance
 doc_function: canonical
 purpose: Определяет независимую от delivery flow глубину validation, её risk triggers, minimum evidence contract и ownership решения.
 derived_from:
@@ -24,7 +24,7 @@ Delivery flow и validation profile отвечают на разные вопр�
 - **flow** организует lifecycle, owner-документы и handoff;
 - **validation profile** задаёт минимальную глубину проверок, evidence, approvals и rollout/backout discipline.
 
-Сначала выбери flow по [`../flows/routing.md`](../flows/routing.md), затем внутри его entry/problem gate выбери ровно один profile. Profile не меняет состав owner-документов и не является конкурирующим flow.
+Сначала выбери flow по [`routing.md`](routing.md), затем внутри его entry/problem gate выбери ровно один profile. Profile не меняет состав owner-документов и не является конкурирующим flow.
 
 ## Taxonomy
 
@@ -90,7 +90,7 @@ Human approval — отдельный gate для risk-bearing action и не з
 | `high-risk` | Все surfaces, необходимые для безопасного direct production/live action; critical failure modes; recovery rehearsal или deterministic substitute | Полный релевантный набор для данного действия; невозможное явно блокирует или получает approval | Все required CI плюс доступные specialized gates | Evidence по действию, critical path, failure/recovery case и rehearsal | Human approval для downgrade, manual-only gaps и самого risk-bearing execution step; выбор профиля и подготовка автономны | Явные staged rollout, observability signals, stop conditions и проверенный backout/recovery plan | Separate non-authoring actor проверяет затронутый production-risk domain; финальный convergence pass обязателен |
 | `release-deployment` | Build/package/config validation, deploy/rollback automation и smoke/health checks | Release artifact/config checks и staging rehearsal, где доступно | Required release/deployment jobs | Artifact identity, staging/smoke results и production signals | Approval перед production execution только когда шаг пересекает canonical Human Gate; task/project-policy preauthorization может быть approval evidence. Live-data mutation дополнительно включает `high-risk` obligations | Явные rollout units, stop signals, rollback owner и fastest safe rollback | Separate review release plan/config и post-deploy convergence обязательны |
 
-Конкретные frameworks, команды, suites, CI job names и evidence paths не принадлежат taxonomy: их задают project-specific [`testing-policy.md`](testing-policy.md), execution plan или routing record выбранного flow.
+Конкретные frameworks, команды, suites, CI job names и evidence paths не принадлежат taxonomy: их задают project-specific [`../engineering/testing-conventions.md`](../engineering/testing-conventions.md), execution plan или routing record выбранного flow.
 
 ## Canonical Decision Owner By Flow
 
