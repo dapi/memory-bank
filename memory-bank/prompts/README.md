@@ -55,6 +55,7 @@ Prompt-документ нужен, когда prompt прошел путь от
 | [`PROMPT-003`](PROMPT-003-implement-and-test.md) | Implement And Test | `draft` | `drafted` | `coding` | Implement a coding task end-to-end through PR, review/fix and CI | 2026-05-19 |
 | [`PROMPT-004`](PROMPT-004-pr-review-finish.md) | PR Review Finish | `draft` | `drafted` | `coding` | Finish an active branch into a ready PR with review-improve and CI gates | 2026-05-19 |
 | [`PROMPT-005`](PROMPT-005-route-and-deliver-issue.md) | Route And Deliver Issue | `draft` | `drafted` | `agent` | Route a new issue and orchestrate delivery through its terminal flow gate | 2026-07-23 |
+| [`PROMPT-006`](PROMPT-006-memory-bank-governance-audit-prompt-generator.md) | Memory Bank Governance Audit Prompt Generator | `draft` | `drafted` | `agent` | Generate a bounded governance audit, review and fix prompt for Memory Bank | 2026-07-30 |
 
 ## Naming
 

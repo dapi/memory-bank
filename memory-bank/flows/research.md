@@ -7,8 +7,11 @@ derived_from:
   - ../dna/governance.md
   - ../dna/frontmatter.md
   - routing.md
+  - priming/context-priming.md
+  - autonomy-boundaries.md
 canonical_for:
   - research_directory_structure
+  - research_priming_inputs
   - research_lifecycle
   - research_artifact_ownership
   - research_evidence_provenance
@@ -21,6 +24,16 @@ audience: humans_and_agents
 # Research And Discovery Flow
 
 Research & Discovery Flow управляет задачей, чьим первым outcome является не delivery, а evidence-backed answer для named decision owner. **Discovery** — подходящее имя product-oriented режима этого flow, но не заменяет общий термин `research`: market research, technical spike и desk research могут не быть product discovery.
+
+## Priming Inputs
+
+Прочитай [`research.yaml`](priming/research.yaml). Выполни `bootstrap`, затем
+ровно один source set `product_market` или `technical`; перед следующими
+стадиями добавь `evidence_collection` и `synthesis_decision`.
+
+Task owner добавляет exact source records. После bootstrap question, known
+evidence, assumptions, unknowns и stopping condition принадлежат `brief.md`
+research package.
 
 ## Package Rules
 
@@ -131,6 +144,14 @@ When a durable fact is accepted, promote it before closing the research package:
 6. Do not copy private participant data, credentials, customer data or restricted source content into the repository. Store a minimal reference, access boundary and derived observation instead.
 7. A technical spike may contain disposable code or benchmark commands, but production implementation requires a new routed delivery flow.
 8. If findings change an active canonical fact, update that owner first; research artifacts remain derived evidence.
+
+9. Если P0 или уже выбранный delivery flow выявил unknown, требующий
+   `bounded_probe`, сначала явно выбери или повторно выбери Research Flow по
+   Task Routing. Probe обязан вернуть decision question, collected evidence,
+   limitations и terminal disposition в originating decision context. После
+   handoff originating context повторяет Structured Decision Protocol и Task
+   Routing; Research не выбирает delivery route молча и не подменяет его
+   implementation plan.
 
 ## Stable Identifiers
 

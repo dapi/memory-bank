@@ -202,7 +202,7 @@ Compliance подтверждается следующими evidence:
   [`interaction contract template`](../flows/templates/feature/api-contract.md)
   фиксируют routing и единственного непосредственного owner делегированных
   `CTR-*`;
-- [`testing-policy.md`](../engineering/testing-policy.md) ссылается на readiness
+- [`testing-policy.md`](../flows/testing-policy.md) ссылается на readiness
   всего design pack вместо безусловного ownership root `design.md`;
 - `memory-bank-cli lint --scope-root template/memory-bank --entrypoint template/memory-bank/README.md`
   и `memory-bank-cli doctor --profile template` проходят;
@@ -238,5 +238,5 @@ manifest relations и уникального document-level ownership; этот 
 - [`../flows/feature-artifact-catalog.md`](../flows/feature-artifact-catalog.md)
 - [`../flows/templates/feature/design.md`](../flows/templates/feature/design.md)
 - [`../flows/templates/feature/api-contract.md`](../flows/templates/feature/api-contract.md)
-- [`../engineering/testing-policy.md`](../engineering/testing-policy.md)
+- [`../flows/testing-policy.md`](../flows/testing-policy.md)
 - [`../dna/governance.md`](../dna/governance.md)

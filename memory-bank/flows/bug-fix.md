@@ -6,10 +6,13 @@ purpose: Delivery flow для воспроизводимого расхожде�
 derived_from:
   - ../dna/governance.md
   - routing.md
-  - ../engineering/testing-policy.md
-  - ../engineering/validation-profiles.md
+  - priming/context-priming.md
+  - testing-policy.md
+  - validation-profiles.md
+  - autonomy-boundaries.md
 canonical_for:
   - bug_fix_entry_contract
+  - bug_fix_priming_inputs
   - bug_reproduction_rules
   - bug_fix_execution_flow
   - bug_regression_evidence_rules
@@ -23,6 +26,15 @@ audience: humans_and_agents
 
 Bug — наблюдаемое поведение, противоречащее уже принятому expected behavior. Источником может быть error tracker, support, QA, пользовательский report или incident analysis.
 
+## Priming Inputs
+
+Прочитай [`bug-fix.yaml`](priming/bug-fix.yaml). Выполни source set `entry`,
+затем `analysis_fix` перед Analysis / Fix.
+
+Task owner добавляет exact report, affected implementation и test paths.
+Expected/actual behavior, reproduction evidence и unknowns фиксируются в bug
+report или linked delivery task.
+
 ## Entry Gate
 
 - [ ] expected и actual behavior различимы
@@ -31,7 +43,15 @@ Bug — наблюдаемое поведение, противоречащее 
 - [ ] operational incident уже contained или передан в [`Incident Flow`](incident.md)
 - [ ] bug report или связанная delivery task фиксирует validation profile decision
 
-Если нет ни доступного источника уже принятого expected behavior, ни зафиксированного решения человека, Entry Gate не выполнен: зафиксируй вопрос и риск через [Human Routing](routing.md#human-routing). До решения `Human Gate` не начинай Analysis And Fix и не изменяй код; после решения повтори Task Routing.
+Если нет ни доступного источника уже принятого expected behavior, ни
+зафиксированного решения человека, Entry Gate не выполнен. Не изобретай expected
+behavior и не начинай Analysis And Fix как bug fix. Примени
+[`Structured Decision Protocol`](autonomy-boundaries.md#structured-decision-protocol)
+и повтори Task Routing: доступный evidence-backed answer может потребовать
+Research Flow, а новое желаемое поведение — Feature Flow. Используй
+[Human Routing](routing.md#human-routing) только при outcome `escalate`, когда
+выбор действительно требует отсутствующего product/value decision или
+дополнительных полномочий.
 
 ## Flow
 

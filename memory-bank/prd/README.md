@@ -5,6 +5,7 @@ doc_function: index
 purpose: Навигация по instantiated PRD проекта. Читать, чтобы найти существующий Product Requirements Document или завести новый по шаблону.
 derived_from:
   - ../dna/governance.md
+  - ../flows/priming/context-priming.md
   - ../flows/templates/prd/PRD-XXX.md
 status: active
 audience: humans_and_agents
@@ -13,6 +14,11 @@ audience: humans_and_agents
 # Product Requirements Documents Index
 
 Каталог `memory-bank/prd/` хранит instantiated PRD проекта.
+
+## Priming Inputs
+
+Прочитай [`prd.yaml`](../flows/priming/prd.yaml) и выполни source set
+`create_update`.
 
 PRD нужен, когда задача живет на уровне продуктовой инициативы или capability, а не одного vertical slice. Обычно PRD стоит между общим контекстом из [`../product/context.md`](../product/context.md) и downstream feature packages из [`../features/README.md`](../features/README.md).
 

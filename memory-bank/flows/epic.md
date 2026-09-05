@@ -7,9 +7,12 @@ derived_from:
   - ../dna/governance.md
   - ../dna/frontmatter.md
   - routing.md
+  - priming/context-priming.md
   - feature.md
+  - autonomy-boundaries.md
 canonical_for:
   - epic_directory_structure
+  - epic_priming_inputs
   - epic_document_boundaries
   - epic_template_selection_rules
   - epic_intake_rules
@@ -29,12 +32,21 @@ audience: humans_and_agents
 
 Epic - это управляемая инициатива крупнее одной delivery-feature. Он задаёт общий intent, границы, roadmap, решения, риски и subissue registry, но не подменяет feature package и не содержит code-level execution plan. Если Epic route уже выбран, но facts ещё недостаточны для полного setup, flow начинается с **Epic Intake**; его состояние **Epic Proposal** фиксируется в обязательном для Intake `brief.md`. `brief.md` можно не создавать только при пропуске Intake и прямом переходе к Bootstrap Epic.
 
-FPF-основание:
+Основание структуры:
 
 - **Bounded Contexts**: epic делит большую инициативу на смысловые контексты и delivery-slices, чтобы не смешивать бизнес, операции, финансы, UI/API и реализацию.
 - **Strict Distinction**: epic, feature, PRD, use case, ADR и implementation plan имеют разные owners и не должны подменять друг друга.
 - **Evidence Graph**: epic решения должны ссылаться на источники, stakeholder answers, specs, ADR или code facts.
 - **Q-Bundle**: качество epic нельзя свести к одному score; оно проверяется набором отдельных свойств ниже.
+
+## Priming Inputs
+
+Прочитай [`epic.yaml`](priming/epic.yaml). Выполни `intake`, затем добавляй
+`bootstrap`, `roadmap_ready` и `execution_handoff` перед соответствующими
+стадиями.
+
+Intake facts и open questions принадлежат `brief.md`; при прямом bootstrap они
+фиксируются в `charter.md` или linked issue.
 
 ## Package Rules
 
@@ -236,7 +248,7 @@ Epic quality is a Q-Bundle, not one scalar.
 | Traceability | Source docs, decisions, requirements, UC and subissues linked by stable IDs | Can a reviewer trace each planned feature back to evidence? |
 | Decomposability | Bounded contexts and slices are separated | Can we create one delivery issue without dragging the whole epic? |
 | Roadmap clarity | Waves, dependencies, gates and stop rules are explicit | Does the team know what should happen first and why? |
-| Decision provenance | Если существуют non-trivial local decisions, `decision-log.md` связывает facts, FPF reasoning и consequences | Are existing local decisions backed by evidence rather than preference? |
+| Decision provenance | Если существуют non-trivial local decisions, `decision-log.md` связывает facts, Structured Decision Protocol reasoning и consequences | Are existing local decisions backed by evidence rather than preference? |
 | Scope control | Non-scope and stop rules are explicit | Can we prevent accidental expansion during delivery? |
 | Risk governance | `risks.md` lists risks, controls and owners | Are high-impact financial/operator risks visible before code? |
 | Execution handoff | `subissues.md` and roadmap define feature-package inputs | Can a slice owner start without re-reading the whole epic? |
@@ -261,7 +273,7 @@ Epic quality is a Q-Bundle, not one scalar.
 
 1. Epic may define roadmap waves, but not file-level execution steps.
 2. Epic may define subissue candidates, but does not make them implementation-ready until a delivery issue and feature package exist.
-3. Epic may close local decisions with FPF and evidence. If a decision changes global project architecture, create ADR.
+3. Epic may close local decisions with Structured Decision Protocol and evidence. If a decision changes global project architecture, create ADR.
 4. Feature package, созданный из epic, должен ссылаться на релевантные `EP-*` docs и сохранять stable IDs вместо копирования всего scope. `brief.md` импортирует problem/scope refs; `design.md` или ADR импортирует epic-local decisions, когда они влияют на solution space.
 5. If a feature discovers a new epic-level fact, update the epic owner document first, then update the feature.
 6. Epic Intake может называть только candidate `BR-SLICE-*`. До `Roadmap Ready -> Execution` нельзя создавать delivery `FT-*` package на основании intake proposal.

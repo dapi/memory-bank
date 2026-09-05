@@ -6,6 +6,7 @@ purpose: Каталог optional артефактов для постановк�
 derived_from:
   - ../dna/governance.md
   - feature.md
+  - feature-requirements.md
 status: active
 audience: humans_and_agents
 ---
@@ -13,6 +14,11 @@ audience: humans_and_agents
 # Feature Artifact Catalog
 
 Этот каталог — меню, а не checklist. Он перечисляет распространенные программно-инженерные артефакты и помогает выбрать только те, которые снимают реальную неоднозначность конкретной feature.
+
+Для observable behavior сначала примени
+[`Behavior Specification Practice`](behavior-specification.md). Discovery,
+Formulation и Automation используют существующие owners и сами по себе не
+требуют отдельного artifact.
 
 При bootstrap feature package обязательны только `README.md` и `brief.md`. Все остальные документы, таблицы и diagrams условны. `implementation-plan.md` появляется только перед реальным execution, а отдельный `design.md` — только когда `brief.md` фиксирует `Design required: yes`.
 
@@ -35,8 +41,8 @@ audience: humans_and_agents
 | Project-level `UC-*` | Какой устойчивый пользовательский / операторский сценарий поддерживает система? | Scenario повторяется во времени или используется несколькими features | `memory-bank/use-cases/UC-XXX.md` | Canonical reusable scenario | [Use Case](templates/use-case/UC-XXX.md) |
 | Epic package | Как координируются roadmap, risks и несколько delivery units? | Работа крупнее одной vertical feature | `memory-bank/epics/EP-XXX/` | Initiative coordination, не feature execution | [Epic](templates/epic/README.md) |
 | `README.md` | Какие artifacts реально входят в feature package и в каком порядке их читать? | Любой feature package | `features/FT-XXX/README.md` | Routing only | [Feature README](templates/feature/README.md) |
-| `brief.md` | Какую проблему решаем, что входит в scope и как принимаем результат? | Любой feature package | `features/FT-XXX/brief.md` | Canonical problem, requirements, acceptance and evidence contract | [Brief](templates/feature/brief.md) |
-| Feature-local use cases | Какие happy, edge и error journeys удобнее review отдельно? | Много scenarios/roles или нужен `FUC -> REQ -> CHK` mapping | `use-cases/README.md` | Derived scenario projection; canonical acceptance остается в `brief.md` | [Feature Use Cases](templates/feature/support/use-cases.md) |
+| `brief.md` | Какую проблему решаем, какие requirement classes применимы, что входит в scope и как принимаем результат? | Любой feature package | `features/FT-XXX/brief.md` | Canonical problem, classified requirements, acceptance, evidence and traceability contract | [Brief](templates/feature/brief.md) |
+| Feature-local use cases / behavior example map | Какие happy, edge и error journeys и их `Given / When / Then` projections удобнее review отдельно? | Много scenarios/roles или нужен `FUC → SC/NEG → REQ → CHK` mapping | `use-cases/README.md` | Derived scenario/example projection; canonical acceptance остается в `brief.md`, новый verdict здесь запрещён | [Feature Use Cases](templates/feature/support/use-cases.md) |
 | Runtime surface inventory | Где behavior существует сейчас и какой context доступен? | Несколько entrypoints, mappings, fallbacks или context variants | `runtime-surfaces.md` | Current-state reference | [Runtime Surfaces](templates/feature/support/runtime-surfaces.md) |
 | UI flow / mockups | Что видит пользователь и какие interface states проходит? | Меняется UI, navigation, editor/preview или interaction model | `ui-reference/README.md`, `ui-reference/mockups/*`; ссылка на `engineering/ui-design-guide/README.md` или нужный surface document | Interface reference; requirements и selected solution остаются у canonical owners; shared UI catalog не копируется в feature | [UI Reference](templates/feature/support/ui-reference.md) |
 | Glossary | Что означают неоднозначные business и technical terms? | Терминология materially влияет на scope, contract или review | Compact table in owner; при росте `glossary.md` | Reference term registry with source refs | pattern only |
@@ -59,6 +65,7 @@ audience: humans_and_agents
 
 | Artifact | Question answered | Trigger | Default form / suggested path | Ownership | Template |
 | --- | --- | --- | --- | --- | --- |
+| 4+1 viewpoint coverage and correspondence | Достаточно ли одно решение описано для Logical, Process, Development, Physical concerns и driving Scenarios, и согласованы ли эти projections? | Любой required `design.md` | Sections in `design.md`; отдельный artifact не создаётся | Только cross-references между canonical owners; views не вводят новые facts | [Design](templates/feature/design.md) |
 | `design.md` | Какое решение выбрано и почему? | `Design required: yes` | `features/FT-XXX/design.md` | `root`: manifest, selected design и default owner неделегированных feature-local solution facts | [Design](templates/feature/design.md) |
 | C4 view | Какие system, container, component или critical code boundaries и bindings затронуты? | Срабатывает C4 trigger из feature flow | Embedded Mermaid/table; при росте `diagrams/<name>-c4.md` | `derived-view` для feature-local projection или `external-dependency` для canonical shared model; не заменяет Architecture Coverage Decision | pattern in Design |
 | Component responsibility map | Как распределена ответственность между modules/services? | Новая decomposition, orchestration или ownership transfer | Table or C3 view in `design.md` | Selected responsibilities остаются `SOL-*` / `SD-*` | pattern only |
@@ -72,7 +79,7 @@ audience: humans_and_agents
 | Error taxonomy | Какие errors/states существуют и как consumer их интерпретирует? | API/integration или много failure outcomes | Table in contract or `design.md` | `CTR-*` wire semantics and `FM-*` solution behavior | Interaction Contract pattern |
 | Failure-mode analysis | Что может сломаться и как решение ограничивает impact? | Distributed, financial, security-critical или degradation-sensitive flow | `FM-*` in `design.md`; table when richer analysis needed | Canonical solution failure semantics | Design section |
 | Idempotency / concurrency model | Как обрабатываются duplicates, races, locks и ordering? | Callbacks, jobs, financial operations или parallel writers | Contract/design tables and sequence branches | `CTR-*`, `INV-*`, `FM-*`, `SD-*` | Interaction/Sequence patterns |
-| Quality attributes / NFR | Какие latency, capacity, availability, consistency или recovery properties нужны? | Эти properties меняют класс допустимых решений | Constraints in `brief.md`; solution response in `design.md` | Requirement vs solution ownership сохраняется раздельно | pattern only |
+| Quality attributes / NFR | Какие measurable latency, capacity, availability, consistency или recovery properties нужны? | Applicability decision identifies a quality trigger or material risk | `REQ-*` class `performance` or `quality attribute` in `brief.md`; solution response in `design.md` | `MET-*` and `CON-*` do not replace a requirement | Brief/Design pattern |
 | Security / threat analysis | Какие trust boundaries, threats и controls существуют? | Auth, permissions, secrets, personal/financial data или external integration | Compact section/table in `design.md`; при росте `security-analysis.md` | Feature controls; reusable security policy требует ADR/project owner | pattern only |
 | Migration design | Как перейти из current state в target state без потери compatibility? | Data/schema/config migration, dual read/write или staged cutover | `migration-design.md` или compact `RB-*` section | Delegated migration facts indexed from `design.md` | pattern only |
 | Compatibility matrix | Какие producer/consumer/schema versions совместимы? | Rolling deploy или independently released components | Table in contract/migration design | Delegated compatibility contract | Interaction/Migration pattern |
@@ -85,6 +92,7 @@ audience: humans_and_agents
 | Artifact | Question answered | Trigger | Default form / suggested path | Ownership | Template |
 | --- | --- | --- | --- | --- | --- |
 | `implementation-plan.md` | В каком порядке реализовать accepted problem/solution contract? | Feature действительно переходит к execution | `features/FT-XXX/implementation-plan.md` | Workstreams, steps, commands, checkpoints and stop conditions | [Implementation Plan](templates/feature/implementation-plan.md) |
+| Traceability matrix | Как requirement reaches exact code/config target, test, evidence and CI review — and back? | Every feature; expand for multiple requirements/surfaces | `brief.md` + execution mapping in plan | Brief owns requirement chain; plan owns exact realization and reverse coverage | Brief/Plan sections |
 | Test matrix / strategy | Какие requirements, contracts и failures чем проверяются? | Change surface требует нескольких suites/types или manual gap | Canonical checks in `brief.md`; execution strategy in plan | Acceptance remains in `brief.md`; execution coverage in plan | Brief/Plan sections |
 | Evidence artifact | Чем доказан конкретный check? | Evidence удобнее хранить отдельно от CI link/path/screenshot | Linkable carrier, optionally `evidence.md` | Results only; не меняет expected behavior | pattern only |
 | Review report | Какие findings найдены и как закрыты? | Formal review/reconciliation materially useful | `<kind>-review-report.md` or external review link | Findings/status only; canonical owners update first | pattern only |

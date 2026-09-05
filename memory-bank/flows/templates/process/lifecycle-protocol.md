@@ -7,6 +7,7 @@ derived_from:
   - ../../../dna/governance.md
   - ../../../dna/frontmatter.md
   - ../../routing.md
+  - ../../priming/context-priming.md
   - ../../feature.md
 status: active
 audience: humans_and_agents
@@ -75,6 +76,11 @@ must_not_define:
 - Что уже известно.
 - На каких проверенных фактах держится старт процесса.
 
+## Priming Inputs
+
+Прочитай `memory-bank/processes/<process-name>.priming.yaml`. Выполни source set
+`entry`, затем добавляй source sets перед соответствующими фазами.
+
 ## Phases
 
 ### Phase 1: Prepare
@@ -123,5 +129,6 @@ must_not_define:
 
 ## Stop Conditions
 
-- Что заставляет немедленно остановиться.
+- Что заставляет немедленно остановиться, включая missing или conflicting
+  priming input.
 ```

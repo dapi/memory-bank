@@ -7,6 +7,7 @@ derived_from:
   - ../../../dna/governance.md
   - ../../../dna/frontmatter.md
   - ../../routing.md
+  - ../../priming/context-priming.md
 status: active
 audience: humans_and_agents
 template_for: process
@@ -19,6 +20,11 @@ canonical_for:
 
 Этот файл описывает wrapper-template. Инстанцируемый `processes/README.md` живет ниже как embedded contract и копируется без wrapper frontmatter и history.
 
+## Priming Inputs
+
+Прочитай [`process.yaml`](../../priming/process.yaml) и выполни source set
+`create_update`.
+
 ## Wrapper Notes
 
 Каталог `processes/` нужен для reusable process-documents, которые живут между ad-hoc заметкой и feature package. Он помогает держать процесс отдельно от продуктового scope: сюда попадают повторяемые workflows, session handoff, lifecycle protocols и другие управляемые последовательности действий.
@@ -28,6 +34,13 @@ canonical_for:
 - компактная карточка процесса;
 - session handoff для продолжения работы между сессиями;
 - lifecycle protocol для длинных delivery-процессов с gates и verification.
+
+Для каждого concrete process создай отдельный
+`memory-bank/processes/<process-name>.priming.yaml` из
+[`priming.yaml`](priming.yaml). Process document в `Priming Inputs` указывает
+этот manifest и нужные stage keys. Пути и bounded masks живут только в
+manifest и разрешаются по
+[`Context Priming Contract`](../../priming/context-priming.md).
 
 Если проекту достаточно одного процесса, всё равно оставь `README.md` как routing-layer: он фиксирует, какие process-documents существуют, что они покрывают и когда их открывать.
 

@@ -5,9 +5,11 @@ doc_function: template
 purpose: Governed wrapper-шаблон плана имплементации. Фиксирует, как инстанцировать execution-документ без переопределения canonical problem или solution facts и без смешения wrapper с целевым `implementation-plan.md`.
 derived_from:
   - ../../feature.md
+  - ../../feature-requirements.md
   - ../../feature-artifact-catalog.md
+  - ../../priming/context-priming.md
   - ../../../dna/frontmatter.md
-  - ../../../engineering/testing-policy.md
+  - ../../testing-policy.md
 status: active
 audience: humans_and_agents
 template_for: feature
@@ -33,7 +35,7 @@ template_target_path: ../../../features/FT-XXX/implementation-plan.md
 
 Plan Ready artifact review проверяет этот документ как governed artifact до начала execution. Его verdict хранится вне reviewed plan и фиксирует reviewer, grounded repository revision, candidate revisions canonical owners/plan, findings/dispositions и clean verdict. Artifact review не является review реализации и не заменяет последующий implementation/code review.
 
-Для ссылок внутри плана используй стабильные идентификаторы по taxonomy из [../../feature.md#stable-identifiers](../../feature.md#stable-identifiers).
+Для ссылок внутри плана используй стабильные идентификаторы по taxonomy из [../../feature-requirements.md#stable-identifiers](../../feature-requirements.md#stable-identifiers).
 
 Если неизвестность меняет scope, acceptance criteria или evidence contract, она сначала поднимается upstream в sibling `brief.md`. Если неизвестность меняет selected design, architecture coverage, C4 architecture model, accepted local decisions, contracts, invariants, failure modes или rollout/backout semantics, она сначала поднимается в required sibling `design.md`, delegated contract или ADR и только после этого фигурирует в плане.
 
@@ -83,6 +85,30 @@ Grounding выполняется до sequencing против конкретно
 | `GRND-01` | `path/to/existing/module` | Какой существующий implementation pattern или affected surface реально найден | Какие `STEP-*`, `PRE-*` или touchpoints обязаны его учитывать |
 | `GRND-02` | `path/to/existing/tests` / discovery command | Какая test surface существует или evidence-backed почему подходящего покрытия нет | Какие `CHK-*`, suites и planned automated coverage следуют из этого |
 
+## Implementation Priming
+
+Перед первым write implementing agent читает только этот manifest и проверяет,
+что рабочая tree начинается с grounded repository revision выше. Это
+исполняемая инструкция, а не пересказ `GRND-*` facts: перечисляй concrete
+repo-relative paths или stable external sources в порядке чтения. Для каждого
+input укажи точную section/symbol, подтверждающий `GRND-*`, цель чтения и
+`STEP-*`, до которого input обязателен. Category, glob, `TODO`, предполагаемый
+path, unresolved placeholder и «изучи релевантное» не допускаются.
+
+| Order | Exact path / stable source | Section / symbol | Grounding refs | Purpose | Required before |
+| --- | --- | --- | --- | --- | --- |
+| `1` | `memory-bank/domain/example-rule.md` | `# Example Rule` | `GRND-01` | Подтвердить применимое domain rule | `STEP-01` |
+| `2` | `path/to/existing/module` | `ExistingService` | `GRND-01` | Подтвердить текущий implementation pattern | `STEP-01` |
+| `3` | `path/to/existing/tests` | `ExistingServiceTest` | `GRND-02` | Подтвердить test conventions и regression surface | `STEP-02` |
+
+Замени все example rows фактическими inputs плана. Один input может ссылаться
+на несколько `GRND-*` и `STEP-*`; перечисли их явно.
+
+Перед первым write выполни `git rev-parse HEAD` и сравни с grounded immutable
+revision. Если revision расходится или один из перечисленных inputs недоступен,
+останови execution и обнови grounding/plan; не угадывай changed state и не
+расширяй manifest произвольно.
+
 ## Grounding / Support References
 
 Какие upstream canonical и support docs используются как execution baseline. Support docs не переопределяют canonical facts: при конфликте обнови owner-документ до продолжения.
@@ -108,6 +134,11 @@ Grounding выполняется до sequencing против конкретно
 ## Test Strategy
 
 Какие test surfaces должны быть обновлены по мере реализации. Сошлись на validation profile из `brief.md` и покажи, как каждая применимая обязанность его minimum contract закрывается tests, suites, evidence, approvals и rollout/backout checkpoints. Этот раздел не переопределяет profile decision или canonical test cases из `brief.md`.
+
+Для каждого required `SC-*` / `NEG-*` выбери самый низкий надёжный test level,
+который доказывает observable outcome. BDD не требует Gherkin, Cucumber или
+E2E-only tests. Если project conventions позволяют, planned test name, tag или
+metadata сохраняет scenario ref для traceability.
 
 | Test surface | Canonical refs | Existing coverage | Planned automated coverage | Required local suites / commands | Required CI suites / jobs | Manual-only gap / justification | Manual-only approval ref |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -151,6 +182,15 @@ Grounding выполняется до sequencing против конкретно
 | `C4-01`, `INV-01`, `FM-01` | `design.md` | Runtime topology | `STEP-03` | `CHK-03` | `EVID-03` |
 | `RB-01` | `design.md` | Migration, config or operational surface | `STEP-04` | `CHK-04` | `EVID-04` |
 | `../../adr/ADR-XXX-short-decision-name.md` | `../../adr/ADR-XXX-short-decision-name.md` (`accepted`) | Decision realization target | `STEP-05` | `CHK-05` | `EVID-05` |
+
+## Exact requirement realization and reverse coverage
+
+Use repository-relative paths and a symbol, heading, or configuration key. A changed surface without a requirement is explicitly supporting/necessary; globs and module-only descriptions are insufficient.
+
+| Requirement or supporting ref | Exact implementation / test / config path + symbol/section | Change role | Steps | Checks / evidence |
+| --- | --- | --- | --- | --- |
+| `REQ-01` | `path/file.ext#Symbol` | direct realization | `STEP-01` | `CHK-01`, `EVID-01` |
+| supporting rationale: regression coverage for `REQ-01` | `path/test.ext#test_name` | supporting: why required | `STEP-02` | `CHK-02`, `EVID-02` |
 
 ## Workstreams
 
