@@ -7,6 +7,7 @@ derived_from:
   - ../../../dna/governance.md
   - ../../../dna/frontmatter.md
   - ../../routing.md
+  - ../../priming/context-priming.md
 status: active
 audience: humans_and_agents
 template_for: process
@@ -63,6 +64,11 @@ must_not_define:
 - Где именно остановились.
 - Какой артефакт является актуальным.
 
+## Continuation Priming Inputs
+
+Прочитай `memory-bank/processes/<process-name>.priming.yaml` и выполни source
+set `continuation`.
+
 ## Completed
 
 - Список завершенных шагов или проверок.
@@ -97,5 +103,6 @@ must_not_define:
 
 ## Stop Conditions
 
-- Когда нельзя продолжать без человека.
+- Когда нельзя продолжать без человека, включая divergence между priming input
+  и handoff state.
 ```

@@ -34,6 +34,7 @@ must_not_define:
 
 Не смешивай в одном документе surfaces с разными component libraries, interaction patterns, release boundaries или owners. Каталог уже содержит draft-заготовки:
 
+- `public-web.md` — public website и customer-facing flows;
 - `admin.md` — operator/admin UI;
 - `mobile.md` — native или mobile-specific UI;
 - `shared-components.md` — только действительно shared components и tokens, которые не принадлежат одной surface.
@@ -42,6 +43,7 @@ must_not_define:
 
 ## Аннотированный Индекс
 
+- [`public-web.md`](public-web.md) — draft reference для customer-facing web UI: routes, responsive behavior, public forms и accessibility patterns.
 - [`admin.md`](admin.md) — draft reference для operator/admin UI: dense workflows, permissions, tables и bulk actions.
 - [`mobile.md`](mobile.md) — draft reference для native или mobile-specific UI: navigation, lifecycle, offline и platform patterns.
 - [`shared-components.md`](shared-components.md) — draft reference для UI assets, helpers и tokens, которые действительно используются несколькими surfaces.

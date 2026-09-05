@@ -1,0 +1,8 @@
+version: 1
+process: routing
+stages:
+  p0:
+    - memory-bank/README.md
+    - memory-bank/flows/autonomy-boundaries.md
+  human_routing:
+    - memory-bank/flows/autonomy-boundaries.md

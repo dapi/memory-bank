@@ -17,8 +17,15 @@ audience: humans_and_agents
 
 Перечисли минимальную подготовку среды.
 
+Если в корне проекта есть `./init.sh`, сначала запусти его. В generic template
+он подготавливает только обнаруживаемые `mise`, Git submodules и `direnv`
+prerequisites. После installation адаптируй скрипт под реальный стек проекта:
+dependency install, database и обязательные сервисы. Не копируй секреты или
+`.env`-файлы из другого checkout автоматически.
+
 ```bash
 # Примеры:
+./init.sh
 make setup
 ./bin/setup
 npm install

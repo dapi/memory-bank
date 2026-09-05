@@ -1,11 +1,13 @@
 ---
 title: Testing Policy
-doc_kind: engineering
+doc_kind: governance
 doc_function: canonical
-purpose: "Описывает testing policy репозитория: обязательность test case design, требования к automated regression coverage и допустимые manual-only gaps."
+purpose: "Описывает testing policy delivery-процесса: обязательность test case design, требования к automated regression coverage и допустимые manual-only gaps."
 derived_from:
   - ../dna/governance.md
-  - ../flows/feature.md
+  - behavior-specification.md
+  - feature.md
+  - feature-requirements.md
   - validation-profiles.md
 status: active
 canonical_for:
@@ -16,30 +18,17 @@ canonical_for:
   - manual_only_verification_exceptions
   - simplify_review_discipline
   - verification_context_separation
+  - bdd_automation_policy
 must_not_define:
   - feature_acceptance_criteria
   - feature_scope
+  - project_testing_stack
 audience: humans_and_agents
 ---
 
 # Testing Policy
 
-## Project Adaptation
-
-После копирования шаблона заполни project-specific часть testing stack:
-
-- основной test framework;
-- стратегия тестовых данных;
-- canonical local commands;
-- обязательные CI jobs;
-- допустимые manual-only исключения.
-
-Пример формулировок:
-
-- **Framework:** `pytest`, `rspec`, `go test`, `vitest`
-- **Data:** fixtures / factories / builders / seeded test database
-- **Local commands:** `make test`, `npm test`, `bundle exec rspec`
-- **CI jobs:** `unit`, `integration`, `e2e`
+Этот документ generic: он задаёт, что и когда обязано быть проверено, независимо от стека проекта. Project-specific framework, тестовые данные, CI jobs и размещение тестов живут в [`../engineering/testing-conventions.md`](../engineering/testing-conventions.md), canonical локальные команды — в [`../ops/development.md`](../ops/development.md); здесь они не дублируются.
 
 ## Core Rules
 
@@ -50,6 +39,25 @@ audience: humans_and_agents
 - Required automated tests считаются закрывающими риск только если они проходят локально и в CI.
 - Manual-only verify допустим только как явное исключение и не заменяет automated coverage там, где automation реалистична.
 
+## BDD Automation Policy
+
+[`Behavior Specification Practice`](behavior-specification.md)
+определяет Discovery и Formulation; этот policy определяет automation boundary.
+
+- BDD не требует Gherkin, Cucumber, browser automation или E2E-only tests.
+- Для каждого required `SC-*` / `NEG-*` выбирай самый низкий надёжный unit,
+  component, contract, integration или E2E surface, который доказывает
+  observable outcome.
+- Один behavior example может проверяться несколькими техническими тестами;
+  каждый test surface должен быть виден в `implementation-plan.md#test-strategy`.
+- Имя, tag или metadata теста должны сохранять ссылку на `SC-*` / `NEG-*`, если
+  project framework это допускает без brittle coupling.
+- Test code не владеет requirement или expected behavior. При изменении
+  expected verdict сначала обнови canonical `UC/domain/brief` owner, затем
+  examples, `CHK-*`, plan и code.
+- Gherkin, если выбран downstream-проектом, является executable projection
+  canonical `SC-*` / `NEG-*`, а не параллельным source of truth.
+
 ## Ownership Split
 
 - Canonical validation profile decision живёт только в owner-е, назначенном [`validation-profiles.md`](validation-profiles.md); testing policy и execution artifacts не выбирают profile повторно.
@@ -59,7 +67,7 @@ audience: humans_and_agents
 
 ## Feature Flow Expectations
 
-Canonical lifecycle gates живут в [../flows/feature.md](../flows/feature.md):
+Canonical lifecycle gates живут в [feature.md](feature.md):
 
 - к `Problem Ready` `brief.md` уже фиксирует validation profile decision и test case inventory;
 - к `Solution Ready` весь required design pack готов по relation, ownership, publication/lifecycle и consistency rules из Feature Flow;
@@ -68,10 +76,14 @@ Canonical lifecycle gates живут в [../flows/feature.md](../flows/feature.m
 
 ## Что Считается Sufficient Coverage
 
+For each applicable `REQ-*`, preserve the `brief.md` verification method and evidence contract. Quality requirements include an observable threshold and a repeatable measurement/check. The plan maps each changed implementation, test, and config path plus symbol/section back to a `REQ-*` or explicit supporting rationale; review checks that mapping in both directions.
+
 - Покрыт основной changed behavior и ближайший regression path.
 - Покрыты новые или измененные contracts, события, schema или integration boundaries.
 - Покрыты критичные failure modes из `FM-*` в required `design.md`, bug history или acceptance risks.
 - Покрыты feature-specific negative/edge scenarios, если они меняют verdict.
+- Required `SC-*` / `NEG-*` прослеживаются через `CHK-*` к automated test либо
+  явно approved manual-only gap и concrete `EVID-*`.
 - Процент line coverage сам по себе недостаточен: нужен scenario- и contract-level coverage.
 
 ## Когда Manual-Only Допустим
@@ -101,26 +113,6 @@ Artifact review и implementation review имеют разные объекты 
 
 Artifact review не является доказательством качества реализации, а implementation review не исправляет задним числом непройденный artifact gate. Для compact feature packages проходы допустимы в одной сессии, если их объекты, verdicts и evidence зафиксированы раздельно; обязательный review или simplify review не пропускается.
 
-## Project-Specific Conventions
+## Project Execution Layer
 
-Ниже должен появиться downstream-specific блок после адаптации шаблона. Зафиксируй:
-
-- куда добавлять новые тесты;
-- какой helper/setup pattern считается canonical;
-- как работать с базой, моками и fixtures;
-- какие команды обязан прогонять агент перед handoff.
-
-Пример:
-
-- новые unit tests живут в `tests/unit/` или `spec/`;
-- integration tests обязаны покрывать changed contract;
-- для дорогого setup использовать shared fixtures или builders;
-- текстовые assertions не дублируют hardcoded UI-копию, если проект уже владеет переводами централизованно.
-
-## Checklist For Template Adoption
-
-- [ ] указаны реальные local test commands
-- [ ] перечислены обязательные CI suites
-- [ ] задокументирован deterministic test data pattern
-- [ ] описаны manual-only exceptions
-- [ ] policy не противоречит [../flows/feature.md](../flows/feature.md)
+Как именно исполняется эта policy в конкретном репозитории — framework, тестовые данные, CI jobs, размещение тестов и helper patterns — задаёт [`../engineering/testing-conventions.md`](../engineering/testing-conventions.md), а canonical локальные команды — [`../ops/development.md`](../ops/development.md). Project-специфичный слой может усиливать требования этой policy, но не может их ослаблять.

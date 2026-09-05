@@ -48,39 +48,21 @@ audience: humans_and_agents
 - [`ops/README.md`](ops/README.md)
   Читать, когда нужно: описать локальную разработку, окружения, релизы, конфигурацию и runbooks.
 
-- [`engineering/architecture.md`](engineering/architecture.md)
-  Читать, когда нужно: проверить code/module boundaries, runtime patterns, error handling и configuration ownership.
-
-- [`engineering/frontend.md`](engineering/frontend.md)
-  Читать, когда нужно: проверить frontend stack, component boundaries, design system integration и i18n.
-
-- [`engineering/ui-design-guide/README.md`](engineering/ui-design-guide/README.md)
-  Читать, когда нужно: найти project-level UI references по существующим surfaces и shared components.
-
-- [`engineering/testing-policy.md`](engineering/testing-policy.md)
-  Читать, когда нужно: определить обязательные test surfaces, regression coverage и допустимые manual-only gaps.
-
-- [`engineering/validation-profiles.md`](engineering/validation-profiles.md)
-  Читать, когда нужно: выбрать глубину validation и minimum evidence contract независимо от delivery flow.
-
-- [`engineering/autonomy-boundaries.md`](engineering/autonomy-boundaries.md)
-  Читать, когда нужно: проверить границы автономии, supervision checkpoints и escalation triggers.
-
-- [`engineering/coding-style.md`](engineering/coding-style.md)
-  Читать, когда нужно: проверить coding conventions, tooling contract и change discipline.
+- [`engineering/README.md`](engineering/README.md)
+  Читать, когда нужно: задать architecture patterns, frontend rules, testing conventions, coding style и git workflow целевой системы.
 
 - [`dna/README.md`](dna/README.md)
   Читать, когда нужно: проверить SSoT rules, frontmatter contract и governance-правила документации.
 
 - [`flows/README.md`](flows/README.md)
-  Читать, когда нужно: создать use case, epic/feature package, провести артефакт по lifecycle gates или использовать шаблон.
+  Читать, когда нужно: создать use case, epic/feature package, применить BDD-практику, провести артефакт по lifecycle gates, узнать границы автономии агента, выбрать validation profile или использовать шаблон.
+
+- [`flows/execution-handoff.md`](flows/execution-handoff.md)
+  Читать, когда нужно: безопасно продолжить одну конкретную задачу по compact,
+  read-only и evidence-backed проекции наблюдаемого исполнения.
 
 - [`adr/README.md`](adr/README.md)
   Читать, когда нужно: найти или завести Architecture Decision Record.
 
 - [`features/README.md`](features/README.md)
   Читать, когда нужно: понять, где живут instantiated feature packages.
-
-- [`bootstrap.md`](bootstrap.md)
-  Читать, когда нужно: проверить происхождение локальной копии и решения,
-  принятые при её bootstrap.

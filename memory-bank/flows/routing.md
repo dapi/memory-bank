@@ -5,13 +5,15 @@ doc_function: canonical
 purpose: Маршрутизация входящей задачи в минимальный flow, который сохраняет контроль над риском.
 derived_from:
   - ../dna/governance.md
-  - ../engineering/autonomy-boundaries.md
+  - autonomy-boundaries.md
 canonical_for:
   - task_routing_order
   - task_routing_predicates
   - workflow_type_selection
   - task_rerouting_rules
   - human_routing_rules
+  - task_routing_priming_inputs
+  - human_routing_priming_inputs
   - task_routing_outcome_contract
 status: active
 audience: humans_and_agents
@@ -21,7 +23,24 @@ audience: humans_and_agents
 
 Этот документ выбирает flow для входящей задачи. Он не определяет lifecycle выбранной ветки: entry/exit gates, evidence и escalation принадлежат соответствующему flow-документу.
 
-Flow определяет организацию lifecycle, но не глубину проверки. После выбора route отдельно выбери один [`validation profile`](../engineering/validation-profiles.md) в canonical owner выбранного delivery flow. Profile не участвует в routing order и не заменяет flow; если его triggers выявили contract, rollout или другой scope, несовместимый с текущим route, примени обычные rerouting rules.
+Flow определяет организацию lifecycle, но не глубину проверки. После выбора route отдельно выбери один [`validation profile`](validation-profiles.md) в canonical owner выбранного delivery flow. Profile не участвует в routing order и не заменяет flow; если его triggers выявили contract, rollout или другой scope, несовместимый с текущим route, примени обычные rerouting rules.
+
+## Context Priming Before Routing
+
+До применения routing predicates выполни [`P0 Route Classification`](priming/context-priming.md#p0-route-classification): собери минимальные facts, чтобы выбрать flow или сформулировать Human Routing question. P0 не является implementation discovery, design или отдельным lifecycle; он заканчивается, как только route обоснован.
+
+### P0 Priming Inputs
+
+Прочитай [`routing.yaml`](priming/routing.yaml) и выполни source set `p0`.
+
+После выбора route и до `Priming Inputs` соответствующего canonical
+process-file выполни universal baseline, если задача создаёт или обновляет
+governed-артефакт. Затем открой `Priming Inputs` process-file до первого
+meaningful gate. Не открывай остальные flow-документы. Incident containment не
+ждёт baseline; выполни его до создания или обновления governed
+incident-артефакта.
+Process priming не заменяет execution grounding: например, Feature Flow всё
+ещё требует `GRND-*` evidence до sequencing.
 
 ## Routing Order
 
@@ -52,7 +71,9 @@ Issue / Task
      |   доставляет planned engineering /
      |   operations outcome? ------------> Feature Flow
      |
-     +-- Неясно / высокий риск ----------> Human Routing
+     +-- Route не выбран после structured decision,
+         нужен authority/value decision
+         или риск не контролируется? ----> Human Routing
 ```
 
 ## Routing Predicates
@@ -66,7 +87,7 @@ Issue / Task
 | 5 | Работа крупнее одной delivery-feature и требует общего roadmap, cross-feature risk register или нескольких delivery units? | [`Epic Flow`](epic.md) |
 | 6 | Цель — изменить внутреннюю структуру при сохранении поведения? | [`Refactoring Flow`](refactoring.md) |
 | 7 | Задача укладывается в одну delivery-unit и создаёт или materially меняет пользовательское поведение либо доставляет плановое infrastructure, engineering или operations изменение с проверяемым outcome? | [`Feature Flow`](feature.md) |
-| 8 | Маршрут остаётся неоднозначным или риск не контролируется? | Human Routing |
+| 8 | После P0-safe Structured Decision Protocol и автономных tie-breakers route всё ещё нельзя обосновать, Research Flow не может законно закрыть unknown, требуется authority/value decision или риск не контролируется? | Human Routing |
 
 ### Small Change Gate
 
@@ -95,7 +116,14 @@ Issue / Task
 
 Если признаки Epic route уже подтверждены, но problem, outcome, границы или evidence ещё недостаточны для canonical `charter.md`, задача всё равно маршрутизируется в [`Epic Flow`](epic.md). В этом случае Epic Flow начинается с `Epic Intake`: создаётся proposal package с `README.md` и `brief.md`, а недостающие факты фиксируются как open questions.
 
-Неполнота epic facts сама по себе не является основанием для `Human Routing`. Human gate нужен только тогда, когда нельзя обоснованно выбрать route, требуется продуктовое решение о самом направлении инициативы или доступный риск нельзя контролировать intake boundaries.
+Неполнота epic facts сама по себе не является основанием для `Human Routing`.
+Сначала примени Structured Decision Protocol из
+[`autonomy-boundaries.md`](autonomy-boundaries.md) в пределах P0.
+Если missing facts требуют эксперимента или broad evidence collection, выбери
+Research Flow, а не выполняй probe до routing. Human gate нужен только когда
+результатом стал `escalate`: route нельзя обосновать без отсутствующего
+product/value decision, нужны дополнительные полномочия или риск нельзя
+контролировать intake boundaries.
 
 ## Rerouting Rules
 
@@ -110,7 +138,28 @@ Issue / Task
 
 ## Human Routing
 
-Следуй canonical triggers из [`../engineering/autonomy-boundaries.md`](../engineering/autonomy-boundaries.md). Для routing дополнительно запрашивай решение человека, когда выбор flow требует продуктового решения, риск нельзя контролировать существующими gates или несколько route остаются одинаково правдоподобными после доступного исследования.
+Следуй canonical Structured Decision Protocol и triggers из
+[`autonomy-boundaries.md`](autonomy-boundaries.md).
+Не отправляй задачу в Human Routing только из-за сложности, неполных данных или
+нескольких правдоподобных routes. Сначала используй routing predicates,
+canonical facts и автономные tie-breakers. P0 остаётся read-only: если unknown
+требует эксперимента, implementation discovery или изменения файлов, выбери
+Research Flow и выполни `bounded_probe` внутри его lifecycle.
+
+Запрашивай решение человека, только когда outcome протокола — `escalate`: выбор flow
+требует отсутствующего product/business value judgment или дополнительных
+полномочий, ни один route не сохраняет обязательные constraints либо риск нельзя
+контролировать существующими gates.
+
+### Human Routing Priming Inputs
+
+Прочитай [`routing.yaml`](priming/routing.yaml) и выполни source set
+`human_routing`.
+
+Перед запросом человека зафиксируй competing routes, применённые decision
+criteria, P0 evidence, unknown, причину неприменимости Research Flow, approval
+trigger и точный вопрос. До решения не начинай delivery, broad research, design
+или изменение файлов; после него повтори Task Routing.
 
 ## Outcome / Exit Contract
 
@@ -121,11 +170,14 @@ Issue / Task
 ### Required Evidence
 
 - issue/task или draft PR называет выбранный flow; для active incident достаточно alert или incident-management record, подтверждающего operational impact или необходимость containment;
+- P0 evidence обосновывает выбранный flow; после routing P1 result находится в canonical owner выбранного flow, а не в отдельном priming report;
 - запись показывает, какие entry predicates сделали route допустимым; provisional incident record может быть дополнен полным routing record после containment;
 - для Epic route запись дополнительно указывает `Epic Intake`, когда facts ещё недостаточны для прямого `Bootstrap Epic`;
 - для Research route запись указывает decision question, decision owner и stopping condition;
-- для применимого delivery flow его canonical owner фиксирует отдельный validation profile decision по [`validation-profiles.md`](../engineering/validation-profiles.md); это downstream evidence выбора flow, а не дополнительный route;
-- для `Human Routing` зафиксированы вопрос, риск или конкурирующие routes.
+- для применимого delivery flow его canonical owner фиксирует отдельный validation profile decision по [`validation-profiles.md`](validation-profiles.md); это downstream evidence выбора flow, а не дополнительный route;
+- для `Human Routing` зафиксированы outcome `escalate`, вопрос, риск или
+  конкурирующие routes и причина, по которой routing criteria, автономные
+  tie-breakers и Research Flow не дают допустимого продолжения.
 
 ### Terminal State
 

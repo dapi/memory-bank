@@ -1,0 +1,24 @@
+version: 1
+process: epic
+stages:
+  intake:
+    - memory-bank/epics/README.md
+    - memory-bank/product/*.md
+    - memory-bank/prd/*.md
+    - memory-bank/use-cases/*.md
+    - memory-bank/flows/templates/epic/README.md
+    - memory-bank/flows/templates/epic/package-README.md
+    - memory-bank/flows/templates/epic/brief.md
+  bootstrap:
+    - memory-bank/domain/context-map.md
+    - memory-bank/engineering/architecture.md
+    - memory-bank/flows/templates/epic/charter.md
+  roadmap_ready:
+    - memory-bank/flows/templates/epic/roadmap.md
+    - memory-bank/flows/templates/epic/subissues.md
+    - memory-bank/flows/templates/epic/risks.md
+    - memory-bank/flows/templates/epic/decision-log.md
+  execution_handoff:
+    - memory-bank/epics/<EP-ID>/*.md
+    - memory-bank/flows/feature.md
+    - memory-bank/flows/feature-requirements.md

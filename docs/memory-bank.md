@@ -77,3 +77,26 @@ memory-bank-cli update \
 ```
 
 Подробные flags, exit codes и JSON schemas документируются в [`dapi/memory-bank-cli`](https://github.com/dapi/memory-bank-cli). Правила владения, conflict policy и atomic update semantics для этого шаблона остаются в [`ownership.md`](ownership.md).
+
+## Dual-role репозиторий: синхронизация собственного инстанса
+
+Этот репозиторий одновременно является upstream-шаблоном и downstream-потребителем: `template/memory-bank/` — payload, `memory-bank/` — установленный инстанс. Корневые ассеты в нём не копии, а симлинки в `template/`, чтобы рабочие инструменты репозитория всегда совпадали с payload:
+
+```text
+WORKFLOW.md            -> template/WORKFLOW.md
+bootstrap-symphony.sh  -> template/bootstrap-symphony.sh
+run-symphony.sh        -> template/run-symphony.sh
+.codex/agents          -> ../template/.codex/agents/
+.start-issue/prompt.md -> ../template/.start-issue/prompt.md
+```
+
+По контракту из [`ownership.md`](ownership.md) симлинк в любом компоненте пути считается unsafe path, поэтому `memory-bank-cli pull --repo-root .` здесь останавливается и ничего не читает. Это не дефект CLI и не повод материализовать симлинки: корневой `.gitignore` шире шаблонного, а `.envrc` и `init.sh` в корне шаблона не нужны.
+
+Поэтому синхронизация выполняется через `tools/sync-project-memory-bank.rb`. Он делает pull в изолированной песочнице, где корневых ассетов нет, и переносит обратно только поддерево `memory-bank/**` вместе с lock; корневые записи из lock удаляются, потому что CLI этими путями не управляет.
+
+```bash
+ruby tools/sync-project-memory-bank.rb            # план
+ruby tools/sync-project-memory-bank.rb --apply    # применить
+```
+
+Запускайте синхронизацию после мержа изменений шаблона в `main`: lock закрепляет commit источника, и SHA из невлитой ветки исчезнет из истории после squash-мержа. Конфликты внутри `memory-bank/` скрипт не разрешает — он останавливается и передаёт решение человеку по правилам [`ownership.md`](ownership.md).
