@@ -7,8 +7,8 @@ derived_from:
   - ../dna/governance.md
   - routing.md
   - priming/context-priming.md
-  - ../engineering/testing-policy.md
-  - ../engineering/validation-profiles.md
+  - testing-policy.md
+  - validation-profiles.md
 canonical_for:
   - refactoring_entry_contract
   - refactoring_priming_inputs

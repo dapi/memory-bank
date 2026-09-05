@@ -1,13 +1,13 @@
 ---
 title: Testing Policy
-doc_kind: engineering
+doc_kind: governance
 doc_function: canonical
-purpose: "Описывает testing policy репозитория: обязательность test case design, требования к automated regression coverage и допустимые manual-only gaps."
+purpose: "Описывает testing policy delivery-процесса: обязательность test case design, требования к automated regression coverage и допустимые manual-only gaps."
 derived_from:
   - ../dna/governance.md
-  - ../flows/behavior-specification.md
-  - ../flows/feature.md
-  - ../flows/feature-requirements.md
+  - behavior-specification.md
+  - feature.md
+  - feature-requirements.md
   - validation-profiles.md
 status: active
 canonical_for:
@@ -22,27 +22,13 @@ canonical_for:
 must_not_define:
   - feature_acceptance_criteria
   - feature_scope
+  - project_testing_stack
 audience: humans_and_agents
 ---
 
 # Testing Policy
 
-## Project Adaptation
-
-После копирования шаблона заполни project-specific часть testing stack:
-
-- основной test framework;
-- стратегия тестовых данных;
-- canonical local commands;
-- обязательные CI jobs;
-- допустимые manual-only исключения.
-
-Пример формулировок:
-
-- **Framework:** `pytest`, `rspec`, `go test`, `vitest`
-- **Data:** fixtures / factories / builders / seeded test database
-- **Local commands:** `make test`, `npm test`, `bundle exec rspec`
-- **CI jobs:** `unit`, `integration`, `e2e`
+Этот документ generic: он задаёт, что и когда обязано быть проверено, независимо от стека проекта. Project-specific framework, тестовые данные, local commands и CI jobs живут в [`../engineering/testing-conventions.md`](../engineering/testing-conventions.md) и не дублируются здесь.
 
 ## Core Rules
 
@@ -55,7 +41,7 @@ audience: humans_and_agents
 
 ## BDD Automation Policy
 
-[`Behavior Specification Practice`](../flows/behavior-specification.md)
+[`Behavior Specification Practice`](behavior-specification.md)
 определяет Discovery и Formulation; этот policy определяет automation boundary.
 
 - BDD не требует Gherkin, Cucumber, browser automation или E2E-only tests.
@@ -81,7 +67,7 @@ audience: humans_and_agents
 
 ## Feature Flow Expectations
 
-Canonical lifecycle gates живут в [../flows/feature.md](../flows/feature.md):
+Canonical lifecycle gates живут в [feature.md](feature.md):
 
 - к `Problem Ready` `brief.md` уже фиксирует validation profile decision и test case inventory;
 - к `Solution Ready` весь required design pack готов по relation, ownership, publication/lifecycle и consistency rules из Feature Flow;
@@ -127,26 +113,6 @@ Artifact review и implementation review имеют разные объекты 
 
 Artifact review не является доказательством качества реализации, а implementation review не исправляет задним числом непройденный artifact gate. Для compact feature packages проходы допустимы в одной сессии, если их объекты, verdicts и evidence зафиксированы раздельно; обязательный review или simplify review не пропускается.
 
-## Project-Specific Conventions
+## Project Execution Layer
 
-Ниже должен появиться downstream-specific блок после адаптации шаблона. Зафиксируй:
-
-- куда добавлять новые тесты;
-- какой helper/setup pattern считается canonical;
-- как работать с базой, моками и fixtures;
-- какие команды обязан прогонять агент перед handoff.
-
-Пример:
-
-- новые unit tests живут в `tests/unit/` или `spec/`;
-- integration tests обязаны покрывать changed contract;
-- для дорогого setup использовать shared fixtures или builders;
-- текстовые assertions не дублируют hardcoded UI-копию, если проект уже владеет переводами централизованно.
-
-## Checklist For Template Adoption
-
-- [ ] указаны реальные local test commands
-- [ ] перечислены обязательные CI suites
-- [ ] задокументирован deterministic test data pattern
-- [ ] описаны manual-only exceptions
-- [ ] policy не противоречит [../flows/feature.md](../flows/feature.md)
+Как именно исполняется эта policy в конкретном репозитории — framework, тестовые данные, local commands, CI jobs, размещение тестов и helper patterns — задаёт [`../engineering/testing-conventions.md`](../engineering/testing-conventions.md). Тот документ может усиливать требования этой policy, но не может их ослаблять.

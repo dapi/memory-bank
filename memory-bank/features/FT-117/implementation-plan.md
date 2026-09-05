@@ -42,7 +42,7 @@ existing candidate; новый semantic scope требует нового routin
 | `GRND-02` | `git diff --name-status daa7cb639d2bc2741da8b829a125546b45bf8a0e..d3639b118a48f3215567a26a3b6d430cc2b4d6f6` | Core candidate changes nine autonomy/routing/flow/carrier documents | All nine surfaces are mapped below |
 | `GRND-03` | `git diff --name-status d3639b118a48f3215567a26a3b6d430cc2b4d6f6..fbb3d851ca2a8a58910326e9687c56e9547d75f9` | Recovery start adds the project package, Research handoff, three priming inputs and validation refinements | Package, projections and metadata are explicit execution surfaces |
 | `GRND-04` | `.github/workflows/ci.yml`, job `validate-template` | Required CI runs manifest tests/validator, both lints, doctor and downstream-init smoke test | `STEP-04` requires exact `CI / validate-template` success |
-| `GRND-05` | `template/memory-bank/engineering/autonomy-boundaries.md`; `template/memory-bank/flows/{routing,research,bug-fix,feature,epic}.md`; `template/memory-bank/engineering/validation-profiles.md` | Canonical owners contain the candidate protocol and cross-flow behavior | `STEP-02` executes exact structural assertions and semantic review |
+| `GRND-05` | `template/memory-bank/flows/autonomy-boundaries.md`; `template/memory-bank/flows/{routing,research,bug-fix,feature,epic}.md`; `template/memory-bank/flows/validation-profiles.md` | Canonical owners contain the candidate protocol and cross-flow behavior | `STEP-02` executes exact structural assertions and semantic review |
 | `GRND-06` | `memory-bank/features/README.md`; `memory-bank/.lock` | FT-117 belongs to project-local history; the feature index is adapted metadata rather than generic payload | `STEP-03` verifies placement and zero template leakage |
 
 ## Historical Boundary And Recovery Disposition
@@ -59,11 +59,11 @@ visible in the review record and is not erased by later clean verdicts.
 | --- | --- | --- | --- | --- |
 | `1` | `memory-bank/features/FT-117/brief.md#constraints--assumptions` | `GRND-01`–`GRND-03` | Confirm recovery boundary and unchanged issue scope | `STEP-01` |
 | `2` | `memory-bank/features/FT-117/design.md#design-pack` | `GRND-02`, `GRND-03` | Confirm every canonical changed owner and projection classification | `STEP-01` |
-| `3` | `template/memory-bank/engineering/autonomy-boundaries.md#structured-decision-protocol` | `GRND-05` | Verify roles, outcomes, tie-breakers and approval separation | `STEP-02` |
+| `3` | `template/memory-bank/flows/autonomy-boundaries.md#structured-decision-protocol` | `GRND-05` | Verify roles, outcomes, tie-breakers and approval separation | `STEP-02` |
 | `4` | `template/memory-bank/flows/routing.md#human-routing` | `GRND-05` | Verify P0-safe decision and exact Human Routing conditions | `STEP-02` |
 | `5` | `template/memory-bank/flows/research.md#boundary-rules` | `GRND-03`, `GRND-05` | Verify probe handoff and repeat-routing semantics | `STEP-02` |
 | `6` | `template/memory-bank/flows/bug-fix.md#entry-gate`; `template/memory-bank/flows/feature.md#upstream-ready--plan-ready` | `GRND-05` | Verify expected-behavior routing and review convergence | `STEP-02` |
-| `7` | `template/memory-bank/engineering/validation-profiles.md#escalation-and-downgrade-rules` | `GRND-05` | Verify exact execution approval gate | `STEP-02` |
+| `7` | `template/memory-bank/flows/validation-profiles.md#escalation-and-downgrade-rules` | `GRND-05` | Verify exact execution approval gate | `STEP-02` |
 | `8` | `.github/workflows/ci.yml#L12`; job `validate-template` | `GRND-04` | Confirm required CI name and commands | `STEP-04` |
 
 If any named path, heading, commit object or CI job is absent, stop for
@@ -83,17 +83,17 @@ re-grounding before execution.
 Exact `CHK-05` assertion block:
 
 ```sh
-rg -q 'authority source' template/memory-bank/engineering/autonomy-boundaries.md
-rg -q 'decision owner' template/memory-bank/engineering/autonomy-boundaries.md
-rg -q 'canonical carrier' template/memory-bank/engineering/autonomy-boundaries.md
-rg -q 'execution approver / approval evidence' template/memory-bank/engineering/autonomy-boundaries.md
-rg -q 'Outcome: proceed \| bounded_probe \| escalate' template/memory-bank/engineering/autonomy-boundaries.md
-rg -q 'существующий canonical pattern; наименьшее обратимое изменение' template/memory-bank/engineering/autonomy-boundaries.md
+rg -q 'authority source' template/memory-bank/flows/autonomy-boundaries.md
+rg -q 'decision owner' template/memory-bank/flows/autonomy-boundaries.md
+rg -q 'canonical carrier' template/memory-bank/flows/autonomy-boundaries.md
+rg -q 'execution approver / approval evidence' template/memory-bank/flows/autonomy-boundaries.md
+rg -q 'Outcome: proceed \| bounded_probe \| escalate' template/memory-bank/flows/autonomy-boundaries.md
+rg -q 'существующий canonical pattern; наименьшее обратимое изменение' template/memory-bank/flows/autonomy-boundaries.md
 rg -q 'P0 остаётся read-only' template/memory-bank/flows/routing.md
 rg -U -q 'повторяет Structured Decision Protocol и Task\n[[:space:]]+Routing' template/memory-bank/flows/research.md
 rg -q 'Human Gate нужен только при outcome' template/memory-bank/flows/feature.md
 rg -q 'только при outcome `escalate`' template/memory-bank/flows/bug-fix.md
-rg -q 'task/project-policy preauthorization may be approval evidence|task/project-policy preauthorization может быть approval evidence' template/memory-bank/engineering/validation-profiles.md
+rg -q 'task/project-policy preauthorization may be approval evidence|task/project-policy preauthorization может быть approval evidence' template/memory-bank/flows/validation-profiles.md
 ```
 
 ## Open Questions / Ambiguities
@@ -123,12 +123,12 @@ it does not reconstruct or conceal its original execution order.
 
 | Refs | Direct owner / projection | Recovery target | Steps | Checks / evidence |
 | --- | --- | --- | --- | --- |
-| `SOL-01`, `SD-01`, `SD-02`, `SD-04` | `template/memory-bank/engineering/autonomy-boundaries.md` | Protocol, carrier and approval contract | `STEP-02` | `CHK-05`, `EVID-02`, `EVID-06` |
+| `SOL-01`, `SD-01`, `SD-02`, `SD-04` | `template/memory-bank/flows/autonomy-boundaries.md` | Protocol, carrier and approval contract | `STEP-02` | `CHK-05`, `EVID-02`, `EVID-06` |
 | `SOL-02`, `SD-03` | `template/memory-bank/flows/routing.md` | P0, Research and Human Routing | `STEP-02` | `CHK-05`, `EVID-03`, `EVID-06` |
 | `SOL-05`, `SD-03` | `template/memory-bank/flows/research.md`; `flows/priming/research.yaml` projection | Probe lifecycle, bootstrap input and return | `STEP-02`, `STEP-03` | `CHK-01`, `CHK-05`, `EVID-03` |
 | `SOL-03` | `template/memory-bank/flows/bug-fix.md`; `flows/feature.md`; `flows/priming/{bug-fix,feature}.yaml` projections | Reroute/replan semantics and required priming | `STEP-02`, `STEP-03` | `CHK-01`, `CHK-05`, `EVID-03` |
 | `SOL-01`, `SD-01` | `template/memory-bank/flows/epic.md`; `flows/templates/epic/decision-log.md` | Epic carrier and template terminology | `STEP-02` | `CHK-02`, `CHK-05`, `EVID-02` |
-| `SOL-04`, `SOL-06`, `SD-04` | `template/memory-bank/engineering/validation-profiles.md` | Approval timing and validation floor | `STEP-02` | `CHK-05`, `EVID-04`, `EVID-06` |
+| `SOL-04`, `SOL-06`, `SD-04` | `template/memory-bank/flows/validation-profiles.md` | Approval timing and validation floor | `STEP-02` | `CHK-05`, `EVID-04`, `EVID-06` |
 | `SOL-01`–`SOL-06` | `template/memory-bank/{engineering,flows}/README.md` projections | Navigation wording | `STEP-03` | `CHK-02` |
 | `REQ-01`–`REQ-08` | `memory-bank/features/FT-117/*`, `memory-bank/features/README.md`, `memory-bank/.lock` | Project-local traceability, reachability and adapted ownership metadata | `STEP-01`, `STEP-03` | `CHK-02`, `CHK-03`, `EVID-05`, `EVID-06` |
 | `C4-00` | `design.md` | No runtime artifact | `STEP-02` | `CHK-05` |

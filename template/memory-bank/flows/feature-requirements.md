@@ -6,7 +6,7 @@ purpose: "Определяет taxonomy feature requirements, registry стаб�
 derived_from:
   - ../dna/governance.md
   - ../dna/frontmatter.md
-  - ../engineering/validation-profiles.md
+  - validation-profiles.md
 canonical_for:
   - feature_identifier_taxonomy
   - feature_requirement_taxonomy

@@ -1,6 +1,6 @@
 ---
 title: Autonomy Boundaries
-doc_kind: engineering
+doc_kind: governance
 doc_function: canonical
 purpose: "Границы автономии агента: что он решает и исполняет самостоятельно, как применяет Structured Decision Protocol и когда обязан эскалировать человеку."
 derived_from:

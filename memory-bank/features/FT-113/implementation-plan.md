@@ -33,7 +33,7 @@ revision фиксирует closure. Delivery и review evidence перечис�
 | Grounding ID | Inspected path / command | Observed current-state fact | Plan impact |
 | --- | --- | --- | --- |
 | `GRND-01` | `template/memory-bank/flows/feature.md`, `template/memory-bank/flows/use-case.md` | Feature acceptance и project-level scenarios имеют разные owners; `SC/NEG-*` остаются в feature brief. | `STEP-02` не создаёт новый route или owner. |
-| `GRND-02` | `template/memory-bank/engineering/testing-policy.md`, `template/memory-bank/flows/behavior-specification.md` | Проверка поведения должна быть связана через `CHK-*` и `EVID-*`; Gherkin/Cucumber/E2E не обязательны. | `STEP-02` фиксирует test-surface-neutral automation handoff. |
+| `GRND-02` | `template/memory-bank/flows/testing-policy.md`, `template/memory-bank/flows/behavior-specification.md` | Проверка поведения должна быть связана через `CHK-*` и `EVID-*`; Gherkin/Cucumber/E2E не обязательны. | `STEP-02` фиксирует test-surface-neutral automation handoff. |
 | `GRND-03` | `memory-bank/features/FT-113/brief.md`, `memory-bank/features/README.md` | Feature package пока не входит в grounded revision; его candidate revision и review evidence должны быть зафиксированы отдельно. | `STEP-03` закрывает package traceability, review и lifecycle evidence до execution/closure. |
 
 ## Grounding / Support References
@@ -43,7 +43,7 @@ revision фиксирует closure. Delivery и review evidence перечис�
 | `brief.md` | canonical problem, scope and verify owner | `REQ-*`, `NS-*`, `SC-*`, `CHK-*`, `EVID-*` |
 | `../../../template/memory-bank/flows/behavior-specification.md` | canonical BDD practice | ownership, Given/When/Then and automation handoff |
 | `../../../template/memory-bank/flows/use-case.md` | canonical `UC-*` lifecycle | `UC-*` versus `SC/NEG-*` boundary |
-| `../../../template/memory-bank/engineering/testing-policy.md` | canonical testing policy | test ownership and manual-only boundary |
+| `../../../template/memory-bank/flows/testing-policy.md` | canonical testing policy | test ownership and manual-only boundary |
 
 ## Test Strategy
 

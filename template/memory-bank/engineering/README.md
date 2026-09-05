@@ -2,7 +2,7 @@
 title: Engineering Documentation Index
 doc_kind: engineering
 doc_function: index
-purpose: Навигация по engineering-level документации шаблона.
+purpose: Навигация по engineering-level документации целевой системы.
 derived_from:
   - ../dna/governance.md
 status: active
@@ -11,14 +11,14 @@ audience: humans_and_agents
 
 # Engineering Documentation Index
 
-Каталог `memory-bank/engineering/` содержит инженерные правила, которые обычно нужно адаптировать под конкретный репозиторий после копирования шаблона.
+Каталог `memory-bank/engineering/` описывает инженерию **целевой системы**: как устроен и как пишется код продукта. Это project-adaptation слой — после копирования шаблона его нужно заполнить реальными правилами репозитория.
+
+Правила самого delivery-процесса — границы автономии агента, глубина проверок и testing policy — живут в [`../flows/README.md`](../flows/README.md) и в этот каталог не входят: они generic и не зависят от стека проекта.
 
 - [Engineering Architecture Patterns](architecture.md) — code/module boundaries, runtime patterns, concurrency, error handling и configuration ownership. Domain bounded contexts живут отдельно в [`../domain/context-map.md`](../domain/context-map.md).
 - [Frontend Engineering](frontend.md) — UI surfaces, frontend stack, component boundaries, design system integration и i18n.
 - [UI Design Guide](ui-design-guide/README.md) — project-level index для shared и surface-specific UI references. Адаптируй его под public site, admin, mobile или другие реальные UI surfaces проекта.
-- [Testing Policy](testing-policy.md) — правила тестирования, обязательные automated tests, sufficient coverage. Отвечает на вопрос: когда feature обязана иметь test cases и когда допустим manual-only verify.
-- [Validation Profiles](validation-profiles.md) — независимая от delivery flow глубина validation: taxonomy, risk triggers, minimum evidence contract и canonical owner решения.
-- [Autonomy Boundaries](autonomy-boundaries.md) — autonomous-by-default правила, самодостаточный Structured Decision Protocol, вдохновлённый FPF, и настоящие Human Gates. Отвечает на вопрос: что агент решает и исполняет сам, а где нужны человеческие полномочия или принятие неконтролируемого риска.
+- [Testing Conventions](testing-conventions.md) — project-specific testing stack: framework, тестовые данные, local commands, CI jobs и размещение тестов. Что обязано быть покрыто, решает generic [`../flows/testing-policy.md`](../flows/testing-policy.md).
 - [Coding Style](coding-style.md) — конвенции оформления кода, tooling и правила локальной сложности.
 - [Git Workflow](git-workflow.md) — git-конвенции: commits, ветки, PR и optional worktrees.
 - [ADR](../adr/README.md) — instantiated Architecture Decision Records проекта.

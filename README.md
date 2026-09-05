@@ -217,11 +217,11 @@ This repository is the upstream source. An agent copies the tracked payload in
 | [`dna/`](template/memory-bank/dna/README.md) | Governance, Single Source of Truth, lifecycle, and document contracts |
 | [`product/`](template/memory-bank/product/README.md) | Vision, customers, metrics, marketing, and roadmap |
 | [`domain/`](template/memory-bank/domain/README.md) | Glossary, domain model, rules, states, events, and context map |
-| [`engineering/`](template/memory-bank/engineering/README.md) | Architecture, testing, coding style, Git workflow, and agent autonomy |
+| [`engineering/`](template/memory-bank/engineering/README.md) | Architecture, frontend, testing conventions, coding style, and Git workflow of the target system |
 | [`ops/`](template/memory-bank/ops/README.md) | Development, environments, configuration, releases, and runbooks |
 | [`research/`](template/memory-bank/research/README.md), [`prd/`](template/memory-bank/prd/README.md), [`epics/`](template/memory-bank/epics/README.md) | Discovery and initiative-level planning |
 | [`use-cases/`](template/memory-bank/use-cases/README.md), [`features/`](template/memory-bank/features/README.md), [`adr/`](template/memory-bank/adr/README.md) | Scenarios, delivery packages, and architecture decisions |
-| [`flows/`](template/memory-bank/flows/README.md) | Task lifecycles and reusable document templates |
+| [`flows/`](template/memory-bank/flows/README.md) | Cross-flow policy (agent autonomy, validation profiles, testing policy), task lifecycles, and reusable document templates |
 
 After installation, `memory-bank/README.md` is the primary index inside the
 downstream project.

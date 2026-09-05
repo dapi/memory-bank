@@ -9,7 +9,7 @@ derived_from:
   - routing.md
   - priming/context-priming.md
   - feature.md
-  - ../engineering/autonomy-boundaries.md
+  - autonomy-boundaries.md
 canonical_for:
   - epic_directory_structure
   - epic_priming_inputs

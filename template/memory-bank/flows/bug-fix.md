@@ -7,9 +7,9 @@ derived_from:
   - ../dna/governance.md
   - routing.md
   - priming/context-priming.md
-  - ../engineering/testing-policy.md
-  - ../engineering/validation-profiles.md
-  - ../engineering/autonomy-boundaries.md
+  - testing-policy.md
+  - validation-profiles.md
+  - autonomy-boundaries.md
 canonical_for:
   - bug_fix_entry_contract
   - bug_fix_priming_inputs
@@ -46,7 +46,7 @@ report или linked delivery task.
 Если нет ни доступного источника уже принятого expected behavior, ни
 зафиксированного решения человека, Entry Gate не выполнен. Не изобретай expected
 behavior и не начинай Analysis And Fix как bug fix. Примени
-[`Structured Decision Protocol`](../engineering/autonomy-boundaries.md#structured-decision-protocol)
+[`Structured Decision Protocol`](autonomy-boundaries.md#structured-decision-protocol)
 и повтори Task Routing: доступный evidence-backed answer может потребовать
 Research Flow, а новое желаемое поведение — Feature Flow. Используй
 [Human Routing](routing.md#human-routing) только при outcome `escalate`, когда

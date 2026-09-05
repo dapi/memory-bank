@@ -6,8 +6,8 @@ purpose: "Принимает issue URL, выбирает canonical delivery flow
 derived_from:
   - ../dna/governance.md
   - ../flows/routing.md
-  - ../engineering/autonomy-boundaries.md
-  - ../engineering/validation-profiles.md
+  - ../flows/autonomy-boundaries.md
+  - ../flows/validation-profiles.md
 status: draft
 audience: humans
 prompt_kind: agent
@@ -75,8 +75,8 @@ permissions or delivery scope.
 3. Для routing используй `memory-bank/flows/routing.md`.
 4. После выбора ветки используй canonical flow из `memory-bank/flows/`.
 5. Соблюдай `memory-bank/dna/governance.md`,
-   `memory-bank/engineering/autonomy-boundaries.md`,
-   `memory-bank/engineering/validation-profiles.md`, `COMMAND_POLICY` и
+   `memory-bank/flows/autonomy-boundaries.md`,
+   `memory-bank/flows/validation-profiles.md`, `COMMAND_POLICY` и
    локальные правила Git/CI.
 6. Если источники конфликтуют, применяй SSoT и dependency rules governance.
 </authoritative_sources>

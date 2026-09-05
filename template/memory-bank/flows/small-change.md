@@ -7,8 +7,8 @@ derived_from:
   - ../dna/governance.md
   - routing.md
   - priming/context-priming.md
-  - ../engineering/testing-policy.md
-  - ../engineering/validation-profiles.md
+  - testing-policy.md
+  - validation-profiles.md
 canonical_for:
   - small_change_entry_contract
   - small_change_priming_inputs

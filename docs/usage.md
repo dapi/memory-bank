@@ -145,7 +145,7 @@ brief.md                 design.md                  implementation-plan.md
 ### 6. Проверить результат
 
 После выбора процесса определяется один
-[профиль проверки](../template/memory-bank/engineering/validation-profiles.md).
+[профиль проверки](../template/memory-bank/flows/validation-profiles.md).
 Он задаёт минимальную глубину тестов, проверок непрерывной интеграции,
 подтверждений, согласований и действий при выпуске.
 

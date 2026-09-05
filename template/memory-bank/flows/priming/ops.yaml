@@ -7,4 +7,4 @@ stages:
     - memory-bank/ops/release.md
     - memory-bank/ops/runbooks/README.md
     - memory-bank/ops/stages.md
-    - memory-bank/engineering/autonomy-boundaries.md
+    - memory-bank/flows/autonomy-boundaries.md
