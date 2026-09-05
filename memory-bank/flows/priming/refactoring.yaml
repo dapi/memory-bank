@@ -1,14 +1,1 @@
-version: 1
-process: refactoring
-stages:
-  entry:
-    - memory-bank/prd/*.md
-    - memory-bank/use-cases/*.md
-    - memory-bank/domain/*.md
-    - memory-bank/engineering/architecture.md
-    - memory-bank/flows/validation-profiles.md
-    - memory-bank/flows/testing-policy.md
-    - memory-bank/engineering/testing-conventions.md
-  execution:
-    - memory-bank/engineering/coding-style.md
-    - memory-bank/ops/development.md
+../../../template/memory-bank/flows/priming/refactoring.yaml

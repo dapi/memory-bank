@@ -1,7 +1,1 @@
-version: 1
-process: <process-name>
-stages:
-  entry:
-    - memory-bank/path/to/document.md
-  continuation:
-    - memory-bank/path/to/current-state.md
+../../../../template/memory-bank/flows/templates/process/priming.yaml

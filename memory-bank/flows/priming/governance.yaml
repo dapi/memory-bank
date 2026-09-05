@@ -1,7 +1,1 @@
-version: 1
-process: governance
-stages:
-  memory_bank_governance:
-    - memory-bank/flows/README.md
-    - memory-bank/flows/templates/README.md
-    - memory-bank/flows/priming/context-priming.md
+../../../template/memory-bank/flows/priming/governance.yaml
