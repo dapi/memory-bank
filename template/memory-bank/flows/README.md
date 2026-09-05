@@ -37,7 +37,7 @@ audience: humans_and_agents
 
 - [Autonomy Boundaries](autonomy-boundaries.md) — autonomous-by-default правила, самодостаточный Structured Decision Protocol, вдохновлённый FPF, и настоящие Human Gates. Отвечает на вопрос: что агент решает и исполняет сам, а где нужны человеческие полномочия или принятие неконтролируемого риска.
 - [Validation Profiles](validation-profiles.md) — независимая от delivery flow глубина validation: taxonomy, risk triggers, minimum evidence contract и canonical owner решения.
-- [Testing Policy](testing-policy.md) — правила тестирования, обязательные automated tests, sufficient coverage. Отвечает на вопрос: когда feature обязана иметь test cases и когда допустим manual-only verify. Project-specific стек и команды живут в [`../engineering/testing-conventions.md`](../engineering/testing-conventions.md).
+- [Testing Policy](testing-policy.md) — правила тестирования, обязательные automated tests, sufficient coverage. Отвечает на вопрос: когда feature обязана иметь test cases и когда допустим manual-only verify. Project-specific стек живёт в [`../engineering/testing-conventions.md`](../engineering/testing-conventions.md).
 
 ## Routing And Flows
 

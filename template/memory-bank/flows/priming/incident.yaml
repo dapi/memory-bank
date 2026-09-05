@@ -7,6 +7,7 @@ stages:
   recovery_pir:
     - memory-bank/flows/validation-profiles.md
     - memory-bank/flows/testing-policy.md
+    - memory-bank/engineering/testing-conventions.md
     - memory-bank/ops/config.md
     - memory-bank/ops/release.md
     - memory-bank/ops/stages.md

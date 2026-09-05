@@ -16,6 +16,7 @@ stages:
     - memory-bank/engineering/README.md
     - memory-bank/engineering/architecture.md
     - memory-bank/flows/testing-policy.md
+    - memory-bank/engineering/testing-conventions.md
     - memory-bank/ops/*.md
   evidence_collection:
     - memory-bank/flows/templates/research/plan.md

@@ -2,25 +2,29 @@
 title: Testing Conventions
 doc_kind: engineering
 doc_function: convention
-purpose: "Project-specific testing stack целевой системы: framework, тестовые данные, local commands, CI jobs и размещение тестов."
+purpose: "Project-specific testing stack целевой системы: framework, тестовые данные, размещение тестов и обязательные suites."
 derived_from:
   - ../dna/governance.md
   - ../flows/testing-policy.md
+  - ../ops/development.md
 status: active
 canonical_for:
   - project_testing_stack
-  - project_test_command_contract
   - project_test_data_conventions
+  - project_test_placement_conventions
 must_not_define:
   - automated_test_requirements
   - sufficient_test_coverage_definition
   - manual_only_verification_exceptions
+  - project_command_contract
 audience: humans_and_agents
 ---
 
 # Testing Conventions
 
-Этот документ описывает, как тесты устроены в конкретном репозитории. Он не решает, что обязано быть покрыто: этим владеет generic [`../flows/testing-policy.md`](../flows/testing-policy.md). Здесь фиксируй только исполнение — стек, команды и конвенции проекта. Усиливать требования policy можно, ослаблять нельзя.
+Этот документ описывает, как тесты устроены в конкретном репозитории.
+
+Он не решает, что обязано быть покрыто и когда допустим manual-only verify: этим владеет generic [`../flows/testing-policy.md`](../flows/testing-policy.md). Он также не владеет списком локальных команд — canonical test/lint команды живут в [`../ops/development.md`](../ops/development.md). Здесь фиксируй только стек и конвенции тестов. Усиливать требования policy можно, ослаблять нельзя.
 
 ## Project Adaptation
 
@@ -28,15 +32,13 @@ audience: humans_and_agents
 
 - основной test framework;
 - стратегия тестовых данных;
-- canonical local commands;
 - обязательные CI jobs;
-- допустимые manual-only исключения.
+- какие suites обязаны быть зелёными перед handoff.
 
 Пример формулировок:
 
 - **Framework:** `pytest`, `rspec`, `go test`, `vitest`
 - **Data:** fixtures / factories / builders / seeded test database
-- **Local commands:** `make test`, `npm test`, `bundle exec rspec`
 - **CI jobs:** `unit`, `integration`, `e2e`
 
 ## Project-Specific Conventions
@@ -46,7 +48,7 @@ audience: humans_and_agents
 - куда добавлять новые тесты;
 - какой helper/setup pattern считается canonical;
 - как работать с базой, моками и fixtures;
-- какие команды обязан прогонять агент перед handoff.
+- какой набор suites обязателен перед handoff (сами команды — в [`../ops/development.md`](../ops/development.md)).
 
 Пример:
 
@@ -57,8 +59,9 @@ audience: humans_and_agents
 
 ## Checklist For Template Adoption
 
-- [ ] указаны реальные local test commands
+- [ ] указан реальный test framework
 - [ ] перечислены обязательные CI suites
 - [ ] задокументирован deterministic test data pattern
-- [ ] описаны manual-only exceptions
+- [ ] указано, куда добавлять новые тесты
+- [ ] canonical test/lint команды зафиксированы в [`../ops/development.md`](../ops/development.md)
 - [ ] конвенции не противоречат [`../flows/testing-policy.md`](../flows/testing-policy.md)

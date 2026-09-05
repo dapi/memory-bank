@@ -28,7 +28,7 @@ audience: humans_and_agents
 
 # Testing Policy
 
-Этот документ generic: он задаёт, что и когда обязано быть проверено, независимо от стека проекта. Project-specific framework, тестовые данные, local commands и CI jobs живут в [`../engineering/testing-conventions.md`](../engineering/testing-conventions.md) и не дублируются здесь.
+Этот документ generic: он задаёт, что и когда обязано быть проверено, независимо от стека проекта. Project-specific framework, тестовые данные, CI jobs и размещение тестов живут в [`../engineering/testing-conventions.md`](../engineering/testing-conventions.md), canonical локальные команды — в [`../ops/development.md`](../ops/development.md); здесь они не дублируются.
 
 ## Core Rules
 
@@ -115,4 +115,4 @@ Artifact review не является доказательством качес�
 
 ## Project Execution Layer
 
-Как именно исполняется эта policy в конкретном репозитории — framework, тестовые данные, local commands, CI jobs, размещение тестов и helper patterns — задаёт [`../engineering/testing-conventions.md`](../engineering/testing-conventions.md). Тот документ может усиливать требования этой policy, но не может их ослаблять.
+Как именно исполняется эта policy в конкретном репозитории — framework, тестовые данные, CI jobs, размещение тестов и helper patterns — задаёт [`../engineering/testing-conventions.md`](../engineering/testing-conventions.md), а canonical локальные команды — [`../ops/development.md`](../ops/development.md). Project-специфичный слой может усиливать требования этой policy, но не может их ослаблять.

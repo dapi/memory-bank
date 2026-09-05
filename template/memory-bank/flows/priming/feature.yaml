@@ -36,6 +36,7 @@ stages:
   plan_ready:
     - memory-bank/flows/templates/feature/implementation-plan.md
     - memory-bank/flows/testing-policy.md
+    - memory-bank/engineering/testing-conventions.md
     - memory-bank/engineering/coding-style.md
     - memory-bank/ops/development.md
     - memory-bank/ops/config.md
