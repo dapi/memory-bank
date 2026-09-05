@@ -35,6 +35,8 @@ def run(*command, capture: false)
   else
     system(*command) || raise(SyncError, "команда завершилась с ошибкой: #{command.join(' ')}")
   end
+rescue Errno::ENOENT
+  raise SyncError, "команда не найдена: #{command.first}"
 end
 
 def git(*args)
@@ -72,6 +74,12 @@ end
 # следующий pull не сможет сверить базу. Обычный порядок: сначала мержим
 # изменение шаблона, потом синхронизируем инстанс.
 def warn_if_unmerged(source_ref)
+  _, ref_exists = run('git', 'rev-parse', '--verify', '--quiet', 'origin/main', capture: true)
+  unless ref_exists
+    warn "Внимание: origin/main недоступен, достижимость #{source_ref[0, 7]} не проверена.\n\n"
+    return
+  end
+
   _, ok = run('git', 'merge-base', '--is-ancestor', source_ref, 'origin/main', capture: true)
   return if ok
 
@@ -95,6 +103,36 @@ def strip_non_subtree_entries(lock_path)
   removed.each { |path| files.delete(path) }
   lock['files'] = files.sort.to_h
   File.write(lock_path, "#{JSON.pretty_generate(lock)}\n")
+  removed
+end
+
+# Подменяет `memory-bank/` результатом из песочницы.
+#
+# Транзакционные гарантии CLI заканчиваются на песочнице, поэтому перенос
+# обратно делаем сами: сначала готовим полностью собранное дерево рядом с
+# целью, затем меняем каталоги местами через rename. Прямая пара rm_rf + cp_r
+# оставила бы инстанс отсутствующим или недописанным, если копирование упадёт
+# или его прервут, — а песочница к тому моменту уже удалена.
+def swap_in_result(result)
+  target = File.join(repo_root, 'memory-bank')
+  staging_root = File.join(repo_root, 'tmp')
+  FileUtils.mkdir_p(staging_root)
+  staging = File.join(staging_root, 'memory-bank.incoming')
+  previous = File.join(staging_root, 'memory-bank.previous')
+  [staging, previous].each { |path| FileUtils.rm_rf(path) }
+
+  FileUtils.cp_r(result, staging)
+  removed = strip_non_subtree_entries(File.join(staging, '.lock'))
+
+  File.rename(target, previous)
+  begin
+    File.rename(staging, target)
+  rescue StandardError
+    File.rename(previous, target)
+    raise
+  end
+
+  FileUtils.rm_rf(previous)
   removed
 end
 
@@ -128,15 +166,21 @@ def main
       FileUtils.cp_r(File.join(repo_root, 'memory-bank'), sandbox)
 
       command = pull_command(cli, sandbox, source, source_ref)
-      plan, = run(*command, '--dry-run', capture: true)
+      plan, planned = run(*command, '--dry-run', capture: true)
 
       # В песочнице нет корневых ассетов, поэтому CLI планирует создать их
       # заново. Это артефакт изоляции: обратно переносится только поддерево.
       subtree = plan.lines.grep(/\tmemory-bank\//)
-      puts subtree.empty? ? 'memory-bank/ уже соответствует payload.' : subtree.join
-      puts "Корневые пути в плане пропущены: ими управляют симлинки в template/."
-
       conflicts = subtree.grep(/^conflict\t/)
+
+      # Конфликты — ожидаемый исход с ненулевым кодом возврата; всё остальное
+      # ненулевое означает сбой самого CLI и не должно выглядеть как «всё в
+      # порядке».
+      raise SyncError, "pull --dry-run завершился с ошибкой:\n#{plan}" if !planned && conflicts.empty?
+
+      puts subtree.empty? ? 'memory-bank/ уже соответствует payload.' : subtree.join
+      puts 'Корневые пути в плане пропущены: ими управляют симлинки в template/.'
+
       unless conflicts.empty?
         warn <<~MESSAGE
 
@@ -155,15 +199,16 @@ def main
 
       run(*command)
 
-      target = File.join(repo_root, 'memory-bank')
-      FileUtils.rm_rf(target)
-      FileUtils.cp_r(File.join(sandbox, 'memory-bank'), repo_root)
-
-      removed = strip_non_subtree_entries(File.join(target, '.lock'))
+      removed = swap_in_result(File.join(sandbox, 'memory-bank'))
       puts "\nПрименено. Из lock убрано корневых записей: #{removed.length}."
       puts 'Проверьте результат командами из AGENTS.md.'
     ensure
-      git('worktree', 'remove', '--force', source)
+      begin
+        git('worktree', 'remove', '--force', source)
+      rescue SyncError => e
+        # Не подменяем исходную ошибку сбоем уборки.
+        warn "не удалось убрать временный worktree #{source}: #{e.message}"
+      end
     end
   end
 end

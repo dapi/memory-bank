@@ -153,9 +153,11 @@
       "payload_mode": "100644"
     },
     "memory-bank/engineering/ui-design-guide/README.md": {
-      "ownership": "adapted",
+      "ownership": "managed",
       "base_digest": "sha256:bc152aafb9bfba7e3846206ef37c03c5c4326cdb932b130967917b350a74ea21",
-      "base_mode": "100644"
+      "payload_digest": "sha256:bc152aafb9bfba7e3846206ef37c03c5c4326cdb932b130967917b350a74ea21",
+      "base_mode": "100644",
+      "payload_mode": "100644"
     },
     "memory-bank/engineering/ui-design-guide/admin.md": {
       "ownership": "managed",
