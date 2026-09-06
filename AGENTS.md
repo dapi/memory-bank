@@ -74,6 +74,26 @@ ruby tools/refresh-memory-bank-projection.rb --apply    # применить
 - не дублируйте project-specific детали обратно в `template/memory-bank/`;
 - при изменении template docs проверяйте соседние governed-файлы на противоречия.
 
+## Механизм независимой проверки
+
+Канонический механизм независимой проверки этого репозитория — `code-converge`.
+Требования к любому механизму (structured verdict, fail closed, review-only,
+автор ≠ проверяющий) заданы в
+[`template/memory-bank/flows/testing-policy.md`](template/memory-bank/flows/testing-policy.md#механизм-проверки).
+
+- Проверка реализации: `code-converge`
+- Проверка документов и артефактов: `code-converge --document-review --max-cycles 0`
+
+`--max-cycles 0` оставляет проверяющему нулевой fix budget: он возвращает
+findings, но не правит проверяемую revision. Исправляет автор, после чего
+запускается новая проверка новой revision.
+
+Clean verdict и findings берутся из структурированного результата `code-converge`.
+Если он отсутствует или завершился operational error, проверка считается
+невыполненной: подменять её cmux, Ghostty, вручную собранным `codex exec` или
+свободным пересказом агента нельзя. Terminal и UI-оркестраторы открываются
+только по прямой просьбе — они размещают вкладки, а не проверяют.
+
 ## Коммиты и pull request
 
 Следуйте конвенции из `template/memory-bank/engineering/git-workflow.md`: короткие commit messages в настоящем времени, например `docs: tighten template ops guidance`.

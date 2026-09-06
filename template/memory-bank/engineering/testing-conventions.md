@@ -11,6 +11,7 @@ status: active
 canonical_for:
   - project_testing_stack
   - project_test_data_conventions
+  - project_review_mechanism
   - project_test_placement_conventions
 must_not_define:
   - automated_test_requirements
@@ -57,6 +58,22 @@ audience: humans_and_agents
 - для дорогого setup использовать shared fixtures или builders;
 - текстовые assertions не дублируют hardcoded UI-копию, если проект уже владеет переводами централизованно.
 
+## Review Mechanism
+
+Назови канонический механизм независимой проверки проекта и точные вызовы для
+двух режимов. Требования к любому механизму — structured verdict, fail closed,
+review-only и разделение автора и проверяющего — задаёт
+[`../flows/testing-policy.md`](../flows/testing-policy.md#механизм-проверки);
+здесь фиксируется только выбор проекта.
+
+Пример записи:
+
+- **Механизм:** `<инструмент>`
+- **Проверка реализации:** `<команда review-режима>`
+- **Проверка документов и артефактов:** `<команда document-режима с нулевым fix budget>`
+- **Если механизм недоступен:** проверка считается невыполненной; ad hoc замена
+  не допускается.
+
 ## Checklist For Template Adoption
 
 - [ ] указан реальный test framework
@@ -64,4 +81,5 @@ audience: humans_and_agents
 - [ ] задокументирован deterministic test data pattern
 - [ ] указано, куда добавлять новые тесты
 - [ ] canonical test/lint команды зафиксированы в [`../ops/development.md`](../ops/development.md)
+- [ ] назван канонический механизм проверки и его вызовы
 - [ ] конвенции не противоречат [`../flows/testing-policy.md`](../flows/testing-policy.md)
