@@ -352,10 +352,10 @@ flowchart LR
 ### Upstream Ready → Plan Ready
 
 Plan Ready artifact-review convergence допускает не более пяти review-improve
-итераций — более строгий предел, чем общий бюджет из
-[`Review Convergence`](testing-policy.md#review-convergence). Последняя итерация
-с исправлениями не считается clean verdict без последующего re-review;
-исчерпание budget оставляет gate непройденным. Примени
+итераций. Это artifact review до gate, а не проверка реализации: контракт
+[`Review Convergence`](testing-policy.md#review-convergence) к нему не
+применяется. Последняя итерация с исправлениями не считается clean verdict без
+последующего re-review; исчерпание budget оставляет gate непройденным. Примени
 [`Structured Decision Protocol`](autonomy-boundaries.md#structured-decision-protocol),
 пересмотри hypothesis, upstream facts, plan и review scope; продолжай через
 обоснованный replan или `bounded_probe`. Human Gate нужен только при outcome
@@ -423,7 +423,7 @@ Plan Ready artifact-review convergence допускает не более пят
 - validation profile decision и evidence его minimum contract;
 - выполненные `CHK-*` и конкретные carriers для `EVID-*`;
 - automated coverage, required local/CI results и approval refs для manual-only gaps;
-- Plan Ready artifact review и required implementation/code review имеют отдельные clean verdicts по своим reviewed revisions;
+- Plan Ready artifact review и required implementation/code review имеют отдельные clean verdicts по своим reviewed revisions; проверка реализации сошлась по [`Review Convergence`](testing-policy.md#review-convergence), то есть её clean verdict и зелёный обязательный CI относятся к одной редакции кода;
 - все изменения закоммичены и отправлены в remote branch, required CI полностью зелёный;
 - обновлённый `UC-*`, когда изменился устойчивый project-level scenario.
 
