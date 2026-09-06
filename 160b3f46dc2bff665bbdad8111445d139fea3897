@@ -1,0 +1,37 @@
+{
+  "phase": "active plan artifact review",
+  "candidate": {
+    "commit": "160b3f46dc2bff665bbdad8111445d139fea3897",
+    "tree": "093c6c6d0cb231e137408ce9dfa8e6ed0754b1db",
+    "base": "f1f04de843aef45a2425d4a7351d577bbf89e940",
+    "ref": "refs/review-candidates/ft-dna/plan-7",
+    "paths": [
+      "memory-bank/adr/ADR-002-documentation-trust-boundary.md",
+      "memory-bank/adr/README.md",
+      "memory-bank/features/README.md",
+      "memory-bank/features/FT-DNA"
+    ]
+  },
+  "reviewer": "code-converge / gpt-5.6-terra",
+  "verdict": {
+    "findings": [
+      {
+        "title": "Active plan bypasses its own required two-pass review gate",
+        "body": "`STEP-00` requires the plan to be reviewed while draft, then changed to active and reviewed again as a new immutable candidate before any payload edit. This snapshot already declares the plan `status: active`, so the required first-pass transition cannot occur for this revision; treating this review as the first pass would also violate the stated sequence. Keep this plan draft for the first review, then create the active candidate and perform the required second review (or revise the gate to match the intended workflow).",
+        "confidence_score": 0.96,
+        "priority": 1,
+        "code_location": {
+          "absolute_file_path": "/Users/danil/.worktrees/memory-bank-dna-trust/memory-bank/features/FT-DNA/implementation-plan.md",
+          "line_range": {
+            "start": 83,
+            "end": 83
+          }
+        }
+      }
+    ],
+    "overall_correctness": "incorrect",
+    "overall_explanation": "The delivery plan has a self-contradictory review-state transition that prevents satisfying its own Plan Ready gate.",
+    "overall_confidence_score": 0.96
+  },
+  "author_disposition": "First draft pass exists in the exact retained plan-1 snapshot and structured note. Clarified conditional STEP-00 and added the prior-source reference; current active review remains required."
+}
