@@ -13,8 +13,8 @@ jobs:
   validate-template:
     runs-on: ubuntu-latest
     env:
-      MEMORY_BANK_CLI_VERSION: v1.3.0
-      MEMORY_BANK_CLI_SHA256: 401927b8504ebb0e2600cee733545f4921e81b33436a9b64106e1367371c5fd5
+      MEMORY_BANK_CLI_VERSION: v2.3.0
+      MEMORY_BANK_CLI_SHA256: d2985dbe60f2beb9af9ad23825fd98b90e5112bfbf6f1aacc76e4531990c6653
     steps:
       - name: Checkout
         uses: actions/checkout@v4
