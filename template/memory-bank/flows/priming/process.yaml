@@ -4,7 +4,7 @@ stages:
   create_update:
     - memory-bank/flows/templates/process/process-card.md
     - memory-bank/flows/templates/process/lifecycle-protocol.md
-    - memory-bank/flows/templates/process/session-handoff.md
+    - memory-bank/flows/execution-handoff.md
     - memory-bank/flows/templates/process/priming.yaml
     - memory-bank/dna/governance.md
     - memory-bank/dna/lifecycle.md
