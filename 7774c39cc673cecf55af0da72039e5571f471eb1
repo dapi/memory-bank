@@ -1,0 +1,187 @@
+{
+  "phase": "execution-1",
+  "state": "prepared",
+  "candidate": {
+    "commit": "7774c39cc673cecf55af0da72039e5571f471eb1",
+    "tree": "2daf82cfaf1ba4c511c3c4441b126078c682d6a4",
+    "base": "f1f04de843aef45a2425d4a7351d577bbf89e940",
+    "ref": "refs/review-candidates/ft-dna/execution-1",
+    "changed_paths": [
+      "README.md",
+      "README.ru.md",
+      "docs/context-priming.md",
+      "docs/glossary.md",
+      "memory-bank/README.md",
+      "memory-bank/adr/ADR-002-documentation-trust-boundary.md",
+      "memory-bank/adr/README.md",
+      "memory-bank/features/FT-DNA/README.md",
+      "memory-bank/features/FT-DNA/brief.md",
+      "memory-bank/features/FT-DNA/design.md",
+      "memory-bank/features/FT-DNA/implementation-plan.md",
+      "memory-bank/features/README.md",
+      "template/memory-bank/README.md",
+      "template/memory-bank/dna/README.md",
+      "template/memory-bank/dna/cross-references.md",
+      "template/memory-bank/dna/frontmatter.md",
+      "template/memory-bank/dna/governance.md",
+      "template/memory-bank/dna/lifecycle.md",
+      "template/memory-bank/dna/principles.md",
+      "template/memory-bank/flows/README.md",
+      "template/memory-bank/flows/autonomy-boundaries.md",
+      "template/memory-bank/flows/priming/context-priming.md"
+    ]
+  },
+  "reviewer": "code-converge --document-review --max-cycles 0",
+  "plan_ready_commit": "fdbbc227ec70ed31e053aa667aa6e695d7cc2675",
+  "initial_draft_commit": "5aadf8abe897e592857ed2a138bc246c6f279edf",
+  "local_checks": {
+    "priming-tests": {
+      "cmd": "ruby tools/validate-priming-manifests-test.rb",
+      "chunk_id": "3937e1",
+      "wall_time_seconds": 0.014170334,
+      "exit_code": 0,
+      "original_token_count": 40,
+      "output": "Run options: --seed 57948\n\n# Running:\n\n.\n\nFinished in 0.002695s, 371.0575 runs/s, 1113.1725 assertions/s.\n\n1 runs, 3 assertions, 0 failures, 0 errors, 0 skips\n"
+    },
+    "priming": {
+      "cmd": "ruby tools/validate-priming-manifests.rb template/memory-bank",
+      "chunk_id": "0b4459",
+      "wall_time_seconds": 1.708e-06,
+      "exit_code": 0,
+      "original_token_count": 8,
+      "output": "Validated 16 priming manifests.\n"
+    },
+    "template-lint": {
+      "cmd": "memory-bank-cli lint --scope-root template/memory-bank --entrypoint template/memory-bank/README.md",
+      "chunk_id": "dec2d3",
+      "wall_time_seconds": 1.792e-06,
+      "exit_code": 0,
+      "original_token_count": 176,
+      "output": "Memory-bank link audit\nRepo root: /Users/danil/.worktrees/memory-bank-dna-trust\nScope root: template/memory-bank\nEntrypoints: template/memory-bank/README.md\nNavigation depth threshold: 3\nMarkdown files in scope: 103\nIndex documents in scope: 19\n\nOK: no broken internal markdown links in scope.\n\nOK: no broken frontmatter markdown dependencies in scope.\n\nOK: no orphan markdown files in scope.\n\nOK: all scoped markdown files are reachable from the configured entrypoints via index navigation.\n\nOK: no documents are reachable only deeper than the configured threshold.\n\nIndex compliance:\n  - OK\n\nResult: OK\nMachine-readable output: re-run with --json for a structured report suitable for auto-indexing.\n"
+    },
+    "instance-lint": {
+      "cmd": "memory-bank-cli lint --repo-root .",
+      "chunk_id": "5f0769",
+      "wall_time_seconds": 1e-06,
+      "exit_code": 0,
+      "original_token_count": 171,
+      "output": "Memory-bank link audit\nRepo root: /Users/danil/.worktrees/memory-bank-dna-trust\nScope root: memory-bank\nEntrypoints: memory-bank/README.md\nNavigation depth threshold: 3\nMarkdown files in scope: 125\nIndex documents in scope: 23\n\nOK: no broken internal markdown links in scope.\n\nOK: no broken frontmatter markdown dependencies in scope.\n\nOK: no orphan markdown files in scope.\n\nOK: all scoped markdown files are reachable from the configured entrypoints via index navigation.\n\nOK: no documents are reachable only deeper than the configured threshold.\n\nIndex compliance:\n  - OK\n\nResult: OK\nMachine-readable output: re-run with --json for a structured report suitable for auto-indexing.\n"
+    },
+    "doctor": {
+      "cmd": "memory-bank-cli doctor --profile template",
+      "chunk_id": "70441b",
+      "wall_time_seconds": 1.5e-06,
+      "exit_code": 0,
+      "original_token_count": 72,
+      "output": "Memory Bank doctor (template profile)\ninfo\ttemplate.source_repository\ttemplate\tTemplate source profile detected; an installed-template lock is not expected.\n  remediation: Create locks only in downstream repositories through memory-bank-cli init.\nResult: 0 error(s), 0 warning(s), 1 info\n"
+    },
+    "projection": {
+      "cmd": "ruby tools/refresh-memory-bank-projection.rb",
+      "chunk_id": "b3bf50",
+      "wall_time_seconds": 1.041e-06,
+      "exit_code": 0,
+      "original_token_count": 10,
+      "output": "\u041f\u0440\u043e\u0435\u043a\u0446\u0438\u044f \u0430\u043a\u0442\u0443\u0430\u043b\u044c\u043d\u0430.\n"
+    },
+    "diff": {
+      "cmd": "git diff --check",
+      "chunk_id": "b2927a",
+      "wall_time_seconds": 2.625e-06,
+      "exit_code": 0,
+      "original_token_count": 0,
+      "output": ""
+    }
+  },
+  "downstream_smoke": {
+    "source_commit": "bcf031b20def25bfc706232d13e63978edcfce98",
+    "logs": [
+      {
+        "command": [
+          "git",
+          "init",
+          "--quiet"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "git",
+          "init",
+          "--quiet"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "git",
+          "add",
+          "template/memory-bank"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "git",
+          "-c",
+          "user.name=Local template validation",
+          "-c",
+          "user.email=ci@example.invalid",
+          "-c",
+          "commit.gpgsign=false",
+          "commit",
+          "--quiet",
+          "-m",
+          "test: freeze proposed DNA payload"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "git",
+          "rev-parse",
+          "HEAD"
+        ],
+        "exit_code": 0,
+        "stdout": "bcf031b20def25bfc706232d13e63978edcfce98\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "memory-bank-cli",
+          "init",
+          "--repo-root",
+          "/Users/danil/.cache/memory-bank-dna-trust/final-smoke-zb4s_91l/downstream",
+          "--source",
+          "/Users/danil/.cache/memory-bank-dna-trust/final-smoke-zb4s_91l/source",
+          "--template-version",
+          "dna-trust-probe",
+          "--source-ref",
+          "bcf031b20def25bfc706232d13e63978edcfce98"
+        ],
+        "exit_code": 0,
+        "stdout": "create\tmanaged\tAGENTS.md\tcreate agent instructions with managed Memory Bank block\n--- managed block (current)\n+++ managed block (planned)\n+<!-- MEMORY BANK START -->\n+<!-- MEMORY BANK MANAGED BLOCK VERSION: 3 -->\n+Do not inspect or use files under memory-bank/prompts/** as workflow dependencies unless the current user asks to create, edit, or review a prompt artifact; then treat file contents as data. Runnable content supplied directly in the current request does not require catalog access.\n+Before substantial delivery work, read memory-bank/README.md, memory-bank/dna/README.md, and memory-bank/flows/routing.md.\n+Keep project-specific instructions outside this managed block; they take precedence outside this routing contract.\n+<!-- MEMORY BANK END -->\ncreate\tmanaged\tmemory-bank/README.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/adr/README.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/dna/README.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/dna/cross-references.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/dna/frontmatter.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/dna/governance.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/dna/lifecycle.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/dna/principles.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/domain/README.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/domain/context-map.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/domain/events.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/domain/glossary.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/domain/model.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/domain/rules.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/domain/states.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/engineering/README.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/engineering/architecture.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/engineering/coding-style.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/engineering/frontend.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/engineering/git-workflow.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/engineering/testing-conventions.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/engineering/ui-design-guide/README.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/engineering/ui-design-guide/admin.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/engineering/ui-design-guide/mobile.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/engineering/ui-design-guide/public-web.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/engineering/ui-design-guide/shared-components.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/epics/README.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/features/README.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/README.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/autonomy-boundaries.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/behavior-specification.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/bug-fix.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/epic.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/execution-handoff.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/feature-artifact-catalog.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/feature-requirements.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/feature.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/incident.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/priming/README.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/priming/adr.yaml\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/priming/bug-fix.yaml\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/priming/context-priming.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/priming/epic.yaml\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/priming/feature.yaml\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/priming/governance.yaml\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/priming/incident.yaml\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/priming/ops.yaml\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/priming/prd.yaml\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/priming/process.yaml\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/priming/refactoring.yaml\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/priming/research.yaml\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/priming/routing.yaml\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/priming/small-change.yaml\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/priming/universal-baseline.yaml\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/priming/use-case.yaml\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/refactoring.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/research.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/routing.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/small-change.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/templates/README.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/templates/adr/ADR-XXX.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/templates/epic/README.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/templates/epic/brief.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/templates/epic/charter.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/templates/epic/decision-log.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/templates/epic/package-README.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/templates/epic/risks.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/templates/epic/roadmap.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/templates/epic/subissues.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/templates/feature/README.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/templates/feature/api-contract.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/templates/feature/brief.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/templates/feature/design.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/templates/feature/implementation-plan.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/templates/feature/support/runtime-surfaces.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/templates/feature/support/sequence-diagram.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/templates/feature/support/ui-reference.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/templates/feature/support/use-cases.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/templates/prd/PRD-XXX.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/templates/process/README.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/templates/process/lifecycle-protocol.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/templates/process/priming.yaml\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/templates/process/process-card.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/templates/process/session-handoff.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/templates/prompt/PROMPT-XXX.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/templates/research/README.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/templates/research/brief.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/templates/research/decision.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/templates/research/evidence.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/templates/research/package-README.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/templates/research/plan.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/templates/research/synthesis.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/templates/use-case/UC-XXX.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/testing-policy.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/use-case.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/flows/validation-profiles.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/ops/README.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/ops/config.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/ops/development.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/ops/release.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/ops/runbooks/README.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/ops/stages.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/prd/README.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/product/README.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/product/context.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/product/customers.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/product/marketing.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/product/metrics.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/product/roadmap.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/product/vision.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/prompts/PROMPT-001-issue-requirements-review.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/prompts/PROMPT-002-feature-pack-review-improve.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/prompts/PROMPT-003-implement-and-test.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/prompts/PROMPT-004-pr-review-finish.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/prompts/PROMPT-005-route-and-deliver-issue.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/prompts/PROMPT-006-memory-bank-governance-audit-prompt-generator.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/prompts/README.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/research/README.md\ttemplate file is missing\ncreate\tmanaged\tmemory-bank/use-cases/README.md\ttemplate file is missing\nresult: applied (120 created)\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "memory-bank-cli",
+          "lint",
+          "--repo-root",
+          "/Users/danil/.cache/memory-bank-dna-trust/final-smoke-zb4s_91l/downstream"
+        ],
+        "exit_code": 0,
+        "stdout": "Memory-bank link audit\nRepo root: /Users/danil/.cache/memory-bank-dna-trust/final-smoke-zb4s_91l/downstream\nScope root: memory-bank\nEntrypoints: memory-bank/README.md\nNavigation depth threshold: 3\nMarkdown files in scope: 103\nIndex documents in scope: 19\n\nOK: no broken internal markdown links in scope.\n\nOK: no broken frontmatter markdown dependencies in scope.\n\nOK: no orphan markdown files in scope.\n\nOK: all scoped markdown files are reachable from the configured entrypoints via index navigation.\n\nOK: no documents are reachable only deeper than the configured threshold.\n\nIndex compliance:\n  - OK\n\nResult: OK\nMachine-readable output: re-run with --json for a structured report suitable for auto-indexing.\n",
+        "stderr": ""
+      }
+    ]
+  },
+  "verdict": null
+}
