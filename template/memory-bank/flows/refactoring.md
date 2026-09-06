@@ -72,6 +72,7 @@ task → baseline → characterization coverage → plan + checkpoints
 - [ ] simplify review подтверждает уменьшение или обоснование complexity
 - [ ] rollback или остановка на последнем checkpoint понятны
 - [ ] PR содержит before/after structure summary и evidence
+- [ ] последний review cycle завершён без открытых замечаний; для production change проверка сошлась по [`Review Convergence`](testing-policy.md#review-convergence)
 
 ## Outcome / Exit Contract
 
@@ -85,7 +86,6 @@ task → baseline → characterization coverage → plan + checkpoints
 - validation profile decision и evidence его minimum contract;
 - результаты regression checks по checkpoints;
 - before/after summary либо research artifact с источниками и выводом;
-- последний review cycle завершён без открытых замечаний;
 - все изменения закоммичены и отправлены в remote branch, required CI полностью зелёный для production change.
 
 ### Terminal State
