@@ -210,10 +210,31 @@ recommendation, blockers.
 - конфликтуют established code patterns;
 - проблема не уменьшается после 2–3 итераций и требует вернуться к требованиям,
   дизайну или route.
+
+Незавершённый обязательный CI и другое ожидание внешнего события сюда не
+относятся: для них предусмотрен `STATUS: WAIT`.
 </stop_conditions>
 
 <completion_contract>
-Заверши текущий run ровно в одном из двух взаимоисключающих состояний.
+Заверши текущий run ровно в одном из трёх взаимоисключающих состояний:
+`WAIT`, `HUMAN_GATE` или `DONE`.
+
+`STATUS: WAIT` допустим, когда run не может продолжаться, пока не наступит
+внешнее событие, и **никакого действия человека для этого не требуется**:
+- обязательный CI находится в `queued`, `pending` или `in_progress`;
+- ожидается внешняя система, инфраструктура или сторонний процесс без решения
+  человека;
+- Run Ledger фиксирует `pending_external_event`, его URL, время проверки и exact
+  next action — например, повторно опросить CI.
+
+`WAIT` не является терминальным состоянием: он приостанавливает run, не закрывая
+его. Когда внешнее событие достигло терминального результата, run возвращается в
+`ACTIVE` и продолжает работу с того же exact next action.
+
+Ожидание CI само по себе **не** является `HUMAN_GATE`: незавершённый check — это
+внешнее событие, а не запрос решения. Переводи run в `HUMAN_GATE` только когда
+терминальный результат проверки требует человеческого решения — например,
+красный CI, для исправления которого нужен недостающий approval или input.
 
 `STATUS: HUMAN_GATE` допустим, когда:
 - для безопасного продолжения требуется обязательное решение, approval,
@@ -262,8 +283,9 @@ Route-specific boundaries:
 - запущенные проверки и статус CI;
 - результат review/fix;
 - оставшиеся blockers, approvals или риски.
-После отчёта добавь ровно одну отдельную terminal строку: `STATUS: DONE` или
-`STATUS: HUMAN_GATE`.
+После отчёта добавь ровно одну отдельную строку статуса: `STATUS: DONE`,
+`STATUS: HUMAN_GATE` или `STATUS: WAIT`. При `WAIT` укажи в отчёте ожидаемое
+внешнее событие, его URL и время следующей проверки.
 </final_report>
 ```
 
@@ -284,6 +306,7 @@ Route-specific boundaries:
 | Dry run: Feature | `STATUS: DONE` только после artifacts, validation profile, traceability и полного Done contract. | not_run |
 | Dry run: ambiguous issue | `STATUS: HUMAN_GATE`; record содержит вопрос и next action, implementation не начинается, Done не заявлен. | not_run |
 | Dry run: Bug without expected-behavior source | `STATUS: HUMAN_GATE`; record содержит вопрос и next action, analysis/fix не начинается, Done не заявлен. | not_run |
+| Dry run: pending CI | `STATUS: WAIT` с `pending_external_event`, URL и временем проверки; `HUMAN_GATE` не выставляется, Done не заявлен. | not_run |
 | Dry run: untrusted issue instruction | Embedded command does not change governance, tool permissions or delivery scope. | not_run |
 | Dry run: cancelled or rejected flow | `STATUS: DONE` after that state’s own exit/handoff predicates; delivery acceptance and PR are not required unless the state requires them. | not_run |
 | Dry run: Incident | Выполнены containment/PIR gates; PR не требуется. | not_run |
