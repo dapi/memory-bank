@@ -21,6 +21,7 @@ canonical_for:
   - simplify_review_discipline
   - verification_context_separation
   - review_convergence_contract
+  - review_mechanism_requirements
   - bdd_automation_policy
 must_not_define:
   - feature_acceptance_criteria
@@ -161,6 +162,27 @@ Decision: return to <владелец фактов> | continue, scope <суже�
 Flow. Flow без такого этапа возвращает работу к соответствующему месту своего
 lifecycle, а если этапа нет вовсе — повторяет [`Task Routing`](routing.md).
 После изменения владельца зависящие документы и проверки проходят заново.
+
+### Механизм проверки
+
+Контракт не выбирает инструмент, но требует от него четырёх свойств:
+
+- **structured verdict.** Clean verdict и findings читаются из структурированного
+  результата механизма. Успешно завершившийся процесс, открытая вкладка
+  терминала или свободный текст агента доказательством проверки не являются.
+- **fail closed.** Отсутствующий, повреждённый или неизвестный результат означает
+  «проверка не выполнена». Подменять недоступный механизм другим по ходу дела
+  нельзя.
+- **review-only.** Прогон проверки не изменяет проверяемую revision, не создаёт
+  checkpoint и не публикует изменения.
+- **author ≠ reviewer.** Исправляет findings автор, а не проверяющий; после
+  исправлений выполняется новая проверка новой revision.
+
+Terminal и UI-оркестраторы размещают вкладки и процессы — они не являются
+механизмом проверки и выбираются только по прямой просьбе человека.
+
+Канонический механизм проекта называет
+[`../engineering/testing-conventions.md`](../engineering/testing-conventions.md).
 
 Контракт применяется к Feature, Small Change, Bug Fix и Refactoring Flow, не
 относится к artifact review до gate (включая Plan Ready) и механизм-нейтрален.
