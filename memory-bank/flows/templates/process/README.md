@@ -1,1 +1,0 @@
-../../../../template/memory-bank/flows/templates/process/README.md

@@ -36,5 +36,4 @@ audience: humans_and_agents
 - [PRD manifest](prd.yaml) — PRD creation and update.
 - [ADR manifest](adr.yaml) — ADR creation and update.
 - [Operations manifest](ops.yaml) — operations and release work.
-- [Process Documentation manifest](process.yaml) — process creation and update.
 - [Governance manifest](governance.yaml) — Memory Bank governance work.
