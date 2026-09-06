@@ -35,6 +35,8 @@ audience: humans_and_agents
 
 ## Instantiated Packages
 
+- [`FT-DNA/`](FT-DNA/README.md) — достоверность документации и граница DNA / flows.
+
 - [`FT-113/`](FT-113/README.md) — интеграция BDD behavior specification practice
   с существующими Feature/Use Case owners и verification traceability.
 - [`FT-117/`](FT-117/README.md) — autonomous Structured Decision Protocol,

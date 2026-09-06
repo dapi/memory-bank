@@ -13,6 +13,7 @@ canonical_for:
   - approval_evidence_rules
   - escalation_triggers
   - supervision_checkpoints
+  - documentation_conflict_handling
 status: active
 audience: humans_and_agents
 ---
@@ -67,6 +68,24 @@ repository mutation, materially меняющая security/auth/trust/compliance
 boundary, требует specific authority в текущей task или active project policy;
 без неё это отдельный Human Gate. Такая authority также не означает разрешение
 исполнить risk-bearing шаг над production/live state.
+
+## Конфликты документации
+
+При расхождении документов сначала различи claims, их scopes и основания по
+[Document Governance](../dna/governance.md#ssot-implementation).
+Требование и наблюдаемое поведение могут различаться без конкуренции за
+ownership; это основание проверить реализацию или актуальность описания.
+
+- Зафиксируй finding с источниками, scope и влиянием на текущую задачу.
+- Исправь canonical owner и затронутые производные документы, если это входит
+  в разрешённый scope и не требует отсутствующего решения или полномочия.
+- Если изменение вне scope, сообщи о расхождении и передай его владельцу;
+  продолжай независимую часть задачи. Не изменяй норму ради устранения warning.
+- Если конфликт блокирует принятое решение, примени Structured Decision
+  Protocol; запрос человеку нужен при `escalate`, а не при каждом finding.
+
+Критерии актуальности и отражения неопределённости принадлежат
+[Document Lifecycle](../dna/lifecycle.md); этот раздел владеет действиями агента.
 
 ## Когда применять Structured Decision Protocol
 
