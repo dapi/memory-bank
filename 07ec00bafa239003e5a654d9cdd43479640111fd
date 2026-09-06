@@ -1,0 +1,36 @@
+{
+  "phase": "Plan Ready artifact review",
+  "candidate": {
+    "commit": "07ec00bafa239003e5a654d9cdd43479640111fd",
+    "tree": "2b81c3e96e7ee459bca227a00d9ae470a89d62ef",
+    "base": "f1f04de843aef45a2425d4a7351d577bbf89e940",
+    "ref": "refs/review-candidates/ft-dna/plan-4",
+    "paths": [
+      "memory-bank/adr/ADR-002-documentation-trust-boundary.md",
+      "memory-bank/adr/README.md",
+      "memory-bank/features/README.md",
+      "memory-bank/features/FT-DNA"
+    ]
+  },
+  "reviewer": "code-converge / gpt-5.6-terra",
+  "verdict": {
+    "findings": [
+      {
+        "title": "Use a valid, concrete candidate-ref name for review evidence",
+        "body": "The evidence contract calls `refs/review-candidates/ft-dna/` a ref pointing to the immutable snapshot commit, but a Git ref cannot end in `/` (`git check-ref-format` rejects it). Consequently the required candidate cannot be created as documented, so the required note cannot be reliably bound to the review snapshot. Specify a valid ref, such as `refs/review-candidates/ft-dna/<snapshot-sha>` or `refs/review-candidates/ft-dna/latest`, and use the same form in the brief and plan.",
+        "confidence_score": 0.99,
+        "priority": 1,
+        "code_location": {
+          "absolute_file_path": "/Users/danil/.worktrees/memory-bank-dna-trust/memory-bank/features/FT-DNA/implementation-plan.md",
+          "line_range": {
+            "start": 101,
+            "end": 102
+          }
+        }
+      }
+    ],
+    "overall_correctness": "incorrect",
+    "overall_explanation": "The review-evidence procedure contains an invalid Git ref and cannot be executed as written.",
+    "overall_confidence_score": 0.99
+  }
+}
