@@ -9,6 +9,7 @@ derived_from:
   - ../../routing.md
   - ../../priming/context-priming.md
   - ../../feature.md
+  - ../../execution-handoff.md
 status: active
 audience: humans_and_agents
 template_for: process
@@ -35,6 +36,10 @@ canonical_for:
 
 Этот шаблон ближе всего к `brief -> optional design -> plan -> implement -> verify -> ship`, а не к короткой рутине.
 
+При передаче конкретной задачи между сессиями или исполнителями используй
+[Execution Handoff Contract](../../execution-handoff.md). Protocol задаёт фазы
+и gates; handoff передаёт наблюдаемое состояние одной задачи и сам gate не закрывает.
+
 ## Instantiated Frontmatter
 
 ```yaml
@@ -45,6 +50,7 @@ purpose: "Описывает полный процесс изменения с �
 derived_from:
   - README.md
   - ../flows/feature.md
+  - ../flows/execution-handoff.md
 status: draft
 audience: humans_and_agents
 must_not_define:
@@ -102,6 +108,14 @@ must_not_define:
 ### Phase 4: Hand Off or Close
 
 - Передать следующий state или закрыть процесс.
+
+## Continuation
+
+Перед продолжением выполни source set `continuation` из
+`memory-bank/processes/<process-name>.priming.yaml`, затем прочитай handoff по
+[Execution Handoff Contract](../flows/execution-handoff.md).
+При передаче работы используй этот контракт; evidence прохождения gates
+остаётся у владельца соответствующего lifecycle.
 
 ## Human Gates
 

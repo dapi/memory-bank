@@ -8,6 +8,7 @@ derived_from:
   - ../../../dna/frontmatter.md
   - ../../routing.md
   - ../../priming/context-priming.md
+  - ../../execution-handoff.md
 status: active
 audience: humans_and_agents
 template_for: process
@@ -31,7 +32,10 @@ canonical_for:
 - повторяемый internal step без сложных gates;
 - процесс, который удобно описывать на одной странице.
 
-Если процесс начинает требовать handoff state, approval gates, rollback или явные verification phase, это сигнал перейти к `session-handoff.md` или `lifecycle-protocol.md`.
+Для продолжения конкретной задачи между сессиями используй
+[Execution Handoff Contract](../../execution-handoff.md); карточка по-прежнему
+задаёт процедуру. Если сама процедура требует approval gates, rollback или
+явных verification phases, используй [`lifecycle-protocol.md`](lifecycle-protocol.md).
 
 ## Instantiated Frontmatter
 
@@ -42,6 +46,7 @@ doc_function: canonical
 purpose: "Фиксирует короткий reusable workflow с одним trigger, owner, шагами и exit criteria."
 derived_from:
   - README.md
+  - ../flows/execution-handoff.md
 status: draft
 audience: humans_and_agents
 must_not_define:
@@ -98,4 +103,11 @@ set `entry`.
 
 - Когда процесс нужно остановить и поднять к человеку, включая missing или
   conflicting priming input.
+
+## Continuation
+
+Перед продолжением выполни source set `continuation` из
+`memory-bank/processes/<process-name>.priming.yaml`, затем прочитай handoff по
+[Execution Handoff Contract](../flows/execution-handoff.md).
+Передавай состояние одной задачи с первичными источниками по этому контракту.
 ```
