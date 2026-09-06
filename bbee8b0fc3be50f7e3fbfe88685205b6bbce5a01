@@ -1,0 +1,36 @@
+{
+  "phase": "Plan Ready artifact review",
+  "candidate": {
+    "commit": "bbee8b0fc3be50f7e3fbfe88685205b6bbce5a01",
+    "tree": "c3d580e834e3453f65ea88deeffd6358e2983e7f",
+    "base": "f1f04de843aef45a2425d4a7351d577bbf89e940",
+    "ref": "refs/review-candidates/ft-dna/plan-5",
+    "paths": [
+      "memory-bank/adr/ADR-002-documentation-trust-boundary.md",
+      "memory-bank/adr/README.md",
+      "memory-bank/features/README.md",
+      "memory-bank/features/FT-DNA"
+    ]
+  },
+  "reviewer": "code-converge / gpt-5.6-terra",
+  "verdict": {
+    "findings": [
+      {
+        "title": "P2: Define a checkable convention for claim provenance",
+        "body": "SOL-02 requires every substantial claim to have scope, basis, and owner, while deliberately adding no required metadata or per-claim markup. It never defines what counts as a substantial claim or where those three facts must appear (section declaration, inline attribution, linked source, etc.). That leaves SC-02 and NEG-02 dependent on reviewer interpretation: the implementation can claim compliance while a reader still cannot consistently determine provenance. Specify a lightweight allowed representation and review rule in the design/plan.",
+        "confidence_score": 0.84,
+        "priority": 2,
+        "code_location": {
+          "absolute_file_path": "/Users/danil/.worktrees/memory-bank-dna-trust/memory-bank/features/FT-DNA/design.md",
+          "line_range": {
+            "start": 28,
+            "end": 30
+          }
+        }
+      }
+    ],
+    "overall_correctness": "needs revision",
+    "overall_explanation": "The package has a material ambiguity in how its central provenance requirement is represented and verified.",
+    "overall_confidence_score": 0.84
+  }
+}
