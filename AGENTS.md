@@ -32,16 +32,22 @@ Do not inspect or use files under template/memory-bank/prompts/** as workflow de
 - `sed -n '1,120p' path/to/doc.md` для быстрой проверки frontmatter и заголовков;
 - `rg -n "PROJECT_SPECIFIC_TERM" template/memory-bank` с реальными терминами downstream-проекта, чтобы убедиться, что project-specific детали не протекли обратно в шаблон.
 
-## Синхронизация project-local memory-bank
+## Project-local memory-bank — проекция, а не копия
 
-Репозиторий одновременно шаблон и его потребитель. Корневые ассеты (`WORKFLOW.md`, `.codex/agents`, `.start-issue/prompt.md`, `bootstrap-symphony.sh`, `run-symphony.sh`) — симлинки в `template/`, поэтому `memory-bank-cli pull` в корне останавливается на unsafe path (см. [`docs/ownership.md`](docs/ownership.md)). Синхронизируйте инстанс только через:
+`memory-bank/` не устанавливается из payload, а проецирует его: generic-документы — симлинки в `template/memory-bank/`, поэтому инстанс всегда равен текущему payload и синхронизировать нечего. Реальные файлы — только собственность проекта: `features/`, `research/`, `adr/`, project-specific части `product/` и `ops/`, корневой индекс и `bootstrap.md`. Корневые ассеты (`WORKFLOW.md`, `.codex/agents`, `.start-issue/prompt.md`, `bootstrap-symphony.sh`, `run-symphony.sh`) — симлинки в `template/` по той же причине.
+
+Здесь намеренно нет `memory-bank/.lock`: lock фиксирует дрейф установленной копии от внешнего шаблона, а этот репозиторий сам является источником. `memory-bank-cli doctor` говорит это прямо — lock создаётся только в downstream-репозиториях через `memory-bank-cli init`.
+
+- Чтобы адаптировать generic-документ под проект, замените симлинк обычным файлом; git покажет смену типа.
+- Чтобы вернуть переопределение в проекцию, удалите файл и прогоните скрипт ниже.
+- После добавления документа в payload создайте симлинк в инстансе:
 
 ```bash
-ruby tools/sync-project-memory-bank.rb            # план
-ruby tools/sync-project-memory-bank.rb --apply    # применить
+ruby tools/refresh-memory-bank-projection.rb            # план
+ruby tools/refresh-memory-bank-projection.rb --apply    # применить
 ```
 
-Скрипт выполняет pull в изолированной песочнице и переносит обратно только `memory-bank/**` с его lock. Запускайте его после мержа изменений шаблона в `main`: lock закрепляет commit источника, и SHA из невлитой ветки исчезнет после squash-мержа. Конфликты внутри `memory-bank/` скрипт не решает — он останавливается и требует явного решения.
+Скрипт не трогает реальные файлы. Пропущенный симлинк ловится `memory-bank-cli lint --repo-root .` как битая ссылка, поэтому забыть его нельзя.
 
 ## Стиль оформления и соглашения по именованию
 
@@ -67,6 +73,26 @@ ruby tools/sync-project-memory-bank.rb --apply    # применить
 - убедитесь, что индексы и ссылки соответствуют новой структуре;
 - не дублируйте project-specific детали обратно в `template/memory-bank/`;
 - при изменении template docs проверяйте соседние governed-файлы на противоречия.
+
+## Механизм независимой проверки
+
+Канонический механизм независимой проверки этого репозитория — `code-converge`.
+Требования к любому механизму (structured verdict, fail closed, review-only,
+автор ≠ проверяющий) заданы в
+[`template/memory-bank/flows/testing-policy.md`](template/memory-bank/flows/testing-policy.md#механизм-проверки).
+
+- Проверка реализации: `code-converge`
+- Проверка документов и артефактов: `code-converge --document-review --max-cycles 0`
+
+`--max-cycles 0` оставляет проверяющему нулевой fix budget: он возвращает
+findings, но не правит проверяемую revision. Исправляет автор, после чего
+запускается новая проверка новой revision.
+
+Clean verdict и findings берутся из структурированного результата `code-converge`.
+Если он отсутствует или завершился operational error, проверка считается
+невыполненной: подменять её cmux, Ghostty, вручную собранным `codex exec` или
+свободным пересказом агента нельзя. Terminal и UI-оркестраторы открываются
+только по прямой просьбе — они размещают вкладки, а не проверяют.
 
 ## Коммиты и pull request
 

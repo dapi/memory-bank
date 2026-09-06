@@ -78,9 +78,11 @@ memory-bank-cli update \
 
 Подробные flags, exit codes и JSON schemas документируются в [`dapi/memory-bank-cli`](https://github.com/dapi/memory-bank-cli). Правила владения, conflict policy и atomic update semantics для этого шаблона остаются в [`ownership.md`](ownership.md).
 
-## Dual-role репозиторий: синхронизация собственного инстанса
+## Dual-role репозиторий: проекция собственного инстанса
 
-Этот репозиторий одновременно является upstream-шаблоном и downstream-потребителем: `template/memory-bank/` — payload, `memory-bank/` — установленный инстанс. Корневые ассеты в нём не копии, а симлинки в `template/`, чтобы рабочие инструменты репозитория всегда совпадали с payload:
+Этот репозиторий одновременно является источником шаблона и его потребителем: `template/memory-bank/` — payload, `memory-bank/` — project-local Memory Bank. Но инстанс здесь не устанавливается, а **проецируется**: generic-документы представлены симлинками в payload, поэтому он равен payload по построению и синхронизировать нечего.
+
+Реальными файлами остаётся только то, чем владеет или что переопределяет проект: `features/`, `research/`, `adr/`, project-specific части `product/` и `ops/`, корневой индекс и `bootstrap.md`. Корневые ассеты — симлинки в `template/` по той же причине:
 
 ```text
 WORKFLOW.md            -> template/WORKFLOW.md
@@ -90,13 +92,30 @@ run-symphony.sh        -> template/run-symphony.sh
 .start-issue/prompt.md -> ../template/.start-issue/prompt.md
 ```
 
-По контракту из [`ownership.md`](ownership.md) симлинк в любом компоненте пути считается unsafe path, поэтому `memory-bank-cli pull --repo-root .` здесь останавливается и ничего не читает. Это не дефект CLI и не повод материализовать симлинки: корневой `.gitignore` шире шаблонного, а `.envrc` и `init.sh` в корне шаблона не нужны.
+### Почему здесь нет lock
 
-Поэтому синхронизация выполняется через `tools/sync-project-memory-bank.rb`. Он делает pull в изолированной песочнице, где корневых ассетов нет, и переносит обратно только поддерево `memory-bank/**` вместе с lock; корневые записи из lock удаляются, потому что CLI этими путями не управляет.
+`memory-bank/.lock` фиксирует дрейф установленной копии от внешнего шаблона. У репозитория-источника внешнего шаблона нет, и CLI говорит это прямо:
 
-```bash
-ruby tools/sync-project-memory-bank.rb            # план
-ruby tools/sync-project-memory-bank.rb --apply    # применить
+```text
+$ memory-bank-cli doctor --profile template
+info  template.source_repository  Template source profile detected;
+      an installed-template lock is not expected.
+      remediation: Create locks only in downstream repositories through memory-bank-cli init.
 ```
 
-Запускайте синхронизацию после мержа изменений шаблона в `main`: lock закрепляет commit источника, и SHA из невлитой ветки исчезнет из истории после squash-мержа. Конфликты внутри `memory-bank/` скрипт не разрешает — он останавливается и передаёт решение человеку по правилам [`ownership.md`](ownership.md).
+Поэтому `init`, `pull` и ownership-контракт из [`ownership.md`](ownership.md) применимы к downstream-репозиториям, а не к этому.
+
+### Поддержание проекции
+
+```bash
+ruby tools/refresh-memory-bank-projection.rb            # план
+ruby tools/refresh-memory-bank-projection.rb --apply    # применить
+```
+
+Скрипт создаёт недостающие симлинки, чинит неверные цели и убирает указывающие на исчезнувший payload. Реальные файлы он не трогает и дополнительно подсказывает, какие из них побайтно совпали с payload и могут вернуться в проекцию.
+
+Правило переопределения: замените симлинк обычным файлом — и документ станет project-specific; удалите файл и прогоните скрипт — и он вернётся в проекцию. Пропущенный симлинк ловится `memory-bank-cli lint --repo-root .` как битая ссылка, поэтому проекция не может молча отстать.
+
+### Ограничение реализации
+
+Проекция пофайловая, а не покаталожная: `lint` не спускается в симлинк на директорию и объявляет её содержимое недостижимым. Поэтому симлинк на `memory-bank/flows` вместо 17 симлинков внутри него не годится.

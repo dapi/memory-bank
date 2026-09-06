@@ -98,8 +98,8 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     env:
-      MEMORY_BANK_CLI_VERSION: v1.0.0
-      MEMORY_BANK_CLI_SHA256: 35300dd2f713e904a5819a31b064e12809b93921a557fbfb3f2543c45c733c57
+      MEMORY_BANK_CLI_VERSION: v2.3.0
+      MEMORY_BANK_CLI_SHA256: d2985dbe60f2beb9af9ad23825fd98b90e5112bfbf6f1aacc76e4531990c6653
     steps:
       - name: Checkout
         uses: actions/checkout@v4

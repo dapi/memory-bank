@@ -85,6 +85,7 @@ issue/task → routing record → implementation → automated checks
 - [ ] simplify review выполнен отдельным проходом
 - [ ] PR ссылается на issue/task и содержит concrete evidence
 - [ ] required CI зелёный до merge
+- [ ] проверка реализации сошлась по [`Review Convergence`](testing-policy.md#review-convergence)
 
 ## Delivery Trace
 
@@ -104,7 +105,6 @@ Acceptance из issue/task выполнен одним локальным change
 - validation profile decision и evidence его minimum contract;
 - изменённый код и automated coverage для changed behavior;
 - результаты проверок из `Verify`;
-- последний review cycle завершён без открытых замечаний;
 - все изменения закоммичены и отправлены в remote branch, required CI полностью зелёный.
 
 ### Terminal State

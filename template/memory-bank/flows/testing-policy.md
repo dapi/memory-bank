@@ -2,12 +2,14 @@
 title: Testing Policy
 doc_kind: governance
 doc_function: canonical
-purpose: "Описывает testing policy delivery-процесса: обязательность test case design, требования к automated regression coverage и допустимые manual-only gaps."
+purpose: "Описывает testing policy delivery-процесса: обязательность test case design, требования к automated regression coverage, допустимые manual-only gaps и сходимость проверки после реализации."
 derived_from:
   - ../dna/governance.md
+  - autonomy-boundaries.md
   - behavior-specification.md
   - feature.md
   - feature-requirements.md
+  - routing.md
   - validation-profiles.md
 status: active
 canonical_for:
@@ -18,6 +20,8 @@ canonical_for:
   - manual_only_verification_exceptions
   - simplify_review_discipline
   - verification_context_separation
+  - review_convergence_contract
+  - review_mechanism_requirements
   - bdd_automation_policy
 must_not_define:
   - feature_acceptance_criteria
@@ -72,7 +76,7 @@ Canonical lifecycle gates живут в [feature.md](feature.md):
 - к `Problem Ready` `brief.md` уже фиксирует validation profile decision и test case inventory;
 - к `Solution Ready` весь required design pack готов по relation, ownership, publication/lifecycle и consistency rules из Feature Flow;
 - к `Plan Ready` `implementation-plan.md` содержит `Test Strategy` с planned automated coverage и manual-only gaps;
-- к `Done` required tests добавлены, локальные команды зелёные и CI не противоречит локальному verify.
+- к `Done` required tests добавлены, локальные команды зелёные, CI не противоречит локальному verify, а проверка сошлась по [`Review Convergence`](#review-convergence).
 
 ## Что Считается Sufficient Coverage
 
@@ -112,6 +116,79 @@ Artifact review и implementation review имеют разные объекты 
 5. **Acceptance test** — end-to-end по `SC-*`.
 
 Artifact review не является доказательством качества реализации, а implementation review не исправляет задним числом непройденный artifact gate. Для compact feature packages проходы допустимы в одной сессии, если их объекты, verdicts и evidence зафиксированы раздельно; обязательный review или simplify review не пропускается.
+
+## Review Convergence
+
+Проверка после реализации доводится ровно до одного из двух состояний.
+
+**Сошлась.** Clean verdict обязательного review и зелёный обязательный CI
+относятся к одной repository revision — одному commit SHA. Изменение кода после
+verdict создаёт новую revision и аннулирует его. До выполнения этих условий
+работа не переходит в терминальное состояние flow.
+
+**Не сошлась.** Исчерпан бюджет в десять циклов на delivery-единицу. Один цикл —
+`несошедшаяся проверка → исправления → повторная проверка`; несошедшейся
+считается verdict с блокирующими замечаниями либо красный обязательный CI по
+причине в коде. Повторный запуск CI без изменения revision циклом не является.
+
+Исчерпание бюджета не разрешает принять работу и само по себе не создаёт Human
+Gate. Зафиксируй вне проверяемой revision — в issue, PR или routing record
+выбранного flow, чтобы запись не меняла проверенный код:
+
+```text
+Not converged: cycle <N>/10, revisions <SHA…>
+Repeated findings: <что повторялось; какие проверки остаются красными>
+Cause class: <строка таблицы ниже>
+Decision: return to <владелец фактов> | continue, scope <суженный объём>
+```
+
+Новый бюджет открывается только после обновления владельца исходных фактов. При
+дефекте реализации допускается одно продолжение в текущем flow с явно суженным
+объёмом; дальше применяется
+[`Structured Decision Protocol`](autonomy-boundaries.md#structured-decision-protocol),
+и эскалация нужна только при outcome `escalate`.
+
+| Причина | Куда вернуть работу |
+| --- | --- |
+| Дефект реализации или необоснованная сложность | Ограничить объём исправления и повторить его в рамках текущего flow |
+| Недостаточное изучение кода или ошибочная последовательность исполнения | Этап планирования исполнения выбранного flow (в Feature Flow — Plan Ready) |
+| Пробел или противоречие в решении, контракте, инварианте, failure handling или release rules | Владелец design pack либо ADR (в Feature Flow — Solution Ready) |
+| Пробел или противоречие в границах, требовании, acceptance criterion или составе evidence | Канонический problem-owner: `brief.md`, bug report, refactoring task (в Feature Flow — Problem Ready) |
+| Недостаточно определены проблема, результат или границы | Повторить брифование или первичный разбор |
+| Неверно определён тип задачи или её объём | Повторить [`Task Routing`](routing.md); при необходимости выбрать Research, Feature или Epic Flow |
+| Внешняя блокировка, недоступная инфраструктура или нестабильный CI без причины в коде | Зафиксировать ожидание или блокировку с evidence, не меняя исходные факты без основания |
+
+Правая колонка называет владельца фактов; gates в скобках относятся к Feature
+Flow. Flow без такого этапа возвращает работу к соответствующему месту своего
+lifecycle, а если этапа нет вовсе — повторяет [`Task Routing`](routing.md).
+После изменения владельца зависящие документы и проверки проходят заново.
+
+### Механизм проверки
+
+Контракт не выбирает инструмент, но требует от него четырёх свойств:
+
+- **structured verdict.** Clean verdict и findings читаются из структурированного
+  результата механизма. Успешно завершившийся процесс, открытая вкладка
+  терминала или свободный текст агента доказательством проверки не являются.
+- **fail closed.** Отсутствующий, повреждённый или неизвестный результат означает
+  «проверка не выполнена». Подменять недоступный механизм другим по ходу дела
+  нельзя.
+- **review-only.** Прогон проверки не изменяет проверяемую revision, не создаёт
+  checkpoint и не публикует изменения.
+- **author ≠ reviewer.** Исправляет findings автор, а не проверяющий; после
+  исправлений выполняется новая проверка новой revision.
+
+Terminal и UI-оркестраторы размещают вкладки и процессы — они не являются
+механизмом проверки и выбираются только по прямой просьбе человека.
+
+Канонический механизм проекта называет
+[`../engineering/testing-conventions.md`](../engineering/testing-conventions.md).
+
+Контракт применяется к Feature, Small Change, Bug Fix и Refactoring Flow, не
+относится к artifact review до gate (включая Plan Ready) и механизм-нейтрален.
+Обязательств выбранного [`validation profile`](validation-profiles.md) он не
+изменяет. Incident Flow закрывает containment по своим правилам; permanent
+remediation попадает под контракт после отдельного [`Task Routing`](routing.md).
 
 ## Project Execution Layer
 

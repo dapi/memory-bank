@@ -1,10 +1,1 @@
-version: 1
-process: ops
-stages:
-  operations_release:
-    - memory-bank/ops/config.md
-    - memory-bank/ops/development.md
-    - memory-bank/ops/release.md
-    - memory-bank/ops/runbooks/README.md
-    - memory-bank/ops/stages.md
-    - memory-bank/flows/autonomy-boundaries.md
+../../../template/memory-bank/flows/priming/ops.yaml

@@ -82,6 +82,7 @@ report → triage → reproduction → analysis → fix
 - [ ] simplify review выполнен
 - [ ] PR содержит ссылку на report, root cause summary и evidence
 - [ ] required local tests и CI зелёные
+- [ ] проверка реализации сошлась по [`Review Convergence`](testing-policy.md#review-convergence)
 
 Если analysis показывает, что observed behavior соответствует текущему contract, а требуется изменить expected behavior, это не bug fix: повтори Task Routing и выбери `Small Change` или Feature Flow.
 
@@ -98,7 +99,6 @@ report → triage → reproduction → analysis → fix
 - подтверждённая root cause summary;
 - regression test или обоснованный альтернативный carrier;
 - результаты required tests;
-- последний review cycle завершён без открытых замечаний;
 - все изменения закоммичены и отправлены в remote branch, required CI полностью зелёный.
 
 ### Terminal State
