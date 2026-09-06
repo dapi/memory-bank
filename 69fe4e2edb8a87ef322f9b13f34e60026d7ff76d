@@ -1,0 +1,49 @@
+{
+  "phase": "active plan artifact review",
+  "candidate": {
+    "commit": "69fe4e2edb8a87ef322f9b13f34e60026d7ff76d",
+    "tree": "636210cb82090d187c7b068a6f8b3197fc017485",
+    "base": "f1f04de843aef45a2425d4a7351d577bbf89e940",
+    "ref": "refs/review-candidates/ft-dna/plan-6",
+    "paths": [
+      "memory-bank/adr/ADR-002-documentation-trust-boundary.md",
+      "memory-bank/adr/README.md",
+      "memory-bank/features/README.md",
+      "memory-bank/features/FT-DNA"
+    ]
+  },
+  "reviewer": "code-converge / gpt-5.6-terra",
+  "verdict": {
+    "findings": [
+      {
+        "title": "Plan Ready review is scheduled after the writes it must authorize",
+        "body": "PRE-01 requires a clean Plan Ready verdict before execution, but the only independent `code-converge` review is STEP-04, which depends on STEPs 01–03 (the payload edits and checks). CP-01 also requires a draft-plan review before execution, yet no step produces it. This makes the gate either impossible to satisfy or easy to bypass. Add an explicit independent plan-review step before STEP-01, with its candidate/evidence contract, and retain STEP-04 as the final implementation review.",
+        "confidence_score": 0.98,
+        "priority": 1,
+        "code_location": {
+          "absolute_file_path": "/Users/danil/.worktrees/memory-bank-dna-trust/memory-bank/features/FT-DNA/implementation-plan.md",
+          "line_range": {
+            "start": 61,
+            "end": 62
+          }
+        }
+      },
+      {
+        "title": "HEAD equality does not bind execution to the grounded snapshot",
+        "body": "Checking only that HEAD equals the grounding commit does not detect staged or worktree changes to any implementation target. Such changes can alter the documents being edited while this precondition still passes, so the executor can apply a plan grounded against a different tree. Bind PRE-01 to an immutable candidate tree/ref (or explicitly verify the relevant target-path tree/diffs) and require re-grounding whenever that identity changes, not only when the package has been committed.",
+        "confidence_score": 0.96,
+        "priority": 1,
+        "code_location": {
+          "absolute_file_path": "/Users/danil/.worktrees/memory-bank-dna-trust/memory-bank/features/FT-DNA/implementation-plan.md",
+          "line_range": {
+            "start": 64,
+            "end": 71
+          }
+        }
+      }
+    ],
+    "overall_correctness": "patch is incorrect",
+    "overall_explanation": "The feature package defines an execution and verification process with a circular Plan Ready gate and no reliable binding between grounding and the tree that will be edited.",
+    "overall_confidence_score": 0.97
+  }
+}
