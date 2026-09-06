@@ -1,0 +1,21 @@
+{
+  "phase": "active plan artifact review",
+  "state": "prepared",
+  "candidate": {
+    "commit": "fdbbc227ec70ed31e053aa667aa6e695d7cc2675",
+    "tree": "ce2ba461453ad07673fff70add91979dfcd9fc4e",
+    "base": "f1f04de843aef45a2425d4a7351d577bbf89e940",
+    "ref": "refs/review-candidates/ft-dna/plan-9",
+    "changed_paths": [
+      "memory-bank/adr/ADR-002-documentation-trust-boundary.md",
+      "memory-bank/adr/README.md",
+      "memory-bank/features/FT-DNA/README.md",
+      "memory-bank/features/FT-DNA/brief.md",
+      "memory-bank/features/FT-DNA/design.md",
+      "memory-bank/features/FT-DNA/implementation-plan.md",
+      "memory-bank/features/README.md"
+    ]
+  },
+  "reviewer": "code-converge / gpt-5.6-terra",
+  "verdict": null
+}
