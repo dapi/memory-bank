@@ -401,7 +401,7 @@ Plan Ready artifact-review convergence допускает не более пят
 - [ ] minimum validation/evidence contract выбранного profile закрыт concrete evidence
 - [ ] каждый manual-only gap явно approved человеком (approval ref в `AG-*`)
 - [ ] required implementation/code review проверил delivered repository diff против active `brief.md`, полного optional design pack, referenced finalized external dependencies и execution plan; его verdict/evidence не подменяются Plan Ready artifact review
-- [ ] проверка реализации сошлась по [`Review Convergence`](testing-policy.md#review-convergence): clean verdict и зелёный обязательный CI относятся к одной редакции кода, а след цикла записан
+- [ ] проверка реализации сошлась по [`Review Convergence`](testing-policy.md#review-convergence)
 - [ ] simplify review выполнен: код минимально сложен или complexity обоснована ссылкой на `CON-*`, `FM-*`, `SD-*` или accepted ADR
 - [ ] если feature добавляет новый stable flow или materially changes существующий project-level scenario, соответствующий `UC-*` создан или обновлен и зарегистрирован в `memory-bank/use-cases/README.md`
 - [ ] `brief.md` → `delivery_status: done`
@@ -424,7 +424,7 @@ Plan Ready artifact-review convergence допускает не более пят
 - validation profile decision и evidence его minimum contract;
 - выполненные `CHK-*` и конкретные carriers для `EVID-*`;
 - automated coverage, required local/CI results и approval refs для manual-only gaps;
-- Plan Ready artifact review и required implementation/code review имеют отдельные clean verdicts по своим reviewed revisions; проверка реализации сошлась по [`Review Convergence`](testing-policy.md#review-convergence), то есть её clean verdict и зелёный обязательный CI относятся к одной редакции кода;
+- Plan Ready artifact review и required implementation/code review имеют отдельные clean verdicts по своим reviewed revisions;
 - все изменения закоммичены и отправлены в remote branch, required CI полностью зелёный;
 - обновлённый `UC-*`, когда изменился устойчивый project-level scenario.
 
