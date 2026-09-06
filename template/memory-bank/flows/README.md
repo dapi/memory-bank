@@ -31,6 +31,11 @@ audience: humans_and_agents
 
 Каталог `memory-bank/flows/` содержит reusable process-layer для шаблона: cross-flow policy, lifecycle rules, taxonomy стабильных идентификаторов и governed templates. Это generic слой: он описывает, как ведётся разработка, и не зависит от стека целевой системы. Инженерия самой целевой системы живёт в [`../engineering/README.md`](../engineering/README.md).
 
+Граница с [DNA](../dna/README.md): DNA задаёт критерии достоверности,
+ownership и актуальности документов; этот слой задаёт routing, действия,
+полномочия, priming, проверки и handoff. Документы flows сами подчиняются DNA,
+но качество документа и разрешение исполнить описанное действие — разные вопросы.
+
 ## Cross-Flow Policy
 
 Действует во всех flows и выбирается до или внутри entry gate конкретного route.

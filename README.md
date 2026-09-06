@@ -136,13 +136,18 @@ or another agent cannot resume the work from repository state.
 
 ### DNA and Single Source of Truth
 
-The `dna/` layer is the constitution of the knowledge base. It defines Single
-Source of Truth, document ownership, dependency direction, lifecycle,
-frontmatter, and navigation rules.
+The `dna/` layer defines rules for trustworthy project documentation: source
+ownership, evidence, scope, freshness, publication metadata, and navigation.
+The `flows/` layer owns task execution, agent permissions, and delivery checks.
 
-A canonical document owns a fact. Another document may derive a requirement,
-plan, or view from it, but must preserve the dependency. When documents
-disagree, ownership and dependency direction identify the authoritative source.
+A canonical document owns a claim within a declared context. Derived
+requirements, plans, and views preserve the source and its limitations.
+An `active` publication may contain an explicitly unverified assumption;
+publication status alone does not prove a claim.
+
+When documents disagree, compare their claims, scopes, owners, and semantic
+dependencies. Ambiguous ownership remains an explicit conflict until resolved;
+a newer edit does not automatically win.
 
 ### Project knowledge
 

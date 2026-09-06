@@ -59,6 +59,11 @@ governance, frontmatter, lifecycle и cross-references.
 начинается сразу после P0 и использует timeboxed Incident priming. Выполни
 baseline до создания или обновления governed incident-артефакта.
 
+При изменении governance-ядра после universal baseline дополнительно прочитай
+[governance.yaml](governance.yaml) и выполни source set
+`memory_bank_governance`. Это task-specific дополнение к выбранному route,
+а не запуск второго flow. Повторно найденные exact inputs не перечитываются.
+
 Затем открой выбранный canonical process-file. В его
 `Priming Inputs` указан один YAML manifest и source sets для стадий процесса.
 До первого meaningful gate выполни стартовый source set; следующие добавляй
