@@ -1,8 +1,1 @@
-version: 1
-process: adr
-stages:
-  create_update:
-    - memory-bank/adr/*.md
-    - memory-bank/domain/*.md
-    - memory-bank/engineering/architecture.md
-    - memory-bank/flows/templates/adr/ADR-XXX.md
+../../../template/memory-bank/flows/priming/adr.yaml

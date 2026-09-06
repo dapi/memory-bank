@@ -12,15 +12,20 @@ audience: humans_and_agents
 
 # Project Memory Bank Index
 
-Этот каталог — project-local Memory Bank репозитория `dapi/memory-bank`. Он
-установлен из generic payload в [`../template/memory-bank/`](../template/memory-bank/)
-и является canonical местом для project-specific документов этого репозитория.
-В частности, новые delivery feature packages создаются только в
-[`features/`](features/README.md), а не в upstream payload.
+Этот каталог — project-local Memory Bank репозитория `dapi/memory-bank`. Он не
+копия payload, а его **проекция**: generic-документы представлены симлинками в
+[`../template/memory-bank/`](../template/memory-bank/) и всегда равны текущему
+payload. Реальные файлы здесь — только то, что принадлежит этому проекту:
+[`features/`](features/README.md), [`research/`](research/README.md),
+[`adr/`](adr/README.md), project-specific части `product/` и `ops/`, а также
+этот индекс.
 
-Источник, закрепленная версия и сознательные границы начальной адаптации
-зафиксированы в [`bootstrap.md`](bootstrap.md). Generic правила остаются в
-`template/memory-bank/`; адаптируй только эту project-local копию.
+Чтобы адаптировать generic-документ под проект, замените симлинк обычным файлом
+— переопределение станет видно в git как смена типа. Модель и её следствия
+описаны в [`bootstrap.md`](bootstrap.md).
+
+Новые delivery feature packages создаются только в
+[`features/`](features/README.md), а не в upstream payload.
 
 ## Аннотированный индекс
 
