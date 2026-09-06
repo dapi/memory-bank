@@ -1,0 +1,37 @@
+{
+  "phase": "active plan artifact review",
+  "candidate": {
+    "commit": "eb739b24d8df4a01ddacce53820dd272cce987e5",
+    "tree": "da6588bbdd501660a097ea21a188eb46a3c422ca",
+    "base": "f1f04de843aef45a2425d4a7351d577bbf89e940",
+    "ref": "refs/review-candidates/ft-dna/plan-8",
+    "paths": [
+      "memory-bank/adr/ADR-002-documentation-trust-boundary.md",
+      "memory-bank/adr/README.md",
+      "memory-bank/features/README.md",
+      "memory-bank/features/FT-DNA"
+    ]
+  },
+  "reviewer": "code-converge / gpt-5.6-terra",
+  "verdict": {
+    "findings": [
+      {
+        "title": "Current active plan has no revision-bound candidate to review",
+        "body": "The plan requires the private-index tree to equal an immutable candidate commit and says that every reviewed snapshot is held by a named `refs/review-candidates/ft-dna/...` ref. It only identifies an older draft snapshot and explicitly says that it does not cover the current active revision. Thus the current active plan cannot produce the required revision-bound note/verdict without first creating and naming a new immutable candidate; a review of an arbitrary staged tree could otherwise be recorded against a different tree. Add an explicit pre-review step that creates the current candidate commit/ref before `code-converge`, then attach the note to that exact commit (or revise the contract to support the private-index carrier consistently).",
+        "confidence_score": 0.93,
+        "priority": 1,
+        "code_location": {
+          "absolute_file_path": "/Users/danil/.worktrees/memory-bank-dna-trust/memory-bank/features/FT-DNA/implementation-plan.md",
+          "line_range": {
+            "start": 118,
+            "end": 120
+          }
+        }
+      }
+    ],
+    "overall_correctness": "needs revision",
+    "overall_explanation": "The feature package is internally well structured, but its required evidence chain does not identify an immutable candidate for the current active revision.",
+    "overall_confidence_score": 0.93
+  },
+  "author_disposition": "Candidate ref existed before review; made the author-owned preparation and external dispatch record explicit in the executable plan."
+}
