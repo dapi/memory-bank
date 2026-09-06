@@ -32,5 +32,20 @@
     "overall_correctness": "needs revision",
     "overall_explanation": "The package has a material ambiguity in how its central provenance requirement is represented and verified.",
     "overall_confidence_score": 0.84
+  },
+  "structured_decision": {
+    "context": "Plan Ready artifact review reached five iterations; latest finding is an underspecified SOL-02 representation.",
+    "authority_source": "current user task and Feature Flow Plan Ready convergence policy",
+    "decision_owner": "implementing agent within accepted documentation scope",
+    "carrier": "Git note on plan-5 candidate",
+    "facts": "Prepared governance text already defines substantial claims and allows text/section/link representation; design did not state that refinement explicitly.",
+    "constraints": "No new mandatory metadata, no scope expansion, same canonical independent review mechanism.",
+    "options": "Clarify design representation; adding a mandatory per-claim schema rejected as disproportionate and contrary to accepted compatibility constraints.",
+    "rationale": "Update the solution owner, then review the revised bounded design and dependent plan.",
+    "risk_controls": "Immutable candidate refs, separate reviewer, local checks, no publication.",
+    "confidence": "High for the representation refinement; independent verdict remains required.",
+    "outcome": "proceed",
+    "execution_approval": "not required for local documentation",
+    "review_budget": "Renewed bounded plan review after design-owner refinement; at most five iterations."
   }
 }
