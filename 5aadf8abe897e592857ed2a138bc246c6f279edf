@@ -1,0 +1,23 @@
+{
+  "phase": "initial draft plan artifact review",
+  "candidate_commit": "5aadf8abe897e592857ed2a138bc246c6f279edf",
+  "candidate_tree": "0b33c62d2705428716f5f5e68040a77d2cbd8866",
+  "base": "f1f04de843aef45a2425d4a7351d577bbf89e940",
+  "reconstruction": "Exact eligible blob IDs from the recorded private-index diff, with the recorded comparison base; retention commit created after review.",
+  "reviewed_blobs": {
+    "memory-bank/adr/ADR-002-documentation-trust-boundary.md": "c56c99b3a5c16b25927a9ecf035372c86787c867",
+    "memory-bank/adr/README.md": "ce2ad264969fcae7473ad8f002b90b4c3267d85b",
+    "memory-bank/features/FT-DNA/README.md": "b6eeb0a613999a3e853fdd4a7e2bb85fb23a5ece",
+    "memory-bank/features/FT-DNA/brief.md": "9a7a193016bff83b9e03a0e54eaac76d065603b4",
+    "memory-bank/features/FT-DNA/design.md": "2ab7d99f662f5efe9b84b74a7f5d589d6b49a87d",
+    "memory-bank/features/FT-DNA/implementation-plan.md": "f6a7c8137854109464f40fe0e36fbbd72aea6dc3",
+    "memory-bank/features/README.md": "e1e5c27bf2215753c7a9fab8235d509c843043ad"
+  },
+  "reviewer": "code-converge / gpt-5.6-terra",
+  "verdict": {
+    "findings": [],
+    "overall_correctness": "correct",
+    "overall_explanation": "No actionable consistency, contradiction, or Memory Bank governance issues found in the eligible staged Markdown documents.",
+    "overall_confidence_score": 0.86
+  }
+}
