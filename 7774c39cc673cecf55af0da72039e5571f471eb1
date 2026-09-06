@@ -231,5 +231,18 @@
     "generic_project_term_scan": "no matches",
     "canonical_checkout": "clean main checkout; no publication",
     "remote_ci": "not run; publication outside authorized scope"
-  }
+  },
+  "requested_reviews": [
+    {
+      "request": "User requested another review of the DNA change",
+      "state": "prepared",
+      "prepared_at": "2026-09-06T20:57:47.331482+00:00",
+      "commit": "7774c39cc673cecf55af0da72039e5571f471eb1",
+      "tree": "2daf82cfaf1ba4c511c3c4441b126078c682d6a4",
+      "base": "f1f04de843aef45a2425d4a7351d577bbf89e940",
+      "mechanism": "code-converge --document-review --max-cycles 0",
+      "log_dir": "~/.cache/memory-bank-dna-trust/requested-review-1",
+      "verdict": null
+    }
+  ]
 }
