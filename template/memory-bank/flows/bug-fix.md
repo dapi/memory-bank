@@ -98,7 +98,7 @@ report → triage → reproduction → analysis → fix
 - подтверждённая root cause summary;
 - regression test или обоснованный альтернативный carrier;
 - результаты required tests;
-- последний review cycle завершён без открытых замечаний;
+- проверка сошлась по [`Review Convergence`](testing-policy.md#review-convergence): clean verdict и зелёный обязательный CI относятся к одной редакции кода;
 - все изменения закоммичены и отправлены в remote branch, required CI полностью зелёный.
 
 ### Terminal State

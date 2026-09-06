@@ -352,8 +352,10 @@ flowchart LR
 ### Upstream Ready → Plan Ready
 
 Plan Ready artifact-review convergence допускает не более пяти review-improve
-итераций. Последняя итерация с исправлениями не считается clean verdict без
-последующего re-review; исчерпание budget оставляет gate непройденным. Примени
+итераций — более строгий предел, чем общий бюджет из
+[`Review Convergence`](testing-policy.md#review-convergence). Последняя итерация
+с исправлениями не считается clean verdict без последующего re-review;
+исчерпание budget оставляет gate непройденным. Примени
 [`Structured Decision Protocol`](autonomy-boundaries.md#structured-decision-protocol),
 пересмотри hypothesis, upstream facts, plan и review scope; продолжай через
 обоснованный replan или `bounded_probe`. Human Gate нужен только при outcome

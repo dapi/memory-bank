@@ -85,7 +85,7 @@ task → baseline → characterization coverage → plan + checkpoints
 - validation profile decision и evidence его minimum contract;
 - результаты regression checks по checkpoints;
 - before/after summary либо research artifact с источниками и выводом;
-- последний review cycle завершён без открытых замечаний;
+- проверка сошлась по [`Review Convergence`](testing-policy.md#review-convergence): clean verdict и зелёный обязательный CI относятся к одной редакции кода;
 - все изменения закоммичены и отправлены в remote branch, required CI полностью зелёный для production change.
 
 ### Terminal State

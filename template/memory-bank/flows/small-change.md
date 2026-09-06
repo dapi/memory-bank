@@ -104,7 +104,7 @@ Acceptance из issue/task выполнен одним локальным change
 - validation profile decision и evidence его minimum contract;
 - изменённый код и automated coverage для changed behavior;
 - результаты проверок из `Verify`;
-- последний review cycle завершён без открытых замечаний;
+- проверка сошлась по [`Review Convergence`](testing-policy.md#review-convergence): clean verdict и зелёный обязательный CI относятся к одной редакции кода;
 - все изменения закоммичены и отправлены в remote branch, required CI полностью зелёный.
 
 ### Terminal State
