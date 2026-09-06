@@ -401,6 +401,7 @@ Plan Ready artifact-review convergence допускает не более пят
 - [ ] minimum validation/evidence contract выбранного profile закрыт concrete evidence
 - [ ] каждый manual-only gap явно approved человеком (approval ref в `AG-*`)
 - [ ] required implementation/code review проверил delivered repository diff против active `brief.md`, полного optional design pack, referenced finalized external dependencies и execution plan; его verdict/evidence не подменяются Plan Ready artifact review
+- [ ] проверка реализации сошлась по [`Review Convergence`](testing-policy.md#review-convergence): clean verdict и зелёный обязательный CI относятся к одной редакции кода, а след цикла записан
 - [ ] simplify review выполнен: код минимально сложен или complexity обоснована ссылкой на `CON-*`, `FM-*`, `SD-*` или accepted ADR
 - [ ] если feature добавляет новый stable flow или materially changes существующий project-level scenario, соответствующий `UC-*` создан или обновлен и зарегистрирован в `memory-bank/use-cases/README.md`
 - [ ] `brief.md` → `delivery_status: done`

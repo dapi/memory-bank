@@ -85,6 +85,7 @@ issue/task → routing record → implementation → automated checks
 - [ ] simplify review выполнен отдельным проходом
 - [ ] PR ссылается на issue/task и содержит concrete evidence
 - [ ] required CI зелёный до merge
+- [ ] проверка реализации сошлась по [`Review Convergence`](testing-policy.md#review-convergence): clean verdict и зелёный обязательный CI относятся к одной редакции кода, а след цикла записан
 
 ## Delivery Trace
 
