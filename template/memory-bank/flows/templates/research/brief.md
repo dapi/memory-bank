@@ -41,8 +41,18 @@ research_status: intake
 
 ## Instantiated Body
 
+Базовая Evidence содержит только известные входы и ссылки до исследования.
+Новые наблюдения и provenance записывай в `evidence.md`; если они уже были собраны
+в brief, перенеси их туда и оставь в brief ссылку на существующий owner.
+В базовой Question добавь подразделы Source / Trigger, Research Mode, Decision
+Question, Scope / Non-scope, Assumptions / Unknowns и Stopping Condition.
+Назови decision owner и срок решения; Mode выбирается из Research Flow.
+Базовая Method описывает достаточный метод compact desk research. Когда нужен
+отдельный `plan.md`, метод переносится к этому owner, а в brief остаётся ссылка.
+Не создавай plan только ради placeholder links.
+
 Добавь следующие секции к базовому body. Их содержимое принадлежит документу проекта:
 
 ### Decision
 
-В инстансе используй заголовок `## Decision`. Зафиксируй только lifecycle disposition и ссылки на существующие terminal artifacts. Findings и ограничения evidence принадлежат `synthesis.md`, recommendation, rationale и handoff — `decision.md`; brief не копирует их содержание. Пока artifacts не созданы, обозначь disposition как открытый без placeholder links.
+В инстансе используй заголовок `## Decision`. Запиши ссылки на существующие terminal artifacts; единственное значение lifecycle disposition хранится в metadata `research_status`. Findings и ограничения evidence принадлежат `synthesis.md`, recommendation, rationale и handoff — `decision.md`; brief не копирует их содержание. Пока artifacts не созданы, отметь их отсутствие без placeholder links.

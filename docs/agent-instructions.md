@@ -1,5 +1,11 @@
 # Generated runtime projection в agent instructions
 
+Ниже описан исторический legacy projection. Component sources используют block v4:
+состав `core/docs` маршрутизирует только в README и DNA, `full/legacy` добавляет Flows.
+Canonical target — `AGENTS.md`; альтернативный target и пропуск блока для components
+отклоняются. Точный текст, проверки и общая транзакция заданы в
+[component wire contract](component-wire-format.md).
+
 `memory-bank-cli` v1.0.0 управляет коротким блоком routing-инструкций в agent instruction file. По умолчанию target — корневой `AGENTS.md`:
 
 ```markdown

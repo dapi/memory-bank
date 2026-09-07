@@ -41,6 +41,13 @@ delivery_status: planned
 
 ## Instantiated Body
 
+Базовый `## What` сохраняет Outcome, Problem, Scope и Acceptance. Внутри What
+добавь `### Requirements`: стабильные `REQ-*`, классы требований и applicability.
+В Scope обозначь исключения как `NS-*`. Acceptance описывает ожидаемые условия
+приёмки и ссылается на `REQ-*`; проверки и их результаты здесь не дублируются.
+`## Verify` — единственный owner плановых `SC-*`, `NEG-*`, `CHK-*`, `EVID-*` и их
+traceability. Фактический independent verdict остаётся во внешнем review record.
+
 Добавь следующие секции к базовому body. Их содержимое принадлежит документу проекта:
 
 ### Design Requirement Decision
@@ -56,6 +63,7 @@ delivery_status: planned
 В инстансе используй заголовок `## Verify`. Свяжи критерии приёмки с проверками и ожидаемым evidence. Укажи плановые checks и carriers evidence. Фактические результаты и structured independent verdict храни во внешнем review record (например, CI artifact или issue/PR evidence), вне замороженного проверяемого brief; не меняй проверенную revision ради записи её verdict.
 
 `delivery_status` принадлежит только canonical brief. Для `in_progress` и `done`
-применяются lifecycle gates: active brief, зафиксированное design decision, active
-implementation plan и достаточный design pack, когда design требуется. `done`
-дополнительно требует завершённых проверок и evidence. См. [Feature Flow](../../feature.md).
+применяются lifecycle gates: active brief, зафиксированное design decision и
+достаточный design pack, когда design требуется. При `in_progress` implementation
+plan должен быть active; при `done` — archived. `done` дополнительно требует
+завершённых проверок и evidence. См. [Feature Flow](../../feature.md).

@@ -9,7 +9,7 @@ operation="$1"
 shift
 for argument in "$@"; do
   case "$argument" in
-    --source|--source=*|--source-ref|--source-ref=*|--template-version|--template-version=*)
+    -source|-source=*|--source|--source=*|-source-ref|-source-ref=*|--source-ref|--source-ref=*|-template-version|-template-version=*|--template-version|--template-version=*)
       printf 'This entrypoint pins its own source checkout; %s cannot be overridden.\n' "$argument" >&2
       exit 2
       ;;

@@ -21,7 +21,7 @@ DNA применима самостоятельно. Documents добавляе�
 
 - [DNA](dna/README.md) — governance baseline.
 - [Document types](document-types/README.md) — base document contracts.
-- [Templates](templates/README.md) — project-owned draft templates.
+- [Templates](templates/README.md) — managed templates for project-owned drafts.
 - [product](product/README.md) — project documents.
 - [domain](domain/README.md) — project documents.
 - [engineering](engineering/README.md) — project documents.

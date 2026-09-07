@@ -140,7 +140,7 @@ Runners запускают агентов. Flows задаёт процесс и�
 | --- | --- |
 | [`dna/`](template/memory-bank/dna/README.md) | Самостоятельное governance-ядро |
 | [`document-types/`](template/memory-bank/document-types/README.md) | Базовые контракты документов |
-| [`templates/`](template/memory-bank/templates/README.md) | Заготовки проектных документов |
+| [`templates/`](template/memory-bank/templates/README.md) | Управляемые шаблоны для проектных документов |
 | [`flows/`](template/memory-bank/flows/README.md) | Опциональные процессы и версионированные расширения |
 
 Project-local `memory-bank/` этого репозитория является проекцией payload;

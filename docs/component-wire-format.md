@@ -137,7 +137,7 @@ routes to dna/README.md; Documents adds document-types/README.md, templates/READ
 installed project-section index (product, domain, engineering, ops, adr, prd, use-cases,
 features, research, epics); Flows adds flows/README.md. AGENTS always requires root README and
 DNA, and adds flows/routing.md only when Flows is actually installed. Adapters are independent
-of this routing decision. A repeated unchanged pull leaves the lock byte-identical.
+of this routing decision. A repeated unchanged pull leaves the lock byte-identical when the installation already uses the current renderer.
 
 Old flows/templates paths remain thin process wrappers linking to Documents base contracts
 and templates; no complete base-template copy is kept in an extension. V1 legacy migration
@@ -145,19 +145,35 @@ changes document identity/type metadata only. It performs no user-document reloc
 link rewrite. Existing wrapper paths keep legacy references resolvable; an actual relocation
 needs a future explicit map and is not represented by retain-wrapper.
 
-### Renderer version 2 and version-1 compatibility
+### Renderer version 3 and historical compatibility
 
-New component installations persist installation.renderer_version=2. A missing field in a
-historical schema-2 candidate lock means version 1; explicit values other than 1 or 2 reject.
-The stored version is integrity-bound by the ownership lock and selects exactly one expected
-README block for drift validation. Version 1 uses the same line order below without the
-annotations after its Markdown links. AGENTS bytes are identical in both renderer versions.
-Only a lock selecting version 1 may accept that unannotated block; removing annotations from
-a version-2 installation remains drift. Pull validates the complete old block with its locked
-renderer, then atomically renders version 2 and records renderer_version=2 with the resulting
-payload digest. Outside bytes and document adoption semantics are preserved. Doctor only
-validates; it never upgrades. Unsupported renderer versions reject before planning/writes.
-This compatibility discriminator also makes draft-created version-1 state unambiguous.
+New component installations persist installation.renderer_version=3. A missing field in a
+historical schema-2 candidate lock means version 1; explicit values other than 1, 2 or 3 reject.
+The ownership lock selects exactly one canonical block for validation. Version 1 uses the
+line order below without annotations. Version 2 uses the annotated lines below except its
+Templates line retains the historical `— project-owned draft templates.` annotation.
+Version 3 uses `— managed templates for project-owned drafts.` instead, reflecting the
+existing distinction between managed template assets and project-owned instantiated documents.
+AGENTS bytes are identical in all three versions. Where Documents is absent (core), v2 and v3
+README blocks are byte-identical and valid under either locked version.
+
+Pull first validates the complete old block against its locked renderer, then atomically
+renders version 3 and records renderer_version=3 and its payload digest in the lock. A v1→v3
+pull adds current annotations to every selected link, including DNA in core. A v2→v3 pull with
+Documents changes only the Templates annotation; without Documents it changes only renderer
+metadata and normal transaction bookkeeping in the lock. Outside README bytes, user documents
+and adoption semantics remain unchanged. A repeated v3 pull preserves the complete installation byte-for-byte only when source
+revision, selected components/adapters and validated installed state are unchanged; new
+sources and explicit additive selections still follow ordinary pull planning. For selections with Documents, v2 with the v3 Templates text or v3 with the v2
+text is drift. Unannotated blocks are accepted only for locked version 1.
+
+Doctor validates the actual block selected by the stored version without writing installed
+bytes. Navigation lint must render the exact canonical v3 block in its internal temporary snapshot
+for each locked version 1, 2 or 3, only after
+that validation; this snapshot is never presented as installed content or as Doctor output.
+Diagnostics refer to actual installed paths and the validated locked state. A future visible
+post-pull projection must be labeled separately from that verdict. Unsupported renderer
+versions reject before planning or writes.
 
 Both files use literal standalone boundary lines `<!-- MEMORY BANK START -->` and
 `<!-- MEMORY BANK END -->`. Generated blocks use UTF-8 and LF, including a final LF after
@@ -168,19 +184,19 @@ boundaries reject. No CRLF conversion occurs outside the generated block.
 
 README block lines, in exact order, are the start marker, `## Installed components`, an empty
 line, then `- [DNA](dna/README.md) — governance baseline.`. If Documents is installed, append
-`- [Document types](document-types/README.md) — base document contracts.`, then `- [Templates](templates/README.md) — project-owned draft templates.`, then
+`- [Document types](document-types/README.md) — base document contracts.`, then `- [Templates](templates/README.md) — managed templates for project-owned drafts.`, then
 one line `- [NAME](NAME/README.md) — project documents.` for each installed section index in this exact NAME order:
 product, domain, engineering, ops, adr, prd, use-cases, features, research, epics. A section
 line is included only when that path is declared and selected in the manifest. If Flows is
 installed, append `- [Flows](flows/README.md) — optional process contracts.`. Finally append the end marker. There is no
 other blank line or adapter-dependent text inside this block. The annotations satisfy the
-existing governed README index contract for version 2. The exact recognized version-1
+existing governed README index contract for versions 2 and 3. The exact recognized version-1
 managed block has a compatibility exception only for these missing link annotations; all
 other navigation/frontmatter rules remain enforced. Validate the actual block against the
-locked renderer first, then audit a read-only view with that block rendered as version 2;
-no repository bytes are changed by this validation view. A version-2 block with removed
+locked renderer first, then audit a read-only view with that block rendered as version 3;
+no repository bytes are changed by this validation view. A version-2 or version-3 block with removed
 annotations fails the initial exact-block check and receives no exception. Fixtures cover
-version-1 validation/upgrade, version-2 annotation drift and unknown renderer refusal.
+version-1/version-2 validation and upgrade, version-3 annotation drift and unknown renderer refusal.
 
 AGENTS block lines, in exact order, are the start marker,
 `<!-- MEMORY BANK MANAGED BLOCK VERSION: 4 -->`, the following literal human-catalog sentence,
@@ -249,7 +265,7 @@ Schema 2 retains all schema-1 ownership fields and adds `installation`:
 | Field | Type |
 | --- | --- |
 | preset | core/docs/full/legacy |
-| renderer_version | integer 2 for new writes; historical missing/1 selects the version-1 compatibility renderer |
+| renderer_version | integer 3 for new writes; historical missing/1 selects v1, explicit 2 selects the frozen v2 renderer |
 | components | resolved non-adapter component-ID set |
 | adapters | resolved adapter-ID set, including adapter dependencies |
 | manifest_digest | digest of installed component manifest |
@@ -263,8 +279,9 @@ MEMORY BANK START/END block is generated from resolved closure; bytes outside th
 standalone markers are preserved. Missing markers in a pre-existing README permit appending
 a block; ambiguous markers or drift inside an already locked block conflict. External prose
 edits are preserved and their updated composed digest is recorded on successful pull.
-AGENTS.md is not a payload file and must not occur in files. It is the existing separately
-planned agent-instruction target (or explicit --agent-file), using the same preserved-boundary
+Component commands require the canonical AGENTS.md target; a different --agent-file or
+--skip-agent-instructions rejects. AGENTS.md is not a payload file and must not occur in files. It is the existing separately
+planned AGENTS.md target, using the same preserved-boundary
 marker policy with a component-specific block. Its full content is a transaction precondition,
 and its block is checked by doctor; it has no payload ownership entry. No other manifest path
 gets implicit generated ownership. Scaffolds are user-owned
@@ -415,11 +432,11 @@ Markdown file; no symlinks, hard links or traversal are accepted. The caller exp
 selects this extra read input, including when it is outside memory-bank/. Its exact bytes,
 Git mode and permissions participate in the transaction's observations and journal. A draft
 must not contain document_id or flow_contract, and any existing document_type or doc_kind
-must agree with --type. When source and target directories differ, the draft must use only repository-absolute,
-external or same-document anchor references in Markdown links and derived_from. Relative
-references and unsupported reference syntax reject before mutation; they are never silently
-reinterpreted from the target directory. This restriction applies to --from, not the separate
-base-template reference relocation contract.
+must agree with --type. When source and target directories differ, use the same deterministic
+reference-token relocation as base-template creation: ordinary relative Markdown and YAML
+references keep their resolved target, with only their emitted destination token rewritten.
+External URLs and same-document anchors remain unchanged. Unsupported reference syntax or
+an escaping local path rejects before mutation. The input draft itself is never rewritten.
 
 For cross-directory copying and base-template relocation, the supported reference grammar is
 intentionally narrower than general CommonMark. Scan outside fenced blocks (backtick or tilde
@@ -439,7 +456,7 @@ escapes or an HTML character reference (`&name;`, `&#digits;`, `&#xhex;`) reject
 being decoded. For base relocation, percent escapes in a local path are decoded exactly once before
 repository resolution and re-encoded segment by segment in the emitted relative URI; query
 and fragment bytes remain unchanged. Invalid escapes or a decoded absolute/backslash path
-reject. External, repository-absolute and anchor references are copied verbatim. Thus a base
+reject. External, slash-absolute and anchor references are copied verbatim. Thus a base
 at `memory-bank/templates/feature.md` containing `docs/My%20File.md?q=1#part`, instantiated at
 `memory-bank/features/FT-1/brief.md`, emits `../../templates/docs/My%20File.md?q=1#part`.
 `docs/Literal%2520.md` keeps `%2520` in the emitted URI (one decode, not recursive decoding). An unmatched reference use
@@ -449,21 +466,26 @@ without a definition is plain text, not a local destination.
 `path` and optional `fit`, or one such object. Each path is a single-line YAML string (plain,
 single-quoted or double-quoted); normal YAML quoting is decoded before classification.
 Aliases, anchors, explicit tags, folded/literal scalars and other shapes reject. Empty lists
-are allowed. A decoded reference beginning with `/` is repository-absolute, `#` is a
-same-document anchor, and lowercase `http://`, `https://` or `mailto:` is external. Every
-other nonempty reference is relative. Cross-directory `--from` rejects any relative reference;
-base relocation preserves its resolved repository path instead. Same-directory copying does
+are allowed. A decoded reference beginning with `#` is a same-document anchor, and lowercase `http://`,
+`https://` or `mailto:` is external. Leading-slash destinations remain absolute and unchanged;
+in Markdown they are hosting-origin-relative, not repository-relative. Do not use them as
+portable internal repository links. Use ordinary relative paths for those links instead. Other strings matching an ASCII URI scheme (`[A-Za-z][A-Za-z0-9+.-]*:`), including
+uppercase variants and `tel:`, reject explicitly as unsupported; they are never relocated.
+Every remaining nonempty reference is relative. Both cross-directory `--from` and base creation relocate relative destinations to preserve
+their resolved repository path. Same-directory copying does
 not require relocation and preserves all reference bytes.
 
-Conformance examples: `[x](/memory-bank/README.md "Index")`, `![x](https://example.org/x.png)`,
-`[x](#section)`, `[x]: </memory-bank/README.md>` and `derived_from: [{path: /memory-bank/README.md, fit: exact}]`
-accept cross-directory copies. `[x](../README.md)`, `[x]:` followed by a destination on the
+Conformance examples: `![x](https://example.org/x.png)` and `[x](#section)` remain unchanged.
+A draft at `drafts/input.md` with `[x](../memory-bank/README.md "Index")`,
+`[x]: <../memory-bank/README.md>` or `derived_from: [{path: ../memory-bank/README.md, fit: exact}]`,
+created at `memory-bank/features/FT-1/brief.md`, emits `../../README.md` for each destination.
+`[x]:` followed by a destination on the
 next line, `<a href="x.md">`, `[x](https://example.org/a(b))`, character-reference destinations,
 and `derived_from: &dep [/memory-bank/README.md]` reject. Link examples inside excluded code
 or comments remain literal and do not activate navigation dependencies.
-The same deterministic projection writer copies its bytes to the
-absent target and adds only the requested identity/type/contract projection; unrelated draft
-bytes remain unchanged. The input file is never mutated. All old gates and prospective
+After reference-token relocation, the deterministic projection writer copies the result to
+the absent target and adds only the requested identity/type/contract projection. All other
+source draft bytes remain unchanged in the target. The input file is never mutated. All old gates and prospective
 postconditions still apply, and a failed validation leaves both draft and target unchanged.
 This permits atomic flow creation from a prepared draft while keeping base creation neutral.
 Every document command requires a valid schema-2 installation with Documents and the
@@ -699,14 +721,24 @@ before: {PATH: OBSERVATION}, after: {PATH: OBSERVATION}, backups: {PATH: STRING}
 directories: {PATH: DIRECTORY_STATE}}. OBSERVATION is the existence/digest/mode/permissions object
 specified for previews; journal digests always cover actual bytes, including the final lock
 timestamp, never lock projections. before and after have identical key sets covering every
-write/read precondition; unchanged reads have equal observations. backups maps changed
-originally present files to unique old/NNNNNN staging-relative names, where NNNNNN is the
-zero-padded decimal mutation index. The explicit --from read input additionally maps to
-inputs/000000: a private, independently synced snapshot of its original bytes, created before
-the prepared journal. Its original permissions remain in the observations (the snapshot itself
-is private mode 0600). No other inputs/ slots or arbitrary backup paths are accepted. DIRECTORY_STATE
+write/read precondition; unchanged reads have equal observations. `backups` is a union
+of exactly two disjoint entry classes, with unique values across the whole map:
+
+- A changed, originally present write target maps to `old/NNNNNN`, where NNNNNN is
+  its zero-padded decimal mutation index. Its before observation exists and differs
+  from its after observation.
+- The optional read-only `--from` input maps to `inputs/000000`. Its before observation
+  exists and equals its after observation; it is not a write target. At most one such
+  entry exists. This is a private, independently synced snapshot created before the
+  prepared journal. Original permissions remain in observations; the snapshot is 0600.
+
+Every key must occur in both before and after. No key belongs to both classes;
+no other `inputs/` slot, prefix, absent input or arbitrary backup path is accepted.
+DIRECTORY_STATE
 is {before_exists: boolean, before_mode: string, after_exists: boolean, after_mode: string};
-it records every created/removed directory and changed ancestor, with empty absent mode or
+it records every ancestor below the repository root of every before/after path, including
+unchanged read inputs and the --from path outside memory-bank, plus transaction-created or
+removed directories. Omitting an observed input ancestor makes the journal invalid. Use empty absent mode or
 four octal digits for directory permission bits. Portable paths and ordinary non-symlink
 directories are mandatory. Objects use canonical JSON plus LF; unknown schema/state rejects.
 

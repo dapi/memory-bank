@@ -13,9 +13,12 @@ audience: humans_and_agents
 # Flow contracts
 
 Flow adoption — явный выбор versioned contract для конкретного документа. Базовый
-документ остаётся базовым даже после установки Flows. Создавай через
-`memory-bank-cli document create --type TYPE --path PATH --contract ID` или подключай
-существующий документ через `document adopt --path PATH --contract ID`.
+документ остаётся базовым даже после установки Flows. Для атомарного создания
+подготовь draft из базового шаблона и flow-фрагмента, затем используй
+`memory-bank-cli document create --type TYPE --path PATH --from drafts/document.md --contract ID`.
+Либо создай базовый документ без контракта, заполни flow-фрагмент и подключи его
+через `document adopt --path PATH --contract ID`. CLI не добавляет отсутствующие
+обязательные flow-поля и секции за автора.
 Переход и перенос выполняются явными `document transition` и `document move`; registry,
 metadata и lock должны оставаться согласованными. Не редактируй registry вручную.
 

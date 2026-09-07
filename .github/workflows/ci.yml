@@ -13,62 +13,66 @@ jobs:
   validate-template:
     runs-on: ubuntu-latest
     env:
-      MEMORY_BANK_CLI_VERSION: v2.3.0
-      MEMORY_BANK_CLI_SHA256: d2985dbe60f2beb9af9ad23825fd98b90e5112bfbf6f1aacc76e4531990c6653
+      # Component payload requires the supporting CLI before it can be installed.
+      # Pin a reviewed build candidate until a separately authorized release exists.
+      MEMORY_BANK_CLI_REF: e2417e4606e953223bc51387a43fc97466c2d141
+      MEMORY_BANK_BRIDGE_REF: 3b434fd93678c36447d10d4f308a39ce5d74b040
+      MEMORY_BANK_PRE_BRIDGE_REF: ac7101c307e65566787bdb32a1bdad40b9a8b995
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
-      - name: Install memory-bank-cli
+      - name: Fetch pinned CLI and legacy source fixtures
         run: |
-          asset="memory-bank-cli-linux-amd64"
-          url="https://github.com/dapi/memory-bank-cli/releases/download/${MEMORY_BANK_CLI_VERSION}/${asset}"
-          curl --fail --location --silent --show-error "$url" --output "$RUNNER_TEMP/$asset"
-          echo "${MEMORY_BANK_CLI_SHA256}  $RUNNER_TEMP/$asset" | sha256sum --check
-          chmod +x "$RUNNER_TEMP/$asset"
+          git clone --quiet https://github.com/dapi/memory-bank-cli.git "$RUNNER_TEMP/component-cli"
+          git -C "$RUNNER_TEMP/component-cli" checkout --quiet --detach "$MEMORY_BANK_CLI_REF"
+          git clone --quiet https://github.com/dapi/memory-bank.git "$RUNNER_TEMP/legacy-source"
+          git -C "$RUNNER_TEMP/legacy-source" checkout --quiet --detach f1f04de843aef45a2425d4a7351d577bbf89e940
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: ${{ runner.temp }}/component-cli/go.mod
+
+      - name: Build actual CLI compatibility matrix
+        working-directory: ${{ runner.temp }}/component-cli
+        run: |
           mkdir -p "$RUNNER_TEMP/memory-bank-cli-bin"
-          mv "$RUNNER_TEMP/$asset" "$RUNNER_TEMP/memory-bank-cli-bin/memory-bank-cli"
+          go build -o "$RUNNER_TEMP/memory-bank-cli-bin/memory-bank-cli" ./cmd/memory-bank-cli
+          git checkout --quiet --detach "$MEMORY_BANK_PRE_BRIDGE_REF"
+          go build -o "$RUNNER_TEMP/pre-bridge" ./cmd/memory-bank-cli
+          git checkout --quiet --detach "$MEMORY_BANK_BRIDGE_REF"
+          go build -o "$RUNNER_TEMP/bridge" ./cmd/memory-bank-cli
+          git checkout --quiet --detach "$MEMORY_BANK_CLI_REF"
           echo "$RUNNER_TEMP/memory-bank-cli-bin" >> "$GITHUB_PATH"
 
-      - name: Check CLI version
-        run: memory-bank-cli --version
-
-      - name: Check dual-role repository layout
+      - name: Check component handshake and incompatible entrypoint rejection
         run: |
-          test -d template/memory-bank
-          test -d memory-bank
+          memory-bank-cli capabilities --require components/v1 --require adoption/v1
+          python3 tools/test-component-entrypoint.py --pre-bridge "$RUNNER_TEMP/pre-bridge" --bridge "$RUNNER_TEMP/bridge" --supporting "$RUNNER_TEMP/memory-bank-cli-bin/memory-bank-cli"
 
       - name: Validate priming manifests
         run: |
           ruby tools/validate-priming-manifests-test.rb
           ruby tools/validate-priming-manifests.rb template/memory-bank
 
-      - name: Lint template
-        run: memory-bank-cli lint --scope-root template/memory-bank --entrypoint template/memory-bank/README.md
-
-      - name: Lint project-local Memory Bank
-        run: memory-bank-cli lint --repo-root .
-
-      - name: Diagnose template
-        run: memory-bank-cli doctor --profile template
-
-      - name: Smoke-test downstream init
+      - name: Lint template and project projection
         run: |
-          source="$RUNNER_TEMP/template-source"
-          downstream="$RUNNER_TEMP/downstream"
-          mkdir -p "$source/template" "$downstream"
-          cp -R "$GITHUB_WORKSPACE/template/memory-bank" "$source/template/memory-bank"
-          git -C "$source" init --quiet
-          git -C "$source" config user.name "CI"
-          git -C "$source" config user.email "ci@example.invalid"
-          git -C "$source" add template/memory-bank
-          git -C "$source" commit --quiet -m "ci source payload"
-          git -C "$downstream" init
-          memory-bank-cli init \
-            --repo-root "$downstream" \
-            --source "$source" \
-            --template-version ci \
-            --source-ref "$(git -C "$source" rev-parse HEAD)"
-          test -d "$downstream/memory-bank"
-          test ! -e "$downstream/template/memory-bank"
-          memory-bank-cli lint --repo-root "$downstream"
+          memory-bank-cli lint --scope-root template/memory-bank --entrypoint template/memory-bank/README.md
+          memory-bank-cli lint --repo-root .
+          memory-bank-cli doctor --profile template
+
+      - name: Verify actual-binary presets, adapters, adoption and legacy migration
+        env:
+          E2E_BINARY: ${{ runner.temp }}/memory-bank-cli-bin/memory-bank-cli
+          MEMORY_BANK_COMPONENT_SOURCE: ${{ github.workspace }}
+          MEMORY_BANK_LEGACY_SOURCE: ${{ runner.temp }}/legacy-source
+        run: python3 "$RUNNER_TEMP/component-cli/scripts/e2e-components.py"
+
+      - name: Verify source-pinning entrypoint succeeds with supporting CLI
+        run: |
+          mkdir "$RUNNER_TEMP/entrypoint-downstream"
+          tools/install-components.sh init --repo-root "$RUNNER_TEMP/entrypoint-downstream" --preset docs
+          tools/install-components.sh pull --repo-root "$RUNNER_TEMP/entrypoint-downstream"
+          memory-bank-cli doctor --repo-root "$RUNNER_TEMP/entrypoint-downstream"

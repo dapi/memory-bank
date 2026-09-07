@@ -36,7 +36,20 @@ audience: humans_and_agents
 
 ## Instantiated Body
 
-Добавь следующие секции к базовому body. Их содержимое принадлежит документу проекта:
+Сохрани базовые секции и разверни их по следующему однозначному mapping:
+
+- `## Actors`: primary actor, остальные участники и их интересы.
+- `## Outcome`: `### Goal` для цели actor-а и `### Postconditions` для успешного
+  результата и допустимого состояния после неуспеха.
+- `## Scenario`: `### Trigger`, `### Preconditions`, `### Main Flow`,
+  `### Alternatives` со стабильными `ALT-*` и `### Exceptions` со стабильными
+  `EX-*`. Main Flow описывает наблюдаемые шаги; неприменимые ветви отмечаются явно.
+- Добавь `## Business Rules`: применимые стабильные `BR-*` и ссылки на их owner-ов.
+- Добавь `## Traceability`: существующие upstream refs и downstream coverage
+  `FT-XXX/SC-*`, `FT-XXX/NEG-*`; тела требований и проверок остаются у owner-ов.
+
+Observable status, handoff, diagnostics и recovery добавляются в Scenario лишь
+когда они являются устойчивой частью поведения системы. Затем добавь секцию проверки:
 
 ### Verification
 

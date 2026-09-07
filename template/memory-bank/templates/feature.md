@@ -9,18 +9,20 @@ status: draft
 
 # Feature brief: name
 
-## Acceptance
+## What
 
-Observable evidence that the outcome is achieved.
-
-## Outcome
+### Outcome
 
 The result this work should produce.
 
-## Problem
+### Problem
 
 The problem and who experiences it.
 
-## Scope
+### Scope
 
 What is included and excluded.
+
+### Acceptance
+
+The conditions that make the intended outcome acceptable. State the requirement, not check results or collected evidence.

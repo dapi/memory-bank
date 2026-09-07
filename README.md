@@ -140,7 +140,7 @@ AGENTS routes readers only to installed components.
 | --- | --- |
 | [`dna/`](template/memory-bank/dna/README.md) | Standalone governance baseline |
 | [`document-types/`](template/memory-bank/document-types/README.md) | Base document contracts |
-| [`templates/`](template/memory-bank/templates/README.md) | Project-owned draft starting points |
+| [`templates/`](template/memory-bank/templates/README.md) | Managed templates for project-owned drafts |
 | [`flows/`](template/memory-bank/flows/README.md) | Optional processes and versioned extensions |
 
 The project-local `memory-bank/` in this repository is a projection of the

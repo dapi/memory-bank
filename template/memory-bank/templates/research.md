@@ -11,7 +11,7 @@ status: draft
 
 ## Evidence
 
-Relevant observations and source references.
+Known inputs available before this investigation: source references and the context they establish. This section does not collect new observations or the investigation record.
 
 ## Method
 

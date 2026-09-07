@@ -13,6 +13,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--pre-bridge", type=Path, required=True)
     parser.add_argument("--bridge", type=Path, required=True)
+    parser.add_argument("--supporting", type=Path)
     args = parser.parse_args()
     entrypoint = Path(__file__).resolve().parent / "install-components.sh"
     for name, binary in (("pre-bridge", args.pre_bridge), ("bridge", args.bridge)):
@@ -48,6 +49,24 @@ def main():
                 assert sentinel.read_bytes() == b"preserve\n"
             digest = hashlib.sha256(binary.read_bytes()).hexdigest()
             print(f"{name}: init/pull blocked before installer; binary sha256={digest}")
+
+
+    if args.supporting:
+        with tempfile.TemporaryDirectory(prefix="memory-bank-pinning-") as scratch:
+            root = Path(scratch)
+            (root / "sentinel").write_bytes(b"preserve\n")
+            for name in ("source", "source-ref", "template-version"):
+                for prefix in ("-", "--"):
+                    for option in ([prefix + name, "override"], [prefix + name + "=override"]):
+                        result = subprocess.run(
+                            [str(entrypoint), "init", "--repo-root", str(root), *option],
+                            env=dict(os.environ, MEMORY_BANK_CLI=str(args.supporting.resolve(strict=True))),
+                            capture_output=True, text=True,
+                        )
+                        assert result.returncode != 0 and "cannot be overridden" in result.stderr
+                        assert sorted(p.name for p in root.iterdir()) == ["sentinel"]
+                        assert (root / "sentinel").read_bytes() == b"preserve\n"
+            print("supporting CLI: single/double-dash source overrides rejected before installation")
 
 
 if __name__ == "__main__":
