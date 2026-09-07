@@ -1,0 +1,20 @@
+{
+  "phase": "research-passport",
+  "state": "prepared",
+  "candidate": {
+    "commit": "de01eb122ace51cdf00ea946494ac2a1ddd740c1",
+    "tree": "999aba86398d73d993813e05fc2ce90d9df4cc7d",
+    "base": "7774c39cc673cecf55af0da72039e5571f471eb1",
+    "ref": "refs/review-candidates/ft-dna/execution-2",
+    "changed_paths": [
+      "memory-bank/research/R-DNA-EVAL/README.md",
+      "memory-bank/research/R-DNA-EVAL/brief.md",
+      "memory-bank/research/R-DNA-EVAL/plan.md",
+      "memory-bank/research/README.md"
+    ]
+  },
+  "reviewer": "code-converge --document-review --max-cycles 0",
+  "scope": "Research passport and method documentation only; benchmark not executed",
+  "previous_reviewed_commit": "7774c39cc673cecf55af0da72039e5571f471eb1",
+  "verdict": null
+}
