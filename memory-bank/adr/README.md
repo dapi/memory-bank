@@ -28,6 +28,7 @@ audience: humans_and_agents
 - [`ADR-001-introduce-design-pack.md`](ADR-001-introduce-design-pack.md)
   Accepted: разделить semantic design layer, documentary design pack и root
   `design.md`, а также закрепить aggregate и direct ownership solution facts.
+- [ADR-002](ADR-002-component-document-contracts.md) — Proposed: независимые компоненты и explicit flow adoption; decision review pending.
 
 ## Authoring And Review
 
