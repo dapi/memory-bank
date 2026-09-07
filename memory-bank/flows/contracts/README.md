@@ -1,0 +1,1 @@
+../../../template/memory-bank/flows/contracts/README.md

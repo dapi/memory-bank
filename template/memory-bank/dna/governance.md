@@ -14,7 +14,7 @@ status: active
 
 1. Authoritative только `active`-документы. `draft` не переопределяет `active`.
 2. Среди допустимых по status побеждает upstream: сначала `canonical_for`, затем dependency tree.
-3. Публикационный статус (`status`) отделён от lifecycle сущности (`delivery_status`, `decision_status`).
+3. Публикационный статус (`status`) отделён от необязательного lifecycle описываемой сущности.
 
 ## Source Dependency Tree
 

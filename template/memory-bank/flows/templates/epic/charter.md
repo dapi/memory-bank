@@ -1,72 +1,27 @@
 ---
-title: "EP-XXX: Charter Template"
-doc_kind: governance
+title: "Epic charter flow extension"
+doc_kind: process
 doc_function: template
-purpose: "Шаблон epic charter: canonical intent, scope/non-scope, evidence and acceptance boundaries for a multi-feature initiative."
+purpose: "Epic charter flow extension"
 derived_from:
   - ../../epic.md
+  - ../../contracts/README.md
+  - ../../../templates/epic.md
 status: active
 audience: humans_and_agents
-template_target_path: ../../../epics/EP-XXX/charter.md
 ---
 
-# EP-XXX: Charter Template
+# Epic charter flow extension
 
-```markdown
----
-title: "EP-XXX: <Epic Name>"
-doc_kind: epic
-doc_function: canonical
-purpose: "<What this epic governs and why it is larger than one feature>"
-derived_from:
-  - ../../flows/epic.md
-  # Include `brief.md` when the epic was promoted from Epic Intake.
-  # - brief.md
-status: draft
-audience: humans_and_agents
-must_not_define:
-  - implementation_sequence
-  - feature_issue_ids_not_approved
----
+Это процессное расширение. [Базовый шаблон](../../../templates/epic.md) — единственная полная
+заготовка документа; [flow](../../epic.md) определяет метод работы,
+[contract catalog](../../contracts/README.md) — подключаемые правила.
 
-# EP-XXX: <Epic Name>
+Создание с явным adoption:
 
-## Origin and Epic Route
-
-| Field | Value |
-| --- | --- |
-| Source / trigger | `<issue, request, PRD or evidence URL>` |
-| Why Epic | `<multiple delivery units, shared roadmap or cross-feature risk>` |
-| Intake proposal | `<brief.md link or not used>` |
-
-## Problem
-
-## Outcome
-
-## Stakeholder Channels
-
-| Channel | ID / URL | Purpose |
-| --- | --- | --- |
-
-## Scope
-
-- `REQ-01`
-
-## Non-Scope
-
-- `NS-01`
-
-## Source / Evidence Boundaries
-
-| Source | Authority | Refresh rule |
-| --- | --- | --- |
-
-## Acceptance
-
-| Criterion | Check |
-| --- | --- |
-
-## Handoff
-
-Delivery work must be created as separate `memory-bank/features/FT-<issue>/` packages.
+```sh
+memory-bank-cli document create --type epic --path PATH --contract epic/v1
 ```
+
+Для существующего базового документа используй `document adopt` после заполнения
+требуемых расширением полей и секций. Установка Flows не подключает их автоматически.

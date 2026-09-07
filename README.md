@@ -1,244 +1,161 @@
 # Memory Bank
 
 <p align="center">
-  <img src="docs/assets/memory-bank-mark.svg" alt="Memory Bank: project context, governed routing, and verified delivery" width="180">
+  <img src="docs/assets/memory-bank-mark.svg" alt="Memory Bank: project knowledge, document ownership, and optional delivery flows" width="180">
 </p>
 
-**A version-controlled development system that gives coding agents durable knowledge, explicit governance, and repeatable delivery flows.**
+**Version-controlled project documentation with clear ownership and optional AI delivery processes.**
 
-[Русская версия](README.ru.md) · [Quick start (Russian)](docs/quick-start.md) ·
-[Adoption guide (Russian)](docs/adoption.md) ·
-[Daily usage (Russian)](docs/usage.md)
+[Русская версия](README.ru.md) · [Component adoption](docs/component-adoption.md) ·
+[CLI integration](docs/memory-bank.md)
 
-## Example: complete GitHub issue #123
+## Choose how much to adopt
 
-![Running a task through Memory Bank routing](docs/assets/quick-start-routing-en.gif)
+Memory Bank has three components with one-way dependencies:
 
-1. You give the agent an issue and point it to
-   `memory-bank/flows/routing.md`.
-2. The agent reads the task and project context, then Task Routing selects the
-   smallest process that still controls the risk.
-3. The selected process governs the required documents, code changes, and
-   verification. Lasting decisions and evidence return to their canonical
-   owners in Memory Bank.
+| Component | Responsibility | Requires |
+| --- | --- | --- |
+| DNA | Single Source of Truth, ownership, publication status, metadata and navigation | Nothing |
+| Documents | Document types, base templates and project sections | DNA |
+| Flows | AI routing, priming, delivery stages, gates and document extensions | DNA + Documents |
 
-The result is a feedback loop: project knowledge guides delivery, and delivery
-improves project knowledge.
+DNA works on its own. Documents can be used by people without an AI process or
+runner. Adding Flows later preserves project documents; an existing document
+enters a flow only through explicit adoption.
 
-## What you get
+| Preset | Installed components | Tool adapters |
+| --- | --- | --- |
+| `core` | DNA | Explicit additions |
+| `docs` | DNA + Documents | Explicit additions |
+| `full` | DNA + Documents + Flows | Explicit additions |
+| `legacy` | All three | Previous integrations included |
 
-- **Durable project context** — product intent, domain language, engineering
-  rules, and operational constraints survive across agent sessions.
-- **A Single Source of Truth** — every canonical fact has one owner; derived
-  documents point back to that source instead of becoming competing copies.
-- **Governed delivery** — task routing selects the smallest suitable process for
-  incidents, bugs, research, small changes, epics, refactoring, or features.
-- **Reusable reasoning tools** — templates make the agent state the problem,
-  constraints, selected solution, implementation steps, and verification
-  evidence explicitly.
-- **A self-growing knowledge base** — delivery leaves behind decisions,
-  requirements, scenarios, and evidence that future work can reuse.
-- **A portable starting point** — an agent installs the template in a repository
-  and adapts it from that project's own evidence.
+A fresh installation without a preset uses `legacy` for compatibility. A pull
+without selection flags keeps the recorded selection. Component removal is not
+supported. Adapters declare their dependencies, so choosing one can add Flows.
 
 ## Install in a project
 
-You need Git, an installed and authenticated
-[Codex CLI](https://developers.openai.com/codex/cli/), and a project repository.
-Run the matching command from the project root.
+Use Git and a component-capable `memory-bank-cli` on Linux or macOS. Component
+support is a coordinated template/CLI change: use the reviewed CLI candidate or
+a release that reports both required capabilities. An older release is not
+sufficient merely because it installs legacy templates.
 
-### Existing project
-
-```bash
-codex --search \
-  'This is an existing project. Follow https://github.com/dapi/memory-bank/blob/main/docs/brownfield-adaptation-protocol.md.'
-```
-
-### New project
+From a clean, pinned checkout of this template, run the guarded entrypoint
+against your project:
 
 ```bash
-codex --search \
-  'This is a new project. Follow https://github.com/dapi/memory-bank/blob/main/docs/greenfield-integration-protocol.md.'
+memory-bank-cli capabilities --require components/v1 --require adoption/v1
+~/code/memory-bank/tools/install-components.sh init \
+  --repo-root /path/to/project --preset docs
 ```
 
-The agent studies the repository, installs the tracked template payload, and
-adapts it to confirmed project facts. The expected starting point is:
-
-```text
-memory-bank/
-init.sh
-```
-
-Review the installation before continuing:
+The entrypoint checks capabilities before invoking the installer and pins its
+own source commit. Review the resulting changes:
 
 ```bash
-git status --short
-git diff --check
+git -C /path/to/project status --short
+git -C /path/to/project diff --check
+memory-bank-cli doctor --repo-root /path/to/project
 ```
 
-For reproducible use, replace `main` in the protocol URL with an immutable
-commit SHA. The [adoption guide (Russian)](docs/adoption.md) explains the full
-lifecycle, expected artifacts, and completion criteria.
+An existing legacy installation needs a separate reviewed migration; ordinary
+pull does not opt it in. See [component adoption and migration](docs/component-adoption.md).
 
-## Run the first task
+## Create project documents
 
-After Memory Bank is adapted, give Codex a real task and the routing entrypoint:
+Documents supplies ADRs, feature briefs, PRDs, use cases, research briefs and
+epic charters. Base templates live in `memory-bank/templates/`; their type
+contracts live in `memory-bank/document-types/`.
 
 ```bash
-codex -C . \
-  'Read GitHub issue #123, ./memory-bank/README.md, and ./memory-bank/flows/routing.md.
-Choose the applicable process and follow its canonical lifecycle. Report the
-route, changed artifacts, verification, and open risks.'
+memory-bank-cli document create --repo-root /path/to/project \
+  --type feature --path memory-bank/features/FT-123/brief.md
 ```
 
-Replace `#123` with the real issue number, or describe the task directly if the
-project does not use GitHub Issues. A successful run leaves a sufficient,
-verifiable trail rather than the largest possible set of documents.
+The new document belongs to the project and has no flow adoption, including in
+`full` and `legacy`. Fill in its problem, outcome, scope and acceptance criteria.
+Base ADRs include context, options, decision, consequences and `decision_status`
+without requiring an AI approval process.
 
-## Where to go next
+## Add AI processes when needed
 
-Most supporting guides are currently available in Russian.
-
-| Goal | Read or use |
-| --- | --- |
-| Complete a guided first task | [Quick start](docs/quick-start.md) |
-| Adapt Memory Bank to a new or existing repository | [Adoption guide](docs/adoption.md) |
-| Use Memory Bank for daily delivery | [Daily usage](docs/usage.md) |
-| Prepare only the context relevant to one task | [Context priming](docs/context-priming.md) |
-| Automate issue startup | [`start-issue`](https://github.com/dapi/start-issue) or [Symphony](docs/symphony-github-issues.md) |
-| Look up project-memory terminology | [Glossary](docs/glossary.md) |
-
-## How it works
-
-### Knowledge, governance, and delivery
-
-Memory Bank combines three parts that reinforce one another:
-
-1. **A project knowledge base** for product, domain, engineering, operations,
-   requirements, and decisions.
-2. **A governance layer** that defines who owns each fact, how documents depend
-   on one another, and which source wins when documents disagree.
-3. **A delivery system** whose processes turn tasks into governed artifacts,
-   implementation, verification, and new durable knowledge.
-
-Memory Bank is built on the **First Principles Framework (FPF)**. Work starts
-from explicit facts, constraints, assumptions, and desired outcomes; decisions
-preserve their rationale and evidence instead of disappearing into a chat
-session.
-
-It is not a wiki, task tracker, or agent runner. It is the development control
-plane around those tools: durable context, ownership rules, lifecycle gates,
-reusable processes, and verification contracts.
-
-It is useful when project intent has to be reconstructed from chat history,
-rules drift across documents, implementation starts before acceptance is clear,
-or another agent cannot resume the work from repository state.
-
-### DNA and Single Source of Truth
-
-The `dna/` layer is the constitution of the knowledge base. It defines Single
-Source of Truth, document ownership, dependency direction, lifecycle,
-frontmatter, and navigation rules.
-
-A canonical document owns a fact. Another document may derive a requirement,
-plan, or view from it, but must preserve the dependency. When documents
-disagree, ownership and dependency direction identify the authoritative source.
-
-### Project knowledge
-
-Stable project context lives in `product/`, `domain/`, `engineering/`, and
-`ops/`. Research, product initiatives, scenarios, delivery packages, and
-decisions live in `research/`, `prd/`, `epics/`, `use-cases/`, `features/`, and
-`adr/`.
-
-Documents own intent, requirements, rationale, and contracts. Code owns
-implementation. A fresh agent session can therefore resume from the same task
-and canonical sources without reconstructing the project from chat history.
-
-### Processes and Feature Packs
-
-The `flows/` layer describes repeatable processes that an agent can follow.
-Every task begins with
-[Task Routing](template/memory-bank/flows/routing.md), which selects the
-applicable lifecycle and its evidence requirements.
-
-For a substantial feature, Feature Flow treats the change as a testable
-vertical slice and follows specification-driven development. It produces a
-Feature Pack in three stages:
-
-```text
-brief.md                 design.md                  implementation-plan.md
-what and why      →      chosen solution     →     implementation and checks
-problem space            solution space             execution space
+```bash
+~/code/memory-bank/tools/install-components.sh pull \
+  --repo-root /path/to/project --preset full
 ```
 
-- `brief.md` owns the problem, scope, requirements, and verification contract;
-- the Design Pack owns the selected solution, its rationale, and
-  solution-level contracts;
-- `implementation-plan.md` owns execution sequencing and checkpoints.
+With Flows installed, use `memory-bank/flows/routing.md` to choose the process.
+Prepare a document for the selected extension, then adopt it explicitly:
 
-The documents required by the selected route are created and reviewed before
-implementation begins. Implementation changes the code, while lasting
-decisions and evidence return to their canonical owners. The Feature Pack
-remains as a durable account of what changed, why it changed, and how the result
-was verified.
+```bash
+memory-bank-cli document adopt --repo-root /path/to/project \
+  --path memory-bank/features/FT-123/brief.md --contract feature/v1
+```
 
-### Templates as reasoning tools
+Adoption validates the applicable requirements before changing state. A base
+brief may need flow fields and sections first. Its stable identity, selected
+contract and immutable bundle digest are recorded in the project registry;
+frontmatter is a checked projection. Installing Flows alone does not activate
+its gates for all feature briefs.
 
-Templates in `flows/templates/` are not merely blank forms. They require an
-agent to separate the problem, solution, execution, and verification; name
-assumptions and constraints; compare meaningful alternatives; and preserve
-traceability. Filling the template improves the decision process as well as its
-documentation.
+The [quick start](docs/quick-start.md) and [daily usage guide](docs/usage.md)
+describe process-driven work with Flows. They are currently in Russian.
 
-## Automation
+## Knowledge and ownership
 
-Memory Bank does not require a runner or CLI. Automation is optional:
+A canonical fact has one owner. Derived documents reference that owner; code
+owns implementation, while documents own intent, rationale and contracts.
+Memory Bank applies First Principles Framework reasoning to make assumptions,
+constraints, decisions and evidence explicit.
 
-- [`start-issue`](https://github.com/dapi/start-issue) prepares a branch and
-  worktree, then launches the configured agent for one issue;
-- [`memory-bank-cli`](docs/memory-bank.md) adds ownership-aware updates, link
-  checks, diagnostics, and downstream CI;
-- the experimental [Symphony integration](docs/symphony-github-issues.md)
-  dispatches selected GitHub Issues to Codex in isolated workspaces and hands
-  completed pull requests to human review.
+Project context lives in `product/`, `domain/`, `engineering/` and `ops/`.
+Requirements, scenarios and decisions live in `prd/`, `use-cases/`, `features/`,
+`research/`, `epics/` and `adr/`. The CLI updates template assets while preserving
+project-owned content. New contract versions require an explicit document
+transition; changing a bundle behind an existing ID is a conflict.
 
-Runners launch agents and repository work. Memory Bank supplies the knowledge,
-governance, delivery processes, and verification contracts those agents follow.
+## Optional automation
+
+Tool adapters are separate from the documentation components:
+
+- `codex` installs the Codex agent definitions;
+- `start-issue` installs issue-start instructions;
+- `symphony` installs its workflow and launcher scripts;
+- `bootstrap` installs the bootstrap script.
+
+Select an adapter with repeatable `--adapter NAME` flags. Explicit `core`, `docs`
+and `full` do not include these adapters automatically; `legacy` preserves them.
+Runners launch agents. Flows supplies the process those agents follow.
 
 ## Template layout
 
-This repository is the upstream source. An agent copies the tracked payload in
-`template/` into a downstream repository: `template/memory-bank/` becomes
-`memory-bank/`, while `template/init.sh` becomes `./init.sh`.
+This repository owns the generic payload in `template/`. The CLI installs only
+selected files and removes the `template/` prefix. The component manifest is
+[`template/memory-bank/components.json`](template/memory-bank/components.json).
+The generated downstream `memory-bank/README.md` lists installed sections;
+AGENTS routes readers only to installed components.
 
 | Area | Purpose |
 | --- | --- |
-| [`dna/`](template/memory-bank/dna/README.md) | Governance, Single Source of Truth, lifecycle, and document contracts |
-| [`product/`](template/memory-bank/product/README.md) | Vision, customers, metrics, marketing, and roadmap |
-| [`domain/`](template/memory-bank/domain/README.md) | Glossary, domain model, rules, states, events, and context map |
-| [`engineering/`](template/memory-bank/engineering/README.md) | Architecture, frontend, testing conventions, coding style, and Git workflow of the target system |
-| [`ops/`](template/memory-bank/ops/README.md) | Development, environments, configuration, releases, and runbooks |
-| [`research/`](template/memory-bank/research/README.md), [`prd/`](template/memory-bank/prd/README.md), [`epics/`](template/memory-bank/epics/README.md) | Discovery and initiative-level planning |
-| [`use-cases/`](template/memory-bank/use-cases/README.md), [`features/`](template/memory-bank/features/README.md), [`adr/`](template/memory-bank/adr/README.md) | Scenarios, delivery packages, and architecture decisions |
-| [`flows/`](template/memory-bank/flows/README.md) | Cross-flow policy (agent autonomy, validation profiles, testing policy), task lifecycles, and reusable document templates |
+| [`dna/`](template/memory-bank/dna/README.md) | Standalone governance baseline |
+| [`document-types/`](template/memory-bank/document-types/README.md) | Base document contracts |
+| [`templates/`](template/memory-bank/templates/README.md) | Project-owned draft starting points |
+| [`flows/`](template/memory-bank/flows/README.md) | Optional processes and versioned extensions |
 
-After installation, `memory-bank/README.md` is the primary index inside the
-downstream project.
+The project-local `memory-bank/` in this repository is a projection of the
+payload, with real files only for this project's own material. It has no
+installed-template lock.
 
 ## Reference
 
-- [BDD, user stories, and use cases](docs/bdd-user-stories-and-use-cases.md)
+- [Component adoption and legacy migration](docs/component-adoption.md)
+- [Component wire contract](docs/component-wire-format.md)
 - [Ownership and safe updates](docs/ownership.md)
 - [Managed agent instructions](docs/agent-instructions.md)
+- [CLI integration and source-profile validation](docs/memory-bank.md)
 - [Repository development](docs/development.md)
-- [Detailed Russian adaptation](README.ru.md)
 
-The governance model applies the
-[MECE principle](https://en.wikipedia.org/wiki/MECE_principle): categories
-should be mutually exclusive and collectively exhaustive within their declared
-scope.
-
-The optional CLI is developed separately in
+The CLI is developed separately in
 [`dapi/memory-bank-cli`](https://github.com/dapi/memory-bank-cli). This template
 is available under the [Apache License 2.0](LICENSE).

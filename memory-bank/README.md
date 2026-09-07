@@ -29,6 +29,10 @@ payload. Реальные файлы здесь — только то, что п
 
 ## Аннотированный индекс
 
+- [Document types](document-types/README.md) — самостоятельные базовые контракты документов.
+
+- [Base templates](templates/README.md) — draft-заготовки без автоматического flow adoption.
+
 - [`product/README.md`](product/README.md)
   Читать, когда нужно: зафиксировать product context, vision, customers, metrics, marketing и roadmap.
 

@@ -1,73 +1,43 @@
 ---
+title: "Frontmatter Schema"
 doc_kind: governance
 doc_function: canonical
-purpose: Schema обязательных и условных полей YAML frontmatter.
+purpose: "Frontmatter Schema"
 derived_from:
   - governance.md
 status: active
+audience: humans_and_agents
 ---
+
 # Frontmatter Schema
 
-## Обязательные
+## Общая schema
 
-| Поле | Тип | Описание |
-|---|---|---|
-| `status` | enum | `draft` / `active` / `archived` |
+Каждый governed-документ имеет YAML frontmatter с `status`: `draft`, `active` или `archived`.
+Для active non-root документа нужен `derived_from`: непустой путь, массив путей или
+объектов `{path, fit}` с прямыми upstream-зависимостями. Корень дерева — principles.md.
+`title`, `purpose`, `doc_kind` и `doc_function` описывают документ; один descriptive kind
+сам по себе не подключает дополнительные правила. Дополнительные поля допустимы.
+Их смысл задаётся владельцем выбранного типа документа или явно подключённого процесса.
+Публикационный статус документа и состояние описываемой сущности независимы.
 
-## Условно обязательные
+## Audience
 
-| Поле | Когда | Описание |
-|---|---|---|
-| `derived_from` | Есть upstream-документ | Прямые upstream-зависимости. Каждый элемент — строка (путь) или объект `{path, fit}`, где `fit` объясняет scope зависимости |
-| `delivery_status` | Lifecycle-owning canonical `brief.md` | `planned` / `in_progress` / `done` / `cancelled` |
-| `research_status` | Lifecycle-owning canonical research `brief.md` | `intake` / `framed` / `collecting` / `synthesizing` / `decision_ready` / `validated` / `invalidated` / `inconclusive` / `parked` / `cancelled` / `rerouted` |
-| `decision_status` | ADR-документы | `proposed` / `accepted` / `superseded` / `rejected` |
+Необязательное `audience` принимает `humans` или `humans_and_agents`.
+Документ для humans_and_agents не объявляет документ с audience: humans своим semantic
+upstream. Навигационная ссылка не является semantic dependency. Отсутствующее audience
+не выводится из пути или doc_kind и сохраняет совместимость прежних документов.
 
-## Дополнительные поля
-
-| Поле | Тип | Описание |
-|---|---|---|
-| `audience` | enum | `humans` / `humans_and_agents`; отсутствие означает, что граница явно не объявлена |
-
-`audience: humans` отмечает документ, содержимое которого предназначено для
-прямого использования человеком или внешним runner. Документ с
-`audience: humans_and_agents` не может объявлять такой документ своим semantic
-upstream через `derived_from`. Обычная ссылка из index нужна только для
-навигации и не создаёт semantic dependency.
-
-Отсутствующий `audience` сохраняет совместимость существующих downstream
-документов: это правило не выводит значение из расположения, `doc_kind` или
-`doc_function` и устанавливает audience boundary только между двумя явно
-объявленными сторонами. Если поле присутствует, его значение должно
-принадлежать этому enum.
-
-Governed-документы могут содержать другие дополнительные поля, не описанные в
-этой schema. Они не требуют регистрации здесь и интерпретируются на уровне
-конкретного `doc_kind` или flow.
-
-Для `doc_kind: feature` lifecycle owner-ом остается canonical `brief.md` problem-space документа. Feature-level `README.md`, conditional `design.md` и `implementation-plan.md` используют тот же `doc_kind`, но не обязаны иметь `delivery_status`, если сами не владеют delivery lifecycle.
-
-Для `doc_kind: feature-support` документ является reference / companion внутри feature package и не владеет `delivery_status`, canonical requirements, selected solution или execution sequencing.
-
-Для `doc_kind: research` lifecycle owner-ом остается canonical `brief.md` research package. Его `research_status` описывает состояние исследования, включая terminal disposition, а не delivery. `plan.md`, `evidence.md`, `synthesis.md` и `decision.md` являются отдельными owner-ами метода, наблюдений, выводов, decision rationale и handoff; ни один из них не создаёт второй lifecycle state и не заменяет canonical downstream PRD, epic, feature, ADR или product document после handoff.
-
-## Примеры
+## Пример
 
 ```yaml
 ---
-derived_from:
-  - ../../product/context.md
 status: active
-delivery_status: planned
+derived_from:
+  - governance.md
+audience: humans_and_agents
 ---
 ```
 
-```yaml
----
-derived_from:
-  - ../brief.md
-  - path: ../../../adr/ADR-001-model-stack.md
-    fit: "используются только выбранные модели и VRAM constraints"
-status: active
----
-```
+[Machine rules](rules.json) фиксируют общую автоматическую часть. Поля дополнительных
+контрактов не становятся обязательными из-за одного descriptive doc_kind.

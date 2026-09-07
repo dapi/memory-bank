@@ -5,7 +5,6 @@ doc_function: index
 purpose: Навигация по операционной документации шаблона. Читать при адаптации dev/prod workflow, релизов, конфигурации и runbooks под проект.
 derived_from:
   - ../dna/governance.md
-  - ../flows/priming/context-priming.md
 status: active
 audience: humans_and_agents
 ---
@@ -14,8 +13,7 @@ audience: humans_and_agents
 
 ## Priming Inputs
 
-Прочитай [`ops.yaml`](../flows/priming/ops.yaml) и выполни source set
-`operations_release`.
+Перед изменением прочитай [DNA](../dna/README.md) и релевантный документ ниже.
 
 - [Development Environment](development.md) — локальная разработка, запуск приложения, тестов и вспомогательных сервисов.
 - [Stages And Non-Local Environments](stages.md) — доступ к runtime-окружениям, логи, smoke-checks и права доступа.

@@ -1,30 +1,24 @@
 ---
+title: "DNA Index"
 doc_kind: governance
 doc_function: index
-purpose: Точка входа в DNA — оглавление governance-документов.
+purpose: "DNA Index"
 derived_from:
   - principles.md
-  - ../flows/priming/context-priming.md
-  - ../flows/priming/universal-baseline.yaml
 status: active
+audience: humans_and_agents
 ---
 
 # DNA Index
 
-DNA — конституция проектной документации. Определяет принципы, правила документации, frontmatter schema, lifecycle.
+DNA определяет общие правила владения знаниями и сопровождения документации.
+Этот baseline применим самостоятельно. Перед изменением governed-документа прочитай
+следующие документы по порядку; дополнительные типы и процессы не требуются.
 
-## Universal Governance Baseline
+1. [Principles](principles.md) — основные принципы.
+2. [Document Governance](governance.md) — владельцы фактов и зависимости.
+3. [Frontmatter](frontmatter.md) — общая metadata и расширения.
+4. [Lifecycle](lifecycle.md) — сопровождение документов.
+5. [Cross-references](cross-references.md) — навигация между кодом и документами.
 
-Перед созданием или обновлением любого governed-артефакта прочитай
-[`universal-baseline.yaml`](../flows/priming/universal-baseline.yaml) и выполни
-source set `governed_artifact`.
-
-Для работы с самим governance-ядром после baseline дополнительно прочитай
-[`governance.yaml`](../flows/priming/governance.yaml) и выполни source set
-`memory_bank_governance`.
-
-- [Principles](principles.md) — фундаментальные принципы проекта: SSoT, MECE для применимых классификаций, атомарность и progressive disclosure. Читать первым.
-- [Document Governance](governance.md) — SSoT implementation, dependency tree. Отвечает на вопрос: кто владеет фактом.
-- [Frontmatter Schema](frontmatter.md) — schema полей frontmatter.
-- [Document Lifecycle](lifecycle.md) — maintenance rules, sync checklist.
-- [Cross-references](cross-references.md) — правила двусторонней навигации code ↔ docs.
+[Machine rules](rules.json) задают базовую автоматическую проверку metadata.

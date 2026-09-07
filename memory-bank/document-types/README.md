@@ -1,0 +1,1 @@
+../../template/memory-bank/document-types/README.md

@@ -1,33 +1,27 @@
 ---
-title: Research Packages Index
-doc_kind: research
+title: "Research brief index"
+doc_kind: project
 doc_function: index
-purpose: Навигация по instantiated research packages. Читать, чтобы провести evidence-backed research до решения о product, marketing или technical direction.
+purpose: "Research brief index"
 derived_from:
-  - ../dna/governance.md
-  - ../flows/research.md
+  - ../document-types/research.md
 status: active
 audience: humans_and_agents
 ---
 
-# Research Packages Index
+# Research brief index
 
-Каталог `memory-bank/research/` хранит instantiated research packages вида `R-XXX/`.
+Здесь хранятся заполненные проектные документы. Они принадлежат проекту.
 
-## Rules
+- [Базовый контракт](../document-types/research.md)
+- [Шаблон](../templates/research.md)
 
-- Создавай package только когда Task Routing выбрал [Research & Discovery Flow](../flows/research.md).
-- Один package отвечает на один decision question; несколько независимых questions маршрутизируй отдельно.
-- Bootstrap начинается с `README.md` и canonical `brief.md`. `plan.md` создаётся, когда метод не очевиден или нужен collection/experiment; `evidence.md`, `synthesis.md` и `decision.md` появляются по lifecycle gates.
-- Research не создаёт committed feature scope, implementation sequence, accepted architecture или roadmap. После disposition устойчивые факты передаются в PRD, epic, feature, ADR, product context или другой canonical owner.
-- Для package используй шаблоны из [`../flows/templates/research/`](../flows/templates/research/).
+Создание без подключения процесса:
 
-## Naming
+```sh
+memory-bank-cli document create --type research --path memory-bank/research/R-001/brief.md
+```
 
-- Базовый формат: `R-XXX/`.
-- Вместо `XXX` используй issue id, ticket id или другой стабильный ключ.
-- Один package = один evidence-backed decision question, а не папка для всех заметок проекта.
-
-## Instantiated Research
-
-В шаблонном репозитории этот каталог может быть пустым. Это нормально.
+Добавляй сюда ссылки на реально существующие документы. Для пакета создай README,
+который индексирует его реальные артефакты. Устанавливаемый компонент Documents
+не требует executor tools или обязательного маршрута AI-разработки.

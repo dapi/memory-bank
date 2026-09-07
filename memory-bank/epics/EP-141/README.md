@@ -24,11 +24,12 @@ Intake пропущен: интент, scope и критерии уже зада
 
 W1 bridge завершён в [CLI PR 63](https://github.com/dapi/memory-bank-cli/pull/63), commit
 3b434fd93678c36447d10d4f308a39ce5d74b040. Required CI, canonical canary, independent code
-и simplify reviews clean; PR ready, без merge/release. Текущая работа — shared Solution Ready
-для W2 [CLI #62](https://github.com/dapi/memory-bank-cli/issues/62) и W3–W4
-[FT-141](../../features/FT-141/README.md). Template feature остаётся на стадии design;
-CLI execution plan reviewed, его исполнение ожидает общий gate.
+и simplify reviews clean; PR ready, без merge/release. Shared Solution Ready и оба execution
+plans прошли независимую проверку. W2 [CLI #62](https://github.com/dapi/memory-bank-cli/issues/62)
+реализует contract library и затем transaction/command integration; W3
+[FT-141](../../features/FT-141/README.md) готовит payload и producer/consumer fixtures.
+Финальная интеграция и W4 review/PR ещё не завершены.
 
-`epic_stage: execution` означает, что delivery slices переданы своим владельцам.
-Это не заменяет локальные feature/CLI gates: W1 имеет отдельный reviewed plan, а W2 и
-FT-141 не начинают component implementation до clean shared design и своих execution plans.
+`epic_stage: execution` означает передачу delivery slices их владельцам. Завершение
+каждого slice требует его проверок и evidence; наличие кода или draft payload не заменяет
+готовый компонентный CLI и полную матрицу приёмки.
