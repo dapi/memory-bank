@@ -16,5 +16,20 @@
   "reviewer": "code-converge --document-review --max-cycles 0",
   "scope": "Research passport and method documentation only; benchmark not executed",
   "previous_reviewed_commit": "7774c39cc673cecf55af0da72039e5571f471eb1",
-  "verdict": null
+  "verdict": null,
+  "attempts": [
+    {
+      "id": 1,
+      "exit_code": 130,
+      "result": "review not performed",
+      "reason": "Inherited proxy SSL connections timed out; no reviewer analysis started; cancelled by author after connectivity diagnosis",
+      "log_dir": "~/.cache/memory-bank-dna-trust/passport-review-1"
+    },
+    {
+      "id": 2,
+      "state": "prepared",
+      "environment_adjustment": "Remove proxy environment variables for review process only; direct service connectivity verified",
+      "log_dir": "~/.cache/memory-bank-dna-trust/passport-review-2"
+    }
+  ]
 }
