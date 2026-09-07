@@ -15,12 +15,12 @@ jobs:
     env:
       # Component payload requires the supporting CLI before it can be installed.
       # Pin a reviewed build candidate until a separately authorized release exists.
-      MEMORY_BANK_CLI_REF: e2417e4606e953223bc51387a43fc97466c2d141
+      MEMORY_BANK_CLI_REF: caf0f3eaf3af290a702c8553795168584ac8b987
       MEMORY_BANK_BRIDGE_REF: 3b434fd93678c36447d10d4f308a39ce5d74b040
       MEMORY_BANK_PRE_BRIDGE_REF: ac7101c307e65566787bdb32a1bdad40b9a8b995
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           fetch-depth: 0
           persist-credentials: false
@@ -32,9 +32,10 @@ jobs:
           git clone --quiet https://github.com/dapi/memory-bank.git "$RUNNER_TEMP/legacy-source"
           git -C "$RUNNER_TEMP/legacy-source" checkout --quiet --detach f1f04de843aef45a2425d4a7351d577bbf89e940
 
-      - uses: actions/setup-go@v5
+      - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
         with:
           go-version-file: ${{ runner.temp }}/component-cli/go.mod
+          cache-dependency-path: ${{ runner.temp }}/component-cli/go.sum
 
       - name: Build actual CLI compatibility matrix
         working-directory: ${{ runner.temp }}/component-cli
