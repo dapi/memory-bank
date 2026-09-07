@@ -5,7 +5,6 @@ doc_function: convention
 purpose: "Feature brief contract"
 derived_from:
   - ../dna/frontmatter.md
-  - feature.json
 status: active
 audience: humans_and_agents
 ---

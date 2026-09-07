@@ -25,7 +25,7 @@ payload. Прямой запуск pre-bridge CLI на компонентном 
 Из чистого checkout шаблона на выбранном неизменяемом коммите:
 
 ```bash
-~/code/memory-bank/tools/install-components.sh init \
+./tools/install-components.sh init \
   --repo-root /path/to/project --preset docs
 ```
 
@@ -43,7 +43,7 @@ README и managed-блок AGENTS формируются по составу у�
 ```bash
 memory-bank-cli document create --repo-root /path/to/project \
   --type feature --path memory-bank/features/FT-123/brief.md
-~/code/memory-bank/tools/install-components.sh pull \
+./tools/install-components.sh pull \
   --repo-root /path/to/project --preset full
 ```
 
@@ -67,6 +67,13 @@ conflict. Не редактируйте служебное состояние д
 
 Смена версии выполняется через `document transition --path PATH --contract ID`
 с `--evidence REF`, когда контракт требует evidence. CLI проверяет оба контракта.
+Для атомарного создания сразу с контрактом подготовьте локальный draft и используйте
+`document create --type TYPE --path PATH --from drafts/document.md --contract ID`.
+CLI не придумывает flow-поля или evidence. При копировании между каталогами draft
+должен использовать repository-absolute ссылки, внешние URL или локальные anchors;
+относительные зависимости отклоняются, чтобы не изменить их смысл. Входной draft
+остаётся неизменным. Для закреплённого compatibility contract используйте
+`--legacy-flow` вместо `--contract ID`.
 Перенос выполняется через `document move --id ID --path OLD --to NEW`; исходный
 контекст документа сохраняется. Неизвестные операции, detach и delete отклоняются.
 
@@ -74,13 +81,32 @@ conflict. Не редактируйте служебное состояние д
 
 Переход от проверок всех документов типа к explicit adoption меняет семантику.
 Обычный pull, unattended-режим и `--preset legacy` не являются согласием на него.
-Миграция поддерживает только закреплённый legacy source `f1f04de843aef45a2425d4a7351d577bbf89e940`;
-остальные установки продолжают использовать свой прежний source.
+Прямая компонентная миграция поддерживает закреплённый legacy source
+`f1f04de843aef45a2425d4a7351d577bbf89e940`. Более ранние установки сначала
+обновляют legacy payload до этой версии с помощью bridge CLI, сохраняя schema-1:
+
+```bash
+memory-bank-cli pull --repo-root /path/to/project \
+  --source /path/to/clean-legacy-checkout \
+  --source-ref f1f04de843aef45a2425d4a7351d577bbf89e940 \
+  --template-version git:f1f04de843aef45a2425d4a7351d577bbf89e940 --dry-run
+```
+
+Здесь `/path/to/clean-legacy-checkout` — отдельный чистый checkout именно этого
+коммита, а CLI — проверенный bridge или более новый совместимый CLI. Просмотрите
+план и примените тот же pull без `--dry-run`. При ownership conflicts используйте
+`pull --plan /path/to/plan.json`, разрешите только предлагаемые действия и
+примените через `--apply-plan /path/to/plan.json`; не подменяйте source_ref в lock
+вручную. После успешного legacy pull проверьте doctor и переходите к следующему
+preview. Этот промежуточный маршрут проверен реальными pre-bridge и bridge
+бинарниками для `8e7f3fda1a57a7fd1a29e5a7cace28716538156a → f1f04de`.
+Для других исторических состояний применяются те же ownership-проверки;
+неразрешимые конфликты сохраняют старую установку и требуют отдельного ремонта.
 
 Сначала получите не изменяющий проект preview:
 
 ```bash
-~/code/memory-bank/tools/install-components.sh pull \
+./tools/install-components.sh pull \
   --repo-root /path/to/project --migrate-components --dry-run --json
 ```
 
@@ -93,7 +119,7 @@ preview с `--migration-resolution /path/to/resolution.json`.
 Примените тот же просмотренный план, подставив полученный digest:
 
 ```bash
-~/code/memory-bank/tools/install-components.sh pull \
+./tools/install-components.sh pull \
   --repo-root /path/to/project --migrate-components \
   --migration-plan-digest sha256:REVIEWED_DIGEST
 ```

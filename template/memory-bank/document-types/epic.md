@@ -5,7 +5,6 @@ doc_function: convention
 purpose: "Epic charter contract"
 derived_from:
   - ../dna/frontmatter.md
-  - epic.json
 status: active
 audience: humans_and_agents
 ---

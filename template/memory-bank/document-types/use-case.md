@@ -5,7 +5,6 @@ doc_function: convention
 purpose: "Use case contract"
 derived_from:
   - ../dna/frontmatter.md
-  - use-case.json
 status: active
 audience: humans_and_agents
 ---

@@ -46,7 +46,7 @@ against your project:
 
 ```bash
 memory-bank-cli capabilities --require components/v1 --require adoption/v1
-~/code/memory-bank/tools/install-components.sh init \
+./tools/install-components.sh init \
   --repo-root /path/to/project --preset docs
 ```
 
@@ -81,7 +81,7 @@ without requiring an AI approval process.
 ## Add AI processes when needed
 
 ```bash
-~/code/memory-bank/tools/install-components.sh pull \
+./tools/install-components.sh pull \
   --repo-root /path/to/project --preset full
 ```
 

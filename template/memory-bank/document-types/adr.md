@@ -5,7 +5,6 @@ doc_function: convention
 purpose: "ADR contract"
 derived_from:
   - ../dna/frontmatter.md
-  - adr.json
 status: active
 audience: humans_and_agents
 ---

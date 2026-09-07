@@ -5,7 +5,6 @@ doc_function: convention
 purpose: "PRD contract"
 derived_from:
   - ../dna/frontmatter.md
-  - prd.json
 status: active
 audience: humans_and_agents
 ---

@@ -76,3 +76,7 @@ audience: humans_and_agents
 - [PROC-XXX: Compact Process Card](process/process-card.md) — шаблон короткого reusable workflow. Отвечает на вопрос: как зафиксировать процесс с одним trigger, шагами и exit criteria.
 - [PROC-XXX: Session Handoff](process/session-handoff.md) — шаблон передачи состояния между сессиями. Отвечает на вопрос: как продолжить процесс без потери assumptions, risks и next checks.
 - [PROC-XXX: Lifecycle Protocol](process/lifecycle-protocol.md) — шаблон полного lifecycle protocol. Отвечает на вопрос: как вести multi-phase process с gates, verification и rollback.
+Базовые ADR, feature brief, PRD, use case, research brief и epic charter создаются
+из `memory-bank/templates/`. Их файлы в этом каталоге содержат только процессные
+фрагменты: добавь поля и секции к базовому документу, затем подключи versioned
+contract через CLI. Остальные wrapper-шаблоны сохраняют собственный embedded body.

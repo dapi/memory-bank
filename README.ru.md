@@ -46,7 +46,7 @@ CLI candidate или release, который объявляет обе нужн�
 
 ```bash
 memory-bank-cli capabilities --require components/v1 --require adoption/v1
-~/code/memory-bank/tools/install-components.sh init \
+./tools/install-components.sh init \
   --repo-root /path/to/project --preset docs
 ```
 
@@ -81,7 +81,7 @@ memory-bank-cli document create --repo-root /path/to/project \
 ## Подключайте AI-процессы по мере необходимости
 
 ```bash
-~/code/memory-bank/tools/install-components.sh pull \
+./tools/install-components.sh pull \
   --repo-root /path/to/project --preset full
 ```
 

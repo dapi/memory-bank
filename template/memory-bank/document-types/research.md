@@ -5,7 +5,6 @@ doc_function: convention
 purpose: "Research brief contract"
 derived_from:
   - ../dna/frontmatter.md
-  - research.json
 status: active
 audience: humans_and_agents
 ---

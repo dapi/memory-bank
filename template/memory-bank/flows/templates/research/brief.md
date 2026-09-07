@@ -13,25 +13,36 @@ audience: humans_and_agents
 
 # Research brief flow extension
 
-Это процессное расширение. [Базовый шаблон](../../../templates/research.md) — единственная полная
-заготовка документа; [flow](../../research.md) определяет метод работы,
-[contract catalog](../../contracts/README.md) — подключаемые правила.
+Это дополнение к [базовому шаблону](../../../templates/research.md), а не его копия.
+[Базовый тип](../../../document-types/research.md) задаёт содержание документа;
+[flow](../../research.md) — порядок работы;
+[неизменяемый bundle](../../contracts/research/v1.json) — машинные требования `research/v1`.
 
-Создание с явным adoption:
+## Wrapper Notes
 
-```sh
-memory-bank-cli document create --type research --path PATH --contract research/v1
-```
+1. Создай базовый документ: `memory-bank-cli document create --type research --path PATH`.
+2. Добавь перечисленные ниже поля и разделы, сохранив все базовые поля и секции.
+3. Заполни их по фактам задачи и проверь выбранный процесс.
+4. Подключи документ явно: `memory-bank-cli document adopt --path PATH --contract research/v1`.
 
-Для существующего базового документа используй `document adopt` после заполнения
-требуемых расширением полей и секций. Установка Flows не подключает их автоматически.
+Установка Flows не подключает документы автоматически. Не копируй frontmatter
+этого wrapper в проектный документ: его `doc_kind: process` описывает расширение.
+`document_id` и `flow_contract` записывает CLI при adoption; не придумывай их вручную.
 
 ## Instantiated Frontmatter
 
-Используй базовый контракт и добавь требования выбранного research/v1;
-порядок подготовки и проверки описан в указанном выше flow.
+Добавь к базовому frontmatter начальное поле процесса:
+
+```yaml
+research_status: intake
+```
+
+Допустимые значения `research_status`: `cancelled`, `collecting`, `decision_ready`, `framed`, `inconclusive`, `intake`, `invalidated`, `parked`, `rerouted`, `synthesizing`, `validated`.
 
 ## Instantiated Body
 
-Используй базовый контракт и добавь требования выбранного research/v1;
-порядок подготовки и проверки описан в указанном выше flow.
+Добавь следующие секции к базовому body. Их содержимое принадлежит документу проекта:
+
+### Decision
+
+В инстансе используй заголовок `## Decision`. Зафиксируй вывод исследования, ограничения evidence и следующий допустимый шаг. До получения данных обозначь решение как открытое.
