@@ -5,9 +5,13 @@
 Ownership-контракт template payload описан в [`ownership.md`](ownership.md). Основные команды интеграции:
 
 - `memory-bank-cli init` создаёт служебный `memory-bank/.lock` и устанавливает отсутствующие файлы;
-- `memory-bank-cli update` строит ownership-aware mutation plan и применяет его атомарно;
+- `memory-bank-cli pull` строит ownership-aware mutation plan и применяет его атомарно;
 - `memory-bank-cli lint` проверяет ссылки и индексную навигацию;
 - `memory-bank-cli doctor` выполняет read-only диагностику adoption, governance, managed drift, CI и навигации.
+
+Для компонентного payload используйте [component adoption](component-adoption.md): выбор
+`--preset`, явное подключение документов и миграция старого lock описаны там.
+`update` обновляет сам исполняемый CLI; шаблон обновляет `pull`.
 
 ## Установка
 
@@ -55,9 +59,9 @@ memory-bank-cli doctor --profile template
 
 Downstream repository определяется по `memory-bank/.lock`; при обычном внедрении достаточно `memory-bank-cli doctor` с profile `auto` по умолчанию.
 
-## Init и update
+## Init и pull
 
-`init` и `update` принимают локальный clean checkout источника, закреплённый immutable commit:
+`init` и `pull` принимают локальный clean checkout источника, закреплённый immutable commit:
 
 ```bash
 memory-bank-cli init \
@@ -69,7 +73,7 @@ memory-bank-cli init \
 Перед обновлением сначала проверьте план:
 
 ```bash
-memory-bank-cli update \
+memory-bank-cli pull \
   --source /path/to/new-memory-bank-checkout \
   --template-version v1.3.0 \
   --source-ref FULL_COMMIT_SHA \

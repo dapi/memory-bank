@@ -39,3 +39,5 @@ audience: humans_and_agents
   с существующими Feature/Use Case owners и verification traceability.
 - [`FT-117/`](FT-117/README.md) — autonomous Structured Decision Protocol,
   разделение decision authority и execution approval для issue #117.
+
+- [FT-141](FT-141/README.md) — независимые компоненты и явное подключение к flow.

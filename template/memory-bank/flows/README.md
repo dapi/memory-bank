@@ -57,3 +57,11 @@ audience: humans_and_agents
 - [Feature Requirements, Identifiers And Traceability](feature-requirements.md) — requirement classes, stable IDs, applicability и двусторонняя трассировка до delivered surfaces и evidence.
 - [Feature Artifact Catalog](feature-artifact-catalog.md) — optional problem/solution/execution artifacts, selection triggers, ownership, default forms и template availability.
 - [Templates Index](templates/README.md) — эталонные шаблоны governed-документов, включая PRD, use case, epic, feature и ADR.
+
+## Explicit document adoption
+
+- [Contract catalog](contracts/README.md) — versioned document extensions and explicit adoption.
+- [Human prompt catalog](../prompts/README.md) — navigation for direct human use; not an execution dependency.
+
+- [ADR review](adr.md) — optional decision review.
+- [PRD validation](prd.md) — optional requirements validation.

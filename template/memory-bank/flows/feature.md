@@ -66,7 +66,7 @@ immutable revision и `GRND-*` evidence.
 6. Lifecycle owner для `delivery_status` — только canonical `brief.md`. `design.md`, feature-level `README.md` и `implementation-plan.md` не дублируют это поле.
 7. `design.md` появляется только после `Problem Ready` и только если `brief.md` фиксирует `Design required: yes`.
 8. `implementation-plan.md` — derived execution-документ. В новых feature packages он не должен существовать, пока upstream owners не готовы: `brief.md` active и, если design required, весь design pack прошёл `Solution Ready`.
-9. Для canonical `brief.md`, canonical `design.md`, feature-level `README.md` и `implementation-plan.md` используй wrapper-шаблоны из `memory-bank/flows/templates/feature/`: сам template-файл имеет `doc_function: template`, а frontmatter/body инстанцируемого документа живут внутри embedded template contract.
+9. Для canonical `brief.md` используй базовый `memory-bank/templates/feature.md` и добавь фрагменты из `memory-bank/flows/templates/feature/brief.md`; затем выполни явное adoption. Для canonical `design.md`, feature-level `README.md` и `implementation-plan.md` используй их wrapper-шаблоны из `memory-bank/flows/templates/feature/`: frontmatter/body этих вспомогательных документов живут внутри embedded template contract.
 10. Смысл стабильных идентификаторов (`REQ-*`, `SOL-*`, `SD-*`, `STEP-*` и т.д.) задается в [`Feature Requirements, Identifiers And Traceability`](feature-requirements.md#stable-identifiers).
 11. Acceptance scenarios (`SC-*`) покрывают delivery-unit end-to-end: для пользовательского slice — от входного события до наблюдаемого результата через все затронутые слои; для infrastructure/engineering/operations change — от system, operator или pipeline trigger до observable operational outcome. Тестирование отдельного слоя в изоляции допустимо как implementation detail плана, но не заменяет end-to-end acceptance.
 12. Для observable behavior применяй [`Behavior Specification Practice`](behavior-specification.md): discovery findings маршрутизируются в существующие owners, concrete examples формулируются через `SC-*` / `NEG-*`, а automation связывается через `CHK-*` и `EVID-*`. BDD не вводит отдельный route или `BDD-*` identifiers.
@@ -94,7 +94,7 @@ immutable revision и `GRND-*` evidence.
 
 ## Шаблон `brief.md`
 
-Новые feature packages используют один problem-space template: `memory-bank/flows/templates/feature/brief.md`.
+Новые feature packages используют базовый problem-space template `memory-bank/templates/feature.md` и процессный фрагмент `memory-bank/flows/templates/feature/brief.md`. Сначала создай базовый brief, затем добавь поля и секции фрагмента и выполни явное adoption в `feature/v1`. Фрагмент отдельно не является заполненным brief.
 
 `brief.md` масштабируется содержанием:
 
@@ -306,7 +306,7 @@ flowchart LR
 ### Bootstrap Feature Package
 
 - [ ] `README.md` создан по шаблону `templates/feature/README.md`
-- [ ] `brief.md` создан по шаблону `templates/feature/brief.md`
+- [ ] `brief.md` создан из `memory-bank/templates/feature.md`, дополнен фрагментом `memory-bank/flows/templates/feature/brief.md` и явно подключён к `feature/v1`
 - [ ] `design.md` отсутствует
 - [ ] `implementation-plan.md` отсутствует
 

@@ -1,0 +1,1 @@
+{"base":{},"dna":{"active_requires_upstream":true,"fields":{"status":["active","archived","draft"]}},"engine":{"digest":"sha256:0b858169b5f0e8269315a63e393e6d1f3d124bef6bdb8f8f7682d9d025555596","id":"governance/v1"},"extension":{},"id":"legacy/f1f04de/research/v1","legacy":true,"schema_version":1,"transition_evidence":false,"type":"research"}

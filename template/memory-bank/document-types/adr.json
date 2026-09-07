@@ -1,0 +1,1 @@
+{"rules":{"fields":{"decision_status":["accepted","proposed","rejected","superseded"],"purpose":[],"title":[]},"sections":["Consequences","Context","Decision","Options"]},"schema_version":1,"template":"memory-bank/templates/adr.md","type":"adr"}

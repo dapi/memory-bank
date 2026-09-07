@@ -1,77 +1,27 @@
 ---
-title: Architecture Decision Records Index
-doc_kind: adr
+title: "ADR index"
+doc_kind: project
 doc_function: index
-purpose: Навигация по ADR проекта. Читать, чтобы найти уже принятые решения или завести новый ADR по шаблону.
+purpose: "ADR index"
 derived_from:
-  - ../dna/governance.md
-  - ../flows/priming/context-priming.md
-  - ../flows/templates/adr/ADR-XXX.md
+  - ../document-types/adr.md
 status: active
 audience: humans_and_agents
 ---
 
-# Architecture Decision Records Index
+# ADR index
 
-Каталог `memory-bank/adr/` хранит instantiated ADR проекта.
+Здесь хранятся заполненные проектные документы. Они принадлежат проекту.
 
-## Priming Inputs
+- [Базовый контракт](../document-types/adr.md)
+- [Шаблон](../templates/adr.md)
 
-Прочитай [`adr.yaml`](../flows/priming/adr.yaml) и выполни source set
-`create_update`.
+Создание без подключения процесса:
 
-- Заводи новый ADR из шаблона [`../flows/templates/adr/ADR-XXX.md`](../flows/templates/adr/ADR-XXX.md).
-- Держи в этом каталоге только реальные decision records, а не заметки или черновые исследования.
-- Если ADR пока нет, этот индекс остается пустым и служит ожидаемой точкой размещения для будущих решений.
+```sh
+memory-bank-cli document create --type adr --path memory-bank/adr/ADR-001-name.md
+```
 
-## Authoring And Review
-
-Локальный ADR template адаптирует MADR 4.0.0, но остается canonical contract
-Memory Bank. Если в agent environment доступен skill `adr-writing`, используй
-только его MADR / E.C.A.D.R. quality checklist и review heuristics. Не применяй
-его filesystem workflow, sequence script, naming, frontmatter или status
-defaults. Для authoring всегда создавай ADR из локального шаблона и сохраняй в
-`memory-bank/adr/ADR-XXX-short-decision-name.md`; не создавай
-`docs/adrs/NNNN-*.md`. Локальные правила ниже имеют приоритет над generic skill.
-
-Перед переводом ADR в `status: active` проверь его по локальному Definition of
-Done **E.C.A.D.R.**: explicit problem, comprehensive options, actionable
-decision, documented consequences и reviewability. Полное определение критериев
-находится в
-[`ADR-XXX.md#authoring-method-and-quality-gate`](../flows/templates/adr/ADR-XXX.md#authoring-method-and-quality-gate).
-
-## Naming
-
-- Формат файла: `ADR-XXX-short-decision-name.md`
-- Нумерация монотонная и не переиспользуется
-- Заголовок файла должен совпадать с `title` во frontmatter
-
-## Statuses
-
-Публикационный `status` и lifecycle решения `decision_status` независимы:
-
-- документ в работе: `status: draft`, `decision_status: proposed`;
-- предложение готово к review: `status: active`, `decision_status: proposed`;
-- принятое решение: `status: active`, `decision_status: accepted`;
-- отклонённое решение: `status: active`, `decision_status: rejected`;
-- заменённое решение: `status: active`, `decision_status: superseded`.
-
-Только `active` + `accepted` является принятым canonical input для downstream
-owners. `active` + `proposed` публикует reviewable предложение, но не делает его
-принятым решением. Перевод в `accepted` требует завершённого decision review,
-необходимого согласования и исполнимого Confirmation plan. Уже полученное
-implementation/compliance evidence не является prerequisite: его добавляют в
-ADR после acceptance по мере выполнения downstream work.
-
-## Completeness
-
-Перед переводом ADR в `active` примени E.C.A.D.R. и убедись, что:
-
-- указаны decision makers и реальные semantic upstream;
-- рассмотрены минимум два жизнеспособных варианта, включая status quo, если он допустим;
-- решение связано с драйверами и имеет явные scope/non-scope;
-- зафиксированы положительные, отрицательные и организационные последствия;
-- определён Confirmation plan с проверками, ожидаемыми evidence, owner и местом
-  фиксации; сами implementation/compliance evidence могут появиться после acceptance;
-- определены условия пересмотра;
-- Follow-up называет downstream canonical owners, которым принадлежат living facts и operational rules.
+Добавляй сюда ссылки на реально существующие документы. Для пакета создай README,
+который индексирует его реальные артефакты. Устанавливаемый компонент Documents
+не требует executor tools или обязательного маршрута AI-разработки.

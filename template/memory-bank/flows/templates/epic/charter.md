@@ -1,72 +1,47 @@
 ---
-title: "EP-XXX: Charter Template"
-doc_kind: governance
+title: "Epic charter flow extension"
+doc_kind: process
 doc_function: template
-purpose: "Шаблон epic charter: canonical intent, scope/non-scope, evidence and acceptance boundaries for a multi-feature initiative."
+purpose: "Epic charter flow extension"
 derived_from:
   - ../../epic.md
+  - ../../contracts/README.md
+  - ../../../document-types/epic.md
 status: active
 audience: humans_and_agents
-template_target_path: ../../../epics/EP-XXX/charter.md
 ---
 
-# EP-XXX: Charter Template
+# Epic charter flow extension
 
-```markdown
----
-title: "EP-XXX: <Epic Name>"
-doc_kind: epic
-doc_function: canonical
-purpose: "<What this epic governs and why it is larger than one feature>"
-derived_from:
-  - ../../flows/epic.md
-  # Include `brief.md` when the epic was promoted from Epic Intake.
-  # - brief.md
-status: draft
-audience: humans_and_agents
-must_not_define:
-  - implementation_sequence
-  - feature_issue_ids_not_approved
----
+Это дополнение к [базовому шаблону](../../../templates/epic.md), а не его копия.
+[Базовый тип](../../../document-types/epic.md) задаёт содержание документа;
+[flow](../../epic.md) — порядок работы;
+[неизменяемый bundle](../../contracts/epic/v1.json) — машинные требования `epic/v1`.
 
-# EP-XXX: <Epic Name>
+## Wrapper Notes
 
-## Origin and Epic Route
+1. Создай базовый документ: `memory-bank-cli document create --type epic --path PATH`.
+2. Добавь перечисленные ниже поля и разделы, сохранив все базовые поля и секции.
+3. Заполни их по фактам задачи и проверь выбранный процесс.
+4. Подключи документ явно: `memory-bank-cli document adopt --path PATH --contract epic/v1`.
 
-| Field | Value |
-| --- | --- |
-| Source / trigger | `<issue, request, PRD or evidence URL>` |
-| Why Epic | `<multiple delivery units, shared roadmap or cross-feature risk>` |
-| Intake proposal | `<brief.md link or not used>` |
+Установка Flows не подключает документы автоматически. Не копируй frontmatter
+этого wrapper в проектный документ: его `doc_kind: process` описывает расширение.
+`document_id` и `flow_contract` записывает CLI при adoption; не придумывай их вручную.
 
-## Problem
+## Instantiated Frontmatter
 
-## Outcome
+Дополнительных обязательных metadata-полей у этого расширения нет.
+Сохрани metadata базового типа; статус документа не подменяет решение о завершении процесса.
 
-## Stakeholder Channels
+## Instantiated Body
 
-| Channel | ID / URL | Purpose |
-| --- | --- | --- |
+Добавь следующие секции к базовому body. Их содержимое принадлежит документу проекта:
 
-## Scope
+### Delivery plan
 
-- `REQ-01`
+В инстансе используй заголовок `## Delivery plan`. Зафиксируй только границы инициативы и ссылку на существующий `roadmap.md`. Волны, delivery units, зависимости, gates и handoff-детали принадлежат roadmap; не копируй их в charter.
 
-## Non-Scope
+### Risks
 
-- `NS-01`
-
-## Source / Evidence Boundaries
-
-| Source | Authority | Refresh rule |
-| --- | --- | --- |
-
-## Acceptance
-
-| Criterion | Check |
-| --- | --- |
-
-## Handoff
-
-Delivery work must be created as separate `memory-bank/features/FT-<issue>/` packages.
-```
+В инстансе используй заголовок `## Risks`. Укажи ссылку на существующий `risks.md` или факт, что risk register ещё не подготовлен. Сам список рисков, owners и меры принадлежат `risks.md` и не дублируются в charter.

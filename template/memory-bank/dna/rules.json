@@ -1,0 +1,1 @@
+{"rules":{"active_requires_upstream":true,"fields":{"status":["active","archived","draft"]}},"schema_version":1}

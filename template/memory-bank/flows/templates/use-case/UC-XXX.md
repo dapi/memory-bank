@@ -1,148 +1,56 @@
 ---
-title: "UC-XXX: Use Case Name"
-doc_kind: use_case
+title: "Use case flow extension"
+doc_kind: process
 doc_function: template
-purpose: Governed wrapper-шаблон use case. Читать, чтобы инстанцировать канонический пользовательский или операционный сценарий без смешения wrapper-метаданных и frontmatter будущего use case.
+purpose: "Use case flow extension"
 derived_from:
-  - ../../../dna/governance.md
-  - ../../../dna/frontmatter.md
-  - ../../../product/context.md
   - ../../use-case.md
-  - ../../behavior-specification.md
+  - ../../contracts/README.md
+  - ../../../document-types/use-case.md
 status: active
 audience: humans_and_agents
-template_for: use_case
-template_target_path: ../../../use-cases/UC-XXX-short-name.md
-canonical_for:
-  - use_case_template
 ---
 
-# UC-XXX: Use Case Name
+# Use case flow extension
 
-Этот файл описывает wrapper-template. Инстанцируемый use case живет ниже как embedded contract и копируется без wrapper frontmatter и history.
+Это дополнение к [базовому шаблону](../../../templates/use-case.md), а не его копия.
+[Базовый тип](../../../document-types/use-case.md) задаёт содержание документа;
+[flow](../../use-case.md) — порядок работы;
+[неизменяемый bundle](../../contracts/use_case/v1.json) — машинные требования `use_case/v1`.
 
 ## Wrapper Notes
 
-Use case фиксирует устойчивый проектный сценарий. Он описывает trigger, preconditions, основной flow, альтернативы и postconditions, но не уходит в implementation sequence, архитектуру или feature-level verify.
+1. Создай базовый документ: `memory-bank-cli document create --type use_case --path PATH`.
+2. Добавь перечисленные ниже поля и разделы, сохранив все базовые поля и секции.
+3. Заполни их по фактам задачи и проверь выбранный процесс.
+4. Подключи документ явно: `memory-bank-cli document adopt --path PATH --contract use_case/v1`.
 
-BDD concrete examples живут downstream как `SC-*` / `NEG-*`. Use case дает им стабильные точки traceability через `BR-*`, `ALT-*` и `EX-*`, но не копирует example bodies, checks или test matrix.
-
-Критерии выбора, lifecycle и границы между `UC-*`, `SC-*` и `FUC-*` определяет [`Use Case Flow`](../../use-case.md).
-
-Если сценарий слишком локален и живет только внутри одной delivery-единицы, не поднимай его в `UC-*`: оставь его в `SC-*` у соответствующей feature.
-
-Если сценарий зависит от domain invariant, state transition или domain event, добавь соответствующий документ из `../domain/` в `derived_from`.
+Установка Flows не подключает документы автоматически. Не копируй frontmatter
+этого wrapper в проектный документ: его `doc_kind: process` описывает расширение.
+`document_id` и `flow_contract` записывает CLI при adoption; не придумывай их вручную.
 
 ## Instantiated Frontmatter
 
-```yaml
-title: "UC-XXX: Use Case Name"
-doc_kind: use_case
-doc_function: canonical
-purpose: "Фиксирует устойчивый пользовательский или операционный сценарий проекта."
-derived_from:
-  - ../flows/use-case.md
-  - ../product/context.md
-  # Optional:
-  # - ../prd/PRD-XXX-short-name.md
-  # - ../domain/rules.md
-  # - ../domain/states.md
-status: draft
-audience: humans_and_agents
-must_not_define:
-  - implementation_sequence
-  - architecture_decision
-  - feature_level_test_matrix
-  - bdd_example_inventory
-```
+Дополнительных обязательных metadata-полей у этого расширения нет.
+Сохрани metadata базового типа; статус документа не подменяет решение о завершении процесса.
 
 ## Instantiated Body
 
-```markdown
-# UC-XXX: Use Case Name
+Сохрани базовые секции и разверни их по следующему однозначному mapping:
 
-## Goal
+- `## Actors`: primary actor, остальные участники и их интересы.
+- `## Outcome`: `### Goal` для цели actor-а и `### Postconditions` для успешного
+  результата и допустимого состояния после неуспеха.
+- `## Scenario`: `### Trigger`, `### Preconditions`, `### Main Flow`,
+  `### Alternatives` со стабильными `ALT-*` и `### Exceptions` со стабильными
+  `EX-*`. Main Flow описывает наблюдаемые шаги; неприменимые ветви отмечаются явно.
+- Добавь `## Business Rules`: применимые стабильные `BR-*` и ссылки на их owner-ов.
+- Добавь `## Traceability`: существующие upstream refs и downstream coverage
+  `FT-XXX/SC-*`, `FT-XXX/NEG-*`; тела требований и проверок остаются у owner-ов.
 
-Какой результат должен получить actor после успешного выполнения сценария.
+Observable status, handoff, diagnostics и recovery добавляются в Scenario лишь
+когда они являются устойчивой частью поведения системы. Затем добавь секцию проверки:
 
-## Primary Actor
+### Verification
 
-Кто инициирует сценарий: пользователь, оператор, команда, автоматизированный
-агент или внешний сервис.
-
-## Trigger
-
-Какое событие или намерение запускает flow.
-
-## Preconditions
-
-- Что должно быть истинно до начала сценария.
-- Какие данные, права или состояние системы обязательны.
-
-## Main Flow
-
-1. Первый шаг сценария.
-2. Второй шаг сценария.
-3. Наблюдаемый результат.
-
-## Alternate Flows / Exceptions
-
-- `ALT-01` Как сценарий ветвится при ожидаемой альтернативе.
-- `EX-01` Какой сбой или отказ должен быть корректно обработан.
-
-## Postconditions
-
-- Что истинно после успешного завершения.
-- Что остается истинным после неуспешного завершения.
-
-## Business Rules
-
-- `BR-01` Правило, которое обязана соблюдать любая реализация этого сценария.
-- `BR-02` Ограничение или policy, которая влияет на flow.
-
-## Operational Contract (Optional)
-
-Заполняй только для operational / agentic сценария, если перечисленные элементы
-являются наблюдаемой частью project-level behavior. Не описывай здесь внутреннюю
-архитектуру, implementation sequence или конкретные команды runbook-а.
-
-### Observable Status
-
-- Какие statuses/fields публикуются или где находится canonical schema.
-- Кто должен одинаково интерпретировать этот contract.
-
-### Handoff
-
-- Какой минимальный payload передается или где находится canonical schema.
-- Как получатель определяет, что handoff завершен и пригоден для продолжения.
-
-### Diagnostics And Recovery
-
-- Какие structured diagnostics наблюдаемы при неуспешном flow.
-- Какой recovery outcome и terminal state ожидаются; конкретная процедура может
-  принадлежать связанному runbook-у.
-
-## Traceability
-
-| Upstream / Downstream | References |
-| --- | --- |
-| PRD | `PRD-XXX` / `none` |
-| Features | `FT-XXX`, `FT-YYY` |
-| ADR | `ADR-XXX` / `none` |
-| Runbooks / Ops | `../ops/...` / `none` |
-
-## Downstream Behavior Coverage
-
-Заполняй после появления downstream feature examples. Таблица является
-навигацией; canonical acceptance и checks остаются в feature `brief.md`.
-
-| UC element | Downstream examples | Coverage note |
-| --- | --- | --- |
-| `BR-01` | `FT-XXX/SC-01`, `FT-XXX/NEG-01` | Какие различающие positive/negative examples проверяют rule |
-| `ALT-01` | `FT-YYY/SC-02` | Какая feature реализует alternative branch |
-
-## Lifecycle Note (Required When Archived)
-
-- Почему сценарий больше не является active behavior.
-- Какой `UC-*` или другой contract заменил его, либо `none`.
-```
+В инстансе используй заголовок `## Verification`. Запиши позитивные и негативные проверки сценария, наблюдаемые результаты и ссылки на evidence.

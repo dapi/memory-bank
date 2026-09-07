@@ -1,96 +1,58 @@
 ---
-title: R-XXX Research Brief Template
-doc_kind: governance
+title: "Research brief flow extension"
+doc_kind: process
 doc_function: template
-purpose: "Wrapper-шаблон canonical research brief: decision question, hypotheses, boundaries and lifecycle state without findings or delivery design."
+purpose: "Research brief flow extension"
 derived_from:
   - ../../research.md
-  - ../../../dna/frontmatter.md
+  - ../../contracts/README.md
+  - ../../../document-types/research.md
 status: active
 audience: humans_and_agents
-template_for: research
-template_target_path: ../../../research/R-XXX/brief.md
 ---
 
-# R-XXX Research Brief Template
+# Research brief flow extension
+
+Это дополнение к [базовому шаблону](../../../templates/research.md), а не его копия.
+[Базовый тип](../../../document-types/research.md) задаёт содержание документа;
+[flow](../../research.md) — порядок работы;
+[неизменяемый bundle](../../contracts/research/v1.json) — машинные требования `research/v1`.
+
+## Wrapper Notes
+
+1. Создай базовый документ: `memory-bank-cli document create --type research --path PATH`.
+2. Добавь перечисленные ниже поля и разделы, сохранив все базовые поля и секции.
+3. Заполни их по фактам задачи и проверь выбранный процесс.
+4. Подключи документ явно: `memory-bank-cli document adopt --path PATH --contract research/v1`.
+
+Установка Flows не подключает документы автоматически. Не копируй frontmatter
+этого wrapper в проектный документ: его `doc_kind: process` описывает расширение.
+`document_id` и `flow_contract` записывает CLI при adoption; не придумывай их вручную.
 
 ## Instantiated Frontmatter
 
+Добавь к базовому frontmatter начальное поле процесса:
+
 ```yaml
----
-title: "R-XXX: <Research Name>"
-doc_kind: research
-doc_function: canonical
-purpose: "Canonical decision question, boundaries and lifecycle state for research R-XXX."
-derived_from:
-  - ../../flows/research.md
-status: draft
 research_status: intake
-audience: humans_and_agents
----
 ```
+
+Допустимые значения `research_status`: `cancelled`, `collecting`, `decision_ready`, `framed`, `inconclusive`, `intake`, `invalidated`, `parked`, `rerouted`, `synthesizing`, `validated`.
 
 ## Instantiated Body
 
-```markdown
-# R-XXX: <Research Name>
+Базовая Evidence содержит только известные входы и ссылки до исследования.
+Новые наблюдения и provenance записывай в `evidence.md`; если они уже были собраны
+в brief, перенеси их туда и оставь в brief ссылку на существующий owner.
+В базовой Question добавь подразделы Source / Trigger, Research Mode, Decision
+Question, Scope / Non-scope, Assumptions / Unknowns и Stopping Condition.
+Назови decision owner и срок решения; Mode выбирается из Research Flow.
+Базовая Method описывает достаточный метод compact desk research. Когда нужен
+отдельный `plan.md`, метод переносится к этому owner, а в brief остаётся ссылка.
+Не создавай plan только ради placeholder links.
 
-## Intake
+Добавь следующие секции к базовому body. Их содержимое принадлежит документу проекта:
 
-| Field | Value |
-| --- | --- |
-| Source / trigger | `<issue, request, metric or observation>` |
-| Research owner | `<person or role>` |
-| Decision owner | `<person or role>` |
-| Research mode | `market / product_discovery / technical_discovery / exploratory` |
-| Decision deadline / timebox | `<date or duration>` |
+### Decision
 
-## Decision Question
-
-- `RQ-01` `<What decision needs evidence, in a form the named owner can answer?>`
-
-## Working Hypotheses
-
-- `HYP-01` `<Falsifiable claim; distinguish it from a fact.>`
-
-## Compact Method Record (when `plan.md` is omitted)
-
-- Method and source/sample strategy: `<bounded desk-research method and the sources or sample to collect>`
-- Collection window and context: `<dates, freshness boundary and access context>`
-- Evidence-quality criteria: `<what makes a source or observation sufficiently reliable and relevant>`
-- Applicable privacy, consent, legal, security and vendor-access constraints: `<constraints or none>`
-- Bias risks and disconfirming signal: `<likely bias and at least one result that could contradict the working hypothesis>`
-
-Create `plan.md` instead when the method has a plan trigger in the research flow; keep this record concise and proportionate for compact desk research.
-
-## Scope
-
-- `RSC-01` `<Included question, audience, system or market boundary.>`
-
-## Non-Scope
-
-- `RNS-01` `<Explicit exclusion.>`
-
-## Assumptions and Known Evidence
-
-| ID | Statement | Type | Source / confidence |
-| --- | --- | --- | --- |
-| `ASM-01` | `<working assumption>` | Assumption | `<why it is currently reasonable>` |
-| `<none or source>` | `<known fact>` | Evidence | `[SRC-XX](<source URL or stable internal link>)` |
-
-## Stopping Condition
-
-- `STOP-01` `<When collection ends: threshold, timebox, saturation, benchmark completion or explicit decision date.>`
-
-## Open Questions
-
-| Question | Blocks | Owner | Resolution evidence |
-| --- | --- | --- | --- |
-
-## Boundary Check
-
-- [ ] This brief contains a question and hypotheses, not findings presented as facts.
-- [ ] Every known fact has a clickable source link; unsupported statements remain assumptions or open questions.
-- [ ] No committed delivery scope, selected solution, ADR decision or implementation sequence is defined here.
-- [ ] Required privacy, consent, legal, security or access constraints are named or explicitly `none`.
-```
+В инстансе используй заголовок `## Decision`. Запиши ссылки на существующие terminal artifacts; единственное значение lifecycle disposition хранится в metadata `research_status`. Findings и ограничения evidence принадлежат `synthesis.md`, recommendation, rationale и handoff — `decision.md`; brief не копирует их содержание. Пока artifacts не созданы, отметь их отсутствие без placeholder links.

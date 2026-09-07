@@ -1,0 +1,1 @@
+../../template/memory-bank/templates/adr.md

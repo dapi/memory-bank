@@ -1,5 +1,10 @@
 # Ownership и безопасные обновления
 
+Этот документ описывает legacy lock v1. Для component sources используется
+[lock v2 и manifest ownership](component-wire-format.md): root README — generated,
+проектные индексы — user-owned, выбор компонентов закреплён в installation.
+Переход выполняется по [руководству миграции](component-adoption.md).
+
 `memory-bank/.lock` — служебный контракт между downstream-проектом и версией шаблона. Файл создаётся командой `memory-bank-cli init` внутри установленного `memory-bank/` и коммитится вместе с ним; из upstream template он не копируется. Формальная схема: [`schema/memory-bank-lock-v1.schema.json`](schema/memory-bank-lock-v1.schema.json).
 
 Upstream payload хранится в source checkout как `template/`. Ownership paths
@@ -51,6 +56,6 @@ memory-bank-cli update \
 
 ## Версионирование
 
-`schema_version` версионирует lock contract независимо от версии template. CLI читает schema `1`; неизвестная версия завершается ошибкой без мутаций. Unversioned prototype со значением `0` имеет семантику v1 и атомарно переписывается в schema `1` при следующем успешном update.
+`schema_version` версионирует lock contract независимо от версии template. Legacy reader читает schema `1`; неизвестная версия завершается ошибкой без мутаций. Unversioned prototype со значением `0` имеет семантику v1 и атомарно переписывается в schema `1` при следующем успешном update.
 
 `template.version` — понятная человеку версия, `template.source_ref` — immutable идентификатор фактического source checkout. `last_update` меняется только вместе с успешной сменой template state или миграцией schema.

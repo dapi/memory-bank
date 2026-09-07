@@ -1,114 +1,43 @@
 ---
-title: "PRD-XXX: Product Initiative Name"
-doc_kind: prd
+title: "PRD flow extension"
+doc_kind: process
 doc_function: template
-purpose: Governed wrapper-шаблон PRD. Читать, чтобы инстанцировать компактный Product Requirements Document без смешения wrapper-метаданных и frontmatter будущего PRD.
+purpose: "PRD flow extension"
 derived_from:
-  - ../../../dna/governance.md
-  - ../../../dna/frontmatter.md
-  - ../../../product/context.md
+  - ../../prd.md
+  - ../../contracts/README.md
+  - ../../../document-types/prd.md
 status: active
 audience: humans_and_agents
-template_for: prd
-template_target_path: ../../../prd/PRD-XXX-short-name.md
-canonical_for:
-  - prd_template
 ---
 
-# PRD-XXX: Product Initiative Name
+# PRD flow extension
 
-Этот файл описывает wrapper-template. Инстанцируемый PRD живет ниже как embedded contract и копируется без wrapper frontmatter и history.
+Это дополнение к [базовому шаблону](../../../templates/prd.md), а не его копия.
+[Базовый тип](../../../document-types/prd.md) задаёт содержание документа;
+[flow](../../prd.md) — порядок работы;
+[неизменяемый bundle](../../contracts/prd/v1.json) — машинные требования `prd/v1`.
 
 ## Wrapper Notes
 
-PRD в этом шаблоне intentionally lean. Он фиксирует продуктовую проблему, пользователей, goals, scope и success metrics, но не берет на себя implementation sequencing, architecture decisions или verify/evidence contracts downstream feature package.
+1. Создай базовый документ: `memory-bank-cli document create --type prd --path PATH`.
+2. Добавь перечисленные ниже поля и разделы, сохранив все базовые поля и секции.
+3. Заполни их по фактам задачи и проверь выбранный процесс.
+4. Подключи документ явно: `memory-bank-cli document adopt --path PATH --contract prd/v1`.
 
-PRD опирается на `product/context.md`, а не подменяет его. Не копируй в него весь project-wide контекст, если он уже стабильно описан upstream.
-
-Если инициатива меняет предметные понятия, правила, состояния или события, обнови соответствующий документ из `domain/` и добавь его в `derived_from`.
-
-Используй PRD как upstream-слой между общим контекстом проекта и несколькими feature packages. Если инициатива локальна и не требует отдельного product-layer документа, PRD можно не создавать.
+Установка Flows не подключает документы автоматически. Не копируй frontmatter
+этого wrapper в проектный документ: его `doc_kind: process` описывает расширение.
+`document_id` и `flow_contract` записывает CLI при adoption; не придумывай их вручную.
 
 ## Instantiated Frontmatter
 
-```yaml
-title: "PRD-XXX: Product Initiative Name"
-doc_kind: prd
-doc_function: canonical
-purpose: "Фиксирует продуктовую проблему, целевых пользователей, goals, scope и success metrics инициативы."
-derived_from:
-  - ../product/context.md
-  # Optional:
-  # - ../domain/rules.md
-  # - ../domain/model.md
-status: draft
-audience: humans_and_agents
-must_not_define:
-  - implementation_sequence
-  - architecture_decision
-  - feature_level_verify_contract
-```
+Дополнительных обязательных metadata-полей у этого расширения нет.
+Сохрани metadata базового типа; статус документа не подменяет решение о завершении процесса.
 
 ## Instantiated Body
 
-```markdown
-# PRD-XXX: Product Initiative Name
+Добавь следующие секции к базовому body. Их содержимое принадлежит документу проекта:
 
-## Problem
+### Validation
 
-Какую пользовательскую или бизнес-проблему решает инициатива. Описывай язык проблемы, а не решение. Ссылайся на общий контекст из `../product/context.md` и фиксируй только delta этой инициативы.
-
-## Users And Jobs
-
-Кто является основным пользователем и какую работу он пытается выполнить.
-
-| User / Segment | Job To Be Done | Current Pain |
-| --- | --- | --- |
-| `primary-user` | Что хочет сделать | Что мешает сегодня |
-
-## Goals
-
-- `G-01` Какой продуктовый outcome обязателен.
-- `G-02` Какой дополнительный outcome желателен.
-
-## Non-Goals
-
-- `NG-01` Что сознательно не входит в инициативу.
-- `NG-02` Что нельзя молча додумывать на уровне реализации.
-
-## Product Scope
-
-Опиши scope на уровне capability, а не change set.
-
-### In Scope
-
-- Что должно стать возможным для пользователя или системы.
-
-### Out Of Scope
-
-- Что остается за границами инициативы.
-
-## UX / Business Rules
-
-- `BR-01` Важное правило продукта или операции.
-- `BR-02` Ограничение, которое должна уважать любая downstream feature.
-
-## Success Metrics
-
-| Metric ID | Metric | Baseline | Target | Measurement method |
-| --- | --- | --- | --- | --- |
-| `MET-01` | Что измеряем | От чего стартуем | Что считаем успехом | Как проверяем |
-
-## Risks And Open Questions
-
-- `RISK-01` Что может сорвать инициативу на уровне продукта.
-- `OQ-01` Какая неизвестность еще не снята.
-
-## Downstream Features
-
-Перечисли ожидаемые feature packages, если они уже понятны.
-
-| Feature | Why it exists | Status |
-| --- | --- | --- |
-| `FT-XXX` | Какой slice реализует | planned / draft / active |
-```
+В инстансе используй заголовок `## Validation`. Опиши, как будут проверены требования продукта, гипотезы и достижение результата.
