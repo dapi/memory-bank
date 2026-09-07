@@ -6,8 +6,8 @@ purpose: "Архитектурная граница DNA, Documents, Flows и exp
 derived_from:
   - ../dna/principles.md
   - ../epics/EP-141/charter.md
-status: draft
-decision_status: proposed
+status: active
+decision_status: accepted
 date: 2026-09-06
 decision_makers:
   - Danil Pismenny
@@ -61,7 +61,9 @@ frontmatter — проверяемая проекция. Lock фиксирует
 
 Preset/adapter matrix, docs → full, legacy pass/fail, integrity, immutable bundle,
 atomic rollback и source projection проверяются автоматизированно. Design и delivered diff
-проходят независимые code-converge review. Это candidate solution в пределах поручения реализовать issue; принятие ADR ожидает clean independent decision review.
+проходят независимые code-converge review. Решение принято в пределах поручения реализовать issue. Полный review candidate c22294b
+оставил четыре замечания; их исправления и последующее уточнение hard-link scope получили
+clean structured verdict code-converge 2026-09-07T01:14:17Z и зафиксированы в b94560c.
 
 
 | Evidence | Owner | Storage / acceptance |

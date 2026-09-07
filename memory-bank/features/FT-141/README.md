@@ -15,3 +15,4 @@ audience: humans_and_agents
 
 - [Brief](brief.md) — требования, scope и acceptance.
 - [Design](design.md) — решение и архитектурные границы.
+- [Implementation plan](implementation-plan.md) — template execution; Plan Ready passed.

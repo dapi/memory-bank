@@ -10,7 +10,7 @@ derived_from:
   - ../../flows/feature.md
 status: active
 audience: humans_and_agents
-delivery_status: planned
+delivery_status: in_progress
 ---
 
 # FT-141: Компонентная документация и flow adoption

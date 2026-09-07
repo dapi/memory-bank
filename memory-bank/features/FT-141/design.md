@@ -6,7 +6,7 @@ purpose: "FT-141: Design"
 derived_from:
   - brief.md
   - ../../adr/ADR-002-component-document-contracts.md
-status: draft
+status: active
 audience: humans_and_agents
 ---
 
@@ -17,12 +17,12 @@ audience: humans_and_agents
 | Relation | Owner | Facts |
 | --- | --- | --- |
 | root | design.md | SOL/SD/C4/INV/FM/RB и cross-view mapping |
-| external-dependency | [ADR-002](../../adr/ADR-002-component-document-contracts.md) | Граница компонентов; candidate; independent decision review pending |
-| constituent | [Normative contract](../../../docs/component-wire-format.md) | CTR-01: sole behavior and serialization owner; candidate pending review |
+| external-dependency | [ADR-002](../../adr/ADR-002-component-document-contracts.md) | Граница компонентов; accepted after independent review |
+| constituent | [Normative contract](../../../docs/component-wire-format.md) | CTR-01: sole behavior and serialization owner; reviewed at b94560c |
 | derived-view | [Overview](../../../docs/components.md) | Navigation only; no independent protocol facts |
 
 CLI implementation boundary: [CLI #62](https://github.com/dapi/memory-bank-cli/issues/62),
-[CLI delivery contract](https://github.com/dapi/memory-bank-cli/blob/a0811c40141bd42f17a8ff3f5320f391c1f1197b/docs/component-delivery.md).
+[CLI delivery contract](https://github.com/dapi/memory-bank-cli/blob/3b434fd93678c36447d10d4f308a39ce5d74b040/docs/component-delivery.md).
 Это external delivery owner, а не второй владелец generic component protocol.
 
 ## Selected solution

@@ -87,3 +87,14 @@ unsupported special file bits reject before planning. This narrows the filesyste
 to a testable contract without weakening the accepted byte/permission and no-descendant-loss
 requirements. Re-review the corrected observation model before component delivery; the CLI
 execution plan already owns exact observations and the shared transaction engine.
+
+
+## CP-02 — Solution Ready review chain
+
+Candidate c22294b received a full independent design review with four remaining findings.
+Those fixes, plus its one hard-link enforcement follow-up, received a clean structured
+code-converge verdict at 2026-09-07T01:14:17Z (b94560c; review base c22294b).
+No finding is waived. ADR-002/design are promoted; the template execution plan enters
+its own Plan Ready review. CLI W2's separately reviewed plan at acbfb32 may execute now;
+template payload writes wait for its plan gate. W1 remains ready PR 63. This checkpoint
+does not claim implementation or final whole-PR validation is complete.
