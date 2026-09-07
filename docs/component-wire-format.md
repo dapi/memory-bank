@@ -8,7 +8,9 @@ JSON is UTF-8. Digests are `sha256:` plus 64 lowercase hexadecimal digits over e
 bytes. Generated registry state uses the compact canonical JSON defined below and one final LF;
 its integrity digest covers those exact bytes, not a reserialized approximation. Existing
 lock formatting remains compatible with its ownership schema. Arrays specified as sets are sorted, unique
-strings. Omitted optional arrays/maps mean empty, never a wildcard. Names and paths are
+strings. Every specified sort uses ascending unsigned raw UTF-8 byte lexicographic order,
+including IDs, paths, evidence, object keys and comparison items; no locale or case folding
+participates in ordering. Omitted optional arrays/maps mean empty, never a wildcard. Names and paths are
 case-sensitive. Paths are normalized repository-relative slash paths: no empty segments,
 absolute paths, dot/dot-dot segments, backslashes, NUL, symlinks or Git metadata components. Metadata rejection is case-insensitive (including .GIT).
 Each segment also rejects ASCII control characters, < > : " | ? *, and a trailing dot or
@@ -22,7 +24,17 @@ bytes and reject a different spelling that resolves to that entry. Before writes
 collisions among all proposed destinations using the exact key algorithm
 NFC(Default_Full_Case_Fold(NFC(path))), with Unicode 15.0 tables and locale-independent
 default folding (not Turkic folding); also reject distinct paths/destinations that resolve
-to the same file identity. Updating the exact target path is not a collision with itself.
+to the same file identity. On supported Linux/macOS hosts, identity is exactly the
+(st_dev, st_ino) tuple obtained from lstat or fstat of an opened no-follow handle, never a
+symlink target or normalized pathname. Distinct paths sharing that tuple, including hard
+links, conflict. The comparison domain is repository payload/document paths, excluding the
+transaction's private staging. To detect aliases beyond enumerated directories, reject every
+original regular-file input with st_nlink > 1 at preflight and immediately before accepting
+it for mutation. Thus a hard link in another directory or outside the repository rejects
+without an unbounded filesystem scan. Private staged-replacement links created by the writer
+are not original inputs; retained staging is verified/cleaned before ordinary preflight.
+Re-read identities and repeat comparisons before mutation using pinned
+handles; a changed observed identity rejects. Updating the exact target path is not a collision with itself.
 This conservative portable-path rule applies on every platform, not only case-insensitive
 filesystems. Compare these portable keys with every existing entry in each affected directory,
 not only other proposed writes: Foo.md blocks creating foo.md even on case-sensitive storage.
@@ -381,7 +393,10 @@ transition and move additionally require Flows, its intact current registry, and
 referenced bundle and type in the installed selection. Definitions present only in an
 unselected source component confer no authority. All document targets are regular Markdown
 files under memory-bank/, outside .repo, dna, flows, templates, document-types, prompts and
-CLI state; create/move destinations obey the same scope and must not overwrite managed assets.
+CLI state. All document mutations, including adopt/transition and move's source, reject
+targets owned as managed or generated in the lock; create/move destinations obey the same
+restriction and scope. Only project-owned/untracked regular documents are eligible. Adoption
+cannot turn a managed payload asset into a project document or silently create managed drift.
 Absent prerequisites or invalid scope reject before writes.
 Evidence is required on transition when either bundle declares transition_evidence; references
 are sorted/deduplicated nonempty strings, not proof of external approval. Create without a
@@ -636,6 +651,15 @@ partial document, complete restoration and repeated recovery, plus unknown journ
 Lint/doctor validate the selected composition and adoption; intentionally absent optional
 components are not defects. The upstream generic symlink projection is an explicit source
 profile without a lock, never a schema-2 downstream with missing state.
+
+Legacy migration selects legacy, with optional additive adapters. An omitted --preset means
+legacy in this operation; explicit core/docs/full reject before writes. The resulting closure
+must contain Flows and every legacy adapter. Verify retention against the pinned prior source:
+every old payload path outside memory-bank/ must remain in the selected incoming inventory;
+a missing/unselected legacy root asset conflicts rather than being removed. This check is
+independent of incoming legacy flags and prevents a changed manifest from silently dropping
+an old adapter. No legacy migration downgrade is supported. Registry/selectors/history and
+adoption_digest are therefore always representable in the permitted target installation.
 
 A schema-0/1 lock with component source always requires --migrate-components, even for a
 flagless/unattended pull or explicit --preset legacy. No selection default is consent. Preview

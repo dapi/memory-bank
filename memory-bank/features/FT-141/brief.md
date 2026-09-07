@@ -108,7 +108,7 @@ NEG-08 / CHK-12: invalid write-intent action/existence/digest-kind combination �
 
 NEG-09 / CHK-05: added, removed, substituted or multiplicity-changed legacy finding → migration rejects without writes.
 NEG-10 / CHK-01: retained adapter gains a dependency → flagless pull rejects unchanged; explicit monotonic selection previews and installs the addition.
-NEG-11 / CHK-09: Windows-reserved stems/characters, trailing dots/spaces, every Unicode 15 portable-key vector and directory prefix, existing-entry and same-file collisions, or casing changed after preflight → refusal without writes. Golden positive vectors verify the exact key algorithm.
+NEG-11 / CHK-09: Windows-reserved stems/characters, trailing dots/spaces, every Unicode 15 portable-key vector and directory prefix, existing-entry and same-file collisions, or casing changed after preflight → refusal without writes. Golden positive vectors verify the exact key algorithm. A target hard-linked in another repository directory or outside the repository must reject by link count before writes, preserving both names and the external sentinel.
 
 ### Evidence contract
 
