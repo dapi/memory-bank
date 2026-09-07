@@ -145,7 +145,19 @@ changes document identity/type metadata only. It performs no user-document reloc
 link rewrite. Existing wrapper paths keep legacy references resolvable; an actual relocation
 needs a future explicit map and is not represented by retain-wrapper.
 
-### Renderer version 1
+### Renderer version 2 and version-1 compatibility
+
+New component installations persist installation.renderer_version=2. A missing field in a
+historical schema-2 candidate lock means version 1; explicit values other than 1 or 2 reject.
+The stored version is integrity-bound by the ownership lock and selects exactly one expected
+README block for drift validation. Version 1 uses the same line order below without the
+annotations after its Markdown links. AGENTS bytes are identical in both renderer versions.
+Only a lock selecting version 1 may accept that unannotated block; removing annotations from
+a version-2 installation remains drift. Pull validates the complete old block with its locked
+renderer, then atomically renders version 2 and records renderer_version=2 with the resulting
+payload digest. Outside bytes and document adoption semantics are preserved. Doctor only
+validates; it never upgrades. Unsupported renderer versions reject before planning/writes.
+This compatibility discriminator also makes draft-created version-1 state unambiguous.
 
 Both files use literal standalone boundary lines `<!-- MEMORY BANK START -->` and
 `<!-- MEMORY BANK END -->`. Generated blocks use UTF-8 and LF, including a final LF after
@@ -155,13 +167,20 @@ line as in W1; known blocks replace only the inclusive marker range. Marker-like
 boundaries reject. No CRLF conversion occurs outside the generated block.
 
 README block lines, in exact order, are the start marker, `## Installed components`, an empty
-line, then `- [DNA](dna/README.md)`. If Documents is installed, append
-`- [Document types](document-types/README.md)`, then `- [Templates](templates/README.md)`, then
-one line `- [NAME](NAME/README.md)` for each installed section index in this exact NAME order:
+line, then `- [DNA](dna/README.md) — governance baseline.`. If Documents is installed, append
+`- [Document types](document-types/README.md) — base document contracts.`, then `- [Templates](templates/README.md) — project-owned draft templates.`, then
+one line `- [NAME](NAME/README.md) — project documents.` for each installed section index in this exact NAME order:
 product, domain, engineering, ops, adr, prd, use-cases, features, research, epics. A section
 line is included only when that path is declared and selected in the manifest. If Flows is
-installed, append `- [Flows](flows/README.md)`. Finally append the end marker. There is no
-other blank line or adapter-dependent text inside this block.
+installed, append `- [Flows](flows/README.md) — optional process contracts.`. Finally append the end marker. There is no
+other blank line or adapter-dependent text inside this block. The annotations satisfy the
+existing governed README index contract for version 2. The exact recognized version-1
+managed block has a compatibility exception only for these missing link annotations; all
+other navigation/frontmatter rules remain enforced. Validate the actual block against the
+locked renderer first, then audit a read-only view with that block rendered as version 2;
+no repository bytes are changed by this validation view. A version-2 block with removed
+annotations fails the initial exact-block check and receives no exception. Fixtures cover
+version-1 validation/upgrade, version-2 annotation drift and unknown renderer refusal.
 
 AGENTS block lines, in exact order, are the start marker,
 `<!-- MEMORY BANK MANAGED BLOCK VERSION: 4 -->`, the following literal human-catalog sentence,
@@ -176,7 +195,7 @@ replace only the reading sentence with this exact line:
 
     Before substantial delivery work, read memory-bank/README.md, memory-bank/dna/README.md, and memory-bank/flows/routing.md.
 
-This renderer is versioned CLI behavior; changing its bytes requires a new renderer version
+This renderer is versioned CLI behavior; after first publication, changing its bytes requires a new renderer version
 and an explicit compatibility implementation for validating previously locked blocks.
 
 ## Rule and bundle documents
@@ -230,6 +249,7 @@ Schema 2 retains all schema-1 ownership fields and adds `installation`:
 | Field | Type |
 | --- | --- |
 | preset | core/docs/full/legacy |
+| renderer_version | integer 2 for new writes; historical missing/1 selects the version-1 compatibility renderer |
 | components | resolved non-adapter component-ID set |
 | adapters | resolved adapter-ID set, including adapter dependencies |
 | manifest_digest | digest of installed component manifest |
