@@ -6,7 +6,7 @@ purpose: "Epic charter flow extension"
 derived_from:
   - ../../epic.md
   - ../../contracts/README.md
-  - ../../../templates/epic.md
+  - ../../../document-types/epic.md
 status: active
 audience: humans_and_agents
 ---
@@ -40,8 +40,8 @@ audience: humans_and_agents
 
 ### Delivery plan
 
-В инстансе используй заголовок `## Delivery plan`. Раздели инициативу на проверяемые delivery units, укажи зависимости и условия handoff.
+В инстансе используй заголовок `## Delivery plan`. Зафиксируй только границы инициативы и ссылку на существующий `roadmap.md`. Волны, delivery units, зависимости, gates и handoff-детали принадлежат roadmap; не копируй их в charter.
 
 ### Risks
 
-В инстансе используй заголовок `## Risks`. Перечисли риски инициативы, ответственных и способы проверки либо снижения риска.
+В инстансе используй заголовок `## Risks`. Укажи ссылку на существующий `risks.md` или факт, что risk register ещё не подготовлен. Сам список рисков, owners и меры принадлежат `risks.md` и не дублируются в charter.

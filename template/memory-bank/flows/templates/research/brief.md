@@ -6,7 +6,7 @@ purpose: "Research brief flow extension"
 derived_from:
   - ../../research.md
   - ../../contracts/README.md
-  - ../../../templates/research.md
+  - ../../../document-types/research.md
 status: active
 audience: humans_and_agents
 ---
@@ -45,4 +45,4 @@ research_status: intake
 
 ### Decision
 
-В инстансе используй заголовок `## Decision`. Зафиксируй вывод исследования, ограничения evidence и следующий допустимый шаг. До получения данных обозначь решение как открытое.
+В инстансе используй заголовок `## Decision`. Зафиксируй только lifecycle disposition и ссылки на существующие terminal artifacts. Findings и ограничения evidence принадлежат `synthesis.md`, recommendation, rationale и handoff — `decision.md`; brief не копирует их содержание. Пока artifacts не созданы, обозначь disposition как открытый без placeholder links.

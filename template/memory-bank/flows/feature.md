@@ -94,7 +94,7 @@ immutable revision и `GRND-*` evidence.
 
 ## Шаблон `brief.md`
 
-Новые feature packages используют один problem-space template: `memory-bank/flows/templates/feature/brief.md`.
+Новые feature packages используют базовый problem-space template `memory-bank/templates/feature.md` и процессный фрагмент `memory-bank/flows/templates/feature/brief.md`. Сначала создай базовый brief, затем добавь поля и секции фрагмента и выполни явное adoption в `feature/v1`. Фрагмент отдельно не является заполненным brief.
 
 `brief.md` масштабируется содержанием:
 
@@ -306,7 +306,7 @@ flowchart LR
 ### Bootstrap Feature Package
 
 - [ ] `README.md` создан по шаблону `templates/feature/README.md`
-- [ ] `brief.md` создан по шаблону `templates/feature/brief.md`
+- [ ] `brief.md` создан из `memory-bank/templates/feature.md`, дополнен фрагментом `memory-bank/flows/templates/feature/brief.md` и явно подключён к `feature/v1`
 - [ ] `design.md` отсутствует
 - [ ] `implementation-plan.md` отсутствует
 

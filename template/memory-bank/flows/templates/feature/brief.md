@@ -6,7 +6,7 @@ purpose: "Feature brief flow extension"
 derived_from:
   - ../../feature.md
   - ../../contracts/README.md
-  - ../../../templates/feature.md
+  - ../../../document-types/feature.md
 status: active
 audience: humans_and_agents
 ---
@@ -49,11 +49,11 @@ delivery_status: planned
 
 ### Validation Profile Decision
 
-В инстансе используй заголовок `## Validation Profile Decision`. Выбери validation profile по `flows/validation-profiles.md`, укажи риск и достаточные проверки для этой задачи.
+В инстансе используй заголовок `## Validation Profile Decision`. Выбери validation profile по `memory-bank/flows/validation-profiles.md`, укажи риск и достаточные проверки для этой задачи.
 
 ### Verify
 
-В инстансе используй заголовок `## Verify`. Свяжи критерии приёмки с проверками и ожидаемым evidence. По завершении добавь фактические результаты и независимый verdict.
+В инстансе используй заголовок `## Verify`. Свяжи критерии приёмки с проверками и ожидаемым evidence. Укажи плановые checks и carriers evidence. Фактические результаты и structured independent verdict храни во внешнем review record (например, CI artifact или issue/PR evidence), вне замороженного проверяемого brief; не меняй проверенную revision ради записи её verdict.
 
 `delivery_status` принадлежит только canonical brief. Для `in_progress` и `done`
 применяются lifecycle gates: active brief, зафиксированное design decision, active

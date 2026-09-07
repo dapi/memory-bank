@@ -6,7 +6,7 @@ purpose: "PRD flow extension"
 derived_from:
   - ../../prd.md
   - ../../contracts/README.md
-  - ../../../templates/prd.md
+  - ../../../document-types/prd.md
 status: active
 audience: humans_and_agents
 ---

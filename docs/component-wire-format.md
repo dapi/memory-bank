@@ -420,6 +420,47 @@ external or same-document anchor references in Markdown links and derived_from. 
 references and unsupported reference syntax reject before mutation; they are never silently
 reinterpreted from the target directory. This restriction applies to --from, not the separate
 base-template reference relocation contract.
+
+For cross-directory copying and base-template relocation, the supported reference grammar is
+intentionally narrower than general CommonMark. Scan outside fenced blocks (backtick or tilde
+runs of at least three), lines beginning with four spaces or a tab, matching backtick code
+spans and HTML comments. Preserve those excluded bytes verbatim. Recognize inline link/image
+tails `](DEST)` with optional horizontal whitespace, and one-line reference definitions
+`[label]: DEST` indented by at most three spaces. DEST is either `<destination>` without angle
+brackets, backslashes or line breaks inside, or a nonempty bare token without whitespace,
+parentheses, angle brackets or backslashes. An optional single-line title, separated by
+horizontal whitespace, uses matching double quotes, single quotes or parentheses without
+nested delimiters. Reference uses `[label][id]`, `[id][]` and `[id]` carry no destination;
+their one-line definitions are checked by the same rule. Remaining `]` followed by optional
+whitespace and `(` or `:` rejects, including multiline definitions and incomplete links.
+Autolinks accept only `<http://...>`, `<https://...>` and `<mailto:...>` without whitespace,
+angle brackets or backslashes. Other raw HTML rejects. A destination containing backslash
+escapes or an HTML character reference (`&name;`, `&#digits;`, `&#xhex;`) rejects rather than
+being decoded. For base relocation, percent escapes in a local path are decoded exactly once before
+repository resolution and re-encoded segment by segment in the emitted relative URI; query
+and fragment bytes remain unchanged. Invalid escapes or a decoded absolute/backslash path
+reject. External, repository-absolute and anchor references are copied verbatim. Thus a base
+at `memory-bank/templates/feature.md` containing `docs/My%20File.md?q=1#part`, instantiated at
+`memory-bank/features/FT-1/brief.md`, emits `../../templates/docs/My%20File.md?q=1#part`.
+`docs/Literal%2520.md` keeps `%2520` in the emitted URI (one decode, not recursive decoding). An unmatched reference use
+without a definition is plain text, not a local destination.
+
+`derived_from` accepts a string scalar, a sequence of string scalars or objects containing
+`path` and optional `fit`, or one such object. Each path is a single-line YAML string (plain,
+single-quoted or double-quoted); normal YAML quoting is decoded before classification.
+Aliases, anchors, explicit tags, folded/literal scalars and other shapes reject. Empty lists
+are allowed. A decoded reference beginning with `/` is repository-absolute, `#` is a
+same-document anchor, and lowercase `http://`, `https://` or `mailto:` is external. Every
+other nonempty reference is relative. Cross-directory `--from` rejects any relative reference;
+base relocation preserves its resolved repository path instead. Same-directory copying does
+not require relocation and preserves all reference bytes.
+
+Conformance examples: `[x](/memory-bank/README.md "Index")`, `![x](https://example.org/x.png)`,
+`[x](#section)`, `[x]: </memory-bank/README.md>` and `derived_from: [{path: /memory-bank/README.md, fit: exact}]`
+accept cross-directory copies. `[x](../README.md)`, `[x]:` followed by a destination on the
+next line, `<a href="x.md">`, `[x](https://example.org/a(b))`, character-reference destinations,
+and `derived_from: &dep [/memory-bank/README.md]` reject. Link examples inside excluded code
+or comments remain literal and do not activate navigation dependencies.
 The same deterministic projection writer copies its bytes to the
 absent target and adds only the requested identity/type/contract projection; unrelated draft
 bytes remain unchanged. The input file is never mutated. All old gates and prospective
@@ -658,9 +699,12 @@ before: {PATH: OBSERVATION}, after: {PATH: OBSERVATION}, backups: {PATH: STRING}
 directories: {PATH: DIRECTORY_STATE}}. OBSERVATION is the existence/digest/mode/permissions object
 specified for previews; journal digests always cover actual bytes, including the final lock
 timestamp, never lock projections. before and after have identical key sets covering every
-write/read precondition; unchanged reads have equal observations. backups maps only changed
+write/read precondition; unchanged reads have equal observations. backups maps changed
 originally present files to unique old/NNNNNN staging-relative names, where NNNNNN is the
-zero-padded decimal mutation index. No arbitrary backup paths are accepted. DIRECTORY_STATE
+zero-padded decimal mutation index. The explicit --from read input additionally maps to
+inputs/000000: a private, independently synced snapshot of its original bytes, created before
+the prepared journal. Its original permissions remain in the observations (the snapshot itself
+is private mode 0600). No other inputs/ slots or arbitrary backup paths are accepted. DIRECTORY_STATE
 is {before_exists: boolean, before_mode: string, after_exists: boolean, after_mode: string};
 it records every created/removed directory and changed ancestor, with empty absent mode or
 four octal digits for directory permission bits. Portable paths and ordinary non-symlink
@@ -668,7 +712,7 @@ directories are mandatory. Objects use canonical JSON plus LF; unknown schema/st
 
 Durability order: sync existing target-file contents and staged replacements, write/sync the
 prepared journal, then sync staging and its repository parent before mutation. Originals
-are not copied: they remain at their target until the existing writer renames each into its
+of write targets are not copied: they remain at their target until the existing writer renames each into its
 numbered backup. After each such rename, sync both parent directories before installing its
 replacement; the already synced original inode then survives at target or backup. Sync each
 replacement and affected directories, committing lock last. Only after these writes are
@@ -689,6 +733,10 @@ the retained journal. Only a complete match permits safe staging cleanup and ord
 preflight; any mismatch keeps recovery_required. This is the re-entry predicate, and matching
 lock/registry alone is insufficient. Successful commit records a durable committed outcome;
 cleanup retry instead requires the complete after observations and ordinary integrity checks.
+Until staging cleanup succeeds, retain the --from input unchanged. If it was edited or removed,
+preserve the new version separately and restore its bytes from inputs/000000 plus the recorded
+permissions and directory states before retrying cleanup. The CLI never overwrites the input
+automatically; the snapshot makes this exact restoration possible for both journal states.
 An ambiguous/crash journal without that outcome uses the before-state predicate. Recovery
 checks do not modify repository targets. Coordinated owner edits of journals, lock and files
 are outside the local integrity guarantee. Tests must cover a restored lock with a still

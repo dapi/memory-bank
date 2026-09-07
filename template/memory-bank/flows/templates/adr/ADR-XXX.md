@@ -6,7 +6,7 @@ purpose: "ADR flow extension"
 derived_from:
   - ../../adr.md
   - ../../contracts/README.md
-  - ../../../templates/adr.md
+  - ../../../document-types/adr.md
 status: active
 audience: humans_and_agents
 ---

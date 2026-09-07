@@ -6,7 +6,7 @@ purpose: "Use case flow extension"
 derived_from:
   - ../../use-case.md
   - ../../contracts/README.md
-  - ../../../templates/use-case.md
+  - ../../../document-types/use-case.md
 status: active
 audience: humans_and_agents
 ---
