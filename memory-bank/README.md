@@ -57,7 +57,7 @@ payload. Реальные файлы здесь — только то, что п
   Читать, когда нужно: задать architecture patterns, frontend rules, testing conventions, coding style и git workflow целевой системы.
 
 - [`dna/README.md`](dna/README.md)
-  Читать, когда нужно: проверить SSoT rules, frontmatter contract и governance-правила документации.
+  Читать, когда нужно: проверить достоверность, основания и актуальность утверждений, ownership и metadata документации.
 
 - [`flows/README.md`](flows/README.md)
   Читать, когда нужно: создать use case, epic/feature package, применить BDD-практику, провести артефакт по lifecycle gates, узнать границы автономии агента, выбрать validation profile или использовать шаблон.

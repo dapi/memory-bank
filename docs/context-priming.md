@@ -55,6 +55,12 @@ governed-артефакт, выполняет shared
 `cross-references.md`. Incident containment не ждёт этот baseline, но он
 обязателен до создания или изменения governed incident-артефакта.
 
+При изменении governance-ядра дополнительно выполняется source set
+`memory_bank_governance` из
+[governance.yaml](../template/memory-bank/flows/priming/governance.yaml).
+Порядок задаёт [Context Priming Contract](../template/memory-bank/flows/priming/context-priming.md);
+DNA описывает качество документов, а обязательное чтение относится к process-layer.
+
 Canonical process-file указывает один YAML manifest и source sets для своих
 стадий. Сам manifest содержит только exact paths и bounded masks. Перед чтением
 masks разворачиваются против одной immutable revision в **exact input

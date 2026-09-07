@@ -25,6 +25,9 @@ audience: humans_and_agents
 
 ## Аннотированный индекс
 
+- [ADR-002: Достоверность документации](ADR-002-documentation-trust-boundary.md)
+  Accepted: назначение DNA и семантическая граница с процессным слоем.
+
 - [`ADR-001-introduce-design-pack.md`](ADR-001-introduce-design-pack.md)
   Accepted: разделить semantic design layer, documentary design pack и root
   `design.md`, а также закрепить aggregate и direct ownership solution facts.

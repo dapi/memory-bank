@@ -22,15 +22,17 @@ canonical owner факта и как downstream-документы наслед�
 
 ## SSoT
 
-`SSoT` (`Single Source of Truth`) — принцип, по которому каждый факт имеет
-ровно одного canonical owner. Если один и тот же факт начинает жить в
-нескольких местах, это считается дефектом документации.
+`SSoT` (`Single Source of Truth`) — принцип, по которому у каждого утверждения
+в заданном контексте ровно один canonical owner. Производный обзор сохраняет
+ссылку на owner, смысл и ограничения источника; независимые копии одного
+утверждения считаются дефектом документации.
 
 ## Canonical Owner
 
-`Canonical owner` — документ, который владеет конкретным фактом и имеет
-приоритет над downstream-описаниями. Изменение такого документа должно
-считаться изменением источника истины, а не просто заметки.
+`Canonical owner` — документ, в котором определено конкретное утверждение
+для указанного контекста. Downstream сохраняет его смысл и ограничения в
+импортированном scope. Owner формулировки и источник evidence могут различаться:
+владение утверждением само по себе не доказывает его.
 
 ## Governed Document
 
@@ -41,16 +43,18 @@ governance-правилам и имеет валидный YAML frontmatter. В 
 
 ## Authoritative Document
 
-`Authoritative document` — governed-документ, который сейчас считается
-действующим источником истины. В модели этого шаблона authoritative считается
-только документ со `status: active`.
+`Authoritative document` — governed-документ в действующем наборе источников.
+`status: active` — необходимое условие; конкретный claim используется с учётом
+его типа, scope, основания и lifecycle сущности. Active-документ может содержать
+явно непроверенное предположение. [DNA governance](../template/memory-bank/dna/governance.md)
+определяет применимость и правила конфликтов.
 
 ## Dependency Tree
 
-`Dependency tree` — ориентированная структура зависимостей между документами,
-построенная через `derived_from`. Authority течёт по ней upstream → downstream,
-поэтому изменение корневого или промежуточного документа может потребовать
-обновления производных материалов. Циклы запрещены.
+`Dependency tree` — историческое название направленного ациклического графа
+semantic dependencies через `derived_from`. Прямых upstream может быть несколько;
+их authority относится только к импортированным утверждениям и ограничениям.
+Обычная навигация и ссылки на evidence не создают рёбра этого графа.
 
 ## Upstream and Downstream
 
@@ -69,8 +73,8 @@ upstream-документы. Элементом может быть путь л�
 ## Canonical For
 
 `canonical_for` — frontmatter-поле, которым документ явно объявляет факты или
-артефакты, которыми он владеет. Оно помогает выбрать owner, но не заменяет
-SSoT, status и порядок зависимостей.
+артефакты, которыми он владеет. Оно называет ownership в объявленном scope, но не доказывает claim и не
+отменяет upstream constraints. Формат определяет [schema DNA](../template/memory-bank/dna/frontmatter.md).
 
 ## Progressive Disclosure
 
@@ -113,7 +117,8 @@ downstream destination — `memory-bank/`.
 `Process layer` — часть knowledge layer, которая описывает lifecycle,
 workflows, gates и шаблоны исполнения. В source template она в основном
 сосредоточена в `template/memory-bank/flows/`, а после установки — в
-`memory-bank/flows/`.
+`memory-bank/flows/`. DNA задаёт критерии достоверности документации, а
+process layer — routing, действия, полномочия и проверки при работе с ней.
 
 ## Task Routing
 
