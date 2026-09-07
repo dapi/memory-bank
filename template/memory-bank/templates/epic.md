@@ -19,4 +19,4 @@ What is included and excluded.
 
 ## Work
 
-Intent-level boundaries: areas of work covered by this outcome and areas deliberately excluded. Detailed delivery units, ordering and dependencies belong to the execution plan for that work.
+Conceptual workstreams and the role each plays in achieving the outcome. Scope owns inclusion and exclusion boundaries; detailed delivery units, scheduling and dependencies belong to the execution plan.
