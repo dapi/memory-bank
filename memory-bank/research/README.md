@@ -34,3 +34,5 @@ audience: humans_and_agents
 
 - [`R-GH-87/`](R-GH-87/README.md) — decision record for ownership of reusable
   CLI validation and repository-specific priming-manifest checks.
+- [`R-DNA-EVAL/`](R-DNA-EVAL/README.md) — паспорт и метод сравнения эффективности
+  старых и новых инструкций DNA и связанных flows.
