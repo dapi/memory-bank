@@ -541,7 +541,14 @@ and document operations receive no general exemption for invalid documents.
 Component PlanPull/ApplyResolutionPlan use format_version 2. They retain the schema-1
 base_template, template, lock_digest and entries fields with their existing ownership-plan
 meaning, and add installation (the resulting installation record) and optional
-migration_plan_digest. Entry order is path order. Applying reconstructs component selection
+migration_plan_digest. Format 2 also requires precondition_digest: SHA-256 of compact
+canonical JSON `{observed: {PATH: OBSERVATION}, directories: {PATH: DIRECTORY_STATE}}`
+from the shared composed transaction preparation. It binds all observed file bytes and exact
+permissions, the complete project-document inventory, and affected directory existence/modes,
+including read-only inputs absent from the ownership entries. Applying compares it when
+regenerating the saved plan and again in the final mutation preparation; the same directory
+snapshot and file observations are then checked before the durable journal is prepared.
+Schema-1 plans omit this field and retain their existing semantics. Entry order is path order. Applying reconstructs component selection
 from installation, regenerates the composed plan against the current source/files/lock, and
 compares every non-reviewer field. Legacy format_version 1 cannot apply a component source.
 Migration still requires explicit migration flags; a matching owner resolution file is required
