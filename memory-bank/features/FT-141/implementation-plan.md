@@ -6,7 +6,7 @@ purpose: Execute the template-owned component declarations and adoption document
 derived_from:
   - brief.md
   - design.md
-status: active
+status: archived
 audience: humans_and_agents
 ---
 
@@ -95,4 +95,4 @@ implementation, review/fix and PRs; merge/release/live migration have no executi
 Completion requires every applicable SC/CHK/EVID row in the brief and required CI at the same
 revision as the final independent review. The PR explicitly links the bridge-first release dependency.
 
-Plan Ready: independent code-converge document review completed clean at 2026-09-07T01:16:56Z against b94560c plus this staged plan and gate promotions. Execution is authorized; delivery evidence remains pending.
+Plan Ready: independent code-converge document review completed clean at 2026-09-07T01:16:56Z against b94560c plus this staged plan and gate promotions. Execution is complete; [delivery evidence](../../../docs/component-delivery-evidence.md) records acceptance and review receipts.

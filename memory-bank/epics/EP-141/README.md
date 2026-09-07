@@ -22,14 +22,13 @@ Intake пропущен: интент, scope и критерии уже зада
 - [Risks](risks.md) — общие риски и меры контроля.
 - [Decisions](decision-log.md) — решения по исполнению.
 
-W1 bridge завершён в [CLI PR 63](https://github.com/dapi/memory-bank-cli/pull/63), commit
-3b434fd93678c36447d10d4f308a39ce5d74b040. Required CI, canonical canary, independent code
-и simplify reviews clean; PR ready, без merge/release. Shared Solution Ready и оба execution
-plans прошли независимую проверку. W2 [CLI #62](https://github.com/dapi/memory-bank-cli/issues/62)
-реализует contract library и затем transaction/command integration; W3
-[FT-141](../../features/FT-141/README.md) готовит payload и producer/consumer fixtures.
-Финальная интеграция и W4 review/PR ещё не завершены.
+W1 bridge готов в [CLI PR 63](https://github.com/dapi/memory-bank-cli/pull/63).
+W2 реализован в [CLI PR 64](https://github.com/dapi/memory-bank-cli/pull/64),
+W3/W4 — в [template PR 143](https://github.com/dapi/memory-bank/pull/143).
+[FT-141](../../features/FT-141/README.md) завершена в границах implementation/review/PR;
+[delivery evidence](../../../docs/component-delivery-evidence.md) связывает acceptance,
+зелёный CI и clean independent reviews с immutable revisions.
 
-`epic_stage: execution` означает передачу delivery slices их владельцам. Завершение
-каждого slice требует его проверок и evidence; наличие кода или draft payload не заменяет
-готовый компонентный CLI и полную матрицу приёмки.
+Инициатива остаётся в `epic_stage: execution` до отдельного human closure. Merge,
+release и live migration не входят в эту поставку. Порядок дальнейшей публикации:
+bridge → supporting CLI → component payload; владельцу переданы связанные PR.

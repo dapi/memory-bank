@@ -15,4 +15,6 @@ audience: humans_and_agents
 
 - [Brief](brief.md) — требования, scope и acceptance.
 - [Design](design.md) — решение и архитектурные границы.
-- [Implementation plan](implementation-plan.md) — template execution; Plan Ready passed.
+- [Implementation plan](implementation-plan.md) — template execution; archived after verified completion.
+
+- [Delivery evidence](../../../docs/component-delivery-evidence.md) — acceptance checks, CI and independent review receipts.

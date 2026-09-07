@@ -10,7 +10,7 @@ derived_from:
   - ../../flows/feature.md
 status: active
 audience: humans_and_agents
-delivery_status: in_progress
+delivery_status: done
 ---
 
 # FT-141: Компонентная документация и flow adoption
@@ -73,7 +73,7 @@ Live production execution отсутствует; отдельные approvals �
 ### Design Requirement Decision
 
 Design required: yes. Меняются CLI, file format, installation state и migration contracts.
-Unresolved blocking decisions for Plan Ready: ADR-002 acceptance after clean decision review, then Solution Ready. No unresolved decision blocks starting the current design work.
+ADR-002, Solution Ready and Plan Ready were accepted before implementation. No unresolved blocking design decision remains.
 
 ## Verify
 
