@@ -407,6 +407,24 @@ are accepted only for reported ownership conflicts. No resolution may weaken a b
 Document commands are document create --type TYPE --path PATH [--contract ID], document
 adopt --path PATH --contract ID, document transition --path PATH --contract ID, and document
 move --id ID --path OLD --to NEW. They accept --dry-run and repeatable --evidence REF.
+Create additionally accepts optional --from PATH for an already prepared local draft. Without
+it, creation reads the selected base type's template; a contract whose gates the base draft
+does not satisfy is rejected rather than inventing flow fields or evidence. --from is only
+valid for create and must name a different, present, portable repository-relative regular
+Markdown file; no symlinks, hard links or traversal are accepted. The caller explicitly
+selects this extra read input, including when it is outside memory-bank/. Its exact bytes,
+Git mode and permissions participate in the transaction's observations and journal. A draft
+must not contain document_id or flow_contract, and any existing document_type or doc_kind
+must agree with --type. When source and target directories differ, the draft must use only repository-absolute,
+external or same-document anchor references in Markdown links and derived_from. Relative
+references and unsupported reference syntax reject before mutation; they are never silently
+reinterpreted from the target directory. This restriction applies to --from, not the separate
+base-template reference relocation contract.
+The same deterministic projection writer copies its bytes to the
+absent target and adds only the requested identity/type/contract projection; unrelated draft
+bytes remain unchanged. The input file is never mutated. All old gates and prospective
+postconditions still apply, and a failed validation leaves both draft and target unchanged.
+This permits atomic flow creation from a prepared draft while keeping base creation neutral.
 Every document command requires a valid schema-2 installation with Documents and the
 requested/resolved base type actually installed. Explicit --contract, --legacy-flow, adopt,
 transition and move additionally require Flows, its intact current registry, and every
