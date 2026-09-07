@@ -1,6 +1,6 @@
 {
   "phase": "research-passport",
-  "state": "prepared",
+  "state": "reviewed",
   "candidate": {
     "commit": "de01eb122ace51cdf00ea946494ac2a1ddd740c1",
     "tree": "999aba86398d73d993813e05fc2ce90d9df4cc7d",
@@ -16,7 +16,12 @@
   "reviewer": "code-converge --document-review --max-cycles 0",
   "scope": "Research passport and method documentation only; benchmark not executed",
   "previous_reviewed_commit": "7774c39cc673cecf55af0da72039e5571f471eb1",
-  "verdict": null,
+  "verdict": {
+    "findings": [],
+    "overall_correctness": "patch is correct",
+    "overall_explanation": "The reviewed research package is internally consistent, preserves the stated Memory Bank boundaries, and records unresolved execution parameters as blocking open questions rather than as results or decisions.",
+    "overall_confidence_score": 0.88
+  },
   "attempts": [
     {
       "id": 1,
@@ -27,9 +32,40 @@
     },
     {
       "id": 2,
-      "state": "prepared",
+      "state": "reviewed",
       "environment_adjustment": "Remove proxy environment variables for review process only; direct service connectivity verified",
-      "log_dir": "~/.cache/memory-bank-dna-trust/passport-review-2"
+      "log_dir": "~/.cache/memory-bank-dna-trust/passport-review-2",
+      "exit_code": 0,
+      "verdict": {
+        "findings": [],
+        "overall_correctness": "patch is correct",
+        "overall_explanation": "The reviewed research package is internally consistent, preserves the stated Memory Bank boundaries, and records unresolved execution parameters as blocking open questions rather than as results or decisions.",
+        "overall_confidence_score": 0.88
+      }
+    }
+  ],
+  "review_exit_code": 0,
+  "post_review_tree_verified": true,
+  "local_checks": [
+    {
+      "command": "memory-bank-cli lint --repo-root .",
+      "exit_code": 0,
+      "result": "128 Markdown, 24 indices; all checks OK"
+    },
+    {
+      "command": "ruby tools/refresh-memory-bank-projection.rb",
+      "exit_code": 0,
+      "result": "Projection is current"
+    },
+    {
+      "command": "git diff --check",
+      "exit_code": 0,
+      "result": "No findings"
+    },
+    {
+      "command": "YAML frontmatter parse of the three R-DNA-EVAL documents",
+      "exit_code": 0,
+      "result": "README active; brief active with sole research_status=framed; plan draft"
     }
   ]
 }
