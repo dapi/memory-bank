@@ -29,6 +29,8 @@ codex:
     type: workspaceWrite
     writableRoots: []
     networkAccess: true
+    excludeTmpdirEnvVar: false
+    excludeSlashTmp: false
 ---
 
 Read and follow the canonical delivery-orchestrator prompt in
